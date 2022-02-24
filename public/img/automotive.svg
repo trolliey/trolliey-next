@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:svg="http://www.w3.org/2000/svg" id="svg3720" viewBox="0 0 64 64" version="1.1">
+  <title id="title4491">netalloy car logo2</title>
+  <defs id="defs3722">
+    <filter id="filter4343">
+      <feGaussianBlur id="feGaussianBlur4345" stdDeviation="1.2049549"/>
+    </filter>
+    <linearGradient id="linearGradient4371" x1="29.054" gradientUnits="userSpaceOnUse" y1="30.013" gradientTransform="matrix(1.1117 0 0 1.1117 -3.7277 -4.3131)" x2="29.054" y2="40.709">
+      <stop id="stop4367" stop-color="#f00" offset="0"/>
+      <stop id="stop4369" stop-color="#f00" stop-opacity="0" offset="1"/>
+    </linearGradient>
+    <linearGradient id="linearGradient4385" x1="44.128" gradientUnits="userSpaceOnUse" y1="36.591" gradientTransform="matrix(1.1117 0 0 1.1117 -3.7277 -4.3131)" x2="38.236" y2="35.169">
+      <stop id="stop4381" stop-color="#d40000" offset="0"/>
+      <stop id="stop4383" stop-color="#d40000" stop-opacity="0" offset="1"/>
+    </linearGradient>
+  </defs>
+  <g id="layer1">
+    <g id="g4480">
+      <rect id="rect4478" opacity="0" ry=".31638" height="64" width="64" y="0" x="0" stroke-width="0"/>
+      <path id="path15758" stroke-width="0" fill="url(#linearGradient4371)" d="m63.17 40.942s-4.8012-3.6673-8.6951-4.0641c-3.263-0.333-7.489 0.011-9.92-1.663-4.879-3.359-9.119-6.036-19.227-6.558-13.379-0.69-22.622 9.824-21.677 11.546-0.7119-0.161 8.431-10.883 22.044-9.514 7.5641 0.76082 9.8308 2.2802 17.635 6.2809 2.8846 1.4787 8.158 0.80178 11.634 1.016 3.7546 0.2314 8.2052 2.9557 8.2052 2.9557z"/>
+      <path id="path2878" opacity=".19712" d="m86.27 254.11c1.7638 1.6798-1.3941 3.2063-2.7919 2.9315-3.7879-0.74461-4.5112-5.5555-3.0711-8.5153 2.5761-5.2944 9.5818-6.0781 14.239-3.2107 6.8342 4.2081 7.6899 13.662 3.3503 19.962-5.784 8.397-17.762 9.3206-25.686 3.4899-9.9716-7.3374-10.961-21.87-3.6295-31.409 8.8797-11.553 25.984-12.607 37.132-3.7691 13.138 10.416 14.257 30.1 3.9087 42.856-11.948 14.727-34.219 15.909-48.579 4.0482-16.316-13.477-17.563-38.34-4.1878-54.303 15.005-17.908 42.461-19.218 60.026-4.3274 4.6942 3.9796 8.539 8.932 11.257 14.452" transform="matrix(-.098461 -.085929 .098461 -.085929 -5.3795 72.072)" filter="url(#filter4343)" stroke="#c0b6b6" stroke-width="3.1252" fill="#e6e6e6"/>
+      <path id="path4349" opacity=".19712" d="m86.27 254.11c1.7638 1.6798-1.3941 3.2063-2.7919 2.9315-3.7879-0.74461-4.5112-5.5555-3.0711-8.5153 2.5761-5.2944 9.5818-6.0781 14.239-3.2107 6.8342 4.2081 7.6899 13.662 3.3503 19.962-5.784 8.397-17.762 9.3206-25.686 3.4899-9.9716-7.3374-10.961-21.87-3.6295-31.409 8.8797-11.553 25.984-12.607 37.132-3.7691 13.138 10.416 14.257 30.1 3.9087 42.856-11.948 14.727-34.219 15.909-48.579 4.0483-16.316-13.477-17.563-38.34-4.1878-54.303 13.123-15.661 36.32-18.981 53.776-8.7577" transform="matrix(-.080915 -.070616 .080915 -.070616 44.156 66.774)" filter="url(#filter4343)" stroke="#c0b6b6" stroke-width="3.1252" fill="#e6e6e6"/>
+      <path id="path4351" opacity=".74038" d="m17.691 40.69a5.0021 3.3576 0 1 1 -0.9678 -0.99205l-3.6351 2.3065z" stroke-opacity=".57558" transform="matrix(.98985 0 0 1.4066 -3.5043 -16.473)" stroke="#322828" stroke-linecap="round" stroke-width="1.319" fill="#e6e6e6"/>
+      <path id="path4373" opacity=".84135" d="m17.691 40.69a5.0021 3.3576 0 1 1 -0.9678 -0.99205l-3.6351 2.3065z" stroke-opacity=".57558" transform="matrix(-.69513 -.62903 .98781 -.89388 24.215 89.378)" stroke="#2d2d2d" stroke-linecap="round" stroke-width="1.3186" fill="#e6e6e6"/>
+      <path id="path4377" stroke="#b11b1b" stroke-width=".11117" fill="url(#linearGradient4385)" d="m63.17 40.942s-4.8012-3.6673-8.6951-4.0641c-3.263-0.333-7.489 0.011-9.92-1.663-4.879-3.359-9.119-6.036-19.227-6.558-13.379-0.69-22.622 9.824-21.677 11.546-0.7119-0.161 8.431-10.883 22.044-9.514 7.5641 0.76082 9.8308 2.2802 17.635 6.2809 2.8846 1.4787 8.158 0.80178 11.634 1.016 3.7546 0.2314 8.2052 2.9557 8.2052 2.9557z"/>
+      <text id="text4468" font-size="40px" xml:space="preserve" y="35.357601" x="-15.623126" font-family="Bitstream Vera Sans" fill="#000000">
+        <tspan id="tspan4470" y="35.357601" x="-15.623126"/>
+      </text>
+    </g>
+  </g>
+  <metadata>
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+        <cc:license rdf:resource="http://creativecommons.org/licenses/publicdomain/"/>
+        <dc:publisher>
+          <cc:Agent rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:title>netalloy-car-logo2</dc:title>
+        <dc:date>2010-04-07T09:46:25</dc:date>
+        <dc:description>Automotive clipart from netalloy</dc:description>
+        <dc:source>http://openclipart.org/detail/38761/netalloy-car-logo2-by-netalloy</dc:source>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>netalloy</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>automobile</rdf:li>
+            <rdf:li>automotive</rdf:li>
+            <rdf:li>car</rdf:li>
+            <rdf:li>car logo</rdf:li>
+            <rdf:li>clip art</rdf:li>
+            <rdf:li>clipart</rdf:li>
+            <rdf:li>icon</rdf:li>
+            <rdf:li>motor sports</rdf:li>
+            <rdf:li>race</rdf:li>
+            <rdf:li>speed</rdf:li>
+            <rdf:li>sports2010</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction"/>
+        <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution"/>
+        <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks"/>
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+</svg>
