@@ -1,16 +1,25 @@
-import { Fragment } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XIcon } from '@heroicons/react/outline'
-import BlueButton from '../buttons/BlueButton'
-import RedButton from '../buttons/RedButton'
+import { useRouter } from 'next/router'
+import React, { Fragment, ReactElement } from 'react'
+import BlueButton from '../Buttons/BlueButton'
+import RedButtons from '../Buttons/RedButtons'
 
-function CartSidebar({ open, setOpen, cart }) {
-    const remove_from_cart = () => {
-        console.log('item removed')
+interface Props{
+    open ?: any,
+    setOpen?: any,
+    cart ?: any
+}
+
+function CartSidebar({ open, setOpen, cart }:Props):ReactElement {
+    const history = useRouter()
+
+    const remove_from_cart = () =>{
+        console.log('removed')
     }
-    return (
-        <Transition.Root show={open} as={Fragment}>
-            <Dialog as="div" className="fixed inset-0 overflow-hidden z-0" onClose={setOpen}>
+  return (
+    <Transition.Root show={open} as={Fragment}>
+            <Dialog as="div" className="fixed inset-0 overflow-hidden " onClose={setOpen}>
                 <div className="absolute inset-0 overflow-hidden">
                     <Transition.Child
                         as={Fragment}
@@ -55,41 +64,41 @@ function CartSidebar({ open, setOpen, cart }) {
                                             <div className="flow-root">
                                                 <ul className="-my-6 divide-y divide-gray-200">
                                                     {cart?.length < 1 ? (
-                                                        <p className="text-lg text-center text-gray-700 my-16 flex capitalize flex-1">Your cart is empty</p>
+                                                        <li className="text-lg text-center text-gray-700 my-16 flex capitalize flex-1">Your cart is empty</li>
                                                     ) : (
                                                         <>
-                                                            {cart?.map((product) => (
-                                                                <li key={product.id} className="py-6 flex">
-                                                                    <div className="flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden">
-                                                                        <img
-                                                                            src={product.picture}
-                                                                            alt={'product.imageAlt'}
-                                                                            className="w-full h-full object-center object-cover"
-                                                                        />
-                                                                    </div>
-
-                                                                    <div className="ml-4 flex-1 flex flex-col">
-                                                                        <div>
-                                                                            <div className="flex justify-between text-base font-medium text-gray-900">
-                                                                                <h3>
-                                                                                    <p >{product.name}</p>
-                                                                                </h3>
-                                                                            </div>
+                                                        {cart?.map((product:any) => (
+                                                            <li key={product.id} className="py-6 flex">
+                                                                <div className="flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden">
+                                                                    <img
+                                                                        src={product.picture}
+                                                                        alt={'product.imageAlt'}
+                                                                        className="w-full h-full object-center object-cover"
+                                                                    />
+                                                                </div>
+    
+                                                                <div className="ml-4 flex-1 flex flex-col">
+                                                                    <div>
+                                                                        <div className="flex justify-between text-base font-medium text-gray-900">
+                                                                            <h3>
+                                                                                <p >{product.name}</p>
+                                                                            </h3>
+                                                                        </div>
                                                                             <p className="ml-4">{product.price}</p>
-                                                                            {/* <p className="line-clamp-1 mt-1 text-sm text-gray-500">{product.description}</p> */}
-                                                                        </div>
-                                                                        <div className="flex-1 flex items-end justify-between text-sm">
-                                                                            {/* <p className="text-gray-500">Qty {product.quantity}</p> */}
-
-                                                                            <div className="flex">
-                                                                                <button onClick={remove_from_cart} type="button" className="font-medium text-blue-primary hover:text-indigo-500">
-                                                                                    Remove
-                                                                                </button>
-                                                                            </div>
+                                                                        {/* <p className="line-clamp-1 mt-1 text-sm text-gray-500">{product.description}</p> */}
+                                                                    </div>
+                                                                    <div className="flex-1 flex items-end justify-between text-sm">
+                                                                        {/* <p className="text-gray-500">Qty {product.quantity}</p> */}
+    
+                                                                        <div className="flex">
+                                                                            <button onClick={remove_from_cart} type="button" className="font-medium text-blue-primary hover:text-indigo-500">
+                                                                                Remove
+                                                                            </button>
                                                                         </div>
                                                                     </div>
-                                                                </li>
-                                                            ))}
+                                                                </div>
+                                                            </li>
+                                                        ))}
                                                         </>
                                                     )}
                                                 </ul>
@@ -100,16 +109,16 @@ function CartSidebar({ open, setOpen, cart }) {
                                     <div className="border-t border-gray-200 bg-white shadow py-2 px-4 sm:px-6">
                                         <div className="flex justify-between text-base font-medium text-gray-900">
                                             <p>Subtotal</p>
-                                            <p>${1 + 1}</p>
+                                            <p>$2323</p>
                                         </div>
                                         <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes included on grand total.</p>
                                         <div className="mt-6">
-                                            <BlueButton text="Checkout" className="flex justify-center w-full" />
+                                            <BlueButton text="Checkout" className="flex justify-center w-full" onClick={() => history.push('/payment')} />
                                         </div>
                                         <div className="mt-6 flex justify-center text-sm text-center text-gray-500">
                                             <p>
                                                 or{' '}
-                                                <RedButton text="Continue shopping" className="flex-1" onClick={() => setOpen(false)} />
+                                                <RedButtons text="Continue shopping" className="flex-1" onClick={() => setOpen(false)} />
                                             </p>
                                         </div>
                                     </div>
@@ -120,7 +129,7 @@ function CartSidebar({ open, setOpen, cart }) {
                 </div>
             </Dialog>
         </Transition.Root>
-    )
+  )
 }
 
 export default CartSidebar

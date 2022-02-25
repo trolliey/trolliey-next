@@ -1,8 +1,17 @@
-import React from 'react'
+import React, { ReactElement } from 'react'
 
-function BlueButton({ outline, text, onClick, className, loading }) {
+interface Props {
+    outline?: boolean,
+    text?: string,
+    onClick?: any,
+    className?: string,
+    loading?: boolean
+}
+
+function BlueButton({ outline, text, onClick, className, loading }: Props): ReactElement {
     return (
         <button
+            type='button'
             onClick={loading ? () => console.log('loading...') : onClick}
             className={`${className} ${outline ? "text-blue-primary bg-white border hover:bg-blue-primary hover:text-white" : "bg-blue-primary text-white hover:bg-blue-dark "} rounded outline-none border-blue-primary `}>
             {loading ? (

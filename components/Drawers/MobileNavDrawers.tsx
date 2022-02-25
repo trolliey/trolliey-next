@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { ReactElement, useState } from 'react'
 import {
     Drawer,
     DrawerBody,
@@ -11,21 +11,21 @@ import {
     DrawerHeader,
     Avatar
 } from "@chakra-ui/react"
-import { MenuIcon, ChevronRightIcon, ArrowLeftIcon } from '@heroicons/react/outline'
-import { UserCircleIcon } from '@heroicons/react/solid'
-import logo from '../../public/img/full_logo.png'
-import { data } from '../../utils/data'
-import slugify from '../../utils/slugify'
+import { MenuIcon, ChevronRightIcon, ArrowLeftIcon, UserCircleIcon } from '@heroicons/react/outline'
+import { useRouter } from 'next/router'
 import Username from '../Username/Username'
+import { data } from '../../utils/data'
+import logo from '../../public/img/full_logo.png'
 import Image from 'next/image'
 
-function MobileNavDrawer({ user }) {
+interface Props {
+    user?: any
+}
+
+function MobileNavDrawers({ user }: Props): ReactElement {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [show_category, setShowCotegory] = useState(false)
-
-    const search_handler = (search_query) => {
-        console.log(search_query)
-    }
+    const history = useRouter()
 
     return (
         <>
@@ -44,7 +44,7 @@ function MobileNavDrawer({ user }) {
 
                         {/* <p className="text-lg font-semibold text-gray-700 uppercase mx-auto text-center my-4">logo</p> */}
                         <div className="flex py-2 text-black font-extrabold font-myriad-pro">
-                            <Image src={logo} alt="logo for mobile drawer" className='h-6' />
+                            <Image height={20} objectFit="contain" src={logo} alt="logo for mobile drawer"/>
                         </div>
                     </DrawerHeader>
                     {
@@ -55,9 +55,9 @@ function MobileNavDrawer({ user }) {
                                     <Avatar size="sm" name={user?.user?.displayName} />
                                     {
                                         user ? (
-                                            <Username name={user?.user?.displayName} />
+                                            <Username username={user?.user?.displayName} />
                                         ) : (
-                                            <Username name={'Guest User'} />
+                                            <Username username={'Guest User'} />
                                         )
                                     }
                                 </div>
@@ -73,8 +73,8 @@ function MobileNavDrawer({ user }) {
                                     {
                                         data?.categories.map((category, index) => (
                                             <div key={index} className="flex flex-row items-center gap-2 py-2 px-4 cursor-pointer justify-between text-sm hover:bg-gray-100">
-                                                <div onClick={() => search_handler(slugify(category.name))} className="flex flex-row items-center">
-                                                    <Image src={category.icon} alt={category.name} className='h-6 w-6 mr-2' />
+                                                <div onClick={() => console.log(category.name)} className="flex flex-row items-center">
+                                                    <img src={category.icon} alt={category.name} className='h-6 w-6 mr-2' />
                                                     <p className='capitalize'>{category.name}</p>
                                                 </div>
                                                 <ChevronRightIcon height={16} width={16} className='text-gray-400' />
@@ -92,9 +92,9 @@ function MobileNavDrawer({ user }) {
                                     <Avatar size="sm" name={user?.user?.displayName} />
                                     {
                                         user ? (
-                                            <Username name={user?.user?.displayName} />
+                                            <Username username={user?.user?.displayName} />
                                         ) : (
-                                            <Username name={'Guest User'} />
+                                            <Username username={'Guest User'} />
                                         )
                                     }
                                 </div>
@@ -141,9 +141,9 @@ function MobileNavDrawer({ user }) {
                                 <div className='pr-2 font-semibold '>
                                     {
                                         user ? (
-                                            <Username name={user?.user?.displayName} />
+                                            <Username username={'username'} />
                                         ) : (
-                                            <Username name={'Register'} />
+                                            <Username username={'Register'} />
                                         )
                                     }
                                 </div>
@@ -151,7 +151,7 @@ function MobileNavDrawer({ user }) {
                             <div className="flex-1"></div>
                             {
                                 user ? (
-                                    <p onClick={() => history.push('/login')} className='font-bold text-gray-700 ml-8'>Logout</p>
+                                    <p onClick={()=> history.push('/login')} className='font-bold text-gray-700 ml-8'>Logout</p>
                                 ) : (
                                     <p onClick={() => history.push('/login')} className='font-bold text-gray-700 ml-8'>Join/Login</p>
                                 )
@@ -164,4 +164,4 @@ function MobileNavDrawer({ user }) {
     )
 }
 
-export default MobileNavDrawer
+export default MobileNavDrawers

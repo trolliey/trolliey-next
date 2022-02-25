@@ -1,47 +1,30 @@
 import React from 'react'
-import GeneralLayout from '../Layouts/GeneralLayout'
-import { data } from '../utils/data';
-import promo_1 from '../public/img/promo_1.png'
-import promo_2 from '../public/img/fregrance_sale.png'
-import samsung from '../public/img/samsung.svg'
-import defy from '../public/img/defy.svg'
-import kenwood from '../public/img/kenwood-logo.svg'
-import dell from '../public/img/dell-logo.svg'
-import oppo from '../public/img/oppo-logo.svg'
-import surprise from '../public/img/surprise.jpg'
-import tech_stuff from '../public/img/tech_stuff.jpg'
-import clothes from '../public/img/clothes.jpg'
-import Image from 'next/image'
-import CategoriesDropdown from '../Components/Dropdowns/CategoriesDropdown'
-import Courosel from '../Components/Carousel/Courosel'
+import ProductItem from '../components/ProductItem/ProductItem'
+import GeneralLayout from '../layouts/GeneralLayout'
+import { data } from '../utils/data'
 
-if (typeof document === 'undefined') {
-  React.useLayoutEffect = React.useEffect;
-}
-
-export default function Home() {
-
-  const banner_images = [
-    { body: '', image: promo_1 },
-    { body: '', image: promo_2 },
-    { body: '', image: promo_1 }
-  ]
-
-  const search_by_category = (category: any) => {
-    console.log(category)
-  }
-  var randomItem = data.categories[Math.floor(Math.random() * data.categories.length)];
-
+function Home() {
   return (
-    <GeneralLayout
-      title={'Buy More. Spend Less'}
-      description={"Zimbabwe's best buy and sell modern ecommerce platform. You can become a seller or become a buyer and trade your items from anywhere you like."}
-      no_text={false}
-    >
-      <main className="min-h-screen">
-        {/* // banner and categories */}
-        <p>Home page</p>
-      </main>
+    <GeneralLayout title='Home page' description='Buy more, Spend Less'>
+        {/* <h1>Products</h1> */}
+        <div className='grid md:grid-cols-4 grid-cols-2 md:gap-8 gap-4 mx-auto' >
+          {data.products?.map((product: any, index: number) => (
+            <div key={index} className="p-0 col-span-1">
+              <ProductItem
+                name={product.name}
+                description={product.description}
+                rating={product.rating}
+                picture={product.picture}
+                price={product.price}
+                discount_price={product.discount_price}
+                category={product.category}
+                id={product.id}
+              />
+            </div>
+          ))}
+        </div>
     </GeneralLayout>
   )
 }
+
+export default Home

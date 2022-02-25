@@ -1,8 +1,18 @@
-import React, { Fragment } from 'react'
+import { ChatAltIcon, ChevronRightIcon, XIcon } from '@heroicons/react/outline'
+import { useRouter } from 'next/router'
+import React, { ReactElement, Fragment } from 'react'
 import { Transition } from '@headlessui/react'
-import { XIcon, ChatAltIcon, ChevronRightIcon } from '@heroicons/react/solid'
 
-function NotificationMenu({ show, setShow, requests, error, loading }) {
+interface Props{
+    show:boolean,
+    setShow:any,
+    requests?: any,
+    error?: string,
+    loading: boolean
+}
+
+function NotificationMenu({ show, setShow, requests, error, loading }:Props):ReactElement {
+    const history = useRouter()
     return (
         <>
             {/* Global notification live region, render this permanently at the end of the document */}
@@ -41,12 +51,12 @@ function NotificationMenu({ show, setShow, requests, error, loading }) {
                             <div className="p-2">
                                 <div className="flex items-start">
                                     <div className="flex flex-col flex-1">
-                                        <div className="flex flex-row items-center justify-between p-2 cursor-pointer hover:bg-gray-100">
+                                        <div onClick={()=> history.push('/chat')} className="flex flex-row items-center justify-between p-2 cursor-pointer hover:bg-gray-100">
                                             <div className="flex flex-row items-center">
                                                 <ChatAltIcon height={20} width={20} className='text-gray-700' />
                                                 <p className='text-gray-700 font-semibold ml-2'>View All Messages</p>
                                             </div>
-                                            <ChevronRightIcon height={20} width={20} />
+                                            <ChevronRightIcon  height={20} width={20} />
                                         </div>
                                         <p className='text-sm text-gray-700 text-center font-semibold my-2'>Notifications</p>
                                     </div>
