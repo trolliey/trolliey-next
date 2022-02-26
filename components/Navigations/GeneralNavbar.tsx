@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { ShoppingCartIcon, BellIcon } from '@heroicons/react/outline'
 import { Tooltip } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
@@ -9,8 +9,11 @@ import MobileNavDrawers from '../Drawers/MobileNavDrawers'
 import Image from 'next/image'
 import logo from '../../public/img/full_logo.png'
 import CartSidebar from '../Sidebars/CartSidebar'
+import { Store } from '../../Context/Store'
 
 function GeneralNavbar() {
+    const { state } = useContext(Store)
+    const { cart } = state
     const basket: any[] = []
     const notifications: any[] = []
 
@@ -70,9 +73,9 @@ function GeneralNavbar() {
                 <div onClick={toggle_cart} className="relative flex p-2 hover:bg-gray-200 cursor-pointer rounded-full">
                     <ShoppingCartIcon height={20} width={20} className="text-gray-700" />
                     {
-                        basket?.length >= 1 && (
+                        cart?.cartItems?.length > 0 && (
                             <span className="absolute right-0 top-0 rounded-full bg-blue-primary w-4 h-4 top right p-0 m-0 text-white text-xs font-semibold text-center">
-                                {basket?.length}
+                                {cart?.cartItems?.length}
                             </span>
                         )
                     }

@@ -44,22 +44,88 @@ export const data = {
     ],
     products: [
         {
-            title: 'toyota hilux',
-            descrition: 'iam a a product iam a description of a product iam a description of a productiam a a product iam a description of a product iam a description of a product',
-            rating: 4.5,
+            title: 'my hodies',
+            slug: 'my-hoodies',
+            description: 'iam a a product iam a description of a product iam a description of a productiam a a product iam a description of a product iam a description of a product',
+            averageRating: 4.5,
             price: 242,
-            discount_price: 200,
-            picture: '/img/surprise.jpg',
+            discount_price: 20,
+            pictures: ['/img/clothes.jpg', '/img/cat-travel.jpg'],
             id: 1,
             brand: 'Nike',
             numReviews: 14,
             countInStock: 20,
-            category: 'Shirts',
+            category: 'Fashion and fragrance',
+            category_slug: 'fashion-and-fragrance',
             variants: [
-                { size: 'xl', price: 250 },
-                { size: 'xxl', price: 270 },
-                { size: 'small', price: 220 }
-            ]
+                {
+                    variant: 'xs',
+                    price: 200,
+                    countInStock: 2,
+                    discount_price: 10,
+                },
+                {
+                    variant: 's',
+                    price: 220,
+                    countInStock: 1,
+                    discount_price: 11
+                },
+                {
+                    variant: 'xl',
+                    price: 250,
+                    countInStock: 2,
+                    discount_price: 5,
+                },
+                {
+                    variant: 'xxl',
+                    price: 270,
+                    countInStock: 3,
+                    discount_price: 7
+                },
+
+
+            ],
+            store_id: 'aoiuyoiuyasd',
+            store_name: 'Trolliey',
+            ratings: 'asjf;lja;slkdjf;lajsf'
+        },
+        {
+            title: 'another item',
+            slug: 'another-item',
+            description: 'iam a a product iam a description of a product iam a description of a productiam a a product iam a description of a product iam a description of a product',
+            averageRating: 4.5,
+            price: 242,
+            discount_price: 20,
+            pictures: ['/img/tech_stuff.jpg', '/img/cat-travel.jpg'],
+            id: 2,
+            brand: 'Item',
+            numReviews: 14,
+            countInStock: 20,
+            category: 'Another Item',
+            category_slug: 'another-item',
+            variants: [],
+            store_id: 'aoiuyoiuyasd',
+            store_name: 'Trolliey',
+            ratings: 'fashphoiuahodsfkjhljkhasf'
+        },
+        {
+            title: 'another item',
+            slug: 'another-item',
+            description: 'iam a a product iam a description of a product iam a description of a productiam a a product iam a description of a product iam a description of a product',
+            averageRating: 4.5,
+            price: 242,
+            discount_price: 20,
+            pictures: ['/img/tech_stuff.jpg', '/img/cat-travel.jpg'],
+            id: 3,
+            brand: 'Item',
+            numReviews: 14,
+            countInStock: 20,
+            category: 'Another Item',
+            category_slug: 'another-item',
+            variants: [],
+            store_id: 'aoiuyoiuyasd',
+            store_name: 'Trolliey',
+            ratings: 'fashphoiuahodsfkjhljkhasf'
         },
     ]
 }

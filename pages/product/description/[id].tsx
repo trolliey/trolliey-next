@@ -1,81 +1,42 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import GeneralLayout from '../../../layouts/GeneralLayout'
 import { Tab } from '@headlessui/react'
 import { ShoppingCartIcon, InformationCircleIcon } from '@heroicons/react/solid'
 import { PlusIcon } from '@heroicons/react/outline'
-import { Spinner } from '@chakra-ui/spinner'
 import logo from '../../../public/img/full_logo.png'
 import { Avatar, Divider } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
-import picture from '../../../public/img/clothes.jpg'
-import picture2 from '../../../public/img/tech_stuff.jpg'
 import Image from 'next/image'
 import BlueButton from '../../../components/Buttons/BlueButton'
 import BlackButton from '../../../components/Buttons/BlackButton'
 import RatingComponent from '../../../components/Rating/RatingComponent'
+import { connect, convertDocToObj, disconnect } from '../../../utils/mongo'
+import Products from '../../../models/Product'
+import { Store } from '../../../Context/Store'
+import axios from 'axios'
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
 }
 
-function ProductDescription() {
+function ProductDescription(props: any) {
+    const { dispatch } = useContext(Store)
+    const { product } = props
     const history = useRouter()
     const { id } = history.query
 
-    const [showMore, setShowMore] = useState<boolean>(false);
     const [selected_variant, setSelectedVariant] = useState<any>()
     const [show_features, setShowFeatures] = useState<boolean>(false)
 
-    const add_to_basket = () => {
-        console.log('items added to cart')
+    const add_to_basket = async () => {
+        const { data } = await axios.get(`/api/products/${product?._id}`)
+        if (data?.countInStock <= 0) {
+            alert('Sorry. Product our of stock')
+            return
+        }
+        dispatch({ type: 'ADD_TO_CART', payload: { ...product, quantity: 1 } })
     }
 
-    const product = {
-        title: 'toyota hilux',
-        descrition: 'iam a a product iam a description of a product iam a description of a productiam a a product iam a description of a product iam a description of a product',
-        averageRating: 4.5,
-        price: 242,
-        discount_price: 20,
-        pictures: ['/img/surprise.jpg', '/img/cat-travel.jpg'],
-        id: 1,
-        brand: 'Nike',
-        numReviews: 14,
-        countInStock: 20,
-        category: 'Shirts',
-        variants: [
-            {
-                variant: 'xs',
-                price: 200,
-                countInStock: 2,
-                discount_price: 10,
-            },
-            {
-                variant: 's',
-                price: 220,
-                countInStock: 1,
-                discount_price: 11
-            },
-            {
-                variant: 'xl',
-                price: 250,
-                countInStock: 2,
-                discount_price: 5,
-            },
-            {
-                variant: 'xxl',
-                price: 270,
-                countInStock: 3,
-                discount_price: 7
-            },
-            
-           
-        ],
-        store_id: 'aoiuyoiuyasd',
-        store_name: 'Trolliey',
-        ratings: 'asjf;lja;slkdjf;lajsf'
-    }
-
-    console.log(id)
     return (
         <GeneralLayout title={product.title} description={product.descrition}>
             <div className="flex flex-col max-w-7xl bg-gray-100">
@@ -87,7 +48,7 @@ function ProductDescription() {
                                 {/* Image selector */}
                                 <div className="mt-6 w-full max-w-2xl mx-auto sm:block lg:max-w-none">
                                     <Tab.List className="grid md:grid-cols-8 grid-cols-4 gap-2">
-                                        {product?.pictures.map((image, index) => (
+                                        {product?.pictures.map((image: any, index: number) => (
                                             <Tab
                                                 key={index}
                                                 className="relative h-16 w-16 bg-gray-100 rounded-md flex items-center justify-center text-sm font-medium uppercase text-gray-900 cursor-pointer hover:bg-gray-50 focus:outline-none focus:ring focus:ring-offset-4 focus:ring-opacity-50"
@@ -113,7 +74,7 @@ function ProductDescription() {
                                 </div>
 
                                 <Tab.Panels className="w-full aspect-w-1 aspect-h-1 flex-1 overflow-hidden max-h-[650px] rounded-lg">
-                                    {product?.pictures.map((image, index) => (
+                                    {product?.pictures.map((image: any, index: number) => (
                                         <Tab.Panel key={index} className=" rounded" >
                                             {/* <>
                                                 <ImageMagnifier src={image} height={'100%'} width={"100%"} />
@@ -164,7 +125,7 @@ function ProductDescription() {
                                             }
                                             {
                                                 selected_variant ? (
-                                                    <p className="text-xl line-through text-gray-300">${selected_variant.price}</p>
+                                                    <p className="text-xl line-through text-gray-300">${selected_variant?.price}</p>
                                                 ) : (
                                                     <p className="text-xl line-through text-gray-300">${product?.price}</p>
                                                 )
@@ -175,18 +136,26 @@ function ProductDescription() {
                                     <Divider className='my-2' />
 
                                     {/* // variants */}
-                                    <div className="flex flex-col mb-4">
-                                        <h6 className='text-sm font-semibold text-gray-700 mb-1'>Variants</h6>
-                                        <div className="grid grid-cols-4 md:gap-4 gap-2 p-1">
-                                            {
-                                                product.variants.map((item, index) => (
-                                                    <span onClick={() => setSelectedVariant(item)} key={index} className={`${item.variant === selected_variant?.variant ? "bg-blue-primary text-white" : ""} border border-gray-300 hover:border-gray-700 hover:text-gray-700 cursor-pointer col-span-1 text-gray-700 py-1 px-2 text-xs uppercase rounded-full`}>
-                                                        <p className='text-center'>{item.variant}</p>
-                                                    </span>
-                                                ))
-                                            }
-                                        </div>
+                                    <div className="flex flex-col">
+                                        <h6 className='text-sm font-semibold text-gray-700 mb-1'>Variants:</h6>
+                                        {product?.variants.length > 0 ? (
+                                            <div className="grid grid-cols-4 md:gap-4 gap-2 p-1">
+                                                {
+                                                    product?.variants.map((item: any, index: number) => (
+                                                        <span onClick={() => setSelectedVariant(item)} key={index} className={`${item.variant === selected_variant?.variant ? "bg-blue-primary text-white" : ""} border border-gray-300 hover:border-gray-700 hover:text-gray-700 cursor-pointer col-span-1 text-gray-700 py-1 px-2 text-xs uppercase rounded-full`}>
+                                                            <p className='text-center'>{item.variant}</p>
+                                                        </span>
+                                                    ))
+                                                }
+                                            </div>
+                                        ) : (
+                                            <div className="flex flex-col">
+                                                <p className='text-center text-gray-500 text-sm'>This product has no variants</p>
+                                            </div>
+                                        )}
+
                                     </div>
+                                    <Divider className='my-4' />
 
                                     {/* // add to cart button */}
                                     <div className=" mb-2">
@@ -214,9 +183,9 @@ function ProductDescription() {
                                             <div className="mb-2 text-gray-800 text-sm capitalize font-semibold flex flex-row items-center ">
 
                                                 <div className="flex flex-row items-center">
-                                                    <p className="text-gray-500 mr-2">Delivered by </p>
+                                                    <p className="text-gray-500 mr-2">Delivered by</p>
                                                     <div className="text-gray-500">
-                                                        <Image height={10} objectFit="contain" src={logo} alt="logo on descriprion page" className='h-6' />
+                                                        <Image width={80} objectFit="contain" src={logo} alt="logo on descriprion page" className='h-6' />
                                                     </div>
 
                                                 </div>
@@ -231,7 +200,11 @@ function ProductDescription() {
 
 
                                             <div className="border-t border-b py-2 mt-2 flex flex-row items-center">
-                                                <p className='text-gray-700 font-semibold text-sm'>In Stock</p>
+                                                {
+                                                    product?.countInStock >= 1 ?
+                                                        <p className='text-gray-700 font-semibold text-sm'>{selected_variant ? selected_variant.countInStock : product?.countInStock} In Stock</p> :
+                                                        <p className='text-gray-700 font-semibold text-sm'>Out of stock</p>
+                                                }
                                                 <p className='p-1 bg-gray-200 rounded text-xs ml-2'>HRE</p>
                                             </div>
 
@@ -342,6 +315,19 @@ function ProductDescription() {
             </div>
         </GeneralLayout>
     )
+}
+
+export async function getServerSideProps(context: any) {
+    const { params } = context
+    const { id } = params
+    await connect()
+    const product = await Products.findOne({ _id: id }).lean()
+    await disconnect()
+    return {
+        props: {
+            product: convertDocToObj(product)
+        }
+    }
 }
 
 export default ProductDescription

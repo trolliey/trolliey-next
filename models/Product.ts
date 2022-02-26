@@ -9,28 +9,27 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    category: {
-        type: String,
-        required: true
-    },
     description: {
         type: String,
         required: true
     },
-    image: {
-        type: String,
-        required: true
+    averageRating:{
+        type: Number,
+        default: 0
     },
     price: {
         type: Number,
         required: true
     },
-    discountPrice: {
+    discount_price: {
         type: Number
     },
-    rating: {
-        type: Number,
-        default: 0
+    pictures: {
+        type: Array,
+    },
+    brand:{
+        type:String,
+        default:''
     },
     numReviews: {
         type: Number,
@@ -39,8 +38,26 @@ const productSchema = new mongoose.Schema({
     countInStock: {
         type: Number,
         default: 0
-    }
-
+    },
+    category: {
+        type: String,
+        required: true
+    },
+    category_slug:{
+        type: String,
+        default: ''
+    },
+    variants:{
+        type:Array
+    },
+    store_id:{
+        type:String,
+        default: ''
+    },
+    ratings: {
+        type: String,
+        default: ''
+    },
 }, {
     timestamps: true
 })
