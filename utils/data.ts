@@ -1,6 +1,4 @@
 import { EmojiHappyIcon, CreditCardIcon, ShoppingBagIcon, CurrencyDollarIcon } from '@heroicons/react/outline'
-import picture from '../public/img/cat-travel.jpg'
-import image from '../public/img/main-banner.jpg'
 import sport from '../public/img/sports.svg'
 import books from '../public/img/books.svg'
 import groceries from '../public/img/groceries.svg'
@@ -46,142 +44,22 @@ export const data = {
     ],
     products: [
         {
-            name: 'toyota hilux',
+            title: 'toyota hilux',
             descrition: 'iam a a product iam a description of a product iam a description of a productiam a a product iam a description of a product iam a description of a product',
             rating: 4.5,
             price: 242,
             discount_price: 200,
-            picture: picture,
-            id: 1, brand: 'Nike',
+            picture: '/img/surprise.jpg',
+            id: 1,
+            brand: 'Nike',
             numReviews: 14,
             countInStock: 20,
-            category: 'Shirts'
+            category: 'Shirts',
+            variants: [
+                { size: 'xl', price: 250 },
+                { size: 'xxl', price: 270 },
+                { size: 'small', price: 220 }
+            ]
         },
-        {
-            name: 'another thing',
-            descrition: 'iam a a product iam a description of a product iam a description of a productiam a a product iam a description of a product iam a description of a product',
-            rating: 3.2,
-            price: 242,
-            discount_price: 200,
-            picture: picture,
-            id: 6, brand: 'Toyota',
-            numReviews: 14,
-            countInStock: 20,
-            category: 'Cars'
-        },{
-            name: 'toyota hilux',
-            descrition: 'iam a a product iam a description of a product iam a description of a productiam a a product iam a description of a product iam a description of a product',
-            rating: 4.5,
-            price: 242,
-            discount_price: 200,
-            picture: picture,
-            id: 5, brand: 'Nike',
-            numReviews: 14,
-            countInStock: 20,
-            category: 'Shirts'
-        },{
-            name: 'toyota hilux',
-            descrition: 'iam a a product iam a description of a product iam a description of a productiam a a product iam a description of a product iam a description of a product',
-            rating: 4.5,
-            price: 242,
-            discount_price: 200,
-            picture: picture,
-            id: 4, brand: 'Nike',
-            numReviews: 14,
-            countInStock: 20,
-            category: 'Shirts'
-        },{
-            name: 'toyota hilux',
-            descrition: 'iam a a product iam a description of a product iam a description of a productiam a a product iam a description of a product iam a description of a product',
-            rating: 4.5,
-            price: 242,
-            discount_price: 200,
-            picture: picture,
-            id: 2, brand: 'Nike',
-            numReviews: 14,
-            countInStock: 20,
-            category: 'Shirts'
-        },{
-            name: 'toyota hilux',
-            descrition: 'iam a a product iam a description of a product iam a description of a productiam a a product iam a description of a product iam a description of a product',
-            rating: 4.5,
-            price: 242,
-            discount_price: 200,
-            picture: picture,
-            id: 3, brand: 'Nike',
-            numReviews: 14,
-            countInStock: 20,
-            category: 'Shirts'
-        },
-        {
-            name: 'toyota hilux',
-            descrition: 'iam a a product iam a description of a product iam a description of a productiam a a product iam a description of a product iam a description of a product',
-            rating: 4.5,
-            price: 242,
-            discount_price: 200,
-            picture: picture,
-            id: 3, brand: 'Nike',
-            numReviews: 14,
-            countInStock: 20,
-            category: 'Shirts'
-        },{
-            name: 'toyota hilux',
-            descrition: 'iam a a product iam a description of a product iam a description of a productiam a a product iam a description of a product iam a description of a product',
-            rating: 4.5,
-            price: 242,
-            discount_price: 200,
-            picture: picture,
-            id: 3, brand: 'Nike',
-            numReviews: 14,
-            countInStock: 20,
-            category: 'Shirts'
-        },
-        {
-            name: 'toyota hilux',
-            descrition: 'iam a a product iam a description of a product iam a description of a productiam a a product iam a description of a product iam a description of a product',
-            rating: 4.5,
-            price: 242,
-            discount_price: 200,
-            picture: picture,
-            id: 3, brand: 'Nike',
-            numReviews: 14,
-            countInStock: 20,
-            category: 'Shirts'
-        },{
-            name: 'toyota hilux',
-            descrition: 'iam a a product iam a description of a product iam a description of a productiam a a product iam a description of a product iam a description of a product',
-            rating: 4.5,
-            price: 242,
-            discount_price: 200,
-            picture: picture,
-            id: 3, brand: 'Nike',
-            numReviews: 14,
-            countInStock: 20,
-            category: 'Shirts'
-        },{
-            name: 'toyota hilux',
-            descrition: 'iam a a product iam a description of a product iam a description of a productiam a a product iam a description of a product iam a description of a product',
-            rating: 4.5,
-            price: 242,
-            discount_price: 200,
-            picture: picture,
-            id: 3, brand: 'Nike',
-            numReviews: 14,
-            countInStock: 20,
-            category: 'Shirts'
-        },{
-            name: 'toyota hilux',
-            descrition: 'iam a a product iam a description of a product iam a description of a productiam a a product iam a description of a product iam a description of a product',
-            rating: 4.5,
-            price: 242,
-            discount_price: 200,
-            picture: picture,
-            id: 3, brand: 'Nike',
-            numReviews: 14,
-            countInStock: 20,
-            category: 'Shirts'
-        },
-        
-
     ]
 }

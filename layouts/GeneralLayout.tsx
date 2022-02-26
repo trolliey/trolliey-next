@@ -24,7 +24,7 @@ function GeneralLayout({ children, no_text, title, description }: Props): ReactE
             <main >
                 <Container maxW='container.xl' className='mx-auto'>
                     {
-                        !no_text && (<h1 className="flex text-gray-700 text-sm my-4 font-semibold " style={{ marginTop: '25px', marginBottom: '25px' }}>Free Shipping On All Order Over $100 Code</h1>)
+                        !no_text && (<h1 className="flex text-gray-700 text-sm font-semibold " style={{ marginTop: '25px', marginBottom: '25px' }}>Free Shipping On All Order Over $100 Code</h1>)
                     }
                     {children}
                 </Container>

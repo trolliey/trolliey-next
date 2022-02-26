@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react'
 
 interface Props {
     outline?: boolean,
-    text?: string,
+    text?: any,
     onClick?: any,
     className?: string,
     loading?: boolean

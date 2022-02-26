@@ -11,7 +11,7 @@ function Home() {
           {data.products?.map((product: any, index: number) => (
             <div key={index} className="p-0 col-span-1">
               <ProductItem
-                name={product.name}
+                name={product.title}
                 description={product.description}
                 rating={product.rating}
                 picture={product.picture}
