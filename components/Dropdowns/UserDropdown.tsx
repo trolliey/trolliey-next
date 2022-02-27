@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useContext } from 'react'
 import {
     Menu,
     MenuButton,
@@ -11,6 +11,8 @@ import {
 import { ChevronDownIcon, UserIcon } from '@heroicons/react/outline'
 import { useRouter } from 'next/router'
 import Username from '../Username/Username'
+import { Store } from '../../Context/Store'
+import Cookies from 'js-cookie'
 
 const dropdown = {
     un_authenticated: [
@@ -19,57 +21,63 @@ const dropdown = {
     ]
 }
 
-interface Props{
-    user?:any
+interface Props {
+    user?: any
 }
 
-function UserDropdown({user}:Props):ReactElement {
+function UserDropdown(): ReactElement {
     const history = useRouter()
+    const { dispatch, state } = useContext(Store)
+    const { userInfo: user } = state
 
     const logout_user = () => {
-        window.location.reload()
+        dispatch({ type: 'USER_LOGOUT' })
+        Cookies.remove('userInfo')
+        Cookies.remove('cartItems')
         history.push('/')
     }
 
     return (
         <div className="flex">
             <Menu>
-                <MenuButton>
-                    {
-                        user ? (
-                            <div className="flex rounded-full gap-1 cursor-pointer flex-row items-center">
-                                <Avatar size="sm" src={user?.user?.photoURL} name={user?.user?.displayName} />
-                                <p className='text-gray-700 font-semibold'>{user?.user?.displayName}</p>
-                                <ChevronDownIcon height={12} width={12} />
+                {
+                    user ? (
+                        <MenuButton>
+                            <div className="flex gap-1 cursor-pointer flex-row items-center">
+                                <Avatar size="sm" src={user?.user?.photoURL} name={user?.name} />
+                                {/* <p className='text-gray-700 font-semibold'>{user?.name}</p> */}
+                                {/* <ChevronDownIcon height={12} width={12} /> */}
                             </div>
-                        ) : (
-                            <div className="p-2 bg-gray-100 hover:bg-gray-200  rounded-full">
+                        </MenuButton>
+                    ) : (
+                        <MenuButton className='p-2 hover:bg-gray-200 rounded-full'>
+                            <div className="">
                                 <UserIcon height={20} width={20} className="text-gray-700" />
                             </div>
-                        )
-                    }
-                </MenuButton>
+                        </MenuButton>
+                    )
+                }
                 <MenuList>
                     <MenuItem>
                         {
                             user ? (
                                 <>
                                     {
-                                        user?.user?.role === 'user' ? (
-                                            <div onClick={() => history.push('/dashboard/buyer-home')} className="flex">
-                                                <Avatar size="sm" src={user?.user?.photoURL} name={user?.user?.displayName} />
+                                        user?.role === 'user' ? (
+                                            <div onClick={() => history.push('/dashboard/buyer-home')} className="flex flex-row space-x-2">
+                                                <Avatar size="sm" src={user?.user?.photoURL} name={user?.name} />
                                                 <Username username={'My Account'} />
                                             </div>
                                         ) : (
-                                            <div onClick={() => history.push('/dashboard')} className="flex">
-                                                <Avatar size="sm" src={user?.user?.photoURL} name={user?.user?.displayName} />
+                                            <div onClick={() => history.push('/dashboard')} className="flex flex-row space-x-2 ">
+                                                <Avatar size="sm" src={user?.user?.photoURL} name={user?.name} />
                                                 <Username username={'My Account'} />
                                             </div>
                                         )
                                     }
                                 </>
                             ) : (
-                                <div className="flex">
+                                <div className="flex flex-row space-x-2">
                                     <Avatar size="sm" />
                                     <Username username={'Guest User'} />
                                 </div>

@@ -15,8 +15,15 @@ import tv from '../public/img/tv.svg'
 import cellphone from '../public/img/cellphone.svg'
 import automotive from '../public/img/automotive.svg'
 import beauty from '../public/img/beauty.svg'
+import bcrypt from 'bcryptjs'
 
 export const data = {
+    users: [
+        { name: 'tatenda', email: 'admin@example.com', password: bcrypt.hashSync('123456'), role: 'admin' },
+        { name: 'seller', email: 'seller@example.com', password: bcrypt.hashSync('123456'), role: 'seller' },
+        { name: 'user', email: 'user@example.com', password: bcrypt.hashSync('123456'), role: 'user' },
+
+    ],
     categories: [
         { name: 'Sports and training', value: "sports-&-training", icon: sport },
         { name: 'Books & courses', value: 'sooks-&-courses', icon: books },

@@ -5,7 +5,8 @@ const initialState = {
     darkMode: false,
     cart: {
         cartItems: Cookies.get('cartItems') ? JSON.parse(Cookies.get('cartItems')) : []
-    }
+    },
+    userInfo: Cookies.get('userInfo') ? JSON.parse(Cookies.get('userInfo')) : null
 }
 
 export const Store = createContext();
@@ -23,9 +24,13 @@ function reducer(state, action) {
             Cookies.set('cartItems', JSON.stringify(cartItems))
             return { ...state, cart: { ...state.cart, cartItems } }
         case 'REMOVE_FROM_CART':
-            const NewcartItems = state.cart.cartItems.filter(item=> item._id !== action.payload._id)
+            const NewcartItems = state.cart.cartItems.filter(item => item._id !== action.payload._id)
             Cookies.set('cartItems', JSON.stringify(NewcartItems))
             return { ...state, cart: { ...state.cart, NewcartItems } }
+        case 'USER_LOGIN':
+            return { ...state, userInfo: action.payload }
+        case 'USER_LOGOUT':
+            return { ...state, userInfo: null, cart: { cartItems: [] } }
         default:
             return state
     }

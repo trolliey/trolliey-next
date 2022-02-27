@@ -1,23 +1,47 @@
-import React, {useState} from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { EyeIcon, EyeOffIcon } from '@heroicons/react/outline'
 import GeneralLayout from '../../layouts/GeneralLayout'
 import BlueButton from '../../components/Buttons/BlueButton'
 import { useRouter } from 'next/router'
+import axios from 'axios'
+import { Store } from '../../Context/Store'
+import Cookies from 'js-cookie'
 
 function login() {
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const [show_password, setShowPassword] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false)
-    const history = useRouter()
 
-    const login_user_handler = () => {
-        console.log('login user')
+    const history = useRouter()
+    const { redirect } = history.query
+
+    const { state, dispatch } = useContext(Store)
+    const { userInfo } = state
+
+    useEffect(() => {
+        if (userInfo) {
+            history.push('/')
+        }
+    }, [])
+
+    const login_user_handler = async () => {
+        try {
+            const { data } = await axios.post(`/api/auth/login`, { email, password })
+            dispatch({ type: 'USER_LOGIN', payload: data })
+            Cookies.set('userInfo', JSON.stringify(data))
+            //@ts-ignore
+            history.push(redirect || '/')
+            alert('login success')
+        } catch (error) {
+            //@ts-ignore
+            alert(error.response.data ? error.response.data : error.message)
+        }
     }
 
 
-  return (
-    <GeneralLayout no_text title='Login to you Trolliey account' description='Welcome back to Trolliey, login and enjoy shopping'>
+    return (
+        <GeneralLayout no_text title='Login to you Trolliey account' description='Welcome back to Trolliey, login and enjoy shopping'>
             <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-4 sm:px-6 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-md">
                     <h1 className="mt-2 text-center md:text-3xl text-lg font-extrabold text-gray-900">Login to your account</h1>
@@ -93,7 +117,7 @@ function login() {
                                     </a>
                                 </div>
                             </div>
-                     
+
                             <div>
                                 <BlueButton text="Sign In" className="w-full" onClick={login_user_handler} loading={loading} />
                             </div>
@@ -104,7 +128,7 @@ function login() {
                 </div>
             </div>
         </GeneralLayout>
-  )
+    )
 }
 
 export default login

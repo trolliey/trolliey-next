@@ -13,7 +13,8 @@ import { Store } from '../../Context/Store'
 
 function GeneralNavbar() {
     const { state } = useContext(Store)
-    const { cart } = state
+    const { cart, userInfo } = state
+    
     const basket: any[] = []
     const notifications: any[] = []
 
@@ -26,7 +27,6 @@ function GeneralNavbar() {
         !open_cart ? setOpenCart(true) : setOpenCart(false)
     }
 
-    const userInfo = { name: 'tatenda bako' }
 
     return (
         <div className="bg-white shadow ">
@@ -36,7 +36,7 @@ function GeneralNavbar() {
                 </div>
                 <p className='font-semibold text-gray-700 pr-4 border-r border-gray-300 capitalize cursor-pointer'>Help</p>
                 {
-                    userInfo.name === 'seller' ? (
+                    userInfo?.name === 'seller' ? (
                         <div onClick={() => history.push('/dashboard')} className='font-semibold text-gray-700 capitalize cursor-pointer'>Sell on trolliey</div>
                     ) : (
                         <div onClick={() => history.push('/become-a-seller')} className='font-semibold text-gray-700 capitalize cursor-pointer'>Sell on trolliey</div>
@@ -64,12 +64,6 @@ function GeneralNavbar() {
                     <NotificationMenu show={notifications_menu} setShow={setOpenNotificationMenu} loading={false} />
                 </>
 
-
-                {/* //dropdown when suer icon has been presses */}
-                <div className="md:flex hidden">
-                    <UserDropdown user={userInfo} />
-                </div>
-
                 <div onClick={toggle_cart} className="relative flex p-2 hover:bg-gray-200 cursor-pointer rounded-full">
                     <ShoppingCartIcon height={20} width={20} className="text-gray-700" />
                     {
@@ -79,6 +73,11 @@ function GeneralNavbar() {
                             </span>
                         )
                     }
+                </div>
+
+                {/* //dropdown when suer icon has been presses */}
+                <div className="md:flex hidden">
+                    <UserDropdown />
                 </div>
 
 
