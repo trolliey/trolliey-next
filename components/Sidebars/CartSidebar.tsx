@@ -33,6 +33,10 @@ function CartSidebar({ open, setOpen }: Props): ReactElement {
         dispatch({ type: 'ADD_TO_CART', payload: { ...item, quantity: value } })
     }
 
+    const handleCheckout = () =>{
+        history.push('/shipping')
+    }
+
     return (
         <Transition.Root show={open} as={Fragment}>
             <Dialog as="div" className="fixed inset-0 overflow-hidden " onClose={setOpen}>
@@ -142,7 +146,7 @@ function CartSidebar({ open, setOpen }: Props): ReactElement {
                                         </div>
                                         <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes included on grand total.</p>
                                         <div className="mt-6">
-                                            <BlueButton text="Checkout" className="flex justify-center w-full" onClick={() => history.push('/payment')} />
+                                            <BlueButton text="Checkout" className="flex justify-center w-full" onClick={handleCheckout} />
                                         </div>
                                         <div className="mt-6 flex justify-center text-sm text-center text-gray-500">
                                             <p>

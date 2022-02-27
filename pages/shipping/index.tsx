@@ -1,0 +1,16 @@
+import { useRouter } from 'next/router'
+import React, { useEffect } from 'react'
+import GeneralLayout from '../../layouts/GeneralLayout'
+
+
+function Shipping() {
+    const router = useRouter()
+    useEffect(()=>{
+        router.push('/login')
+    },[])
+  return (
+    <GeneralLayout title='shipping screen' description='describe how you want trolliey to handle yout equipmwnt'>Shipping</GeneralLayout>
+  )
+}
+
+export default Shipping
