@@ -23,8 +23,8 @@ function ProductItem({ picture, rating, name, description, price, discount_price
     }
 
     return (
-        <div className="cursor-pointer relative flex flex-col min-h-96 w-full bg-white rounded overflow-hidden transition transform hover:-translate-y-1 motion-reduce:transition-none motion-reduce:transform-none border border-gray-100  hover:shadow-lg">
-            <div onClick={() => history.push(`/product/description/${id}`)} className="relative md:h-56 h-32 overflow-hidden flex flex-col items-center rounded bg-white">
+        <div className="cursor-pointer shadow relative flex flex-col max-h-96 w-full flex-1 bg-white rounded overflow-hidden transition transform hover:-translate-y-1 motion-reduce:transition-none motion-reduce:transform-none border border-gray-100  hover:shadow-lg">
+            <div onClick={() => history.push(`/product/description/${id}`)} className="relative md:h-52 h-32 overflow-hidden flex flex-col items-center rounded bg-white">
                 <Image objectFit='cover' src={picture ? picture : ''} layout="fill" alt="product" className="flex-1 max-h-full flex-shrink-0 object-cover w-auto h-full rounded" />
             </div>
             <div className="px-2">

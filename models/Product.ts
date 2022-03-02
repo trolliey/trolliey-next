@@ -52,7 +52,7 @@ const productSchema = new mongoose.Schema({
     },
     store_id:{
         type:String,
-        default: ''
+        default: 'asdfasdlfuhlkj'
     },
     ratings: {
         type: String,

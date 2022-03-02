@@ -3,9 +3,15 @@ import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import '../styles/embla.global.css'
 import '../styles/RatingComponent.css'
-import { ChakraProvider } from '@chakra-ui/react'
+import { ChakraProvider, extendTheme } from '@chakra-ui/react'
+import { StepsStyleConfig as Steps } from 'chakra-ui-steps';
 import { StoreProvider } from '../Context/Store'
-import { SnackbarProvider } from 'notistack';
+
+const theme = extendTheme({
+  components: {
+    Steps,
+  },
+});
 
 if (typeof document === 'undefined') {
   React.useLayoutEffect = React.useEffect;
@@ -13,13 +19,11 @@ if (typeof document === 'undefined') {
 
 function MyApp({ Component, pageProps, }: AppProps) {
   return (
-    <StoreProvider>
-      <SnackbarProvider anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
-        <ChakraProvider>
-          <Component {...pageProps} />
-        </ChakraProvider>
-      </SnackbarProvider>
-    </StoreProvider>
+    <ChakraProvider theme={theme}>
+      <StoreProvider>
+        <Component {...pageProps} />
+      </StoreProvider>
+    </ChakraProvider>
   )
 }
 

@@ -1,12 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { EyeIcon, EyeOffIcon } from '@heroicons/react/outline'
+import { EyeIcon, EyeOffIcon, XIcon } from '@heroicons/react/outline'
 import GeneralLayout from '../../layouts/GeneralLayout'
 import BlueButton from '../../components/Buttons/BlueButton'
 import { useRouter } from 'next/router'
 import axios from 'axios'
 import { Store } from '../../Context/Store'
 import Cookies from 'js-cookie'
-import { useSnackbar } from 'notistack';
 
 function login() {
     const [email, setEmail] = useState<string>('')
@@ -14,7 +13,6 @@ function login() {
     const [show_password, setShowPassword] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false)
 
-    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
     const history = useRouter()
     const { redirect } = history.query
@@ -29,7 +27,7 @@ function login() {
     }, [])
 
     const login_user_handler = async () => {
-        closeSnackbar()
+        setLoading(true)
         try {
             const { data } = await axios.post(`/api/auth/login`, { email, password })
             dispatch({ type: 'USER_LOGIN', payload: data })
@@ -37,13 +35,13 @@ function login() {
             //@ts-ignore
             history.push(redirect || '/')
             alert('login success')
+            setLoading(false)
         } catch (error) {
-            //@ts-ignore
-            enqueueSnackbar(error.response.data ? error.response.data : error.message,{variant: 'error'})
+            setLoading(false)
             //@ts-ignore
             // alert(error.response.data ? error.response.data : error.message)
         }
-    }
+    } 
 
 
     return (
@@ -95,10 +93,10 @@ function login() {
                                                     <EyeOffIcon height={20} width={20} className="text-gray-400" />
                                                 </div>
                                             ) : (
-                                                <div onClick={() => setShowPassword(true)} className="cursor-pointer">
-                                                    <EyeIcon height={20} width={20} className="text-gray-400" />
-                                                </div>
-                                            )
+                                                    <div onClick={() => setShowPassword(true)} className="cursor-pointer">
+                                                        <EyeIcon height={20} width={20} className="text-gray-400" />
+                                                    </div>
+                                                )
                                         }
                                     </div>
                                 </div>
