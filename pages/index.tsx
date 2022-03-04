@@ -1,5 +1,4 @@
 import React, { ReactFragment } from 'react'
-import ProductItem from '../components/ProductItem/ProductItem'
 import GeneralLayout from '../layouts/GeneralLayout'
 import Products from '../models/Product'
 import { connect, convertDocToObj, disconnect } from '../utils/mongo'
@@ -13,9 +12,17 @@ import kenwood from '../public/img/kenwood-logo.svg'
 import dell from '../public/img/dell-logo.svg'
 import oppo from '../public/img/oppo-logo.svg'
 import Image from 'next/image'
-import ChakraCarousel from '../components/Carousel/ChakraCarousel'
+import surprise from '../public/img/surprise.jpg'
+import tech_stuff from '../public/img/tech_stuff.jpg'
+import clothes from '../public/img/clothes.jpg'
+import FeaturedProducts from '../components/HomeSections/FeaturedProducts'
+import { useRouter } from 'next/router'
 import { data } from '../utils/data'
+import AllProducts from '../components/HomeSections/AllProducts'
+
+
 function Home(props: any): ReactFragment {
+  const history = useRouter()
   const { products } = props
 
   const banner_images = [
@@ -29,6 +36,13 @@ function Home(props: any): ReactFragment {
       <div>no products to show at the moment</div>
     )
   }
+
+  const search_by_category = (category: string) => {
+    console.log(category)
+    history.push('/explore')
+  }
+
+  var randomItem = data.categories[Math.floor(Math.random() * data.categories.length)];
 
   return (
     <GeneralLayout title='Home page' description='Buy more, Spend Less'>
@@ -71,22 +85,110 @@ function Home(props: any): ReactFragment {
           </div>
         </div>
 
-        <div className='grid lg:grid-cols-5 md:grid-cols-4 grid-cols-2 md:gap-8 gap-4 mx-auto bg-white p-4 rounded-lg' >
-          {products?.map((product: any, index: number) => (
-            <div key={index} className="p-0 col-span-1">
-              <ProductItem
-                name={product.title}
-                description={product.description}
-                rating={product.rating}
-                picture={product.pictures[0]}
-                price={product.price}
-                discount_price={product.discount_price}
-                category={product.category}
-                id={product._id}
-              />
+        {/* // featured products */}
+        <>
+          <FeaturedProducts products={products} />
+        </>
+        <section aria-labelledby="category-heading" className="my-8">
+          <div className="max-w-7xl mx-auto bg-white md:p-8 p-4 rounded">
+            <div className="sm:flex sm:items-baseline sm:justify-between">
+              <h2 id="category-heading" className="md:text-xl text-base font-bold tracking-tight text-gray-700">
+                Shop by Category
+              </h2>
+              <a href="/categories" className="hidden font-semibold text-blue-primary hover:text-blue-primary sm:block">
+                Browse all categories<span aria-hidden="true"> &rarr;</span>
+              </a>
             </div>
-          ))}
-        </div>
+
+            <div className="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:grid-rows-2 sm:gap-x-6 lg:gap-8 ">
+              <div onClick={() => search_by_category(randomItem.value)} className="group aspect-w-2 aspect-h-1 rounded-lg overflow-hidden sm:aspect-h-1 sm:aspect-w-1 sm:row-span-2 transition transform hover:-translate-y-1 motion-reduce:transition-none motion-reduce:transform-none border">
+                <Image
+                  layout='responsive'
+                  objectFit='contain'
+                  src={surprise}
+                  alt="suprised user."
+                  className="object-center object-cover group-hover:opacity-75"
+                />
+                <div aria-hidden="true" className="bg-gradient-to-b from-transparent to-black opacity-50" />
+                <div className="p-6 flex items-end">
+                  <div>
+                    <h3 className="font-semibold text-white">
+                      <span>
+                        <span className="absolute inset-0" />
+                        Suprise Me
+                      </span>
+                    </h3>
+                    <p aria-hidden="true" className="mt-1 text-sm text-white">
+                      Shop now
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div onClick={() => search_by_category('tech')} className="group aspect-w-2 aspect-h-1 rounded-lg overflow-hidden sm:relative sm:aspect-none sm:h-full transition transform hover:-translate-y-1 motion-reduce:transition-none motion-reduce:transform-none border">
+                <Image
+                  layout='fill'
+                  src={tech_stuff}
+                  alt="tech category."
+                  className="object-center object-cover group-hover:opacity-75 sm:absolute sm:inset-0 sm:w-full sm:h-full"
+                />
+                <div
+                  aria-hidden="true"
+                  className="bg-gradient-to-b from-transparent to-black opacity-50 sm:absolute sm:inset-0"
+                />
+                <div className="p-6 flex items-end sm:absolute sm:inset-0">
+                  <div>
+                    <h3 className="font-semibold text-white">
+                      <span>
+                        <span className="absolute inset-0" />
+                        Tech Stuff
+                      </span>
+                    </h3>
+                    <p aria-hidden="true" className="mt-1 text-sm text-white">
+                      Shop now
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div onClick={() => search_by_category('Fashion-And-Luggage')} className="group aspect-w-2 aspect-h-1 rounded-lg overflow-hidden sm:relative sm:aspect-none sm:h-full transition transform hover:-translate-y-1 motion-reduce:transition-none motion-reduce:transform-none border">
+                <Image
+                  layout='fill'
+                  src={clothes}
+                  alt="Clothes and fashion"
+                  className="object-center object-cover group-hover:opacity-75 sm:absolute sm:inset-0 sm:w-full sm:h-full"
+                />
+                <div
+                  aria-hidden="true"
+                  className="bg-gradient-to-b from-transparent to-black opacity-50 sm:absolute sm:inset-0"
+                />
+                <div className="p-6 flex items-end sm:absolute sm:inset-0">
+                  <div>
+                    <h3 className="font-semibold text-white">
+                      <div>
+                        <span className="absolute inset-0" />
+                        Clothes and fashion
+                      </div>
+                    </h3>
+                    <p aria-hidden="true" className="mt-1 text-sm text-white">
+                      Shop now
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6 sm:hidden">
+              <a href="/categories" className="block font-semibold text-blue-primary hover:text-blue-primary">
+                Browse all categories<span aria-hidden="true"> &rarr;</span>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        {/* // featured products */}
+        <>
+          <AllProducts products={products} />
+        </>
+
       </div>
     </GeneralLayout>
   )

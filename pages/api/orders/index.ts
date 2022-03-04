@@ -21,4 +21,16 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(201).send(order)
 })
 
+// get all orders
+// get request
+// /api/orders
+auth_handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
+    await connect()
+    //@ts-ignore
+    const orders = await Orders.find({user: req.user._id})
+
+    await disconnect()
+    res.status(201).send(orders)
+})
+
 export default auth_handler

@@ -8,7 +8,7 @@ import {
     Avatar,
 
 } from "@chakra-ui/react"
-import { ChevronDownIcon, UserIcon } from '@heroicons/react/outline'
+import { UserIcon } from '@heroicons/react/outline'
 import { useRouter } from 'next/router'
 import Username from '../Username/Username'
 import { Store } from '../../Context/Store'
@@ -57,32 +57,47 @@ function UserDropdown(): ReactElement {
                         </MenuButton>
                     )
                 }
+
                 <MenuList>
-                    <MenuItem>
-                        {
-                            user ? (
-                                <>
-                                    {
-                                        user?.role === 'user' ? (
-                                            <div onClick={() => history.push('/dashboard/buyer-home')} className="flex flex-row space-x-2">
-                                                <Avatar size="sm" src={user?.user?.photoURL} name={user?.name} />
-                                                <Username username={'My Account'} />
-                                            </div>
-                                        ) : (
-                                            <div onClick={() => history.push('/dashboard')} className="flex flex-row space-x-2 ">
-                                                <Avatar size="sm" src={user?.user?.photoURL} name={user?.name} />
-                                                <Username username={'My Account'} />
-                                            </div>
-                                        )
-                                    }
-                                </>
-                            ) : (
-                                <div className="flex flex-row space-x-2">
-                                    <Avatar size="sm" />
-                                    <Username username={'Guest User'} />
-                                </div>
-                            )
-                        }
+                    {
+                        user && (
+                            <MenuItem>
+                                {
+                                    user ? (
+                                        <>
+                                            {
+                                                user?.role === 'user' ? (
+                                                    <div onClick={() => history.push('/profile')} className="flex flex-row space-x-2">
+                                                        <Avatar size="sm" src={user?.user?.photoURL} name={user?.name} />
+                                                        <Username username={'Profile'} />
+                                                    </div>
+                                                ) : (
+                                                    <div onClick={() => history.push('/dashboard')} className="flex flex-row space-x-2 ">
+                                                        <Avatar size="sm" src={user?.user?.photoURL} name={user?.name} />
+                                                        <Username username={'My Account'} />
+                                                    </div>
+                                                )
+                                            }
+                                        </>
+                                    ) : (
+                                        <div className="flex flex-row space-x-2">
+                                            <Avatar size="sm" />
+                                            <Username username={'Guest User'} />
+                                        </div>
+                                    )
+                                }
+                            </MenuItem>
+                        )
+                    }
+                    <MenuDivider />
+
+                    <MenuItem onClick={() => history.push('/orders')}>
+                        <span className="capitalize text-gray-700 font-semibold">My Orders</span>
+                    </MenuItem>
+                    <MenuDivider />
+
+                    <MenuItem onClick={() => history.push('/password')}>
+                        <span className="capitalize text-gray-700 font-semibold">Change Password</span>
                     </MenuItem>
                     <MenuDivider />
                     {

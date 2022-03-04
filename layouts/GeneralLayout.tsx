@@ -2,6 +2,7 @@ import Head from 'next/head'
 import React, { ReactElement } from 'react'
 import GeneralNavbar from '../components/Navigations/GeneralNavbar'
 import { Container } from '@chakra-ui/react'
+import Footer from '../components/Navigations/Footer'
 
 interface Props {
     title: string,
@@ -59,7 +60,7 @@ function GeneralLayout({ children, no_text, title, description, twitter_title, t
                 </Container>
             </main>
             <footer className="text-gray-700">
-                iam a footer
+                <Footer/>
             </footer>
         </div>
     )
