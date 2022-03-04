@@ -6,9 +6,15 @@ import { connect, convertDocToObj, disconnect } from '../utils/mongo'
 import Courosel from '../components/Carousel/Carousel'
 import promo_1 from '../public/img/promo_1.png'
 import promo_2 from '../public/img/fregrance_sale.png'
-import Carousel from '../components/Carousel/Carousel'
 import CategoriesDropdown from '../components/Dropdowns/CategoriesDropdown'
-
+import samsung from '../public/img/samsung.svg'
+import defy from '../public/img/defy.svg'
+import kenwood from '../public/img/kenwood-logo.svg'
+import dell from '../public/img/dell-logo.svg'
+import oppo from '../public/img/oppo-logo.svg'
+import Image from 'next/image'
+import ChakraCarousel from '../components/Carousel/ChakraCarousel'
+import { data } from '../utils/data'
 function Home(props: any): ReactFragment {
   const { products } = props
 
@@ -43,12 +49,29 @@ function Home(props: any): ReactFragment {
               </div>
               <div className="flex flex-col my-auto">
                 <p className='text-gray-900 font-semibold capitalize md:mb-8 mb-2 md:text-lg text-xs md:flex hidden'>Featured Brands</p>
+                <div className="brands flex flex-row items-center justify-between overflow-auto md:px-8 px-2 md:py-0 py-2 gap-4">
+                  <div className="relative md:h-6 h-4 md:w-16 w-10">
+                    <Image src={samsung} alt="" layout='fill' />
+                  </div>
+                  <div className="relative md:h-6 h-4 md:w-16 w-10">
+                    <Image src={defy} alt="" layout='fill' />
+                  </div>
+                  <div className="relative md:h-6 h-4 md:w-16 w-10">
+                    <Image src={kenwood} alt="" layout='fill' />
+                  </div>
+                  <div className="relative md:h-6 h-4 md:w-16 w-10">
+                    <Image src={dell} alt="" layout='fill' />
+                  </div>
+                  <div className="relative md:h-6 h-4 md:w-16 w-10">
+                    <Image src={oppo} alt="" layout='fill' />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-  
-        <div className='grid md:grid-cols-5 grid-cols-2 md:gap-8 gap-4 mx-auto bg-white p-4 rounded-lg' >
+
+        <div className='grid lg:grid-cols-5 md:grid-cols-4 grid-cols-2 md:gap-8 gap-4 mx-auto bg-white p-4 rounded-lg' >
           {products?.map((product: any, index: number) => (
             <div key={index} className="p-0 col-span-1">
               <ProductItem

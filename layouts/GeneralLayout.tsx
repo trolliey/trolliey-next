@@ -8,15 +8,44 @@ interface Props {
     description: string,
     icon?: any,
     children?: any,
-    no_text?: any
+    no_text?: any,
+    twitter_title?: string
+    twitter_description?: string
+    canonical_url?: string
 }
 
-function GeneralLayout({ children, no_text, title, description }: Props): ReactElement {
+function GeneralLayout({ children, no_text, title, description, twitter_title, twitter_description, canonical_url }: Props): ReactElement {
+    const desc = 'Trolliey is a modern ecommerce platform. You can become a seller or become a buyer and trade your items from anywhere you like. You can manage you inventory and customers using our intuitive dashboard, Buy and sell items online'
+    const original_title = 'Trolliey'
+    const url = 'www.trolliey.com'
     return (
         <div className='bg-gray-100 overflow-scroll' style={{ backgroundColor: 'rgb(243 244 246)' }}>
             <Head>
-                <title>{title ? `Trolliey -  ${title}` : 'Trolliey'}</title>
-                <meta name="description" content={description ? description : "Trolliey is a modern ecommerce platform. You can become a seller or become a buyer and trade your items from anywhere you like. You can manage you inventory and customers using our intuitive dashboard"} />
+                <title>{title ? `${title} | Trolliey ` : { original_title }}</title>
+                <meta name="description" content={description ? description : desc} />
+                <meta property="og:type" content="website" />
+                <meta name="og:title" property="og:title" content="" />
+                <meta
+                    name="og:description"
+                    property="og:description"
+                    content={description ? description : desc}
+                />
+                <meta property="og:site_name" content="www.trolliey.com" />
+                <meta property="og:url" content="" />
+                <meta name="twitter:card" content="summary" />
+                <meta name="twitter:title" content={twitter_title} />
+                <meta name="twitter:description" content={twitter_description} />
+                <meta name="twitter:site" content="" />
+                <meta name="twitter:creator" content="" />
+                <link rel="icon" type="image/png" href="/static/images/favicon.ico" />
+                <link rel="apple-touch-icon" href="/static/images/favicon.ico" />
+                <link rel="stylesheet" href="" />
+                <meta property="og:image" content="" />
+                <meta name="twitter:image" content="" />
+                <link
+                    rel="canonical"
+                    href={canonical_url ? canonical_url : url}
+                />
             </Head>
             <nav>
                 <GeneralNavbar />

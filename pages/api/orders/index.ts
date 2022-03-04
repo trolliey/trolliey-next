@@ -1,27 +1,19 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import nc from 'next-connect'
 import Orders from '../../../models/Order'
-import {connect, disconnect} from '../../../utils/mongo'
-import { onError } from '../../../utils/error'
-import { isAuth } from '../../../utils/auth'
+import { connect, disconnect } from '../../../utils/mongo'
+import auth_handler from '../../../utils/auth_handler'
 
-const handler = nc({
-    onError
-})
-
-handler.use(isAuth)
-
-// get all products
-// get request
-// /api/products
-handler.get(async(req:NextApiRequest, res:NextApiResponse)=>{
+// create an order
+// post request
+// /api/orders
+auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     await connect()
-    
+
     const newOrder = new Orders({
         ...req.body,
         // @ts-ignore
         user: req.user._id
-    }) 
+    })
 
     const order = await newOrder.save()
 
@@ -29,4 +21,4 @@ handler.get(async(req:NextApiRequest, res:NextApiResponse)=>{
     res.status(201).send(order)
 })
 
-export default handler
+export default auth_handler
