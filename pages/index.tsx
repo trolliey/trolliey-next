@@ -45,7 +45,7 @@ function Home(props: any): ReactFragment {
   var randomItem = data.categories[Math.floor(Math.random() * data.categories.length)];
 
   return (
-    <GeneralLayout title='Home page' description='Buy more, Spend Less'>
+    <GeneralLayout title='Home Page' description='Buy more, Spend Less'>
       {/* <h1>Products</h1> */}
       <div className="min-h-screen container max-w-7xl">
         <div className="top w-full flex flex-row md:gap-8 gap-2 bg-white md:p-8 rounded md:px-4 px-0  md:py-4 py-0 mb-8">
