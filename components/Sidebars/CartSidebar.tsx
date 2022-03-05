@@ -114,7 +114,7 @@ function CartSidebar({ open, setOpen }: Props): ReactElement {
                                                                                     // value={product.quantity}
                                                                                     className={'outli-none border--gray-200 rounded bg-gray-100'} >
                                                                                     {/*@ts-ignore*/}
-                                                                                    {[...Array(product.countInStock).keys()].map((x) => (
+                                                                                    {[...Array(product?.countInStock).keys()].map((x) => (
                                                                                         <option key={x + 1} value={x + 1}>{x + 1}</option>
                                                                                     ))}
                                                                                 </select>

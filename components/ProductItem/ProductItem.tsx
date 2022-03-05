@@ -1,7 +1,10 @@
 import { ShoppingCartIcon, StarIcon } from '@heroicons/react/outline'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useContext } from 'react'
+import axios from 'axios'
+import { Store } from '../../Context/Store'
+import { useToast } from '@chakra-ui/react'
 
 interface Props {
     picture?: string,
@@ -11,15 +14,38 @@ interface Props {
     discount_price?: number,
     price?: number,
     id: string,
-    category: string
+    category: string,
+    countInStock: number,
+    product?: any
 }
 
-function ProductItem({ picture, rating, name, description, price, discount_price, id, category }: Props): ReactElement {
+function ProductItem({ picture, rating, name, description, price, discount_price, id, category, product }: Props): ReactElement {
     const history = useRouter()
     const { pathname } = useRouter()
+    const { dispatch } = useContext(Store)
 
-    const add_to_cart =() =>{
-        console.log('added item to cart')
+    // for toasy
+    const toast = useToast()
+
+    const add_to_cart = async () => {
+        const { data } = await axios.get(`/api/products/${id}`)
+        if (data?.countInStock <= 0) {
+            toast({
+                title: 'Item is out of stock.',
+                status: 'error',
+                duration: 9000,
+                isClosable: true,
+            })
+            return
+        }
+        dispatch({ type: 'ADD_TO_CART', payload: { ...product, quantity: 1 } })
+        toast({
+            title: `${product?.title} added to cart.`,
+            position: 'top-right',
+            status: 'success',
+            duration: 9000,
+            isClosable: true,
+        })
     }
 
     return (
@@ -38,14 +64,14 @@ function ProductItem({ picture, rating, name, description, price, discount_price
                         pathname === '/' ? (
                             null
                         ) : (
-                            <div className="star-rating gap-1 flex flex-row ">
-                                {[...Array(Math.floor(rating ? rating :0))].map((star, index) => (
-                                    <span key={index} className="star">
-                                        <StarIcon className="text-yellow-400" height={16} width={16} />
-                                    </span>
-                                ))}
-                            </div>
-                        )
+                                <div className="star-rating gap-1 flex flex-row ">
+                                    {[...Array(Math.floor(rating ? rating : 0))].map((star, index) => (
+                                        <span key={index} className="star">
+                                            <StarIcon className="text-yellow-400" height={16} width={16} />
+                                        </span>
+                                    ))}
+                                </div>
+                            )
                     }
                 </div>
                 <div onClick={() => history.push(`/product/description/${id}`)} className="flex-1 overflow-ellipsis overflow-hidden">
@@ -66,10 +92,10 @@ function ProductItem({ picture, rating, name, description, price, discount_price
                                     <p className="line-through text-gray-400 text-sm">${price}</p>
                                 </div>
                             ) : (
-                                <div onClick={() => history.push(`/product/description/${id}`)} className="flex flex-row items-center">
-                                    <p className="text-gray-900 font-bold mr-2">${price}</p>
-                                </div>
-                            )
+                                    <div onClick={() => history.push(`/product/description/${id}`)} className="flex flex-row items-center">
+                                        <p className="text-gray-900 font-bold mr-2">${price}</p>
+                                    </div>
+                                )
                         }
 
                         {
@@ -79,9 +105,9 @@ function ProductItem({ picture, rating, name, description, price, discount_price
                                     <ShoppingCartIcon height={16} width={16} />
                                 </div>
                             ) : <div className=" mb-2 text-xs font-semibold text-center capitalize mr-4 flex flex-row items-center">
-                                <StarIcon className="text-yellow-400 font-semibold" height={20} width={20} />
-                                <p>{Math.floor(rating ? rating : 0)}(5)</p>
-                            </div>
+                                    <StarIcon className="text-yellow-400 font-semibold" height={20} width={20} />
+                                    <p>{Math.floor(rating ? rating : 0)}(5)</p>
+                                </div>
                         }
                     </div>
 

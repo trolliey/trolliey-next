@@ -16,7 +16,7 @@ function AllProducts({ products, query, cols, no_text }: Props) {
     return (
         <div className="flex flex-col w-full bg-white p-4 mb-8">
             {
-                no_text && (
+                !no_text && (
                     <div className="md:text-lg text-sm pb-4 flex flex-row items-center justify-between">
                         <p className="font-semibold text-gray-700 capitalize ">{query ? query : 'all products'}</p>
                         <div onClick={() => history.push('/explore')} className="text-new-primary capitalize font-semibold flex flex-row items-center cursor-pointer hover:text-new-light">
@@ -38,6 +38,8 @@ function AllProducts({ products, query, cols, no_text }: Props) {
                             discount_price={product.discount_price}
                             category={product.category}
                             id={product._id}
+                            countInStock={product.countInStock}
+                            product={product}
                         />
                     </div>
                 ))}
