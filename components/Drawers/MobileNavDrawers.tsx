@@ -11,7 +11,8 @@ import {
     DrawerHeader,
     Avatar
 } from "@chakra-ui/react"
-import { MenuIcon, ChevronRightIcon, ArrowLeftIcon, UserCircleIcon } from '@heroicons/react/outline'
+import { MenuIcon, ChevronRightIcon, ArrowLeftIcon } from '@heroicons/react/outline'
+import {UserCircleIcon } from '@heroicons/react/solid'
 import { useRouter } from 'next/router'
 import Username from '../Username/Username'
 import { data } from '../../utils/data'
@@ -26,6 +27,8 @@ function MobileNavDrawers({ user }: Props): ReactElement {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [show_category, setShowCotegory] = useState(false)
     const history = useRouter()
+
+    console.log(user)
 
     return (
         <>
@@ -52,10 +55,10 @@ function MobileNavDrawers({ user }: Props): ReactElement {
                             <DrawerBody bg={'white'} p={0}>
                                 <Divider />
                                 <div className="flex flex-row items-center py-4 bg-white px-4">
-                                    <Avatar size="sm" name={user?.user?.displayName} />
+                                    <Avatar size="sm" name={user?.name} />
                                     {
                                         user ? (
-                                            <Username username={user?.user?.displayName} />
+                                            <Username username={user?.name} />
                                         ) : (
                                             <Username username={'Guest User'} />
                                         )
@@ -74,7 +77,9 @@ function MobileNavDrawers({ user }: Props): ReactElement {
                                         data?.categories.map((category, index) => (
                                             <div key={index} className="flex flex-row items-center gap-2 py-2 px-4 cursor-pointer justify-between text-sm hover:bg-gray-100">
                                                 <div onClick={() => console.log(category.name)} className="flex flex-row items-center">
-                                                    <img src={category.icon} alt={category.name} className='h-6 w-6 mr-2' />
+                                                    <div className="relative mr-2    h-6 w-6">
+                                                    <Image src={category.icon} layout="fill" alt={category.name} />
+                                                    </div>
                                                     <p className='capitalize'>{category.name}</p>
                                                 </div>
                                                 <ChevronRightIcon height={16} width={16} className='text-gray-400' />
@@ -88,11 +93,11 @@ function MobileNavDrawers({ user }: Props): ReactElement {
                         ) : (
                             <DrawerBody bg={'gray.200'} p={0}>
                                 <Divider />
-                                <div className="flex flex-row items-center py-4 bg-white mt-4 px-4">
-                                    <Avatar size="sm" name={user?.user?.displayName} />
+                                <div className="flex flex-row items-center py-4 bg-white mt-4 space-x-2 px-4">
+                                    <Avatar size="sm" name={user?.name} />
                                     {
                                         user ? (
-                                            <Username username={user?.user?.displayName} />
+                                            <Username username={user?.name} />
                                         ) : (
                                             <Username username={'Guest User'} />
                                         )
@@ -141,7 +146,7 @@ function MobileNavDrawers({ user }: Props): ReactElement {
                                 <div className='pr-2 font-semibold '>
                                     {
                                         user ? (
-                                            <Username username={'username'} />
+                                            <Username username={user.name} />
                                         ) : (
                                             <Username username={'Register'} />
                                         )

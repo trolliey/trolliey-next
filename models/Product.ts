@@ -3,15 +3,18 @@ import mongoose from 'mongoose'
 const productSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: true
+        required: true,
+        index: true
     },
     slug: {
         type: String,
-        required: true
+        required: true,
+        index: true
     },
     description: {
         type: String,
-        required: true
+        required: true,
+        index: true
     },
     averageRating:{
         type: Number,
@@ -41,11 +44,13 @@ const productSchema = new mongoose.Schema({
     },
     category: {
         type: String,
-        required: true
+        required: true,
+        index: true
     },
     category_slug:{
         type: String,
-        default: ''
+        default: '',
+        index:true
     },
     variants:{
         type:Array
@@ -62,5 +67,6 @@ const productSchema = new mongoose.Schema({
     timestamps: true
 })
 
+productSchema.index({ category: 'text', description: 'text', title: 'text', owner: 'text', category_slug: 'text', slug: 'text' });
 const Products = mongoose.models.Product || mongoose.model('Product', productSchema)
 export default Products

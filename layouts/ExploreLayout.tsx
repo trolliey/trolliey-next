@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import GeneralLayout from './GeneralLayout'
 import { StarIcon } from '@heroicons/react/outline'
 import { StarIcon as SolidStarIcon } from '@heroicons/react/solid'
 import { data } from '../utils/data'
 import slugify from '../utils/slugify'
 import SearchInput from '../components/SearchInput/SearchInput'
+import { Store } from '../Context/Store'
 
 interface Props{
     children: any | null
@@ -14,18 +15,19 @@ export default function ExploreLayout({children}:Props){
     const [min_price, setMinPrice] = useState<any>(0)
     const [max_price, setMaxPrice] = useState<any>(0)
     const [slice_number, setSliceNumber] = useState<any>(5)
+    const { dispatch } = useContext(Store)
 
     const filter_by_price = () => {
         console.log(min_price, max_price)
     }
 
     const filter_by_category = (category:string) => {
-        console.log(category)
+        dispatch({ type: 'SET_SEARCH_QUERY', payload: category })
     }
 
     return(
         <GeneralLayout  title="Explore Products" description="Buy and sell items in Zimbabwe from Trolliey">
-            <div className="bg-white md:p-8 p-2 rounded max-w-7xl mx-auto">
+            <div className="bg-white md:p-8 p-2 rounded max-w-7xl mx-auto mb-8">
                 <div className="top w-full flex flex-row md:gap-8 gap-2">
                     <div className="md:w-1/5 md:flex flex-col hidden">
                         <p className="text text-gray-700 mt-8 font-semibold pb-4 border-b border-blue-primary">Refine Search</p>

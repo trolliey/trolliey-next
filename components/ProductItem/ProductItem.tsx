@@ -1,4 +1,5 @@
-import { ShoppingCartIcon, StarIcon } from '@heroicons/react/outline'
+import { ShoppingCartIcon } from '@heroicons/react/outline'
+import { StarIcon } from '@heroicons/react/solid'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React, { ReactElement, useContext } from 'react'
@@ -16,10 +17,11 @@ interface Props {
     id: string,
     category: string,
     countInStock: number,
-    product?: any
+    product?: any,
+    averageRating?: any
 }
 
-function ProductItem({ picture, rating, name, description, price, discount_price, id, category, product }: Props): ReactElement {
+function ProductItem({ picture, rating, name, description, price, discount_price, id, category, product, averageRating }: Props): ReactElement {
     const history = useRouter()
     const { pathname } = useRouter()
     const { dispatch } = useContext(Store)
@@ -55,17 +57,13 @@ function ProductItem({ picture, rating, name, description, price, discount_price
             </div>
             <div className="px-2">
                 <div onClick={() => history.push(`/product/description/${id}`)} className="star flex flex-row items-center md:mt-2 mt-1">
-                    {/* {
-                rating?.map((rate, index) => (
-                    <StarIcon key={index} className="text-yellow-400" height={16} width={16} />
-                ))
-            } */}
+
                     {
                         pathname === '/' ? (
                             null
                         ) : (
                                 <div className="star-rating gap-1 flex flex-row ">
-                                    {[...Array(Math.floor(rating ? rating : 0))].map((star, index) => (
+                                    {[...Array(Math.floor(averageRating ? averageRating : 0))].map((star, index) => (
                                         <span key={index} className="star">
                                             <StarIcon className="text-yellow-400" height={16} width={16} />
                                         </span>

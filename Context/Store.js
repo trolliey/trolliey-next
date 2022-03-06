@@ -6,7 +6,8 @@ const initialState = {
     cart: {
         cartItems: Cookies.get('cartItems') ? JSON.parse(Cookies.get('cartItems')) : []
     },
-    userInfo: Cookies.get('userInfo') ? JSON.parse(Cookies.get('userInfo')) : null
+    userInfo: Cookies.get('userInfo') ? JSON.parse(Cookies.get('userInfo')) : null,
+    search_query: ''
 }
 
 export const Store = createContext();
@@ -31,6 +32,8 @@ function reducer(state, action) {
             return { ...state, userInfo: action.payload }
         case 'USER_LOGOUT':
             return { ...state, userInfo: null, cart: { cartItems: [] } }
+        case 'SET_SEARCH_QUERY':
+            return { ...state, search_query: action.payload }
         default:
             return state
     }

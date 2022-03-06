@@ -1,4 +1,4 @@
-import React, { ReactFragment } from 'react'
+import React, { ReactFragment, useEffect, useContext, useState } from 'react'
 import GeneralLayout from '../layouts/GeneralLayout'
 import Products from '../models/Product'
 import { connect, convertDocToObj, disconnect } from '../utils/mongo'
@@ -19,23 +19,39 @@ import FeaturedProducts from '../components/HomeSections/FeaturedProducts'
 import { useRouter } from 'next/router'
 import { data } from '../utils/data'
 import AllProducts from '../components/HomeSections/AllProducts'
+import axios from 'axios'
+import { Store } from '../Context/Store'
 
 
 function Home(props: any): ReactFragment {
   const history = useRouter()
-  const { products } = props
+  // const { products } = props
+  const { state } = useContext(Store)
+  const { search_query } = state
+  const [products, setProducts] = useState<any>()
+  const [loading, setLoading] = useState<boolean>(false)
+
+  useEffect(() => {
+    setLoading(true)
+    const getData = async () => {
+      try {
+        const { data } = await axios.post(`/api/products`, {
+          query: search_query
+        })
+        setProducts(data)
+        setLoading(false)
+      } catch (error) {
+        setLoading(false)
+      }
+    }
+    getData()
+  }, [search_query])
 
   const banner_images = [
     { body: '', image: promo_1 },
     { body: '', image: promo_2 },
     { body: '', image: promo_1 }
   ]
-
-  if (!products) {
-    return (
-      <div>no products to show at the moment</div>
-    )
-  }
 
   const search_by_category = (category: string) => {
     console.log(category)
@@ -186,7 +202,7 @@ function Home(props: any): ReactFragment {
 
         {/* // featured products */}
         <>
-          <AllProducts products={products} />
+          <AllProducts products={products} loading={loading} />
         </>
 
       </div>
