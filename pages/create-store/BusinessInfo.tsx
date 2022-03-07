@@ -63,7 +63,7 @@ function BusinessInfo({ nextStep, handleChange, values, prevStep }:Props):ReactE
                                                     <input
                                                         type="text"
                                                         name="company_name"
-                                                        value={values.company_name}
+                                                        value={values?.company_name}
                                                         onChange={handleChange('company_name')}
                                                         id="copmany-name"
                                                         autoComplete="company-name"
@@ -100,7 +100,7 @@ function BusinessInfo({ nextStep, handleChange, values, prevStep }:Props):ReactE
                                                     <input
                                                         type="text"
                                                         name="website"
-                                                        value={values.company_website}
+                                                        value={values?.company_website}
                                                         onChange={handleChange('company_website')}
                                                         id="company-website"
                                                         autoComplete="company-website"
@@ -118,7 +118,7 @@ function BusinessInfo({ nextStep, handleChange, values, prevStep }:Props):ReactE
                                                     <input
                                                         type="text"
                                                         name="facebook"
-                                                        value={values.facebook}
+                                                        value={values?.facebook}
                                                         onChange={handleChange('facebook')}
                                                         id="facebook-link"
                                                         autoComplete="facebook-link"
@@ -136,7 +136,7 @@ function BusinessInfo({ nextStep, handleChange, values, prevStep }:Props):ReactE
                                                     <input
                                                         type="text"
                                                         name="twitter"
-                                                        value={values.twitter}
+                                                        value={values?.twitter}
                                                         onChange={handleChange('twitter')}
                                                         id="twitter-link"
                                                         autoComplete="twitter-link"
@@ -154,7 +154,7 @@ function BusinessInfo({ nextStep, handleChange, values, prevStep }:Props):ReactE
                                                     <input
                                                         type="text"
                                                         name="instagran"
-                                                        value={values.instagram}
+                                                        value={values?.instagram}
                                                         onChange={handleChange('instagram')}
                                                         id="instagram-link"
                                                         autoComplete="instagram-link"
@@ -173,7 +173,7 @@ function BusinessInfo({ nextStep, handleChange, values, prevStep }:Props):ReactE
                                                 <textarea
                                                     id="about"
                                                     name="about"
-                                                    value={values.about}
+                                                    value={values?.about}
                                                     onChange={handleChange('about')}
                                                     rows={7}
                                                     className="max-w-lg shadow-sm block w-full p-3 outline-none sm:text-sm border border-gray-300 rounded-md"
@@ -194,7 +194,7 @@ function BusinessInfo({ nextStep, handleChange, values, prevStep }:Props):ReactE
                                                     <input
                                                         type="text"
                                                         name="busines_owner_name"
-                                                        value={values.busines_owner_name}
+                                                        value={values?.busines_owner_name}
                                                         onChange={handleChange('busines_owner_name')}
                                                         id="owner-name"
                                                         autoComplete="owner-name"
@@ -213,7 +213,7 @@ function BusinessInfo({ nextStep, handleChange, values, prevStep }:Props):ReactE
                                                     <input
                                                         type="text"
                                                         name="business_owner_email"
-                                                        value={values.business_owner_email}
+                                                        value={values?.business_owner_email}
                                                         onChange={handleChange('business_owner_email')}
                                                         id="owner-email"
                                                         autoComplete="owner-email"
@@ -235,7 +235,7 @@ function BusinessInfo({ nextStep, handleChange, values, prevStep }:Props):ReactE
                             <BlueButton text={'Prev Step'} onClick={() => prevStep(values)} />
                         </div>
                         {
-                            values.business_category && values.company_name && values.about && values.business_owner_email? (
+                            values?.business_category && values?.company_name && values?.about && values?.business_owner_email? (
                                 <BlueButton text={'Next Step'} onClick={() => nextStep(values)}  />
                             ) : (
                                 <BlueButton text={'Next Step'} onClick={() => setPageErr('Please enter all requires fields')} outline />
