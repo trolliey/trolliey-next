@@ -17,7 +17,7 @@ interface Props {
 }
 
 function GeneralLayout({ children, no_text, title, description, twitter_title, twitter_description, canonical_url, og_image }: Props): ReactElement {
-    const desc = 'Trolliey is a modern ecommerce platform. You can become a seller or become a buyer and trade your items from anywhere you like. You can manage you inventory and customers using our intuitive dashboard, Buy and sell items online'
+    const desc = 'Trolliey is a modern ecommerce platform. You can become a seller or become a buyer and trade your items from anywhere you like. You can manage you inventory and customers using our intuitive dashboard, Buy and sell goods and items online'
     const original_title = 'Trolliey'
     const url = 'www.trolliey.com'
     return (
@@ -36,15 +36,13 @@ function GeneralLayout({ children, no_text, title, description, twitter_title, t
                 <meta property="og:url" content="" />
                 <meta property="og:image" content={og_image ? og_image : "//cdn.example.com/uploads/images/webpage_300x200.png"} />
                 <meta name="twitter:card" content="summary" />
-                <meta name="twitter:title" content={twitter_title} />
+                <meta name="twitter:title" content={twitter_title ? `${twitter_title} | Trolliey` : 'Trolliey | Buy and sell items online'} />
                 <meta name="twitter:description" content={twitter_description} />
                 <meta name="twitter:site" content="" />
                 <meta name="twitter:creator" content="" />
                 <link rel="icon" type="image/png" href="/static/images/favicon.ico" />
                 <link rel="apple-touch-icon" href="/static/images/favicon.ico" />
-                <link rel="stylesheet" href="" />
-                <meta property="og:image" content="" />
-                <meta name="twitter:image" content="" />
+                <meta name="twitter:image" content={og_image} />
                 <link
                     rel="canonical"
                     href={canonical_url ? canonical_url : url}
