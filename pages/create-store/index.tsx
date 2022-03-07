@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import ContactInfo from './ContactInfo';
 import BusinessInfo from './BusinessInfo';
 import ProductsInfo from './ProductsInfo';
+import NoSSR from '../../layouts/NoSSR';
 
 export default function CreateStore() {
     const [step, setActiveStep] = useState<number>(1);
@@ -35,13 +36,13 @@ export default function CreateStore() {
     })
 
     // go back to previous page
-    const prevStep = (new_values:any) => {
+    const prevStep = (new_values: any) => {
         setState({ ...state, ...new_values });
         setActiveStep(step - 1)
     }
 
     // proceed to the next step
-    const nextStep = (new_values:any) => {
+    const nextStep = (new_values: any) => {
         setState({ ...state, ...new_values });
         setActiveStep(step + 1)
     }
@@ -109,39 +110,47 @@ export default function CreateStore() {
     switch (step) {
         case 1:
             return (
-                <ContactInfo
-                    nextStep={nextStep}
-                    handleChange={handleChange}
-                    values={values}
-                />
+                <NoSSR>
+                    <ContactInfo
+                        nextStep={nextStep}
+                        handleChange={handleChange}
+                        values={values}
+                    />
+                </NoSSR>
             )
         case 2:
             return (
-                <BusinessInfo
-                    nextStep={nextStep}
-                    handleChange={handleChange}
-                    values={values}
-                    prevStep={prevStep}
-                />
+                <NoSSR>
+                    <BusinessInfo
+                        nextStep={nextStep}
+                        handleChange={handleChange}
+                        values={values}
+                        prevStep={prevStep}
+                    />
+                </NoSSR>
             )
         case 3:
             return (
-                <ProductsInfo
-                    nextStep={nextStep}
-                    handleChange={handleChange}
-                    values={values}
-                    prevStep={prevStep}
-                    setBrands={setBrands}
-                    brands={brands}
-                />
+                <NoSSR>
+                    <ProductsInfo
+                        nextStep={nextStep}
+                        handleChange={handleChange}
+                        values={values}
+                        prevStep={prevStep}
+                        setBrands={setBrands}
+                        brands={brands}
+                    />
+                </NoSSR>
             )
         default:
             return (
-                <ContactInfo
-                    nextStep={nextStep}
-                    handleChange={handleChange}
-                    values={values}
-                />
+                <NoSSR>
+                    <ContactInfo
+                        nextStep={nextStep}
+                        handleChange={handleChange}
+                        values={values}
+                    />
+                </NoSSR>
             )
     }
 }

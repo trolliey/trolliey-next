@@ -4,7 +4,7 @@ import GeneralLayout from '../../layouts/GeneralLayout'
 import BlueButton from '../../components/Buttons/BlueButton'
 import { useRouter } from 'next/router'
 import axios from 'axios'
-import { useSnackbar } from 'notistack';
+import { getError } from '../../utils/error'
 
 function Register() {
     const [username, setUsername] = useState<string>('')
@@ -14,14 +14,12 @@ function Register() {
     const [agreed, setAgreed] = useState<any>(false)
     const [loading, setLoading] = useState<boolean>(false)
 
-    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
     const history = useRouter()
     const { redirect } = history.query
 
     const register_user_handler = async (e: any) => {
         e.preventDefault()
-        closeSnackbar()
         try {
             const { data } = await axios.post(`/api/auth/register`, { email, password, name: username })
             //@ts-ignore
@@ -30,7 +28,7 @@ function Register() {
             alert('register success')
         } catch (error) {
             //@ts-ignore
-            enqueueSnackbar(error.response.data ? error.response.data : error.message,{variant: 'error'})
+           alert(getError(error))
         }
     }
 
