@@ -26,7 +26,7 @@ function GeneralLayout({ children, no_text, title, description, twitter_title, t
                 <title>{title ? `${title} | Trolliey ` : { original_title }}</title>
                 <meta name="description" content={description ? description : desc} />
                 <meta property="og:type" content="website" />
-                <meta name="og:title" property="og:title" content={title ? title : original_title} />
+                <meta name="og:title" property="og:title" content={title ? `${title} | Trolliey` : original_title} />
                 <meta
                     name="og:description"
                     property="og:description"
