@@ -22,7 +22,7 @@ function Register() {
     const register_user_handler = async (e: any) => {
         e.preventDefault()
         try {
-            const { data } = await axios.post(`/api/auth/register`, { email, password, name: username })
+            const { data } = await axios.post(`/api/auth/register`, { email, password, name: username, agreed })
             //@ts-ignore
             history.push(redirect || '/login')
             console.log(data)

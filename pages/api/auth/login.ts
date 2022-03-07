@@ -15,6 +15,10 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     const { email, password } = req.body
     const _user = await Users.findOne({ email: email })
 
+    if(_user.emailVerified === false){
+        return res.status(403).send({error: 'Please verify your email first!'})
+    }
+
     // checking if user has a store
     const is_store = await Store.findOne({ user: _user.store, approved: true })
 
