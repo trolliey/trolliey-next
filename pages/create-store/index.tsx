@@ -123,7 +123,7 @@ export default function CreateStore() {
                 <NoSSR>
                     <BusinessInfo
                         nextStep={nextStep}
-                        handleChange={handleChange}
+                        handleChange={() =>handleChange}
                         values={values}
                         prevStep={prevStep}
                     />
