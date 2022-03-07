@@ -1,8 +1,8 @@
 import { Divider } from '@chakra-ui/react';
 import React, { useState, useContext } from 'react';
 import GeneralLayout from '../../layouts/GeneralLayout';
-import BlueButton from '../../components/Buttons/BlueButton'
-import Tags from '../../components/Tags/Tags';
+import BlueButton from '../Buttons/BlueButton'
+import Tags from '../Tags/Tags';
 import axios from 'axios';
 import { Store } from '../../Context/Store';
 import { useToast } from '@chakra-ui/react'

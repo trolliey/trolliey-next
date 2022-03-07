@@ -1,8 +1,8 @@
 import React from 'react';
 import { useState } from 'react';
 import GeneralLayout from '../../layouts/GeneralLayout';
-import Error from '../../components/Alerts/Error';
-import BlueButton from '../../components/Buttons/BlueButton';
+import Error from '../Alerts/Error';
+import BlueButton from '../Buttons/BlueButton';
 
 interface Props {
     nextStep?: any,
