@@ -5,6 +5,7 @@ import BlueButton from '../../components/Buttons/BlueButton'
 import { useRouter } from 'next/router'
 import axios from 'axios'
 import { getError } from '../../utils/error'
+import { useToast } from '@chakra-ui/react'
 
 function Register() {
     const [username, setUsername] = useState<string>('')
@@ -13,7 +14,7 @@ function Register() {
     const [show_password, setShowPassword] = useState<boolean>(false)
     const [agreed, setAgreed] = useState<any>(false)
     const [loading, setLoading] = useState<boolean>(false)
-
+    const toast = useToast()
 
     const history = useRouter()
     const { redirect } = history.query
@@ -25,10 +26,22 @@ function Register() {
             //@ts-ignore
             history.push(redirect || '/login')
             console.log(data)
-            alert('register success')
+            toast({
+                title: 'Rgstration successful.',
+                status: 'success',
+                position: 'top-right',
+                duration: 9000,
+                isClosable: true,
+            })
         } catch (error) {
             //@ts-ignore
-           alert(getError(error))
+           toast({
+            title: getError(error),
+            status: 'error',
+            position: 'top-right',
+            duration: 9000,
+            isClosable: true,
+        })
         }
     }
 

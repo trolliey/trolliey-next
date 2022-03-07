@@ -12,19 +12,19 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     await connect()
     const { email, password, name } = req.body
     const user = await Users.findOne({ email: email })
-    await disconnect()
-
+    
     if (user) {
         res.status(500).send('User already registered')
     }
-
+    
     const newUser = new Users({
         name: name,
         email: email,
         password: bcrypt.hashSync(password, 12)
     })
-
+    
     await newUser.save()
+    await disconnect()
 
     res.status(200).send('Account Created')
 
