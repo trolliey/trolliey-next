@@ -39,7 +39,7 @@ function ContactInfo({ nextStep, handleChange, values }: Props) {
                                                     <input
                                                         type="text"
                                                         name="username"
-                                                        value={values.first_name}
+                                                        value={values?.first_name}
                                                         onChange={handleChange('first_name')}
                                                         id="first-name"
                                                         autoComplete="first-name"
@@ -58,7 +58,7 @@ function ContactInfo({ nextStep, handleChange, values }: Props) {
                                                     <input
                                                         type="text"
                                                         name="username"
-                                                        value={values.last_name}
+                                                        value={values?.last_name}
                                                         onChange={handleChange('last_name')}
                                                         id="last-name"
                                                         autoComplete="last-name"
@@ -77,7 +77,7 @@ function ContactInfo({ nextStep, handleChange, values }: Props) {
                                                     <input
                                                         type="email"
                                                         name="email"
-                                                        value={values.email}
+                                                        value={values?.email}
                                                         onChange={handleChange('email')}
                                                         id="email"
                                                         autoComplete="email"
@@ -97,7 +97,7 @@ function ContactInfo({ nextStep, handleChange, values }: Props) {
                                                     <input
                                                         type="text"
                                                         name="email"
-                                                        value={values.phone_number}
+                                                        value={values?.phone_number}
                                                         onChange={handleChange('phone_number')}
                                                         id="phone-number"
                                                         autoComplete="phone-number"
@@ -115,7 +115,7 @@ function ContactInfo({ nextStep, handleChange, values }: Props) {
                                                     <input
                                                         type="text"
                                                         name="email"
-                                                        value={values.mobile_number}
+                                                        value={values?.mobile_number}
                                                         onChange={handleChange('mobile_number')}
                                                         id="mobile-number"
                                                         autoComplete="mobile-number"
@@ -135,7 +135,7 @@ function ContactInfo({ nextStep, handleChange, values }: Props) {
                     <div className="flex flex-row items-center w-full justify-between">
                         <div className="ml-auto">
                             {
-                                values.first_name && values.last_name && values.email && values.mobile_number ? (
+                                values?.first_name && values?.last_name && values?.email && values?.mobile_number ? (
                                     <BlueButton text={'Next Step'} onClick={() => nextStep(values)} />
                                 ) : (
                                         <BlueButton text={'Next Step'} onClick={() => setPageErr('Please enter all requires fields')} outline />

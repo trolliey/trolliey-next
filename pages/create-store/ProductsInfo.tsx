@@ -83,7 +83,7 @@ function ProductsInfo({ brands, handleChange, values, setBrands, prevStep }: Pro
                                                     <input
                                                         type="number"
                                                         name="number_of_uniqe_products"
-                                                        value={values.number_of_uniqe_products}
+                                                        value={values?.number_of_uniqe_products}
                                                         onChange={handleChange('number_of_uniqe_products')}
                                                         id="unique-products"
                                                         autoComplete="unique-products"
@@ -146,7 +146,7 @@ function ProductsInfo({ brands, handleChange, values, setBrands, prevStep }: Pro
                                         </div>
 
                                         {
-                                            values.physical_store === 'store_available' && (
+                                            values?.physical_store === 'store_available' && (
                                                 <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
                                                     <label htmlFor="username" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
                                                         Enter address of store <span className='text-red-600'>*</span>
@@ -156,7 +156,7 @@ function ProductsInfo({ brands, handleChange, values, setBrands, prevStep }: Pro
                                                             <textarea
                                                                 id="physical_store_address"
                                                                 name="physical_store_address"
-                                                                value={values.physical_store_address}
+                                                                value={values?.physical_store_address}
                                                                 onChange={handleChange('physical_store_address')}
                                                                 rows={7}
                                                                 className="max-w-lg shadow-sm block w-full p-3 outline-none sm:text-sm border border-gray-300 rounded-md"
@@ -235,7 +235,7 @@ function ProductsInfo({ brands, handleChange, values, setBrands, prevStep }: Pro
                             <BlueButton text={'Prev Step'} onClick={() => prevStep(values)} />
                         </div>
                         {
-                            values.stock_handle && values.physical_store && values.stock_handle ? (
+                            values?.stock_handle && values?.physical_store && values?.stock_handle ? (
                                 <BlueButton text={'Apply For Store'} onClick={create_store} />
                             ) : (
                                     <BlueButton text={'Apply For Store'} onClick={() => setPageErr('Please enter all requires fields')} outline />
