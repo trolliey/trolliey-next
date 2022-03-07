@@ -10,7 +10,6 @@ import { getError } from '../../utils/error';
 import Tags from '../../components/Tags/Tags';
 
 export default function CreateStore() {
-    const [step, setActiveStep] = useState<number>(1);
     const [brands, setBrands] = useState<any>([])
     const [page_err, setPageErr] = useState<string>('')
     const [agreed, setAgreed] = useState<any>(false)
