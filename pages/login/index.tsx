@@ -6,13 +6,14 @@ import { useRouter } from 'next/router'
 import axios from 'axios'
 import { Store } from '../../Context/Store'
 import Cookies from 'js-cookie'
+import { useToast } from '@chakra-ui/react'
 
 function login() {
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const [show_password, setShowPassword] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false)
-
+    const toast = useToast()
 
     const history = useRouter()
     const { redirect } = history.query
@@ -32,16 +33,24 @@ function login() {
             const { data } = await axios.post(`/api/auth/login`, { email, password })
             dispatch({ type: 'USER_LOGIN', payload: data })
             Cookies.set('userInfo', JSON.stringify(data))
-            //@ts-ignore
-            history.push(redirect || '/')
-            alert('login success')
+            setTimeout(() => {
+                //@ts-ignore
+                history.push(redirect || '/')
+            }, 1000);
             setLoading(false)
+            toast({
+                title: 'Login successful.',
+                status: 'success',
+                position: 'top-right',
+                duration: 9000,
+                isClosable: true,
+            })
         } catch (error) {
             setLoading(false)
             //@ts-ignore
             // alert(error.response.data ? error.response.data : error.message)
         }
-    } 
+    }
 
 
     return (

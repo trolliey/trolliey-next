@@ -43,7 +43,6 @@ const Tags = (props: { selectedTags: (arg0: any[]) => void; className: any; }) =
                 type="text"
                 onKeyUp={event => addTags(event)}
                 placeholder="Press enter to add more"
-                variant="filled"
                 className="outline-none p-2 rounded text-sm flex-1 w-full border border-gray-300 my-2"
             />
         </div>
