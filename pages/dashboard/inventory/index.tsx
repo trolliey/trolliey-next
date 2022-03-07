@@ -1,14 +1,39 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import DashboardLayout from '../../../layouts/DashboardLayout'
 import { SearchIcon, ArrowDownIcon } from '@heroicons/react/outline'
 import ProductsTable from '../../../components/Tables/ProductsTable'
 import { data } from '../../../utils/data'
 import BlueButton from '../../../components/Buttons/BlueButton'
 import { useRouter } from 'next/router'
+import axios from 'axios'
+import { Store } from '../../../Context/Store'
+import { Spinner } from '@chakra-ui/react'
 
 export default function Inventory() {
     const [show_filter, setShowFilter] = useState<boolean>(false)
     const history = useRouter()
+    const [loading, setLoading] = useState<boolean>(false)
+    const [search_query, setSearchQuery] = useState<string>('')
+    const [products, setProducts] = useState<any>()
+    const { state } = useContext(Store)
+    const { userInfo } = state
+
+    useEffect(() => {
+        setLoading(true)
+        const getData = async () => {
+            try {
+                const { data } = await axios.get(`/api/products/user?user_id=${userInfo._id}`)
+                setProducts(data)
+                setLoading(false)
+            } catch (error) {
+                setLoading(false)
+            }
+        }
+        getData()
+    }, [search_query])
+
+    console.log(products)
+
     return (
         <DashboardLayout>
             <div className="flex flex-col p-8">
@@ -28,11 +53,20 @@ export default function Inventory() {
                 </div>
 
 
-                <>
-                    <ProductsTable products={data.products} />
-                </>
+                {
+                    loading ? (
+                        <div className="grid items-center content-center justify-center w-full h-96">
+                            <Spinner />
+                        </div>
+                    ) : (
+                            <>
+                                <ProductsTable products={products} />
+                            </>
+                        )
+                }
 
             </div>
         </DashboardLayout>
     )
 }
+

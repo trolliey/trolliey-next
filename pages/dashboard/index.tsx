@@ -60,9 +60,9 @@ export default function Dashboard() {
                                 <div className="flex mr-2">
                                     {
                                         userInfo?.role === 'user' ? (
-                                            <BlueButton text="Add Product" outline onClick={() => history.push('/login?redirect=/dashboard/addproduct')} />
+                                            <BlueButton text="Add Product" outline onClick={() => history.push('/login?redirect=/dashboard/inventory/create')} />
                                         ) : (
-                                            <BlueButton text="Add Product" outline onClick={() => history.push('/dashboard/addproduct')} />
+                                            <BlueButton text="Add Product" outline onClick={() => history.push('/dashboard/inventory/create')} />
                                         )
                                     }
                                    

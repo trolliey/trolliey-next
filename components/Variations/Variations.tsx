@@ -7,18 +7,21 @@ export default function Variations(props: { selectedTags: (arg0: any[]) => void;
     const [variant_price, setVariantPrice] = useState<any>(0)
     const [variant_quantity, setVariantQuantity] = useState<any>(0)
     const [variant_name, setVarinatName] = useState<string>('')
+    const [discount, setVariantDiscount] = useState<any>(0)
 
     const addTags = () => {
         setVariants([...variations, {
-            name: variant_name,
+            variant: variant_name,
             price: variant_price,
-            quantity: variant_quantity
+            countInStock: variant_quantity,
+            discount_price:discount
         }]);
         props.selectedTags([...variations, {
-            name: variant_name,
+            variant: variant_name,
             price: variant_price,
-            quantity: variant_quantity
-        }]);
+            countInStock: variant_quantity,
+            discount_price: discount
+        }])
         setVariantPrice(0);
         setVariantQuantity(0);
         setVarinatName('');
@@ -34,7 +37,7 @@ export default function Variations(props: { selectedTags: (arg0: any[]) => void;
                 <ul className="flex flex-col w-full pl-1">
                     {
                         <>
-                            {variations.length > 1 && (
+                            {variations.length >= 1 && (
                                 <div className="grid grid-cols-4 border-b border-gray-200 pb-2 mb-2 gap-2 text-gray-700 text-sm capitalize font-semibold">
                                     <p className="col-span-1">name</p>
                                     <p className="col-span-1">price</p>
@@ -45,15 +48,17 @@ export default function Variations(props: { selectedTags: (arg0: any[]) => void;
                             {variations.map((tag: any, index: number) => (
 
                                 <div key={index} className="grid grid-cols-4 text-gray-400 text-sm gap-2">
-                                    <p className="col-span-1">name</p>
-                                    <p className="col-span-1">price</p>
-                                    <p className="col-span-1">quantity</p>
+                                    <p className="col-span-1">{tag.variant}</p>
+                                    <p className="col-span-1">{tag.price}</p>
+                                    <p className="col-span-1">{tag.countInStock}</p>
+                                    <div className="flex">
                                     <i
-                                        className="material-icons col-span-1"
+                                        className="material-icons col-span-1 p-1 bg-gray-100 rounded-full"
                                         onClick={() => removeTags(index)}
                                     >
-                                        <XIcon width={12} height={12} className="cursor-pointer ml-1" />
+                                        <XIcon width={16} height={16} className="cursor-pointer text-gray-700" />
                                     </i>
+                                    </div>
                                 </div>
 
                             ))}
@@ -79,7 +84,7 @@ export default function Variations(props: { selectedTags: (arg0: any[]) => void;
             <div className="flex flex-row items-center gap-8 mb-8">
                 <div className="col-span-3 ">
                     <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-2   ">
-                        Enter variant price
+                        Variant price
                     </label>
                     <input
                         type="number"
@@ -93,12 +98,26 @@ export default function Variations(props: { selectedTags: (arg0: any[]) => void;
                 </div>
                 <div className="col-span-3 ">
                     <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-2">
-                        Enter variant quantity
+                        Variant quantity
                     </label>
                     <input
                         type="number"
                         name="quantity"
                         onChange={e => setVariantQuantity(e.target.value)}
+                        id="quantity"
+                        autoComplete="quantity"
+                        placeholder="e.g size or color"
+                        className="mt-1 block w-full outline-none sm:text-sm border border-gray-300 rounded-md p-2"
+                    />
+                </div>
+                <div className="col-span-3 ">
+                    <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-2">
+                        Variant discount
+                    </label>
+                    <input
+                        type="number"
+                        name="quantity"
+                        onChange={e => setVariantDiscount(e.target.value)}
                         id="quantity"
                         autoComplete="quantity"
                         placeholder="e.g size or color"

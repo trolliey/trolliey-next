@@ -1,25 +1,25 @@
 import React, { useState, useContext } from 'react'
-import DashboardLayout from '../../../layouts/DashboardLayout'
+import DashboardLayout from '../../../../layouts/DashboardLayout'
 import { Divider } from '@chakra-ui/react'
-import FileUploadComponent from '../../../components/FileUploadComponent/FileUploadComponent'
-import { data } from '../../../utils/data'
+import FileUploadComponent from '../../../../components/FileUploadComponent/FileUploadComponent'
+import { data } from '../../../../utils/data'
 import dynamic from 'next/dynamic'
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import 'react-quill/dist/quill.snow.css'; // ES6
-import NoSSR from '../../../layouts/NoSSR'
-import BlueButton from '../../../components/Buttons/BlueButton'
-import Variations from '../../../components/Variations/Variations'
+import NoSSR from '../../../../layouts/NoSSR'
+import BlueButton from '../../../../components/Buttons/BlueButton'
+import Variations from '../../../../components/Variations/Variations'
 import axios from 'axios'
-import { Store } from '../../../Context/Store'
+import { Store } from '../../../../Context/Store'
 import { useToast } from '@chakra-ui/react'
-import { getError } from '../../../utils/error'
+import { getError } from '../../../../utils/error'
 
 const product_options = [
     { id: 'private', title: 'Private' },
     { id: 'public', title: 'Public' },
 ]
 
-export default function CreateProduct() {
+export default function EditProduct() {
     const [pictures_for_upload, setPicturesForUpload] = useState<any>([])
     const [description, setQuillDescription] = useState<any>('')
     const [variations, setVariations] = useState<any>([])
@@ -106,7 +106,7 @@ export default function CreateProduct() {
         <NoSSR>
             <DashboardLayout>
                 <div className="flex p-4 flex-col">
-                    <p className="text-gray-800 text-lg font-semibold">Create New Product</p>
+                    <p className="text-gray-800 text-lg font-semibold">Edit Product</p>
                     <Divider className="my-4 text-gray-400" />
                     <>
                         {/* // featured iamge */}
@@ -493,7 +493,7 @@ export default function CreateProduct() {
                                 </div>
                             </div>
                         </div>
-                        <BlueButton text="Add Product" loading={loading} onClick={create_product} />
+                        <BlueButton text="Edit Product" loading={loading} onClick={() => console.log('edit product')} />
                     </>
                 </div>
             </DashboardLayout>

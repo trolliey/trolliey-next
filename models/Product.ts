@@ -57,12 +57,20 @@ const productSchema = new mongoose.Schema({
     },
     store_id:{
         type:String,
-        default: 'asdfasdlfuhlkj'
+        default: ''
     },
     ratings: {
         type: String,
         default: ''
     },
+    sku:{
+        type: String,
+        default: ''
+    },
+    status: {
+        type: String,
+        default: 'private'
+    }
 }, {
     timestamps: true
 })

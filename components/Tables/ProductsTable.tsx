@@ -92,7 +92,7 @@ export default function ProductsTable({ products }: Props): ReactElement {
                                     <tr key={product._id}>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="flex items-center">
-                                                <div className="flex-shrink-0 h-10 w-10">
+                                                <div className="flex-shrink-0 h-10 w-10 rounded-full bg-gray-100">
                                                     <img className="h-10 w-10 rounded-full" src={product.pictures[0]} alt="" />
                                                 </div>
                                                 <div className="ml-4">
