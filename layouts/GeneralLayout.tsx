@@ -13,7 +13,7 @@ interface Props {
     twitter_title?: string
     twitter_description?: string
     canonical_url?: string,
-    og_image ?: any
+    og_image?: any
 }
 
 function GeneralLayout({ children, no_text, title, description, twitter_title, twitter_description, canonical_url, og_image }: Props): ReactElement {
@@ -40,8 +40,8 @@ function GeneralLayout({ children, no_text, title, description, twitter_title, t
                 <meta name="twitter:description" content={twitter_description} />
                 <meta name="twitter:site" content="" />
                 <meta name="twitter:creator" content="" />
-                <link rel="icon" type="image/png" href="/static/images/favicon.ico" />
-                <link rel="apple-touch-icon" href="/static/images/favicon.ico" />
+                <link rel="icon" type="image/png" href="/icon.png" />
+                <link rel="apple-touch-icon" href="/icon.png" />
                 <meta name="twitter:image" content={og_image} />
                 <link
                     rel="canonical"
@@ -60,7 +60,7 @@ function GeneralLayout({ children, no_text, title, description, twitter_title, t
                 </Container>
             </main>
             <footer className="text-gray-700">
-                <Footer/>
+                <Footer />
             </footer>
         </div>
     )
