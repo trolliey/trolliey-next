@@ -12,7 +12,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     await connect()
     const { email, password, name, agreed } = req.body
     if(!agreed){
-        res.status(401).send('Your have to agree to our termsand conditions')
+        res.status(401).send('Your have to agree to our terms and conditions')
     }
     const user = await Users.findOne({ email: email })
     

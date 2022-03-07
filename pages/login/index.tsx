@@ -7,6 +7,7 @@ import axios from 'axios'
 import { Store } from '../../Context/Store'
 import Cookies from 'js-cookie'
 import { useToast } from '@chakra-ui/react'
+import { getError } from '../../utils/error'
 
 function login() {
     const [email, setEmail] = useState<string>('')
@@ -48,7 +49,13 @@ function login() {
         } catch (error) {
             setLoading(false)
             //@ts-ignore
-            // alert(error.response.data ? error.response.data : error.message)
+            toast({
+                title: getError(error),
+                status: 'error',
+                position: 'top-right',
+                duration: 9000,
+                isClosable: true,
+            })
         }
     }
 
