@@ -22,7 +22,7 @@ export default function CreateStore() {
         setBrands(tags)
     };
 
-    const [state, setState] = useState({
+    const [state, setState] = useState<any>({
         first_name: '',
         last_name: '',
         email: '',
@@ -74,23 +74,6 @@ export default function CreateStore() {
             })
             console.log(getError(error))
         }
-    }
-
-    // go back to previous page
-    const prevStep = (new_values: any) => {
-        setState({ ...state, ...new_values });
-        setActiveStep(step - 1)
-    }
-
-    // proceed to the next step
-    const nextStep = (new_values: any) => {
-        setState({ ...state, ...new_values });
-        setActiveStep(step + 1)
-    }
-
-    // handle field change
-    const handleChange = (input: any) => (e: { target: { value: any; }; }) => {
-        setState((prev) => ({ ...prev, [input]: e.target.value }));
     }
 
     const {
@@ -176,7 +159,7 @@ export default function CreateStore() {
                                                         type="text"
                                                         name="username"
                                                         value={values?.first_name}
-                                                        onChange={handleChange('first_name')}
+                                                        onChange={(e) => setState({first_name: e.target.value })}
                                                         id="first-name"
                                                         autoComplete="first-name"
                                                         className="flex-1 block w-full outline-none p-3 min-w-0 rounded-none rounded-r-md sm:text-sm border border-gray-300"
@@ -195,7 +178,7 @@ export default function CreateStore() {
                                                         type="text"
                                                         name="username"
                                                         value={values?.last_name}
-                                                        onChange={handleChange('last_name')}
+                                                        onChange={(e) => setState({last_name: e.target.value })}
                                                         id="last-name"
                                                         autoComplete="last-name"
                                                         className="flex-1 block w-full outline-none p-3 min-w-0 rounded-none rounded-r-md sm:text-sm border border-gray-300"
@@ -214,7 +197,7 @@ export default function CreateStore() {
                                                         type="email"
                                                         name="email"
                                                         value={values?.email}
-                                                        onChange={handleChange('email')}
+                                                        onChange={(e) => setState({email: e.target.value })}
                                                         id="email"
                                                         autoComplete="email"
                                                         className="flex-1 block w-full outline-none p-3 min-w-0 rounded-none rounded-r-md sm:text-sm border border-gray-300"
@@ -234,7 +217,7 @@ export default function CreateStore() {
                                                         type="text"
                                                         name="email"
                                                         value={values?.phone_number}
-                                                        onChange={handleChange('phone_number')}
+                                                        onChange={(e) => setState({phone_number: e.target.value })}
                                                         id="phone-number"
                                                         autoComplete="phone-number"
                                                         className="flex-1 block w-full outline-none p-3 min-w-0 rounded-none rounded-r-md sm:text-sm border border-gray-300"
@@ -252,7 +235,7 @@ export default function CreateStore() {
                                                         type="text"
                                                         name="email"
                                                         value={values?.mobile_number}
-                                                        onChange={handleChange('mobile_number')}
+                                                        onChange={(e) => setState({mobile_number: e.target.value })}
                                                         id="mobile-number"
                                                         autoComplete="mobile-number"
                                                         className="flex-1 block w-full outline-none p-3 min-w-0 rounded-none rounded-r-md sm:text-sm border border-gray-300"
@@ -298,7 +281,7 @@ export default function CreateStore() {
                                                         type="text"
                                                         name="company_name"
                                                         value={values?.company_name}
-                                                        onChange={handleChange('company_name')}
+                                                        onChange={(e) => setState({company_name: e.target.value })}
                                                         id="copmany-name"
                                                         autoComplete="company-name"
                                                         className="flex-1 block w-full outline-none p-3 min-w-0 rounded-none rounded-r-md sm:text-sm border border-gray-300"
@@ -313,7 +296,7 @@ export default function CreateStore() {
                                             </label>
                                             <div className="mt-1 sm:mt-0 sm:col-span-2">
                                                 <div className="max-w-lg flex rounded-md shadow-sm">
-                                                    <Select onChange={handleChange('business_category')} placeholder='Select category' className="flex-1 block w-full outline-none min-w-0 rounded-none rounded-r-md sm:text-sm border border-gray-300">
+                                                    <Select onChange={(e) => setState({business_category: e.target.value })} placeholder='Select category' className="flex-1 block w-full outline-none min-w-0 rounded-none rounded-r-md sm:text-sm border border-gray-300">
                                                         {
                                                             data.categories?.map((category, index) => (
                                                                 <option key={index} value={category.value}>{category.name}</option>
@@ -335,7 +318,7 @@ export default function CreateStore() {
                                                         type="text"
                                                         name="website"
                                                         value={values?.company_website}
-                                                        onChange={handleChange('company_website')}
+                                                        onChange={(e) => setState({company_website: e.target.value })}
                                                         id="company-website"
                                                         autoComplete="company-website"
                                                         className="flex-1 block w-full outline-none p-3 min-w-0 rounded-none rounded-r-md sm:text-sm border border-gray-300"
@@ -353,7 +336,7 @@ export default function CreateStore() {
                                                         type="text"
                                                         name="facebook"
                                                         value={values?.facebook}
-                                                        onChange={handleChange('facebook')}
+                                                        onChange={(e) => setState({facebook: e.target.value })}
                                                         id="facebook-link"
                                                         autoComplete="facebook-link"
                                                         className="flex-1 block w-full outline-none p-3 min-w-0 rounded-none rounded-r-md sm:text-sm border border-gray-300"
@@ -371,7 +354,7 @@ export default function CreateStore() {
                                                         type="text"
                                                         name="twitter"
                                                         value={values?.twitter}
-                                                        onChange={handleChange('twitter')}
+                                                        onChange={(e) => setState({twitter: e.target.value })}
                                                         id="twitter-link"
                                                         autoComplete="twitter-link"
                                                         className="flex-1 block w-full outline-none p-3 min-w-0 rounded-none rounded-r-md sm:text-sm border border-gray-300"
@@ -389,7 +372,7 @@ export default function CreateStore() {
                                                         type="text"
                                                         name="instagran"
                                                         value={values?.instagram}
-                                                        onChange={handleChange('instagram')}
+                                                        onChange={(e) => setState({instagram: e.target.value })}
                                                         id="instagram-link"
                                                         autoComplete="instagram-link"
                                                         className="flex-1 block w-full outline-none p-3 min-w-0 rounded-none rounded-r-md sm:text-sm border border-gray-300"
@@ -408,7 +391,7 @@ export default function CreateStore() {
                                                     id="about"
                                                     name="about"
                                                     value={values?.about}
-                                                    onChange={handleChange('about')}
+                                                    onChange={(e) => setState({about: e.target.value })}
                                                     rows={7}
                                                     className="max-w-lg shadow-sm block w-full p-3 outline-none sm:text-sm border border-gray-300 rounded-md"
                                                     defaultValue={''}
@@ -429,7 +412,7 @@ export default function CreateStore() {
                                                         type="text"
                                                         name="busines_owner_name"
                                                         value={values?.busines_owner_name}
-                                                        onChange={handleChange('busines_owner_name')}
+                                                        onChange={(e) => setState({busines_owner_name: e.target.value })}
                                                         id="owner-name"
                                                         autoComplete="owner-name"
                                                         className="flex-1 block w-full outline-none p-3 min-w-0 rounded-none rounded-r-md sm:text-sm border border-gray-300"
@@ -448,7 +431,7 @@ export default function CreateStore() {
                                                         type="text"
                                                         name="business_owner_email"
                                                         value={values?.business_owner_email}
-                                                        onChange={handleChange('business_owner_email')}
+                                                        onChange={(e) => setState({business_owner_email: e.target.value })}
                                                         id="owner-email"
                                                         autoComplete="owner-email"
                                                         className="flex-1 block w-full outline-none p-3 min-w-0 rounded-none rounded-r-md sm:text-sm border border-gray-300"
@@ -492,7 +475,7 @@ export default function CreateStore() {
                                                         type="number"
                                                         name="number_of_uniqe_products"
                                                         value={values?.number_of_uniqe_products}
-                                                        onChange={handleChange('number_of_uniqe_products')}
+                                                        onChange={(e) => setState({number_of_uniqe_products: e.target.value })}
                                                         id="unique-products"
                                                         autoComplete="unique-products"
                                                         className="flex-1 block w-full outline-none p-3 min-w-0 rounded-none rounded-r-md sm:text-sm border border-gray-300"
@@ -528,7 +511,7 @@ export default function CreateStore() {
                                                         name="physical_store"
                                                         type="radio"
                                                         value={'store_available'}
-                                                        onChange={handleChange('physical_store')}
+                                                        onChange={(e) => setState({physical_store: e.target.value })}
                                                         className="focus:ring-blue-primary h-4 w-4 textblue-primary border-gray-300"
                                                         required
                                                     />
@@ -542,7 +525,7 @@ export default function CreateStore() {
                                                         name="physical_store"
                                                         type="radio"
                                                         value={'store_not_available'}
-                                                        onChange={handleChange('physical_store')}
+                                                        onChange={(e) => setState({physical_store: e.target.value })}
                                                         className="focus:ring-blue-primary h-4 w-4 textblue-primary border-gray-300"
                                                         required
                                                     />
@@ -565,7 +548,7 @@ export default function CreateStore() {
                                                                 id="physical_store_address"
                                                                 name="physical_store_address"
                                                                 value={values?.physical_store_address}
-                                                                onChange={handleChange('physical_store_address')}
+                                                                onChange={(e) => setState({physical_store_address: e.target.value })}
                                                                 rows={7}
                                                                 className="max-w-lg shadow-sm block w-full p-3 outline-none sm:text-sm border border-gray-300 rounded-md"
                                                                 defaultValue={''}
@@ -587,7 +570,7 @@ export default function CreateStore() {
                                                         name="stock_handle"
                                                         type="radio"
                                                         value={'stock_handled_by_self'}
-                                                        onChange={handleChange('stock_handle')}
+                                                        onChange={(e) => setState({stock_handle: e.target.value })}
                                                         className="focus:ring-blue-primary h-4 w-4 textblue-primary border-gray-300"
                                                         required
                                                     />
@@ -601,7 +584,7 @@ export default function CreateStore() {
                                                         name="stock_handle"
                                                         type="radio"
                                                         value={'stock_handled_by_trolliey'}
-                                                        onChange={handleChange('stock_handle')}
+                                                        onChange={(e) => setState({stock_handle: e.target.value })}
                                                         className="focus:ring-blue-primary h-4 w-4 textblue-primary border-gray-300"
                                                         required
                                                     />
