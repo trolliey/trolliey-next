@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react'
 
 interface Props{
-    error: string
+    error?: any
 }
 
 export default function Error({ error }:Props):ReactElement {

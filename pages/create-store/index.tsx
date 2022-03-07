@@ -8,12 +8,13 @@ import { useToast } from '@chakra-ui/react'
 import axios from 'axios';
 import { getError } from '../../utils/error';
 import Tags from '../../components/Tags/Tags';
+import Error from '../../components/Alerts/Error';
 
 export default function CreateStore() {
     const [brands, setBrands] = useState<any>([])
     const [page_err, setPageErr] = useState<string>('')
     const [agreed, setAgreed] = useState<any>(false)
-    const { state:me } = useContext(Store)
+    const { state: me } = useContext(Store)
     const { userInfo } = me
 
     const toast = useToast()
@@ -50,18 +51,44 @@ export default function CreateStore() {
 
     const create_store = async () => {
         try {
-            await axios.post(`/api/store`, { values, brands: brands, agreed }, {
+            await axios.post(`/api/store`, { values: state, brands: brands, agreed }, {
                 headers: {
                     authorization: userInfo.token
                 }
             })
             toast({
                 title: 'Application sent.',
-                description: "We've sucessfully sent your application!.",
+                description: "We've sucessfully sent your application!. We will call you to veriy your details",
                 status: 'success',
                 position: 'top-right',
                 duration: 9000,
                 isClosable: true,
+            })
+            setState({
+                first_name: '',
+                last_name: '',
+                email: '',
+                phone_number: '',
+                mobile_number: '',
+                company_name: '',
+                business_category: '',
+                company_website: '',
+                about: '',
+                facebook: '',
+                instagram: '',
+                twitter: '',
+                vat_registered: false,
+                busieness_registration_number: '',
+                busines_owner_name: '',
+                business_owner_email: '',
+                number_of_uniqe_products: '',
+                brands_products: [],
+                stock: false,
+                stock_handle: '',
+                physical_store: false,
+                physical_store_address: '',
+                supplier_to_retailer: false,
+                registered_account: false
             })
         } catch (error) {
             toast({
@@ -73,6 +100,7 @@ export default function CreateStore() {
             })
             console.log(getError(error))
         }
+        // console.log(state)
     }
 
     const {
@@ -102,7 +130,7 @@ export default function CreateStore() {
         registered_account
     } = state
 
-    const values:any = {
+    const values: any = {
         first_name,
         last_name,
         email,
@@ -157,8 +185,7 @@ export default function CreateStore() {
                                                     <input
                                                         type="text"
                                                         name="username"
-                                                        value={values?.first_name}
-                                                        onChange={(e) => setState({first_name: e.target.value })}
+                                                        onChange={(e) => setState({ ...state, first_name: e.target.value })}
                                                         id="first-name"
                                                         autoComplete="first-name"
                                                         className="flex-1 block w-full outline-none p-3 min-w-0 rounded-none rounded-r-md sm:text-sm border border-gray-300"
@@ -176,8 +203,7 @@ export default function CreateStore() {
                                                     <input
                                                         type="text"
                                                         name="username"
-                                                        value={values?.last_name}
-                                                        onChange={(e) => setState({last_name: e.target.value })}
+                                                        onChange={(e) => setState({ ...state, last_name: e.target.value })}
                                                         id="last-name"
                                                         autoComplete="last-name"
                                                         className="flex-1 block w-full outline-none p-3 min-w-0 rounded-none rounded-r-md sm:text-sm border border-gray-300"
@@ -195,8 +221,7 @@ export default function CreateStore() {
                                                     <input
                                                         type="email"
                                                         name="email"
-                                                        value={values?.email}
-                                                        onChange={(e) => setState({email: e.target.value })}
+                                                        onChange={(e) => setState({ ...state, email: e.target.value })}
                                                         id="email"
                                                         autoComplete="email"
                                                         className="flex-1 block w-full outline-none p-3 min-w-0 rounded-none rounded-r-md sm:text-sm border border-gray-300"
@@ -215,8 +240,7 @@ export default function CreateStore() {
                                                     <input
                                                         type="text"
                                                         name="email"
-                                                        value={values?.phone_number}
-                                                        onChange={(e) => setState({phone_number: e.target.value })}
+                                                        onChange={(e) => setState({ ...state, phone_number: e.target.value })}
                                                         id="phone-number"
                                                         autoComplete="phone-number"
                                                         className="flex-1 block w-full outline-none p-3 min-w-0 rounded-none rounded-r-md sm:text-sm border border-gray-300"
@@ -233,8 +257,7 @@ export default function CreateStore() {
                                                     <input
                                                         type="text"
                                                         name="email"
-                                                        value={values?.mobile_number}
-                                                        onChange={(e) => setState({mobile_number: e.target.value })}
+                                                        onChange={(e) => setState({ ...state, mobile_number: e.target.value })}
                                                         id="mobile-number"
                                                         autoComplete="mobile-number"
                                                         className="flex-1 block w-full outline-none p-3 min-w-0 rounded-none rounded-r-md sm:text-sm border border-gray-300"
@@ -249,7 +272,7 @@ export default function CreateStore() {
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
 
@@ -279,8 +302,7 @@ export default function CreateStore() {
                                                     <input
                                                         type="text"
                                                         name="company_name"
-                                                        value={values?.company_name}
-                                                        onChange={(e) => setState({company_name: e.target.value })}
+                                                        onChange={(e) => setState({ ...state, company_name: e.target.value })}
                                                         id="copmany-name"
                                                         autoComplete="company-name"
                                                         className="flex-1 block w-full outline-none p-3 min-w-0 rounded-none rounded-r-md sm:text-sm border border-gray-300"
@@ -295,7 +317,7 @@ export default function CreateStore() {
                                             </label>
                                             <div className="mt-1 sm:mt-0 sm:col-span-2">
                                                 <div className="max-w-lg flex rounded-md shadow-sm">
-                                                    <Select onChange={(e) => setState({business_category: e.target.value })} placeholder='Select category' className="flex-1 block w-full outline-none min-w-0 rounded-none rounded-r-md sm:text-sm border border-gray-300">
+                                                    <Select onChange={(e) => setState({ ...state, business_category: e.target.value })} placeholder='Select category' className="flex-1 block w-full outline-none min-w-0 rounded-none rounded-r-md sm:text-sm border border-gray-300">
                                                         {
                                                             data.categories?.map((category, index) => (
                                                                 <option key={index} value={category.value}>{category.name}</option>
@@ -316,8 +338,7 @@ export default function CreateStore() {
                                                     <input
                                                         type="text"
                                                         name="website"
-                                                        value={values?.company_website}
-                                                        onChange={(e) => setState({company_website: e.target.value })}
+                                                        onChange={(e) => setState({ ...state, company_website: e.target.value })}
                                                         id="company-website"
                                                         autoComplete="company-website"
                                                         className="flex-1 block w-full outline-none p-3 min-w-0 rounded-none rounded-r-md sm:text-sm border border-gray-300"
@@ -334,8 +355,7 @@ export default function CreateStore() {
                                                     <input
                                                         type="text"
                                                         name="facebook"
-                                                        value={values?.facebook}
-                                                        onChange={(e) => setState({facebook: e.target.value })}
+                                                        onChange={(e) => setState({ ...state, facebook: e.target.value })}
                                                         id="facebook-link"
                                                         autoComplete="facebook-link"
                                                         className="flex-1 block w-full outline-none p-3 min-w-0 rounded-none rounded-r-md sm:text-sm border border-gray-300"
@@ -352,8 +372,7 @@ export default function CreateStore() {
                                                     <input
                                                         type="text"
                                                         name="twitter"
-                                                        value={values?.twitter}
-                                                        onChange={(e) => setState({twitter: e.target.value })}
+                                                        onChange={(e) => setState({ ...state, twitter: e.target.value })}
                                                         id="twitter-link"
                                                         autoComplete="twitter-link"
                                                         className="flex-1 block w-full outline-none p-3 min-w-0 rounded-none rounded-r-md sm:text-sm border border-gray-300"
@@ -370,8 +389,7 @@ export default function CreateStore() {
                                                     <input
                                                         type="text"
                                                         name="instagran"
-                                                        value={values?.instagram}
-                                                        onChange={(e) => setState({instagram: e.target.value })}
+                                                        onChange={(e) => setState({ ...state, instagram: e.target.value })}
                                                         id="instagram-link"
                                                         autoComplete="instagram-link"
                                                         className="flex-1 block w-full outline-none p-3 min-w-0 rounded-none rounded-r-md sm:text-sm border border-gray-300"
@@ -389,8 +407,7 @@ export default function CreateStore() {
                                                 <textarea
                                                     id="about"
                                                     name="about"
-                                                    value={values?.about}
-                                                    onChange={(e) => setState({about: e.target.value })}
+                                                    onChange={(e) => setState({ ...state, about: e.target.value })}
                                                     rows={7}
                                                     className="max-w-lg shadow-sm block w-full p-3 outline-none sm:text-sm border border-gray-300 rounded-md"
                                                     defaultValue={''}
@@ -410,8 +427,7 @@ export default function CreateStore() {
                                                     <input
                                                         type="text"
                                                         name="busines_owner_name"
-                                                        value={values?.busines_owner_name}
-                                                        onChange={(e) => setState({busines_owner_name: e.target.value })}
+                                                        onChange={(e) => setState({ ...state, busines_owner_name: e.target.value })}
                                                         id="owner-name"
                                                         autoComplete="owner-name"
                                                         className="flex-1 block w-full outline-none p-3 min-w-0 rounded-none rounded-r-md sm:text-sm border border-gray-300"
@@ -422,15 +438,14 @@ export default function CreateStore() {
                                         </div>
                                         <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
                                             <label htmlFor="username" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
-                                            Business Owner Email <span className='text-red-600'>*</span>
+                                                Business Owner Email <span className='text-red-600'>*</span>
                                             </label>
                                             <div className="mt-1 sm:mt-0 sm:col-span-2">
                                                 <div className="max-w-lg flex rounded-md shadow-sm">
                                                     <input
                                                         type="text"
                                                         name="business_owner_email"
-                                                        value={values?.business_owner_email}
-                                                        onChange={(e) => setState({business_owner_email: e.target.value })}
+                                                        onChange={(e) => setState({ ...state, business_owner_email: e.target.value })}
                                                         id="owner-email"
                                                         autoComplete="owner-email"
                                                         className="flex-1 block w-full outline-none p-3 min-w-0 rounded-none rounded-r-md sm:text-sm border border-gray-300"
@@ -473,8 +488,7 @@ export default function CreateStore() {
                                                     <input
                                                         type="number"
                                                         name="number_of_uniqe_products"
-                                                        value={values?.number_of_uniqe_products}
-                                                        onChange={(e) => setState({number_of_uniqe_products: e.target.value })}
+                                                        onChange={(e) => setState({ ...state, number_of_uniqe_products: e.target.value })}
                                                         id="unique-products"
                                                         autoComplete="unique-products"
                                                         className="flex-1 block w-full outline-none p-3 min-w-0 rounded-none rounded-r-md sm:text-sm border border-gray-300"
@@ -509,8 +523,7 @@ export default function CreateStore() {
                                                         id="physical_store"
                                                         name="physical_store"
                                                         type="radio"
-                                                        value={'store_available'}
-                                                        onChange={(e) => setState({physical_store: e.target.value })}
+                                                        onChange={(e) => setState({ ...state, physical_store: e.target.value })}
                                                         className="focus:ring-blue-primary h-4 w-4 textblue-primary border-gray-300"
                                                         required
                                                     />
@@ -523,8 +536,7 @@ export default function CreateStore() {
                                                         id="stock"
                                                         name="physical_store"
                                                         type="radio"
-                                                        value={'store_not_available'}
-                                                        onChange={(e) => setState({physical_store: e.target.value })}
+                                                        onChange={(e) => setState({ ...state, physical_store: e.target.value })}
                                                         className="focus:ring-blue-primary h-4 w-4 textblue-primary border-gray-300"
                                                         required
                                                     />
@@ -546,8 +558,7 @@ export default function CreateStore() {
                                                             <textarea
                                                                 id="physical_store_address"
                                                                 name="physical_store_address"
-                                                                value={values?.physical_store_address}
-                                                                onChange={(e) => setState({physical_store_address: e.target.value })}
+                                                                onChange={(e) => setState({ ...state, physical_store_address: e.target.value })}
                                                                 rows={7}
                                                                 className="max-w-lg shadow-sm block w-full p-3 outline-none sm:text-sm border border-gray-300 rounded-md"
                                                                 defaultValue={''}
@@ -568,8 +579,7 @@ export default function CreateStore() {
                                                         id="stock_handle"
                                                         name="stock_handle"
                                                         type="radio"
-                                                        value={'stock_handled_by_self'}
-                                                        onChange={(e) => setState({stock_handle: e.target.value })}
+                                                        onChange={(e) => setState({ ...state, stock_handle: e.target.value })}
                                                         className="focus:ring-blue-primary h-4 w-4 textblue-primary border-gray-300"
                                                         required
                                                     />
@@ -582,8 +592,7 @@ export default function CreateStore() {
                                                         id="stock_handle"
                                                         name="stock_handle"
                                                         type="radio"
-                                                        value={'stock_handled_by_trolliey'}
-                                                        onChange={(e) => setState({stock_handle: e.target.value })}
+                                                        onChange={(e) => setState({ ...state, stock_handle: e.target.value })}
                                                         className="focus:ring-blue-primary h-4 w-4 textblue-primary border-gray-300"
                                                         required
                                                     />
@@ -620,17 +629,14 @@ export default function CreateStore() {
                         </div>
                     </div>
 
+                    {page_err && <Error error={page_err} />}
                     <div className="flex flex-row items-center w-full justify-between">
                         <div className="">
                             {/* <BlueButton text={'Prev Step'} onClick={() => prevStep(values)} /> */}
                         </div>
-                        {
-                            values?.stock_handle && values?.physical_store && values?.stock_handle ? (
-                                <BlueButton text={'Apply For Store'} onClick={create_store} />
-                            ) : (
-                                    <BlueButton text={'Apply For Store'} onClick={() => setPageErr('Please enter all requires fields')} outline />
-                                )
-                        }
+
+                        <BlueButton text={'Apply For Store'} onClick={create_store} />
+
                     </div>
                 </div>
             </div>
