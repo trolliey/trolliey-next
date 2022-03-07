@@ -21,7 +21,7 @@ function Orders() {
     },[])
     console.log(all_orders)
     return (
-        <DashboardLayout no_text title='Order History' description='A history of all your orders you did through Trolliey'>
+        <DashboardLayout>
             <div className="bg-white md:my-16 my-8">
                 <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:pb-24 lg:px-8">
                     <div className="max-w-xl">

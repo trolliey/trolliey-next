@@ -38,7 +38,13 @@ function ProductDescription(props: any) {
     }
 
     return (
-        <GeneralLayout title={product.title} description={product.descrition}>
+        <GeneralLayout 
+            title={product.title} 
+            description={product.description} 
+            og_image={product.pictures[0]}
+            twitter_title={product?.title}
+            twitter_description={product?.description}
+            >
             <div className="flex flex-col max-w-7xl bg-gray-100">
                 <div className="flex-1 mx-auto w-full rounded ">
                     <div className="max-w-2xl mx-auto md:pb-8  lg:max-w-7xl lg:px-0 md:px-0 px-2">

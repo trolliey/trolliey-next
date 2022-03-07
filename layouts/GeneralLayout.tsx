@@ -12,10 +12,11 @@ interface Props {
     no_text?: any,
     twitter_title?: string
     twitter_description?: string
-    canonical_url?: string
+    canonical_url?: string,
+    og_image ?: any
 }
 
-function GeneralLayout({ children, no_text, title, description, twitter_title, twitter_description, canonical_url }: Props): ReactElement {
+function GeneralLayout({ children, no_text, title, description, twitter_title, twitter_description, canonical_url, og_image }: Props): ReactElement {
     const desc = 'Trolliey is a modern ecommerce platform. You can become a seller or become a buyer and trade your items from anywhere you like. You can manage you inventory and customers using our intuitive dashboard, Buy and sell items online'
     const original_title = 'Trolliey'
     const url = 'www.trolliey.com'
@@ -25,7 +26,7 @@ function GeneralLayout({ children, no_text, title, description, twitter_title, t
                 <title>{title ? `${title} | Trolliey ` : { original_title }}</title>
                 <meta name="description" content={description ? description : desc} />
                 <meta property="og:type" content="website" />
-                <meta name="og:title" property="og:title" content="" />
+                <meta name="og:title" property="og:title" content={title ? title : original_title} />
                 <meta
                     name="og:description"
                     property="og:description"
@@ -33,6 +34,7 @@ function GeneralLayout({ children, no_text, title, description, twitter_title, t
                 />
                 <meta property="og:site_name" content="www.trolliey.com" />
                 <meta property="og:url" content="" />
+                <meta property="og:image" content={og_image ? og_image : "//cdn.example.com/uploads/images/webpage_300x200.png"} />
                 <meta name="twitter:card" content="summary" />
                 <meta name="twitter:title" content={twitter_title} />
                 <meta name="twitter:description" content={twitter_description} />
