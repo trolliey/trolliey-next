@@ -54,7 +54,7 @@ function MobileNavDrawers({ user }: Props): ReactElement {
                         show_category ? (
                             <DrawerBody bg={'white'} p={0}>
                                 <Divider />
-                                <div className="flex flex-row items-center py-4 bg-white px-4">
+                                <div className="flex flex-row items-center py-4 bg-white px-4 gap-8">
                                     <Avatar size="sm" name={user?.name} />
                                     {
                                         user ? (
@@ -93,7 +93,7 @@ function MobileNavDrawers({ user }: Props): ReactElement {
                         ) : (
                             <DrawerBody bg={'gray.200'} p={0}>
                                 <Divider />
-                                <div className="flex flex-row items-center py-4 bg-white mt-4 space-x-2 px-4">
+                                <div className="flex flex-row items-center py-4 bg-white mt-4 space-x-2 px-4 mb-4">
                                     <Avatar size="sm" name={user?.name} />
                                     {
                                         user ? (
@@ -104,31 +104,32 @@ function MobileNavDrawers({ user }: Props): ReactElement {
                                     }
                                 </div>
                                 <Divider />
-                                <div onClick={() => history.push('/explore')} className="capitalize text-gray-700 py-4 bg-white px-4 font-semibold flex flex-row items-center justify-between">
-                                    <p>explore products</p>
-                                    <ChevronRightIcon height={20} width={20} />
-                                </div>
-                                <Divider />
-                                <div onClick={() => setShowCotegory(true)} className="capitalize text-gray-700 py-4 bg-white px-4 font-semibold flex flex-row items-center justify-between">
-                                    <p>shop by categories</p>
-                                    <ChevronRightIcon height={20} width={20} />
-                                </div>
-                                <Divider />
                                 {
-                                    user?.user?.role === 'seller' ? (
-                                        <div onClick={() => history.push('/dashboard')} className="capitalize text-gray-700 py-4 bg-white px-4 font-semibold flex flex-row items-center justify-between">
+                                    user?.role === 'seller' ? (
+                                        <div onClick={() => history.push('/dashboard')} className="capitalize text-gray-700 py-4 text-sm bg-white px-4 font-semibold flex flex-row items-center justify-between">
                                             <p>Sell on trolliey</p>
                                             <ChevronRightIcon height={20} width={20} />
                                         </div>
                                     ) : (
-                                        <div onClick={() => history.push('/become-a-seller')} className="capitalize text-gray-700 py-4 bg-white px-4 font-semibold flex flex-row items-center justify-between">
+                                        <div onClick={() => history.push('/become-a-seller')} className="capitalize text-gray-700 py-4 text-sm bg-white px-4 font-semibold flex flex-row items-center justify-between">
                                             <p>Sell on trolliey</p>
                                             <ChevronRightIcon height={20} width={20} />
                                         </div>
                                     )
                                 }
                                 <Divider />
-                                <div onClick={() => history.push('/help')} className="capitalize text-gray-700 py-4 bg-white px-4 font-semibold flex flex-row items-center justify-between">
+                                <div onClick={() => history.push('/explore')} className="capitalize text-gray-700 py-4 bg-white px-4 text-sm font-semibold flex flex-row items-center justify-between">
+                                    <p>explore products</p>
+                                    <ChevronRightIcon height={20} width={20} />
+                                </div>
+                                <Divider />
+                                <div onClick={() => setShowCotegory(true)} className="capitalize text-gray-700 py-4 bg-white px-4 text-sm font-semibold flex flex-row items-center justify-between">
+                                    <p>shop by categories</p>
+                                    <ChevronRightIcon height={20} width={20} />
+                                </div>
+                                <Divider />
+                               
+                                <div onClick={() => history.push('/help')} className="capitalize text-gray-700 py-4 bg-white px-4 text-sm font-semibold flex flex-row items-center justify-between">
                                     <p>Help</p>
                                     <ChevronRightIcon height={20} width={20} />
                                 </div>
@@ -146,7 +147,9 @@ function MobileNavDrawers({ user }: Props): ReactElement {
                                 <div className='pr-2 font-semibold '>
                                     {
                                         user ? (
-                                            <Username username={user.name} />
+                                            <div className="flex" onClick={() => history.push('/dashboard')}>
+                                                <Username username={user.name} />
+                                            </div>
                                         ) : (
                                             <Username username={'Register'} />
                                         )
