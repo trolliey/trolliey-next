@@ -33,6 +33,7 @@ function FeaturedProducts({ products }: Props): ReactElement {
                         discount_price={product.discount_price}
                         category={product.category}
                         id={product._id}
+                        countInStock={product.countInStock}
                     />
                 </div>
             ))}
