@@ -300,4 +300,4 @@ const formattedApproveEmail = (link: any) => {
     return html
 }
 
-module.exports = formattedApproveEmail
+export default formattedApproveEmail
