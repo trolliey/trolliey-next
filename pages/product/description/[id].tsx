@@ -14,6 +14,7 @@ import { connect, convertDocToObj, disconnect } from '../../../utils/mongo'
 import Products from '../../../models/Product'
 import { Store } from '../../../Context/Store'
 import axios from 'axios'
+import RelatedProducts from '../../../components/HomeSections/RelatedProducts'
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
@@ -27,6 +28,7 @@ function ProductDescription(props: any) {
 
     const [selected_variant, setSelectedVariant] = useState<any>()
     const [show_features, setShowFeatures] = useState<boolean>(false)
+    const [showMore, setShowMore] = useState<any>()
 
     const add_to_basket = async () => {
         const { data } = await axios.get(`/api/products/${product?._id}`)
@@ -251,7 +253,7 @@ function ProductDescription(props: any) {
                                         </div>
                                     </div>
                                 </div>
-                                <div onClick={() => history.push(`/stores/single/${product?.store_id}`)} className="flex flex-row space-x-4 items-center p-4 rounded border border-gray-200 bg-white cursor-pointer">
+                                <div onClick={() => history.push(`/store/${product?.store_id}/info`)} className="flex flex-row space-x-4 items-center p-4 rounded border border-gray-200 bg-white cursor-pointer">
                                     {/*@ts-ignore */}
                                     <Avatar src={product?.store_pic} name={product?.store_name} className="text-gray-700" />
                                     <div className="flex flex-col">
@@ -279,20 +281,18 @@ function ProductDescription(props: any) {
                                     )
                                 }
                             </div>
-                            {/* {
+                            {
                                 show_features ? (
                                     <>
-                                        <ul className='mt-6'>
-                                            {product?.additional_features.map((item, index) => (
-                                                <li key={item}>{index + 1}. {item}</li>
-                                            ))}
+                                        <ul className='m-6'>
+                                            no additional features added
                                         </ul>
                                     </>
                                 ) : (
-                                    <div className="mt-2">
+                                    <div className="mt-2 md:mx-16 mx-4 w-full flex">
                                         <h3 className="sr-only">Description</h3>
 
-                                        <span className="flex-grow w-full">
+                                        <span className="flex-grow w-full ">
                                             <div className="flex mb-4 flex-col">
                                                 {showMore ? <div
                                                     className="text-base text-gray-700 space-y-6 leading-normal"
@@ -302,22 +302,22 @@ function ProductDescription(props: any) {
                                                     dangerouslySetInnerHTML={{ __html: product?.description.substring(0, 500) }}
                                                 />}
                                             </div>
-                                            <span onClick={() => setShowMore(!showMore)} className="bg-blue-primary self-center mx-auto text-white font-semibold text-center my-4 p-2 rounded text-xs">
+                                            <span onClick={() => setShowMore(!showMore)} className="bg-blue-primary mx-auto w-full cutsor-pointer self-center mx-auto text-white font-semibold text-center my-4 p-2 rounded text-xs">
                                                 {showMore ? "Read Less" : "Read More"}
                                             </span>
 
                                         </span>
                                     </div>
                                 )
-                            } */}
+                            }
                         </section>
                     </div>
                 </div>
-                {/* <div className="related_products mt-16">
+                <div className="related_products my-16">
                     <>
-                        <RelatedProducts cols="lg:grid-cols-5 " category={product?.product.category_slug} />
+                        <RelatedProducts category={product.category} />
                     </>
-                </div> */}
+                </div>
             </div>
         </GeneralLayout>
     )

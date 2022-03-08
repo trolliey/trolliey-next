@@ -28,8 +28,6 @@ function MobileNavDrawers({ user }: Props): ReactElement {
     const [show_category, setShowCotegory] = useState(false)
     const history = useRouter()
 
-    console.log(user)
-
     return (
         <>
             <div onClick={onOpen}>

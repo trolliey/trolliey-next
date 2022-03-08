@@ -23,7 +23,7 @@ function GeneralLayout({ children, no_text, title, description, twitter_title, t
     return (
         <div className='bg-gray-100 overflow-scroll' style={{ backgroundColor: 'rgb(243 244 246)' }}>
             <Head>
-                <title>{title ? `${title} | Trolliey ` : { original_title }}</title>
+                <title>{title ? `${title} | Trolliey ` :  original_title }</title>
                 <meta name="description" content={description ? description : desc} />
                 <meta property="og:type" content="website" />
                 <meta name="og:title" property="og:title" content={title ? `${title} | Trolliey` : original_title} />
