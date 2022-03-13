@@ -22,7 +22,9 @@ export default function Inventory() {
         setLoading(true)
         const getData = async () => {
             try {
-                const { data } = await axios.get(`/api/products/user?user_id=${userInfo._id}`)
+                const { data } = await axios.post(`/api/products/user?user_id=${userInfo._id}`,{
+                    query: search_query
+                })
                 setProducts(data)
                 setLoading(false)
             } catch (error) {
@@ -32,7 +34,7 @@ export default function Inventory() {
         getData()
     }, [search_query])
 
-    console.log(products)
+    // console.log(products)
 
     return (
         <DashboardLayout>
@@ -42,7 +44,10 @@ export default function Inventory() {
                         <p className="text text-gray-700 font-semibold">Products</p>
                         <div className="flex flex-row items-center border flex-1 border-gray-200 rounded px-2 text-gray-500">
                             <SearchIcon height={20} width={20} />
-                            <input type="text" placeholder="Search something and press enter" className="p-2 flex-1 outline-none" />
+                            <input 
+                                type="text" 
+                                onChange={e => setSearchQuery(e.target.value)}
+                                placeholder="Search something and press enter" className="p-2 flex-1 outline-none" />
                         </div>
                         <BlueButton text="Create Product" onClick={() => history.push('/dashboard/inventory/create')} />
                         <div onClick={() => setShowFilter(true ? false : true)} className="flex cursor-pointer flex-row items-center space-x-2 text-blue-primary">

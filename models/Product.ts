@@ -75,6 +75,6 @@ const productSchema = new mongoose.Schema({
     timestamps: true
 })
 
-productSchema.index({ category: 'text', description: 'text', title: 'text', owner: 'text', category_slug: 'text', slug: 'text' });
+productSchema.index({ category: 'text', description: 'text', title: 'text', owner: 'text', category_slug: 'text', slug: 'text', _id: 'text' });
 const Products = mongoose.models.Product || mongoose.model('Product', productSchema)
 export default Products
