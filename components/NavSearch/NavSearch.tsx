@@ -13,6 +13,7 @@ function NavSearch():ReactElement {
     const search_handler = () => {
         dispatch({ type: 'SET_SEARCH_QUERY', payload: search_query })
         history.push('/explore')
+        onClose()
     }
 
     return (
