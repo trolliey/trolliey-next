@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import React, { ReactElement, useContext } from 'react'
 import axios from 'axios'
 import { Store } from '../../Context/Store'
-import { useToast } from '@chakra-ui/react'
+import { Text, useToast } from '@chakra-ui/react'
 
 interface Props {
     picture?: string,
@@ -72,9 +72,9 @@ function ProductItem({ picture, rating, name, description, price, discount_price
                             )
                     }
                 </div>
-                <div onClick={() => history.push(`/product/description/${id}`)} className="flex-1 overflow-ellipsis overflow-hidden">
-                    <p className="text-gray-500 text-sm ">{name}</p>
-                    <p className="line-clamp-1 text-sm text-gray-700 my-1 overflow-ellipsis font-semibold">{category}</p>
+                <div onClick={() => history.push(`/product/description/${id}`)} className="flex-1 overflow-hidden">
+                    <Text noOfLines={1} className="text-gray-500 text-sm ">{name}</Text>
+                    <Text noOfLines={1} className="text-sm text-gray-700 my-1 font-semibold">{category}</Text>
                 </div>
 
 

@@ -117,10 +117,10 @@ function Home(props: any): ReactFragment {
             </div>
 
             <div className="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:grid-rows-2 sm:gap-x-6 lg:gap-8 ">
-              <div onClick={() => search_by_category(randomItem.value)} className="group aspect-w-2 aspect-h-1 rounded-lg overflow-hidden sm:aspect-h-1 sm:aspect-w-1 sm:row-span-2 transition transform hover:-translate-y-1 motion-reduce:transition-none motion-reduce:transform-none border">
+              <div onClick={() => search_by_category(randomItem.value)} className="group relative aspect-w-2 md:h-96 h-40 aspect-h-1 rounded-lg overflow-hidden sm:aspect-h-1 sm:aspect-w-1 sm:row-span-2 transition transform hover:-translate-y-1 motion-reduce:transition-none motion-reduce:transform-none border">
                 <Image
-                  layout='responsive'
-                  objectFit='contain'
+                  layout='fill'
+                  objectFit='cover'
                   src={surprise}
                   alt="suprised user."
                   className="object-center object-cover group-hover:opacity-75"
