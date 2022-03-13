@@ -55,8 +55,6 @@ function Order({ params }: Props) {
         }
     }, [])
 
-    console.log(order?.data?.order)
-
     return (
         <GeneralLayout title='Order Details' description={`Details for order with id ${orderId}`}>
             <h1 className='text-center font-semibold py-4 text-lg'>Order ${orderId}</h1>

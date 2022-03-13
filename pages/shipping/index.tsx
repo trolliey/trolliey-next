@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { Store } from '../../Context/Store'
-import GeneralLayout from '../../layouts/GeneralLayout'
-import { Step, Steps, useSteps } from 'chakra-ui-steps';
 import Address from '../../components/Shipping/Address'
 import ShipmentLogin from '../../components/Shipping/ShipmentLogin'
 import PaymentMethod from '../../components/Shipping/PaymentMethod'

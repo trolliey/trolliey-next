@@ -253,7 +253,7 @@ function ProductDescription(props: any) {
                                         </div>
                                     </div>
                                 </div>
-                                <div onClick={() => history.push(`/store/${product?.store_id}/info`)} className="flex flex-row space-x-4 items-center p-4 rounded border border-gray-200 bg-white cursor-pointer">
+                                <div onClick={() => history.push(`/store/${product?.store_id}/products`)} className="flex flex-row space-x-4 items-center p-4 rounded border border-gray-200 bg-white cursor-pointer">
                                     {/*@ts-ignore */}
                                     <Avatar src={product?.store_pic} name={product?.store_name} className="text-gray-700" />
                                     <div className="flex flex-col">

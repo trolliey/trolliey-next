@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import nc from 'next-connect'
 import Products from '../../../models/Product'
 import { connect, disconnect } from '../../../utils/mongo'
 import auth_handler from '../../../utils/auth_handler'
@@ -47,14 +46,14 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
             status: status
         })
 
-        const saved_product = await newProduct.save()
+        await newProduct.save()
 
-        console.log(saved_product)
+        // console.log(saved_product)
 
         // console.log(newProduct)
 
         await disconnect()
-        res.send({message: 'Product saved Successfully'})
+        return res.send({message: 'Product saved Successfully'})
     } catch (error) {
         return res.send(error)
     }

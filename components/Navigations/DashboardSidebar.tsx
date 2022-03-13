@@ -112,7 +112,7 @@ function DashboardSidebar({ sidebarOpen, setSidebarOpen }: Props) {
                                             {buyer_navigation.map((item) => (
                                                 <div onClick={() => router.push(item.href)}
                                                     key={item.name}
-                                                    className={`${pathname === item.href ? "bg-blue-dark" : "bg-blue-primary"} text-white group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md`}
+                                                    className={`${pathname === item.href ? "bg-blue-dark" : "bg-blue-primary"} text-white cursor-pointer group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md`}
                                                 >
                                                     <item.icon className="mr-4 flex-shrink-0 h-6 w-6 text-white" aria-hidden="true" />
                                                     {item.name}
@@ -127,7 +127,7 @@ function DashboardSidebar({ sidebarOpen, setSidebarOpen }: Props) {
                                                 {navigation.map((item) => (
                                                     <div onClick={() => router.push(item.href)}
                                                         key={item.name}
-                                                        className={`${pathname === item.href ? "bg-blue-dark" : "bg-blue-primary"} text-white group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md`}
+                                                        className={`${pathname === item.href ? "bg-blue-dark" : "bg-blue-primary"} text-white cursor-pointer group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md`}
                                                     >
                                                         <item.icon className="mr-4 flex-shrink-0 h-6 w-6 text-white" aria-hidden="true" />
                                                         {item.name}

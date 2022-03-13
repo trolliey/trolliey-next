@@ -26,7 +26,7 @@ const payment_methods = [
     { id: 'paypal', title: 'PayPal' }
 ]
 
-function PaymentMethod({ nextStep, values, step, handleChange, prevStep }: Props): ReactElement {
+function PaymentMethod({ values, step, handleChange, prevStep }: Props): ReactElement {
     const { state, dispatch } = useContext(Store)
     const router = useRouter()
     const { userInfo, cart } = state
