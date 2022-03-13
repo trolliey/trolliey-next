@@ -11,8 +11,8 @@ function NavSearch():ReactElement {
     const { dispatch } = useContext(Store)
 
     const search_handler = () => {
-        // history.push('/explore')
         dispatch({ type: 'SET_SEARCH_QUERY', payload: search_query })
+        history.push('/explore')
     }
 
     return (
