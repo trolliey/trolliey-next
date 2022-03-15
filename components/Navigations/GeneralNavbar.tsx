@@ -34,10 +34,10 @@ function GeneralNavbar() {
                 <div onClick={() => history.push('/')} className="uppercase cursor-pointer font-bold text-sm text-gray-700 flex flex-row items-center">
                     <Image width={100} objectFit='contain' src={logo} alt="logo representing the website icon" className="h-8 ml-2" />
                 </div>
-                <p className='font-semibold text-gray-700 pr-4 border-r border-gray-300 capitalize cursor-pointer'>Help</p>
+                <div onClick={() => history.push('/help')} className='font-semibold text-gray-700 pr-4 border-r border-gray-300 capitalize cursor-pointer'>Help</div>
                 {
-                    userInfo?.name === 'seller' ? (
-                        <div onClick={() => history.push('/dashboard')} className='font-semibold text-gray-700 capitalize cursor-pointer'>Sell on trolliey</div>
+                    userInfo?.role === 'seller' ? (
+                        <div onClick={() => history.push('/dashboard')} className='font-semibold text-gray-700 capitalize cursor-pointer'>My Store Dashboard</div>
                     ) : (
                         <div onClick={() => history.push('/become-a-seller')} className='font-semibold text-gray-700 capitalize cursor-pointer'>Sell on trolliey</div>
                     )

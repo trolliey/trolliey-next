@@ -22,7 +22,7 @@ const ShipmentLayout: FunctionComponent<Props> = ({ children, step, heading }: P
             <div className="w-full items-center min-h-screen">
                 <main className="grid lg:grid-cols-4 md:grid-cols-3 grid-col-1  gap-8  max-w-7xl">
                     {/* Checkout form */}
-                    <div className="flex flex-col lg:col-span-3 md:col-span-2 col-span-1  bg-white p-8 rounded shadow">
+                    <div className="flex flex-col lg:col-span-3 md:col-span-2 col-span-1  bg-white p-8 rounded shadow mb-8">
                         <div className="flex flex-row items-start justify-between w-full pt-4 px-4">
                             <div className="flex flex-col">
                                 <p className="text-gray-400 font-semibold text-sm uppercase">Step: {step} of 4</p>
