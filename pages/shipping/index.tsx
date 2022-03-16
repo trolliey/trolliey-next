@@ -23,8 +23,6 @@ function Shipping() {
     card_number: '',
     expiry_date: '',
     method: '',
-    collect_order: '',
-    deliver_order: ''
   })
 
   // go back to previous page
@@ -56,8 +54,6 @@ function Shipping() {
     card_number,
     expiry_date,
     method,
-    deliver_order,
-    collect_order
   } = states;
 
   const values = {
@@ -72,8 +68,6 @@ function Shipping() {
     card_number,
     expiry_date,
     method,
-    deliver_order,
-    collect_order
   };
 
 

@@ -302,7 +302,7 @@ function ProductDescription(props: any) {
                                                     dangerouslySetInnerHTML={{ __html: product?.description.substring(0, 500) }}
                                                 />}
                                             </div>
-                                            <span onClick={() => setShowMore(!showMore)} className="bg-blue-primary mx-auto w-full cutsor-pointer self-center mx-auto text-white font-semibold text-center my-4 p-2 rounded text-xs">
+                                            <span onClick={() => setShowMore(!showMore)} className="bg-blue-primary mx-auto w-full cutsor-pointer self-center text-white font-semibold text-center my-4 p-2 rounded text-xs">
                                                 {showMore ? "Read Less" : "Read More"}
                                             </span>
 
