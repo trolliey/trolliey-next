@@ -23,7 +23,7 @@ paynow.returnUrl = 'http://localhost:3000/payments/return'
 auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   await connect()
 
-  const { collect_my_order, method } = req.body
+  const { collect_my_order, method, paying_number } = req.body
 
   const newOrder = new Orders({
     ...req.body,
@@ -42,6 +42,31 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     { store: the_store._id },
     { $push: { pending_orders: order._id } }
   )
+
+  //@ts-ignore
+  //   let payment = paynow.createPayment('Invoice from trolliey', req.user.email)
+  //   newOrder.orderItems.forEach((item: any) => {
+  //     payment.add(item.title, item.price)
+  //   })
+
+  //   const response = await paynow.sendMobile(payment, paying_number, method);
+
+  //   if (response && response.success) {
+  //     let instructions = response.instructions
+  //     let pollUrl = response.pollUrl;
+
+  //     console.log('PollUrl', pollUrl);
+  //     console.log('Instructions', instructions)
+  //     let status = await paynow.pollTransaction(pollUrl);
+
+  //     console.log('Status', status);
+  //     if (status.status) {
+  //         res.json({ message: 'Yay! Transaction was paid for' });
+  //     }
+  //     else {
+  //         res.json({ error: "Why you no pay?" });
+  //     }
+  // }
 
   // editing the store schema
   for (let i = 0; i < newOrder.orderItems.length; i++) {
@@ -65,7 +90,7 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   res.status(201).send(order)
 })
 
-// get all orders
+// get all orders`
 // get request
 // /api/orders
 auth_handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
