@@ -10,6 +10,8 @@ function Shipping() {
   const { state } = useContext(Store)
   const { userInfo, cart } = state
   const [step, setActiveStep] = useState(1);
+  const [collect_my_order, setCollectMyOrder] = useState<boolean>(false)
+
 
   const [states, setState] = useState<any>({
     full_name: '',
@@ -93,6 +95,8 @@ function Shipping() {
           nextStep={nextStep}
           handleChange={handleChange}
           prevStep={prevStep}
+          setCollectMyOrder={setCollectMyOrder}
+          collect_my_order={collect_my_order}
           values={values}
           step={step}
         />
@@ -102,6 +106,7 @@ function Shipping() {
         <PaymentMethod
           nextStep={nextStep}
           handleChange={handleChange}
+          collect_my_order={collect_my_order}
           prevStep={prevStep}
           values={values}
           step={step}

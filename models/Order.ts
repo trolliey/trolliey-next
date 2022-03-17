@@ -67,6 +67,10 @@ const orderSchema = new mongoose.Schema({
     status: {
         type: String,
         enum: ['pending', 'delivered', 'cancelled']
+    },
+    collect_my_order:{
+        type: String,
+        default: 'false'
     }
 }, {
     timestamps: true

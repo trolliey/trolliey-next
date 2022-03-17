@@ -1,11 +1,9 @@
-import React, {
-  ReactElement,
-  FunctionComponent,
-} from 'react'
+import React, { ReactElement, FunctionComponent } from 'react'
 import BlueButton from '../Buttons/BlueButton'
 import ShipmentLayout from '../../layouts/ShipmentLayout'
 import truck from '../../public/img/delivery-truck.png'
 import Image from 'next/image'
+import Cookies from 'js-cookie'
 
 interface Props {
   nextStep?: any
@@ -13,6 +11,8 @@ interface Props {
   step: number
   handleChange: any
   prevStep?: any
+  setCollectMyOrder: any
+  collect_my_order: boolean
 }
 
 const Address: FunctionComponent<Props> = ({
@@ -21,11 +21,14 @@ const Address: FunctionComponent<Props> = ({
   step,
   handleChange,
   prevStep,
+  setCollectMyOrder,
+  collect_my_order,
 }: Props): ReactElement => {
+  console.log(collect_my_order)
   return (
     <ShipmentLayout heading="Delivery Info" step={step}>
       <div className="flex w-full flex-col">
-        <p className="text-center font-semibold text-gray-700 mb-4">
+        <p className="mb-4 text-center font-semibold text-gray-700">
           How do you want us to handle your order?
         </p>
         <div className="mx-auto flex w-full flex-row items-center justify-between border border-gray-200 bg-white p-2 shadow md:p-4">
@@ -51,11 +54,14 @@ const Address: FunctionComponent<Props> = ({
           </div>
           <BlueButton
             text={'Deliver My Order'}
-            outline
-            onClick={console.log('deliver for me')}
+            outline={collect_my_order}
+            onClick={() => {
+              setCollectMyOrder(false)
+              Cookies.set('collect_my_order', 'false')
+            }}
           />
         </div>
-        <div className="mx-auto mt-2 flex w-full flex-row items-center justify-between border border-gray-200 bg-white p-2 shadow md:p-4">
+        <div  className="mx-auto mt-2 flex w-full flex-row items-center justify-between border border-gray-200 bg-white p-2 shadow md:p-4">
           <div className="flex flex-row items-center gap-4 overflow-hidden md:gap-8">
             <div className="picture relative grid h-16 w-16 content-center items-center justify-center rounded-full bg-green-500">
               <Image
@@ -75,15 +81,18 @@ const Address: FunctionComponent<Props> = ({
           </div>
           <BlueButton
             text={'Collect My Order'}
-            onClick={() => console.log('collect my order')}
-            outline
+            onClick={() => {
+              setCollectMyOrder(true)
+              Cookies.set('collect_my_order', 'true')
+            }}
+            outline={!collect_my_order}
           />
         </div>
       </div>
 
       <form className="flex w-full flex-col p-4">
         <p className="mt-8 mb-4 text-center font-semibold text-gray-700">
-          Delivery Info
+          Contact Info
         </p>
         <div className="mb-6">
           <label

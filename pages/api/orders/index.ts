@@ -3,6 +3,19 @@ import Orders from '../../../models/Order'
 import { connect, disconnect } from '../../../utils/mongo'
 import auth_handler from '../../../utils/auth_handler'
 import Store from '../../../models/Store'
+//@ts-ignore
+import { Paynow } from 'paynow'
+import Report from '../../../models/Reports'
+
+// Create instance of Paynow class
+let paynow = new Paynow(
+  process.env.PAYNOW_INTEGRATION_ID,
+  process.env.PAYNOW_INTEGRATION_KEY
+)
+
+// Set return and result urls
+paynow.resultUrl = 'http://localhost:3000/payments/gateways/paynow/update'
+paynow.returnUrl = 'http://localhost:3000/payments/return'
 
 // create an order
 // post request
@@ -10,20 +23,30 @@ import Store from '../../../models/Store'
 auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   await connect()
 
+  const { collect_my_order, method } = req.body
+
   const newOrder = new Orders({
     ...req.body,
     // @ts-ignore
     user: req.user._id,
+    collect_my_order: collect_my_order,
   })
+  //@ts-ignore
+  const the_store = await Store.findOne({ user_id: req.user._id })
 
   // saving the order
   const order = await newOrder.save()
 
+  //editing the reports schema
+  await Report.findOneAndUpdate(
+    { store: the_store._id },
+    { $push: { pending_orders: order._id } }
+  )
+
+  // editing the store schema
   for (let i = 0; i < newOrder.orderItems.length; i++) {
     await Store.findOneAndUpdate(
-      { _id: newOrder.orderItems[i].store_id,
-        createdAt: Date.now()
-      },
+      { _id: newOrder.orderItems[i].store_id, createdAt: Date.now() },
       {
         $push: {
           orders: {
