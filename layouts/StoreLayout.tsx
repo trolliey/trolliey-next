@@ -1,4 +1,4 @@
-import React, { ReactElement, useContext, useEffect, useState } from 'react'
+import React, { ReactElement, useContext, useEffect } from 'react'
 import GeneralLayout from './GeneralLayout'
 import { useRouter } from 'next/router'
 import axios from 'axios'

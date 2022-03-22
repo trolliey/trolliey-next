@@ -1,9 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 import StoreLayout from '../../../layouts/StoreLayout'
 import { connect, disconnect } from '../../../utils/mongo'
 import Store from '../../../models/Store'
 import RatingComponent from '../../../components/Rating/RatingComponent'
-import { Divider, Progress, useDisclosure } from '@chakra-ui/react'
+import {
+  Button,
+  Divider,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Progress,
+  Select,
+  useDisclosure,
+  useToast,
+} from '@chakra-ui/react'
 import Review from '../../../components/Review/Review'
 
 interface RatingProps {
@@ -14,6 +28,24 @@ interface RatingProps {
 
 function Reviews(props: any) {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const [rating, setRating] = useState<number>(0)
+  const [store_review, setReview] = useState('')
+  const toast = useToast()
+
+  const setReviewHandler = () =>{
+      console.log(store_review, rating)
+      setRating(0)
+      setReview('')
+      onClose()
+      toast({
+        title: 'Review added.',
+        description: "Thank you for giving us your honest review.",
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      })
+
+  }
   return (
     <StoreLayout store_info={props.store}>
       <div className="flex w-full flex-col rounded bg-white p-4 shadow">
@@ -53,9 +85,43 @@ function Reviews(props: any) {
             </div>
           ))}
         </div>
-          <div className="fixed inset-x-0 bottom-5 z-20 mx-auto md:w-1/2 w-10/12 cursor-pointer rounded border border-blue-dark bg-blue-dark md:p-4 p-2 text-center shadow-lg  hover:bg-blue-primary">
-            <span className="font-semibold text-white">Write A Review</span>
-          </div>
+        <div
+          onClick={onOpen}
+          className="fixed inset-x-0 bottom-5 z-20 mx-auto w-10/12 cursor-pointer rounded border border-blue-dark bg-blue-dark p-2 text-center shadow-lg hover:bg-blue-primary md:w-1/2  md:p-4"
+        >
+          <span className="font-semibold text-white">Write A Review</span>
+        </div>
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Write A Review</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <Select placeholder="Rating Out of 5">
+                <option value="option1">1</option>
+                <option value="option2">2</option>
+                <option value="option3">3</option>
+                <option value="option3">4</option>
+                <option value="option3">5</option>
+              </Select>
+              <div className="flex flex-col pt-4">
+                <p className="ml-1 text-sm text-gray-600">Review</p>
+                <textarea
+                  rows={5}
+                  className="w-full rounded border border-gray-300 bg-gray-50 p-2"
+                  placeholder="What do you think about the store"
+                />
+              </div>
+            </ModalBody>
+
+            <ModalFooter>
+              <Button colorScheme="red" mr={3} onClick={onClose}>
+                Cancel
+              </Button>
+              <Button onClick={setReviewHandler} colorScheme="blue">Send</Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
       </div>
     </StoreLayout>
   )
