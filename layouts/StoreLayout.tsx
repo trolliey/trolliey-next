@@ -57,7 +57,8 @@ export default function StoreLayout({
         </h1>
         <div className="mx-auto mt-8 flex w-full flex-row items-center justify-center space-x-8 border-t border-gray-300 px-2 text-center md:mt-20">
           {page_links?.map((link, index) => (
-            <div
+            <button
+              type="button"
               onClick={() => {
                 history.push(`${link.location}`)
               }}
@@ -66,10 +67,10 @@ export default function StoreLayout({
                 asPath === link.location
                   ? 'border-t-4 border-blue-700 text-blue-dark '
                   : ' border-none '
-              } mr-4 cursor-pointer pb-4 pt-4 font-semibold text-gray-700`}
+              } mr-4 cursor-pointer pb-4 pt-4 font-semibold border-none outline-none text-gray-700`}
             >
               {link.name}
-            </div>
+            </button>
           ))}
         </div>
         <div className="flex w-full">{children}</div>
