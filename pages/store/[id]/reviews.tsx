@@ -3,7 +3,7 @@ import StoreLayout from '../../../layouts/StoreLayout'
 import { connect, disconnect } from '../../../utils/mongo'
 import Store from '../../../models/Store'
 import RatingComponent from '../../../components/Rating/RatingComponent'
-import { Avatar, Divider, Progress, Stack, Text } from '@chakra-ui/react'
+import { Divider, Progress, useDisclosure } from '@chakra-ui/react'
 import Review from '../../../components/Review/Review'
 
 interface RatingProps {
@@ -13,9 +13,10 @@ interface RatingProps {
 }
 
 function Reviews(props: any) {
+  const { isOpen, onOpen, onClose } = useDisclosure()
   return (
     <StoreLayout store_info={props.store}>
-      <div className="flex w-full flex-col rounded bg-white shadow p-4">
+      <div className="flex w-full flex-col rounded bg-white p-4 shadow">
         <p className="pb-4 text-center text-2xl font-semibold text-gray-800">
           4.0
         </p>
@@ -35,7 +36,7 @@ function Reviews(props: any) {
           <AverageRating label={'Very Poor'} rating={15} color={'red'} />
         </div>
         <Divider className="" />
-        <div className="mx-auto flex w-full flex-col md:w-2/3 mt-4">
+        <div className="mx-auto mt-4 flex w-full flex-col md:w-2/3">
           {[1, 2, 4, 5].map((review, index) => (
             <div key={index} className="fl">
               <Review
@@ -52,6 +53,9 @@ function Reviews(props: any) {
             </div>
           ))}
         </div>
+          <div className="fixed inset-x-0 bottom-5 z-20 mx-auto md:w-1/2 w-10/12 cursor-pointer rounded border border-blue-dark bg-blue-dark p-4 text-center shadow-lg  hover:bg-blue-primary">
+            <span className="font-semibold text-white">Write A Review</span>
+          </div>
       </div>
     </StoreLayout>
   )
