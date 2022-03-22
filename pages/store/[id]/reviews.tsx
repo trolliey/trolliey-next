@@ -43,6 +43,7 @@ function Reviews(props: any) {
         status: 'success',
         duration: 9000,
         isClosable: true,
+        position:'top-right'
       })
 
   }
