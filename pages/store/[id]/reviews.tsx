@@ -53,7 +53,7 @@ function Reviews(props: any) {
             </div>
           ))}
         </div>
-          <div className="fixed inset-x-0 bottom-5 z-20 mx-auto md:w-1/2 w-10/12 cursor-pointer rounded border border-blue-dark bg-blue-dark p-4 text-center shadow-lg  hover:bg-blue-primary">
+          <div className="fixed inset-x-0 bottom-5 z-20 mx-auto md:w-1/2 w-10/12 cursor-pointer rounded border border-blue-dark bg-blue-dark md:p-4 p-2 text-center shadow-lg  hover:bg-blue-primary">
             <span className="font-semibold text-white">Write A Review</span>
           </div>
       </div>
