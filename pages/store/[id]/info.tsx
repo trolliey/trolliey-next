@@ -4,6 +4,7 @@ import { connect, disconnect } from '../../../utils/mongo'
 import Store from '../../../models/Store'
 
 function info(props: any) {
+    console.log(props.store)
     return (
         <StoreLayout store_info={props.store}>
             iam a store waht whataasadsa

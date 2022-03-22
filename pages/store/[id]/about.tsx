@@ -5,7 +5,7 @@ import { connect, disconnect, convertDocToObj } from '../../../utils/mongo'
 import GeneralLayout from '../../../layouts/GeneralLayout'
 
 function StoreAbout(props: any) {
-    // console.log(props.store)
+    console.log(props.store)
     return (
         <StoreLayout store_info={props.store}>
             some stuff goes here

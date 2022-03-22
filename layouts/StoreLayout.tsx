@@ -21,11 +21,14 @@ export default function StoreLayout({
 
   const page_links = [
     { name: 'Products', location: `/store/${id}/products` },
-    { name: 'About', location: `/store/${id}/info` },
+    // { name: 'About', location: `/store/${id}/info` },
     { name: 'Reviews', location: `/store/${id}/reviews` },
   ]
 
   useEffect(() => {
+    if (!userInfo) {
+      history.push(`/login?redirect=store/${id}/products`)
+    }
     const visitPage = async () => {
       await axios.post(
         '/api/store/visit',

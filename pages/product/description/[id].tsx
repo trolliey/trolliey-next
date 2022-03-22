@@ -4,7 +4,7 @@ import { Tab } from '@headlessui/react'
 import { ShoppingCartIcon, InformationCircleIcon } from '@heroicons/react/solid'
 import { PlusIcon } from '@heroicons/react/outline'
 import logo from '../../../public/img/full_logo.png'
-import { Avatar, Divider } from '@chakra-ui/react'
+import { Avatar, Divider, useToast } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import BlueButton from '../../../components/Buttons/BlueButton'
@@ -30,6 +30,9 @@ function ProductDescription(props: any) {
     const [show_features, setShowFeatures] = useState<boolean>(false)
     const [showMore, setShowMore] = useState<any>()
 
+    // for toast
+    const toast = useToast()
+
     const add_to_basket = async () => {
         const { data } = await axios.get(`/api/products/${product?._id}`)
         if (data?.countInStock <= 0) {
@@ -37,6 +40,13 @@ function ProductDescription(props: any) {
             return
         }
         dispatch({ type: 'ADD_TO_CART', payload: { ...product, quantity: 1 } })
+        toast({
+            title: `${product?.title} added to cart.`,
+            position: 'top-right',
+            status: 'success',
+            duration: 9000,
+            isClosable: true,
+        })
     }
 
     return (

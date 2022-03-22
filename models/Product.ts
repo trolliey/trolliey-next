@@ -60,8 +60,8 @@ const productSchema = new mongoose.Schema({
         default: ''
     },
     ratings: {
-        type: String,
-        default: ''
+        type: Array,
+        default: []
     },
     sku:{
         type: String,
