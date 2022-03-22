@@ -91,7 +91,7 @@ function Reviews(props: any) {
         >
           <span className="font-semibold text-white">Write A Review</span>
         </div>
-        <Modal isOpen={isOpen} onClose={onClose}>
+        <Modal isOpen={isOpen} onClose={onClose} isCentered>
           <ModalOverlay />
           <ModalContent>
             <ModalHeader>Write A Review</ModalHeader>
@@ -113,7 +113,6 @@ function Reviews(props: any) {
                 />
               </div>
             </ModalBody>
-
             <ModalFooter>
               <Button colorScheme="red" mr={3} onClick={onClose}>
                 Cancel
