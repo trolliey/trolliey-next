@@ -1,4 +1,3 @@
-import { Container } from '@chakra-ui/react'
 import React, { ReactElement, useState, useContext, useEffect } from 'react'
 import GeneralLayout from '../../layouts/GeneralLayout'
 import { useToast } from '@chakra-ui/react'
