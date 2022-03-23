@@ -48,13 +48,13 @@ function GeneralLayout({ children, no_text, title, description, twitter_title, t
                     href={canonical_url ? canonical_url : url}
                 />
             </Head>
-            <nav>
+            <nav className="">
                 <GeneralNavbar />
             </nav>
-            <main className="w-full" >
+            <main className="w-full pt-16" >
                 <Container maxW='container.xl' className='mx-auto'>
                     {
-                        !no_text && (<h1 className="flex text-gray-700 text-sm font-semibold " style={{ marginTop: '25px', marginBottom: '25px' }}>Free Shipping On All Order Over $100 Code</h1>)
+                        !no_text && (<h1 className="flex text-gray-700 text-sm font-semibold " style={{ marginTop: '15px', marginBottom: '15px' }}>Free Shipping On All Order Over $100 Code</h1>)
                     }
                     {children}
                 </Container>
