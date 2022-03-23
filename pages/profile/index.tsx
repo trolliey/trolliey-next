@@ -84,7 +84,8 @@ function index(): ReactElement {
     return (
         <GeneralLayout no_text title='User Info' description='Edit and configure user info on Trolliey'>
             <Container maxW='container.lg'>
-                <form className="space-y-8 divide-y divide-gray-200 py-8" onSubmit={submitHandler}>
+                <div className="flex flex-col w-full py-8">
+                <form className="space-y-8 divide-y divide-gray-200 md:p-8 p-4 bg-white rounded" onSubmit={submitHandler}>
                     <div className="space-y-8 divide-y divide-gray-200">
                         <div>
                             <div>
@@ -111,7 +112,7 @@ function index(): ReactElement {
                                             defaultValue={user?.name}
                                             onChange={e => setname(e.target.value)}
                                             autoComplete="name"
-                                            className="flex-1 p-2 block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300"
+                                            className="flex-1 p-2 block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border border-gray-300"
                                         />
                                     </div>
                                 </div>
@@ -157,7 +158,7 @@ function index(): ReactElement {
                                             id="first-name"
                                             placeholder="enter your firstname"
                                             autoComplete="given-name"
-                                            className="shadow-sm p-2 block w-full sm:text-sm border-gray-300 rounded-md"
+                                            className="shadow-sm p-2 block w-full sm:text-sm border border-gray-300 rounded-md"
                                         />
                                     </div>
                                 </div>
@@ -176,7 +177,7 @@ function index(): ReactElement {
                                             name="last-name"
                                             id="last-name"
                                             autoComplete="family-name"
-                                            className="shadow-sm p-2 block w-full sm:text-sm border-gray-300 rounded-md"
+                                            className="shadow-sm p-2 block w-full sm:text-sm border border-gray-300 rounded-md"
                                         />
                                     </div>
                                 </div>
@@ -195,7 +196,7 @@ function index(): ReactElement {
                                             name="email"
                                             type="email"
                                             autoComplete="email"
-                                            className="shadow-sm p-2 block w-full sm:text-sm border-gray-300 rounded-md"
+                                            className="shadow-sm p-2 block w-full sm:text-sm border border-gray-300 rounded-md"
                                         />
                                     </div>
                                 </div>
@@ -213,7 +214,7 @@ function index(): ReactElement {
                                             placeholder={'enter your country'}
                                             name="country"
                                             autoComplete="country-name"
-                                            className="shadow-sm p-2 block w-full sm:text-sm border-gray-300 rounded-md"
+                                            className="shadow-sm p-2 block w-full sm:text-sm border border-gray-300 rounded-md"
                                         >
                                             <option>United States</option>
                                             <option>Canada</option>
@@ -235,7 +236,7 @@ function index(): ReactElement {
                                             placeholder={'enter your address'}
                                             id="street-address"
                                             autoComplete="street-address"
-                                            className="shadow-sm p-2 block w-full sm:text-sm border-gray-300 rounded-md"
+                                            className="shadow-sm p-2 block w-full sm:text-sm border border-gray-300 rounded-md"
                                         />
                                     </div>
                                 </div>
@@ -253,7 +254,7 @@ function index(): ReactElement {
                                             name="city"
                                             id="city"
                                             autoComplete="address-level2"
-                                            className="shadow-sm p-2 block w-full sm:text-sm border-gray-300 rounded-md"
+                                            className="shadow-sm p-2 block w-full sm:text-sm border border-gray-300 rounded-md"
                                         />
                                     </div>
                                 </div>
@@ -271,7 +272,7 @@ function index(): ReactElement {
                                             name="region"
                                             id="region"
                                             autoComplete="address-level1"
-                                            className="shadow-sm p-2 block w-full sm:text-sm border-gray-300 rounded-md"
+                                            className="shadow-sm p-2 block w-full sm:text-sm border border-gray-300 rounded-md"
                                         />
                                     </div>
                                 </div>
@@ -297,6 +298,7 @@ function index(): ReactElement {
                         </div>
                     </div>
                 </form>
+                </div>
             </Container>
         </GeneralLayout>
     )
