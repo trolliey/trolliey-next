@@ -29,14 +29,14 @@ const navigation = [
     { name: 'Store Settings', href: '/dashboard/settings', icon: CogIcon },
 ]
 const secondaryNavigation = [
-    { name: 'My Orders', href: '/dashboard/buyer-orders', icon: ShoppingBagIcon, current: false },
-    { name: 'User Settings', href: '/dashboard/usersettings', icon: UserIcon },
+    { name: 'My Orders', href: '/orders', icon: ShoppingBagIcon, current: false },
+    { name: 'User Settings', href: '/password', icon: UserIcon },
 
 ]
 
 const buyer_navigation = [
     { name: 'Home', href: '/dashboard/buyer-home', icon: TemplateIcon, current: false },
-    { name: 'My Orders', href: '/dashboard/buyer-orders', icon: ShoppingBagIcon, current: false },
+    { name: 'My Orders', href: '/orders', icon: ShoppingBagIcon, current: false },
     { name: 'Purchase History', href: '/dashboard/buyer-products', icon: ClockIcon, current: false },
     { name: 'User Settings', href: '/dashboard/usersettings', icon: UserIcon },
 ]

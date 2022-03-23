@@ -121,7 +121,7 @@ export default function Dashboard() {
                                 icon={<ArchiveIcon className="h-6 w-6 text-blue-600" aria-hidden="true" />}
                                 name='Total products'
                                 location='/dashboard/inventory'
-                                amount={store_data?.store_products.length}
+                                amount={store_data?.store_products?.length}
                                 loading={loading} 
                                 bg_color="bg-blue-200"
                                 />
