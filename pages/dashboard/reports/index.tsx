@@ -4,7 +4,9 @@ import DashboardLayout from '../../../layouts/DashboardLayout'
 function Reports() {
     return (
         <DashboardLayout>
-            all reports for the 
+            <div className="flex flex-col w-full">
+                <p className="text-center text-gray-900 font-semibold my-8 text-xl">You dont have any completed orders so far</p>
+            </div>
         </DashboardLayout>
     )
 }
