@@ -289,17 +289,17 @@ function ProductDescription(props: any) {
                         </div>
 
                         {/* // description compoennt */}
-                        <section className='w-full mt-6 '>
-                            <div className="flex border-t border-gray-200">
+                        <section className='w-full md:mt-8 mt-4 '>
+                            <div className="flex">
                                 {
                                     show_features ? (
                                         <div className="flex flex-row items-center">
                                             <span onClick={() => setShowFeatures(false)} className='hover:bg-gray-50 cursor-pointer p-4'>Description</span>
-                                            <span onClick={() => setShowFeatures(true)} className='p-4 border-b-2 hover:bg-gray-50 cursor-pointer border-blue-primary font-semibold bg-white text-blue-primary'>Product Features</span>
+                                            <span onClick={() => setShowFeatures(true)} className='p-4 border-b-2 border-blue-primary rounded-t hover:bg-gray-50 cursor-pointer  font-semibold bg-white text-blue-primary'>Product Features</span>
                                         </div>
                                     ) : (
                                         <div className="flex flex-row items-center">
-                                            <span onClick={() => setShowFeatures(false)} className=' border-b-2 p-4 hover:bg-gray-50 cursor-pointer border-blue-primary bg-white font-semibold text-blue-primary'>Description</span>
+                                            <span onClick={() => setShowFeatures(false)} className='p-4 border-b-2 border-blue-primary hover:bg-gray-50 rounded-t cursor-pointer  bg-white font-semibold text-blue-primary'>Description</span>
                                             <span onClick={() => setShowFeatures(true)} className='p-4 hover:bg-gray-50 cursor-pointer'>Product Features</span>
                                         </div>
                                     )
