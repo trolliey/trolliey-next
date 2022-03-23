@@ -49,6 +49,23 @@ function ProductDescription(props: any) {
         })
     }
 
+    const buy_item_now = async () =>{
+        const { data } = await axios.get(`/api/products/${product?._id}`)
+        if (data?.countInStock <= 0) {
+            alert('Sorry. Product our of stock')
+            return
+        }
+        dispatch({ type: 'ADD_TO_CART', payload: { ...product, quantity: 1 } })
+        toast({
+            title: `${product?.title} added to cart.`,
+            position: 'top-right',
+            status: 'success',
+            duration: 9000,
+            isClosable: true,
+        })
+        history.push('/shipping')
+    }
+
     return (
         <GeneralLayout 
             title={product.title} 
@@ -256,10 +273,7 @@ function ProductDescription(props: any) {
                                         </div>
                                         <div className="my-2"></div>
                                         <div className="">
-                                            <BlackButton text='Buy Item Now' className="w-full flex-1" onClick={() => {
-                                                add_to_basket()
-                                                history.push('/payment')
-                                            }} />
+                                            <BlackButton text='Buy Item Now' className="w-full flex-1" onClick={buy_item_now}/>
                                         </div>
                                     </div>
                                 </div>

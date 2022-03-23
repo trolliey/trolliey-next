@@ -1,6 +1,5 @@
 import { Spinner } from '@chakra-ui/spinner'
 import axios from 'axios'
-import { useRouter } from 'next/router'
 import React, { useContext, useEffect, useState } from 'react'
 import { Store } from '../../../Context/Store'
 import DashboardLayout from '../../../layouts/DashboardLayout'
@@ -414,7 +413,7 @@ function Settings() {
             <div className="flex justify-end">
               <button
                 type="button"
-                className="rounded-md border border border-gray-300 bg-white p-2 py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                className="rounded-md border border-gray-300 bg-white p-2 py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
               >
                 Cancel
               </button>
