@@ -103,7 +103,7 @@ function Home(props: any): ReactFragment {
 
         {/* // featured products */}
         <>
-          <FeaturedProducts products={products} />
+          <FeaturedProducts products={products} loading={loading} />
         </>
         <section aria-labelledby="category-heading" className="my-8">
           <div className="max-w-7xl mx-auto bg-white md:p-8 p-4 rounded">
