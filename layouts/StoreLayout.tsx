@@ -3,6 +3,7 @@ import GeneralLayout from './GeneralLayout'
 import { useRouter } from 'next/router'
 import axios from 'axios'
 import { Store } from '../Context/Store'
+import { Avatar } from '@chakra-ui/avatar'
 
 interface Props {
   children?: any
@@ -52,9 +53,12 @@ export default function StoreLayout({
       no_text
     >
       <div className="flex w-full flex-col py-8">
-        <h1 className="text-center text-2xl font-extrabold text-black">
-          {store_info?.company_name}
-        </h1>
+        <div className="flex flex-row items-center mx-auto space-x-2">
+          <Avatar size="lg" name={store_info?.company_name} />
+          <h1 className="text-center text-2xl font-extrabold text-black">
+            {store_info?.company_name}
+          </h1>
+        </div>
         <div className="mx-auto mt-8 flex w-full flex-row items-center justify-center space-x-8 border-t border-gray-300 px-2 text-center md:mt-20">
           {page_links?.map((link, index) => (
             <button
@@ -67,7 +71,7 @@ export default function StoreLayout({
                 asPath === link.location
                   ? 'border-t-4 border-blue-700 text-blue-dark '
                   : ' border-none '
-              } mr-4 cursor-pointer pb-4 pt-4 font-semibold border-none outline-none text-gray-700`}
+              } mr-4 cursor-pointer border-none pb-4 pt-4 font-semibold text-gray-700 outline-none`}
             >
               {link.name}
             </button>

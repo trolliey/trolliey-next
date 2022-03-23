@@ -57,6 +57,10 @@ const userSchema = new mongoose.Schema({
     resetPasswordCode:{
         type:String,
         default: ''
+    },
+    photoURL:{
+        type: String,
+        default: ''
     }
 }, {
     timestamps: true

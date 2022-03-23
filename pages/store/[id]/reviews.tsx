@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import StoreLayout from '../../../layouts/StoreLayout'
 import { connect, disconnect } from '../../../utils/mongo'
 import Store from '../../../models/Store'
@@ -15,10 +15,16 @@ import {
   ModalOverlay,
   Progress,
   Select,
+  Spinner,
   useDisclosure,
   useToast,
 } from '@chakra-ui/react'
 import Review from '../../../components/Review/Review'
+import { Store as StateStore } from '../../../Context/Store'
+import axios from 'axios'
+import { useRouter } from 'next/router'
+import { getError } from '../../../utils/error'
+import moment from 'moment'
 
 interface RatingProps {
   color: string
@@ -28,60 +34,133 @@ interface RatingProps {
 
 function Reviews(props: any) {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const [rating, setRating] = useState<number>(0)
-  const [store_review, setReview] = useState('')
+  const [rating, setRating] = useState<any>(0)
+  const [store_review, setReview] = useState<string>('')
+  const [create_loading, setCreateLoading] = useState<boolean>(false)
+  const [page_loading, setPageLoading] = useState<boolean>(false)
   const toast = useToast()
+  const { state } = useContext(StateStore)
+  const { userInfo } = state
+  const [all_reviews_doc, setAllReviewsDoc] = useState<any>()
 
-  const setReviewHandler = () =>{
-      console.log(store_review, rating)
+  const history = useRouter()
+  const { id } = history.query
+
+  //get all reviews for the store
+  useEffect(() => {
+    const getReviews = async () => {
+      setPageLoading(true)
+      try {
+        const { data } = await axios.get(`/api/review/${id}`)
+        setAllReviewsDoc(data)
+        setPageLoading(false)
+      } catch (error) {
+        setPageLoading(false)
+      }
+    }
+    getReviews()
+  }, [])
+
+  console.log(all_reviews_doc)
+
+  const setReviewHandler = async () => {
+    try {
+      setCreateLoading(true)
+      await axios.post(
+        '/api/review',
+        {
+          review: store_review,
+          rating: rating,
+          store_id: id,
+          user_id: userInfo?._id,
+        },
+        {
+          headers: {
+            authorization: userInfo?.token,
+          },
+        }
+      )
+      setCreateLoading(false)
       setRating(0)
       setReview('')
       onClose()
       toast({
         title: 'Review added.',
-        description: "Thank you for giving us your honest review.",
+        description: 'Thank you for giving us your honest review.',
         status: 'success',
         duration: 9000,
         isClosable: true,
-        position:'top-right'
+        position: 'top-right',
       })
-
+    } catch (error) {
+      setCreateLoading(false)
+      toast({
+        title: 'Error.',
+        description: getError(error),
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+        position: 'top-right',
+      })
+    }
   }
+
+  if (page_loading) {
+    return (
+      <StoreLayout store_info={props.store}>
+        <div className="grid h-96 w-full content-center items-center justify-center bg-white">
+          <Spinner />
+        </div>
+      </StoreLayout>
+    )
+  }
+
+  if(all_reviews_doc?.length < 1){
+    return(
+      <StoreLayout store_info={props.store}>
+        <div className="flex h-96">
+          <p className="text-gray-700 font-semibold text-center">Store had no reviews yet</p>
+        </div>
+      </StoreLayout>
+    )
+  }
+
   return (
     <StoreLayout store_info={props.store}>
       <div className="flex w-full flex-col rounded bg-white p-4 shadow">
         <p className="pb-4 text-center text-2xl font-semibold text-gray-800">
-          4.0
+          {all_reviews_doc?.average_rating}
         </p>
         <div className="flex flex-col items-center pb-4">
           <RatingComponent
-            ratings={Math.floor(
-              props?.store?.averageRating ? props?.store?.averageRating : 4
-            )}
+            ratings={Math.floor(all_reviews_doc?.average_rating)}
           />
-          <p className="text-gray-700">based on 23 Reviews</p>
+          <p className="text-gray-700">
+            based on{' '}
+            {all_reviews_doc?.reviews_length > 1 ? (
+              <span>{all_reviews_doc?.reviews_length} reviews</span>
+            ) : (
+              <span>{all_reviews_doc?.reviews_length} review</span>
+            )}
+          </p>
         </div>
         <div className="mx-auto mb-4 w-full flex-col space-y-5 md:mb-8 md:w-1/2">
-          <AverageRating label={'Excellent'} rating={10} color={'teal'} />
-          <AverageRating label={'Good'} rating={40} color={'green'} />
-          <AverageRating label={'Average'} rating={20} color={'yellow'} />
-          <AverageRating label={'Poor'} rating={15} color={'orange'} />
-          <AverageRating label={'Very Poor'} rating={15} color={'red'} />
+          <AverageRating label={'Excellent'} rating={all_reviews_doc?.five_stars_percent } color={'teal'} />
+          <AverageRating label={'Good'} rating={all_reviews_doc?.four_stars_percent } color={'green'} />
+          <AverageRating label={'Average'} rating={all_reviews_doc?.three_stars_percent } color={'yellow'} />
+          <AverageRating label={'Poor'} rating={all_reviews_doc?.two_stars_percent } color={'orange'} />
+          <AverageRating label={'Very Poor'} rating={all_reviews_doc?.one_stars_percent } color={'red'} />
         </div>
         <Divider className="" />
         <div className="mx-auto mt-4 flex w-full flex-col md:w-2/3">
-          {[1, 2, 4, 5].map((review, index) => (
+          {all_reviews_doc?.reviews.map((review:any, index:number) => (
             <div key={index} className="fl">
               <Review
-                rating={
-                  props?.store?.averageRating ? props?.store?.averageRating : 3
-                }
-                name="Tatenda Bako"
+                rating={review.rating}
+                name={review.name}
                 photo={''}
-                createdAt={'1 day ago'}
-                review={
-                  'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam libero nam praesentium alias, sapiente neque suscipit magnam. Debitis, quo ratione? Voluptatibus itaque quam quasi aperiam iste impedit blanditiis repellat quo?'
-                }
+                createdAt={moment(review.createdAt).fromNow()}
+                review={review.review}
               />
             </div>
           ))}
@@ -98,17 +177,22 @@ function Reviews(props: any) {
             <ModalHeader>Write A Review</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              <Select placeholder="Rating Out of 5">
-                <option value="option1">1</option>
-                <option value="option2">2</option>
-                <option value="option3">3</option>
-                <option value="option3">4</option>
-                <option value="option3">5</option>
+              <Select
+                value={rating}
+                onChange={(e) => setRating(e.target.value)}
+                placeholder="Rating Out of 5"
+              >
+                <option value={1}>1</option>
+                <option value={2}>2</option>
+                <option value={3}>3</option>
+                <option value={4}>4</option>
+                <option value={5}>5</option>
               </Select>
               <div className="flex flex-col pt-4">
                 <p className="ml-1 text-sm text-gray-600">Review</p>
                 <textarea
                   rows={5}
+                  onChange={(e) => setReview(e.target.value)}
                   className="w-full rounded border border-gray-300 bg-gray-50 p-2"
                   placeholder="What do you think about the store"
                 />
@@ -118,7 +202,13 @@ function Reviews(props: any) {
               <Button colorScheme="red" mr={3} onClick={onClose}>
                 Cancel
               </Button>
-              <Button onClick={setReviewHandler} colorScheme="blue">Send</Button>
+              <Button
+                isLoading={create_loading}
+                onClick={setReviewHandler}
+                colorScheme="blue"
+              >
+                Send
+              </Button>
             </ModalFooter>
           </ModalContent>
         </Modal>
