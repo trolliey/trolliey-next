@@ -63,8 +63,6 @@ function Reviews(props: any) {
     getReviews()
   }, [])
 
-  console.log(all_reviews_doc)
-
   const setReviewHandler = async () => {
     try {
       setCreateLoading(true)
@@ -120,14 +118,61 @@ function Reviews(props: any) {
   if (all_reviews_doc?.reviews.length === 0) {
     return (
       <StoreLayout store_info={props.store}>
-        <div className="grid justify-center content-center items-center h-96 bg-white w-full p-4 rounded ">
+        <div className="grid h-96 w-full content-center items-center justify-center rounded bg-white p-4 ">
           <div className="relative">
-            <Image src={no_data} objectFit="contain" height={96}/>
+            <Image src={no_data} objectFit="contain" height={96} />
           </div>
           <p className="text-center font-semibold text-gray-700">
             Store had no reviews yet
           </p>
         </div>
+        <div
+          onClick={onOpen}
+          className="fixed inset-x-0 bottom-5 z-20 mx-auto w-10/12 cursor-pointer rounded border border-blue-dark bg-blue-dark p-2 text-center shadow-lg hover:bg-blue-primary md:w-1/2  md:p-4"
+        >
+          <span className="font-semibold text-white">Write A Review</span>
+        </div>
+        <Modal isOpen={isOpen} onClose={onClose} isCentered>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Write A Review</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <Select
+                value={rating}
+                onChange={(e) => setRating(e.target.value)}
+                placeholder="Rating Out of 5"
+              >
+                <option value={1}>1</option>
+                <option value={2}>2</option>
+                <option value={3}>3</option>
+                <option value={4}>4</option>
+                <option value={5}>5</option>
+              </Select>
+              <div className="flex flex-col pt-4">
+                <p className="ml-1 text-sm text-gray-600">Review</p>
+                <textarea
+                  rows={5}
+                  onChange={(e) => setReview(e.target.value)}
+                  className="w-full rounded border border-gray-300 bg-gray-50 p-2"
+                  placeholder="What do you think about the store"
+                />
+              </div>
+            </ModalBody>
+            <ModalFooter>
+              <Button colorScheme="red" mr={3} onClick={onClose}>
+                Cancel
+              </Button>
+              <Button
+                isLoading={create_loading}
+                onClick={setReviewHandler}
+                colorScheme="blue"
+              >
+                Send
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
       </StoreLayout>
     )
   }
