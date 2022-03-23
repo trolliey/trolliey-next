@@ -25,6 +25,8 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 import { getError } from '../../../utils/error'
 import moment from 'moment'
+import no_data from '../../../public/img/not_data.svg'
+import Image from 'next/image'
 
 interface RatingProps {
   color: string
@@ -115,11 +117,16 @@ function Reviews(props: any) {
     )
   }
 
-  if(all_reviews_doc?.length < 1){
-    return(
+  if (all_reviews_doc?.reviews.length === 0) {
+    return (
       <StoreLayout store_info={props.store}>
-        <div className="flex h-96">
-          <p className="text-gray-700 font-semibold text-center">Store had no reviews yet</p>
+        <div className="grid justify-center content-center items-center h-96 bg-white w-full p-4 rounded ">
+          <div className="relative">
+            <Image src={no_data} objectFit="contain" height={96}/>
+          </div>
+          <p className="text-center font-semibold text-gray-700">
+            Store had no reviews yet
+          </p>
         </div>
       </StoreLayout>
     )
@@ -145,15 +152,35 @@ function Reviews(props: any) {
           </p>
         </div>
         <div className="mx-auto mb-4 w-full flex-col space-y-5 md:mb-8 md:w-1/2">
-          <AverageRating label={'Excellent'} rating={all_reviews_doc?.five_stars_percent } color={'teal'} />
-          <AverageRating label={'Good'} rating={all_reviews_doc?.four_stars_percent } color={'green'} />
-          <AverageRating label={'Average'} rating={all_reviews_doc?.three_stars_percent } color={'yellow'} />
-          <AverageRating label={'Poor'} rating={all_reviews_doc?.two_stars_percent } color={'orange'} />
-          <AverageRating label={'Very Poor'} rating={all_reviews_doc?.one_stars_percent } color={'red'} />
+          <AverageRating
+            label={'Excellent'}
+            rating={all_reviews_doc?.five_stars_percent}
+            color={'teal'}
+          />
+          <AverageRating
+            label={'Good'}
+            rating={all_reviews_doc?.four_stars_percent}
+            color={'green'}
+          />
+          <AverageRating
+            label={'Average'}
+            rating={all_reviews_doc?.three_stars_percent}
+            color={'yellow'}
+          />
+          <AverageRating
+            label={'Poor'}
+            rating={all_reviews_doc?.two_stars_percent}
+            color={'orange'}
+          />
+          <AverageRating
+            label={'Very Poor'}
+            rating={all_reviews_doc?.one_stars_percent}
+            color={'red'}
+          />
         </div>
         <Divider className="" />
         <div className="mx-auto mt-4 flex w-full flex-col md:w-2/3">
-          {all_reviews_doc?.reviews.map((review:any, index:number) => (
+          {all_reviews_doc?.reviews.map((review: any, index: number) => (
             <div key={index} className="fl">
               <Review
                 rating={review.rating}
