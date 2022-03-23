@@ -83,8 +83,8 @@ function index(): ReactElement {
 
     return (
         <GeneralLayout no_text title='User Info' description='Edit and configure user info on Trolliey'>
-            <Container maxW='container.lg'>
-                <div className="flex flex-col w-full py-8">
+            <div className="max-w-7xl">
+                <div className="flex flex-col w-full py-8 mx-auto">
                 <form className="space-y-8 divide-y divide-gray-200 md:p-8 p-4 bg-white rounded" onSubmit={submitHandler}>
                     <div className="space-y-8 divide-y divide-gray-200">
                         <div>
@@ -299,7 +299,7 @@ function index(): ReactElement {
                     </div>
                 </form>
                 </div>
-            </Container>
+            </div>
         </GeneralLayout>
     )
 }
