@@ -13,6 +13,7 @@ import RatingComponent from '../../../components/Rating/RatingComponent'
 import { connect, convertDocToObj, disconnect } from '../../../utils/mongo'
 import Products from '../../../models/Product'
 import { Store } from '../../../Context/Store'
+import ProductStore from '../../../models/Store'
 import axios from 'axios'
 import RelatedProducts from '../../../components/HomeSections/RelatedProducts'
 
@@ -22,9 +23,8 @@ function classNames(...classes: string[]) {
 
 function ProductDescription(props: any) {
     const { dispatch } = useContext(Store)
-    const { product } = props
+    const { product, store} = props
     const history = useRouter()
-    const { id } = history.query
 
     const [selected_variant, setSelectedVariant] = useState<any>()
     const [show_features, setShowFeatures] = useState<boolean>(false)
@@ -279,9 +279,9 @@ function ProductDescription(props: any) {
                                 </div>
                                 <div onClick={() => history.push(`/store/${product?.store_id}/products`)} className="flex flex-row space-x-4 items-center p-4 rounded border border-gray-200 bg-white cursor-pointer">
                                     {/*@ts-ignore */}
-                                    <Avatar src={product?.store_pic} name={product?.store_name} className="text-gray-700" />
+                                    <Avatar src={store?.logo} name={store?.company_name} className="text-gray-700" />
                                     <div className="flex flex-col">
-                                        <p className="text-gray-700 font-semibold">View {product?.store_name}'s store</p>
+                                        <p className="text-gray-700 font-semibold">View {store?.company_name}'s store</p>
                                         <p className="text-gray-400 text-sm">View the seller's shop and catalogues</p>
                                     </div>
                                 </div>
@@ -290,16 +290,16 @@ function ProductDescription(props: any) {
 
                         {/* // description compoennt */}
                         <section className='w-full mt-6 '>
-                            <div className="flex border-b border-t border-gray-200">
+                            <div className="flex border-t border-gray-200">
                                 {
                                     show_features ? (
                                         <div className="flex flex-row items-center">
                                             <span onClick={() => setShowFeatures(false)} className='hover:bg-gray-50 cursor-pointer p-4'>Description</span>
-                                            <span onClick={() => setShowFeatures(true)} className='p-4 border-b-2 hover:bg-gray-50 cursor-pointer border-blue-primary font-semibold text-blue-primary'>Product Features</span>
+                                            <span onClick={() => setShowFeatures(true)} className='p-4 border-b-2 hover:bg-gray-50 cursor-pointer border-blue-primary font-semibold bg-white text-blue-primary'>Product Features</span>
                                         </div>
                                     ) : (
                                         <div className="flex flex-row items-center">
-                                            <span onClick={() => setShowFeatures(false)} className=' border-b-2 p-4 hover:bg-gray-50 cursor-pointer border-blue-primary font-semibold text-blue-primary'>Description</span>
+                                            <span onClick={() => setShowFeatures(false)} className=' border-b-2 p-4 hover:bg-gray-50 cursor-pointer border-blue-primary bg-white font-semibold text-blue-primary'>Description</span>
                                             <span onClick={() => setShowFeatures(true)} className='p-4 hover:bg-gray-50 cursor-pointer'>Product Features</span>
                                         </div>
                                     )
@@ -308,12 +308,12 @@ function ProductDescription(props: any) {
                             {
                                 show_features ? (
                                     <>
-                                        <ul className='m-6'>
+                                        <ul className='p-6 bg-white rounded text-center'>
                                             no additional features added
                                         </ul>
                                     </>
                                 ) : (
-                                    <div className="mt-2 md:mx-16 mx-4 w-full flex">
+                                    <div className="md:px-16 md:py-4 py-2 px-4 w-full flex bg-white rounded">
                                         <h3 className="sr-only">Description</h3>
 
                                         <span className="flex-grow w-full ">
@@ -352,10 +352,12 @@ export async function getServerSideProps(context: any) {
     const { id } = params
     await connect()
     const product = await Products.findOne({ _id: id }).lean()
+    const store = await ProductStore.findOne({_id: product.store_id}).lean()
     await disconnect()
     return {
         props: {
-            product: convertDocToObj(product)
+            product: convertDocToObj(product),
+            store:  JSON.parse(JSON.stringify(store))
         }
     }
 }
