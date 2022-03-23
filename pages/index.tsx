@@ -95,6 +95,9 @@ function Home(props: any): ReactFragment {
                   <div className="relative md:h-6 h-4 md:w-16 w-10">
                     <Image src={oppo} alt="" layout='fill' />
                   </div>
+                  <div className="relative md:h-6 h-4 md:w-16 w-10">
+                    <Image src={oppo} alt="" layout='fill' />
+                  </div>
                 </div>
               </div>
             </div>

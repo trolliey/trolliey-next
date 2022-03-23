@@ -141,7 +141,7 @@ function DashboardSidebar({ sidebarOpen, setSidebarOpen }: Props) {
                                                         <a
                                                             key={item.name}
                                                             href={item.href}
-                                                            className="group flex items-center px-2 py-2 text-base font-medium rounded-md text-white hover:text-white hover:bg-blue-dark"
+                                                            className="group cursor-pointer flex items-center px-2 py-2 text-base font-medium rounded-md text-white hover:text-white hover:bg-blue-dark"
                                                         >
                                                             <item.icon className="mr-4 h-6 w-6 text-white" aria-hidden="true" />
                                                             {item.name}
@@ -177,7 +177,7 @@ function DashboardSidebar({ sidebarOpen, setSidebarOpen }: Props) {
                                         {buyer_navigation.map((item) => (
                                             <div onClick={() => router.push(item.href)}
                                                 key={item.name}
-                                                className={`${pathname === item.href ? "bg-blue-dark" : "bg-blue-primary hover:bg-blue-dark "} text-white group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md`}
+                                                className={`${pathname === item.href ? "bg-blue-dark" : "bg-blue-primary hover:bg-blue-dark "} text-white group cursor-pointer flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md`}
                                             >
                                                 <item.icon className="mr-4 flex-shrink-0 h-6 w-6 text-white" aria-hidden="true" />
                                                 {item.name}
@@ -192,7 +192,7 @@ function DashboardSidebar({ sidebarOpen, setSidebarOpen }: Props) {
                                             {navigation.map((item) => (
                                                 <div onClick={() => router.push(item.href)}
                                                     key={item.name}
-                                                    className={`${pathname === item.href ? "bg-blue-dark" : "bg-blue-primary hover:bg-blue-dark "} text-white group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md`}
+                                                    className={`${pathname === item.href ? "bg-blue-dark" : "bg-blue-primary hover:bg-blue-dark "} text-white group cursor-pointer flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md`}
                                                 >
                                                     <item.icon className="mr-4 flex-shrink-0 h-6 w-6 text-white" aria-hidden="true" />
                                                     {item.name}
@@ -205,7 +205,7 @@ function DashboardSidebar({ sidebarOpen, setSidebarOpen }: Props) {
                                                 {secondaryNavigation.map((item) => (
                                                     <div key={item.name} onClick={() => router.push(item.href)}
                                                         
-                                                        className={`${pathname === item.href ? "bg-blue-dark" : "bg-blue-primary hover:bg-blue-dark "} group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md text-white hover:text-white `}
+                                                        className={`${pathname === item.href ? "bg-blue-dark" : "bg-blue-primary hover:bg-blue-dark "} group cursor-pointer flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md text-white hover:text-white `}
                                                     >
                                                         <item.icon className="mr-4 h-6 w-6 text-white" aria-hidden="true" />
                                                         {item.name}

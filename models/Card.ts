@@ -2,10 +2,6 @@ import mongoose from 'mongoose'
 
 const cardSchema = new mongoose.Schema(
   {
-    type: {
-      type: String,
-      required: true,
-    },
     card: {
       type: String,
       default: '',
@@ -14,10 +10,14 @@ const cardSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    store_id:{
-        type: String,
-        required: true
-    }
+    store_id: {
+      type: String,
+      required: true,
+    },
+    currency_type: {
+      type: String,
+      enum: ['USD', 'RTGS'],
+    },
   },
   {
     timestamps: true,
