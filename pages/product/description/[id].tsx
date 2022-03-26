@@ -263,14 +263,14 @@ function ProductDescription(props: any) {
                                             </div>
 
                                         </div>
-                                        <div className="mt-4">
+                                        {/* <div className="mt-4">
                                             <div className="md:col-span-2 col-span-3 flex flex-row items-center w-full">
                                                 <div onClick={() => console.log('add to compare')} className="text-blue-primary flex-1 border border-blue-primary rounded p-2 text-center font-semibold capitalize hover:bg-blue-primary hover:text-white cursor-pointer">
                                                     compare
                                                 </div>
                                             </div>
 
-                                        </div>
+                                        </div> */}
                                         <div className="my-2"></div>
                                         <div className="">
                                             <BlackButton text='Buy Item Now' className="w-full flex-1" onClick={buy_item_now}/>
