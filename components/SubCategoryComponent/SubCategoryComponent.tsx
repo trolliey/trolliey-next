@@ -37,7 +37,7 @@ function SubCategoryComponent({category_slug}:Props) {
                                 onChange={e => setSubCat(e.target.value)}
                             />
                             {/*//ts-ignore */}
-                           <input type="file" onChange={e => setPicturesForUpload(e.target.files[0])} />
+                           {/* <input type="file" onChange={e => setPicturesForUpload(e.target.files[0])} /> */}
                             <div className="mx-2 ml-auto">
                                 <BlueButton
                                     text="Add Sub-Category"
