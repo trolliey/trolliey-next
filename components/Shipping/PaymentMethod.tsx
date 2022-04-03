@@ -218,6 +218,47 @@ function PaymentMethod({
           </div>
         </div>
       )}
+      {selected_method === 'visa/mastercard' && (
+        <div className="col-span-full mt-4">
+          <label
+            htmlFor="card-number"
+            className="block text-sm font-medium text-gray-700"
+          >
+            {values.method} Card Number
+          </label>
+          <div className="mt-4">
+            <input
+              type="text"
+              value={values.paying_number}
+              onChange={handleChange('paying_number')}
+              id="paying_number"
+              name="paying_number"
+              placeholder="Enter card number"
+              className="block w-full rounded-md border border-gray-200 p-2 outline-none focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+            />
+            <div className="flex flex-row items-center gap-4 mt-4">
+            <input
+              type="text"
+              value={values.paying_number}
+              onChange={handleChange('paying_number')}
+              id="paying_number"
+              name="paying_number"
+              placeholder="Expiry Date"
+              className="block w-full rounded-md border border-gray-200 p-2 outline-none focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+            />
+            <input
+              type="text"
+              value={values.paying_number}
+              onChange={handleChange('paying_number')}
+              id="paying_number"
+              name="paying_number"
+              placeholder="CVV"
+              className="block w-full rounded-md border border-gray-200 p-2 outline-none focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+            />
+            </div>
+          </div>
+        </div>
+      )}
       <div className="mt-4 flex w-full space-x-4 border-t border-gray-200 px-4 pt-4 pb-4">
         <BlueButton text="previous" onClick={() => prevStep(values)} />
         <BlueButton
