@@ -51,7 +51,7 @@ function AdminSidebar({ sidebarOpen, setSidebarOpen }: Props) {
     console.log(userInfo?.role)
 
     return (
-        <div className="h-screen bg-blue-primary">
+        <div className="h-screen bg-black">
             <Transition.Root show={sidebarOpen} as={Fragment}>
                 <Dialog as="div" className="fixed inset-0 flex z-40 lg:hidden" onClose={setSidebarOpen}>
                     <Transition.Child
@@ -74,7 +74,7 @@ function AdminSidebar({ sidebarOpen, setSidebarOpen }: Props) {
                         leaveFrom="translate-x-0"
                         leaveTo="-translate-x-full"
                     >
-                        <div className="relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4 bg-blue-primary">
+                        <div className="relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4 bg-black">
                             <Transition.Child
                                 as={Fragment}
                                 enter="ease-in-out duration-300"
@@ -107,7 +107,7 @@ function AdminSidebar({ sidebarOpen, setSidebarOpen }: Props) {
                                             {buyer_navigation.map((item) => (
                                                 <div onClick={() => router.push(item.href)}
                                                     key={item.name}
-                                                    className={`${pathname === item.href ? "bg-blue-dark" : "bg-blue-primary"} text-white cursor-pointer group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md`}
+                                                    className={`${pathname === item.href ? "bg-gray-800" : "bg-black"} text-white cursor-pointer group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md`}
                                                 >
                                                     <item.icon className="mr-4 flex-shrink-0 h-6 w-6 text-white" aria-hidden="true" />
                                                     {item.name}
@@ -122,7 +122,7 @@ function AdminSidebar({ sidebarOpen, setSidebarOpen }: Props) {
                                                 {navigation.map((item) => (
                                                     <div onClick={() => router.push(item.href)}
                                                         key={item.name}
-                                                        className={`${pathname === item.href ? "bg-blue-dark" : "bg-blue-primary"} text-white cursor-pointer group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md`}
+                                                        className={`${pathname === item.href ? "bg-gray-800" : "bg-black"} text-white cursor-pointer group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md`}
                                                     >
                                                         <item.icon className="mr-4 flex-shrink-0 h-6 w-6 text-white" aria-hidden="true" />
                                                         {item.name}
@@ -146,7 +146,7 @@ function AdminSidebar({ sidebarOpen, setSidebarOpen }: Props) {
             <div className="hidden lg:flex lg:flex-shrink-0">
                 <div className="flex flex-col w-64">
                     {/* Sidebar component, swap this element with another sidebar if you like */}
-                    <div className="flex flex-col flex-grow bg-blue-primary pt-5 pb-4 overflow-y-auto">
+                    <div className="flex flex-col flex-grow bg-black pt-5 pb-4 overflow-y-auto">
                         <div onClick={() => router.push('/')} className="flex items-center flex-shrink-0">
                            <div className="relative py-2 h-40 self-center mx-auto">
                            <Image  objectFit="contain" src={logo} alt="dashboard indicator of site name" />
@@ -159,7 +159,7 @@ function AdminSidebar({ sidebarOpen, setSidebarOpen }: Props) {
                                         {buyer_navigation.map((item) => (
                                             <div onClick={() => router.push(item.href)}
                                                 key={item.name}
-                                                className={`${pathname === item.href ? "bg-blue-dark" : "bg-blue-primary hover:bg-blue-dark "} text-white group cursor-pointer flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md`}
+                                                className={`${pathname === item.href ? "bg-gray-800" : "bg-black hover:bg-gray-800 "} text-white group cursor-pointer flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md`}
                                             >
                                                 <item.icon className="mr-4 flex-shrink-0 h-6 w-6 text-white" aria-hidden="true" />
                                                 {item.name}
@@ -174,7 +174,7 @@ function AdminSidebar({ sidebarOpen, setSidebarOpen }: Props) {
                                             {navigation.map((item) => (
                                                 <div onClick={() => router.push(item.href)}
                                                     key={item.name}
-                                                    className={`${pathname === item.href ? "bg-blue-dark" : "bg-blue-primary hover:bg-blue-dark "} text-white group cursor-pointer flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md`}
+                                                    className={`${pathname === item.href ? "bg-gray-800" : "bg-black hover:bg-gray-800 "} text-white group cursor-pointer flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md`}
                                                 >
                                                     <item.icon className="mr-4 flex-shrink-0 h-6 w-6 text-white" aria-hidden="true" />
                                                     {item.name}
