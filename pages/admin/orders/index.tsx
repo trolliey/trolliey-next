@@ -6,9 +6,6 @@ import moment from 'moment'
 
 function ManageOrders(props: any) {
   const { orders } = props
-
-  console.log(orders)
-
   return (
     <AdminDashboard>
       <p className="my-8 text-center text-lg font-semibold text-gray-800">
@@ -23,7 +20,7 @@ function ManageOrders(props: any) {
           <div className="col-span-1">action</div>
         </div>
         {orders?.map((order: any, index: number) => (
-          <div className="grid grid-cols-5 p-2">
+          <div key={index} className="grid grid-cols-5 p-2">
             <div className="col-span-1">{order._id}</div>
             <div className="col-span-1">
               {order.isDelivered ? 'delivered' : 'pending'}
