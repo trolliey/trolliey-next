@@ -5,9 +5,7 @@ import Store from '../../../models/Store'
 import { connect, disconnect } from '../../../utils/mongo'
 
 function ManageStores(props: any) {
-  //   const stores: any = []
   const { stores} = props
-  console.log(stores)
   return (
     <AdminDashboard>
       <p className="my-4 text-center text-lg font-semibold capitalize text-gray-700">

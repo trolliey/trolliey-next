@@ -6,7 +6,6 @@ import { connect, disconnect } from '../../../utils/mongo'
 
 function ManageProducts(props: any) {
   const { products } = props
-  console.log(products)
   return (
     <AdminDashboard>
       <div className="flex w-full flex-1 flex-col px-4">

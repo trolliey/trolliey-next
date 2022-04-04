@@ -4,6 +4,7 @@ import Orders from '../../../models/Order'
 import { connect, disconnect } from '../../../utils/mongo'
 import moment from 'moment'
 import OrdersDropdown from '../../../components/Dropdowns/OrdersDropdown'
+import { Text } from '@chakra-ui/react'
 
 function ManageOrders(props: any) {
   const { orders } = props
@@ -14,15 +15,15 @@ function ManageOrders(props: any) {
       </p>
       <div className="flex min-h-screen flex-col px-2 md:px-4">
         <div className="grid grid-cols-5 rounded-t bg-black p-2 text-sm text-white">
-          <div className="col-span-1">order number</div>
+          <div className="col-span-1">order</div>
           <div className="col-span-1">status</div>
-          <div className="col-span-1">Orderd by</div>
-          <div className="col-span-1">time orderd</div>
+          <div className="col-span-1 md:flex hidden">Ordered by</div>
+          <Text noOfLines={1} className="col-span-1">time ordered</Text>
           <div className="col-span-1">action</div>
         </div>
         {orders?.map((order: any, index: number) => (
           <div key={index} className="grid grid-cols-5 p-2">
-            <div className="col-span-1">{order._id}</div>
+            <Text noOfLines={1} className="col-span-1">{order._id}</Text>
             <div className="col-span-1 items-center">
               <div className="flex items-center">
                 {order.isDelivered ? (
@@ -36,10 +37,10 @@ function ManageOrders(props: any) {
                 )}
               </div>
             </div>
-            <div className="col-span-1">{order.full_name}</div>
-            <div className="col-span-1">
+            <div className="col-span-1 md:flex hidden">{order.full_name}</div>
+            <Text noOfLines={1} className="col-span-1">
               {moment(order.createdAt).fromNow()}
-            </div>
+            </Text>
             <div className="col-span-1">
               <OrdersDropdown id={order._id} />
             </div>
