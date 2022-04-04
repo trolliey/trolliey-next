@@ -3,6 +3,7 @@ import AdminDashboard from '../../../layouts/AdminDashboard'
 import Orders from '../../../models/Order'
 import { connect, disconnect } from '../../../utils/mongo'
 import moment from 'moment'
+import OrdersDropdown from '../../../components/Dropdowns/OrdersDropdown'
 
 function ManageOrders(props: any) {
   const { orders } = props
@@ -11,7 +12,7 @@ function ManageOrders(props: any) {
       <p className="my-8 text-center text-lg font-semibold text-gray-800">
         Manage all orders from here!
       </p>
-      <div className="flex flex-col px-2 md:px-4">
+      <div className="flex flex-col px-2 md:px-4 min-h-screen">
         <div className="grid grid-cols-5 rounded-t bg-black p-2 text-sm text-white">
           <div className="col-span-1">order number</div>
           <div className="col-span-1">status</div>
@@ -29,7 +30,9 @@ function ManageOrders(props: any) {
             <div className="col-span-1">
               {moment(order.createdAt).fromNow()}
             </div>
-            <div className="col-span-1">action</div>
+            <div className="col-span-1">
+                <OrdersDropdown id={order._id}/>
+            </div>
           </div>
         ))}
       </div>
