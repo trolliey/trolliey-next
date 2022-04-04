@@ -12,7 +12,7 @@ function ManageOrders(props: any) {
       <p className="my-8 text-center text-lg font-semibold text-gray-800">
         Manage all orders from here!
       </p>
-      <div className="flex flex-col px-2 md:px-4 min-h-screen">
+      <div className="flex min-h-screen flex-col px-2 md:px-4">
         <div className="grid grid-cols-5 rounded-t bg-black p-2 text-sm text-white">
           <div className="col-span-1">order number</div>
           <div className="col-span-1">status</div>
@@ -23,15 +23,25 @@ function ManageOrders(props: any) {
         {orders?.map((order: any, index: number) => (
           <div key={index} className="grid grid-cols-5 p-2">
             <div className="col-span-1">{order._id}</div>
-            <div className="col-span-1">
-              {order.isDelivered ? 'delivered' : 'pending'}
+            <div className="col-span-1 items-center">
+              <div className="flex items-center">
+                {order.isDelivered ? (
+                  <p className="rounded-full bg-green-600 py-1 px-2 text-xs text-white">
+                    delivered
+                  </p>
+                ) : (
+                  <p className="animate-pulse rounded-full bg-blue-600 py-1 px-2 text-xs text-white">
+                    pending
+                  </p>
+                )}
+              </div>
             </div>
             <div className="col-span-1">{order.full_name}</div>
             <div className="col-span-1">
               {moment(order.createdAt).fromNow()}
             </div>
             <div className="col-span-1">
-                <OrdersDropdown id={order._id}/>
+              <OrdersDropdown id={order._id} />
             </div>
           </div>
         ))}
