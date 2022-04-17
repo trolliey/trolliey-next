@@ -6,6 +6,7 @@ import Store from '../../../models/Store'
 //@ts-ignore
 import { Paynow } from 'paynow'
 import Report from '../../../models/Reports'
+import Products from '../../../models/Product'
 
 // Create instance of Paynow class
 let paynow = new Paynow(
@@ -43,30 +44,30 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     { $push: { pending_orders: order._id } }
   )
 
-  // @ts-ignore
-    let payment = paynow.createPayment('Invoice from trolliey', req.user.email)
-    newOrder.orderItems.forEach((item: any) => {
-      payment.add(item.title, item.price)
-    })
+  // // @ts-ignore
+  //   let payment = paynow.createPayment('Invoice from trolliey', req.user.email)
+  //   newOrder.orderItems.forEach((item: any) => {
+  //     payment.add(item.title, item.price)
+  //   })
 
-    const response = await paynow.sendMobile(payment, paying_number, method);
+  //   const response = await paynow.sendMobile(payment, paying_number, method);
 
-    if (response && response.success) {
-      let instructions = response.instructions
-      let pollUrl = response.pollUrl;
+  //   if (response && response.success) {
+  //     let instructions = response.instructions
+  //     let pollUrl = response.pollUrl;
 
-      console.log('PollUrl', pollUrl);
-      console.log('Instructions', instructions)
-      let status = await paynow.pollTransaction(pollUrl);
+  //     console.log('PollUrl', pollUrl);
+  //     console.log('Instructions', instructions)
+  //     let status = await paynow.pollTransaction(pollUrl);
 
-      console.log('Status', status);
-      if (status.status) {
-          res.json({ message: 'Yay! Transaction was paid for' });
-      }
-      else {
-          res.json({ error: "Why you no pay?" });
-      }
-  }
+  //     console.log('Status', status);
+  //     if (status.status) {
+  //         res.json({ message: 'Yay! Transaction was paid for' });
+  //     }
+  //     else {
+  //         res.json({ error: "Why you no pay?" });
+  //     }
+  // }
 
   // editing the store schema
   for (let i = 0; i < newOrder.orderItems.length; i++) {
@@ -83,6 +84,14 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
           },
         },
       }
+    )
+  }
+  
+  // incrementing number of times product was bought
+  for (let i = 0; i < newOrder.orderItems.length; i++) {
+    await Products.findOneAndUpdate(
+      { _id: newOrder.orderItems[i]._id },
+      { $inc: { times_bought: 1 } }
     )
   }
 

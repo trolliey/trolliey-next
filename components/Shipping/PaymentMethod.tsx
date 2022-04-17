@@ -106,7 +106,7 @@ function PaymentMethod({
             You can collect your items at any of the following pickup points
           </p>
 
-          <div className="mt-4 bg-gray-200 p-4">
+          <div className="mt-4 bg-gray-100 p-4">
             <legend className="sr-only">Our warehouses</legend>
             <p className="text-center capitalize text-black font-semibold pb-4">A list of our ware houses</p>
           </div>

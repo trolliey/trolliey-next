@@ -70,6 +70,10 @@ const productSchema = new mongoose.Schema({
     status: {
         type: String,
         default: 'private'
+    },
+    times_bought:{
+        type:Number,
+        default: 0
     }
 }, {
     timestamps: true
