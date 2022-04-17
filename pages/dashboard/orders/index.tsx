@@ -1,4 +1,4 @@
-import { Spinner } from '@chakra-ui/spinner'
+import { Spinner, Text } from '@chakra-ui/react'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import React, { useContext, useEffect, useState } from 'react'
@@ -77,6 +77,14 @@ function Orders() {
 
                           <div className="rounded-lg bg-black py-2 px-4 sm:flex sm:items-center sm:justify-between sm:space-x-6 sm:px-6 lg:space-x-8">
                             <dl className="flex-auto space-y-6 divide-y divide-gray-200 text-sm text-gray-600 sm:grid sm:grid-cols-3 sm:gap-x-6 sm:space-y-0 sm:divide-y-0 lg:w-3/4 lg:flex-none lg:gap-x-8">
+                              
+                            <div className="flex items-center justify-between pt-6 sm:pt-0">
+                                <dt className="font-semibold text-white">
+                                  Order
+                                </dt>
+                                <Text noOfLines={1} className="sm:ml-1 text-gray-200">{order.order_id}</Text>
+                              </div>
+                              
                               <div className="flex flex-row items-center justify-between ">
                                 <dt className="font-medium text-white">
                                   Date placed
@@ -87,8 +95,8 @@ function Orders() {
                                   </time>
                                 </dd>
                               </div>
-                              <div className="flex flex-row items-center justify-between pt-6 font-medium text-white sm:pt-0">
-                                <p>Total amount:</p>
+                              <div className="flex flex-row items-center pt-6 font-medium text-white sm:pt-0">
+                                <p className='font-semibold'>Total amount:</p>
                                 <p className="sm:ml-1">
                                   {order?.items.reduce(
                                     (a: any, c: any) =>
@@ -98,12 +106,7 @@ function Orders() {
                                   )}
                                 </p>
                               </div>
-                              <div className="flex items-center justify-between pt-6 sm:pt-0">
-                                <dt className="font-medium text-white">
-                                  Order number
-                                </dt>
-                                <dd className="sm:ml-1">{order._id}</dd>
-                              </div>
+                             
                               
                             </dl>
                             <a

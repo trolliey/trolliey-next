@@ -24,5 +24,5 @@ const cardSchema = new mongoose.Schema(
   }
 )
 
-const Card = mongoose.models.Order || mongoose.model('Card', cardSchema)
+const Card = mongoose.models.Card || mongoose.model('Card', cardSchema)
 export default Card

@@ -26,6 +26,14 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 
   const { collect_my_order, method, paying_number } = req.body
 
+  // steps to follow
+  // - process payment .. if available
+  // - descrement quantity of product
+  // - increment number of times the product was bought
+  // - edit reports if order has been payed
+  // - save new order
+  // - edit store orders
+
   const newOrder = new Orders({
     ...req.body,
     // @ts-ignore
@@ -35,7 +43,42 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   //@ts-ignore
   const the_store = await Store.findOne({ user_id: req.user._id })
 
-  // saving the order
+  // decrement quantity of product
+  for (let i = 0; i < newOrder.orderItems.length; i++) {
+    await Products.findOneAndUpdate(
+      { _id: newOrder.orderItems[i]._id },
+      { $inc: { countInStock: -1 } }
+    )
+  }
+
+  // increment number of times product was bought
+  for (let i = 0; i < newOrder.orderItems.length; i++) {
+    await Products.findOneAndUpdate(
+      { _id: newOrder.orderItems[i]._id },
+      { $inc: { times_bought: 1 } }
+    )
+  }
+
+  // editing the store schema to increse its orders
+  for (let i = 0; i < newOrder.orderItems.length; i++) {
+    await Store.findOneAndUpdate(
+      { _id: newOrder.orderItems[i].store_id },
+      {
+        $push: {
+          orders: {
+            order_id: newOrder._id,
+            items: newOrder.orderItems.filter(
+              (item: any) => item.store_id === newOrder.orderItems[i].store_id
+            ),
+            status: 'pending',
+            createdAt: Date.now(),
+          },
+        },
+      }
+    )
+  }
+
+  // save the order
   const order = await newOrder.save()
 
   //editing the reports schema
@@ -68,32 +111,6 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   //         res.json({ error: "Why you no pay?" });
   //     }
   // }
-
-  // editing the store schema
-  for (let i = 0; i < newOrder.orderItems.length; i++) {
-    await Store.findOneAndUpdate(
-      { _id: newOrder.orderItems[i].store_id, createdAt: Date.now() },
-      {
-        $push: {
-          orders: {
-            order_id: newOrder._id,
-            items: newOrder.orderItems.filter(
-              (item: any) => item.store_id === newOrder.orderItems[i].store_id
-            ),
-            status: 'pending',
-          },
-        },
-      }
-    )
-  }
-  
-  // incrementing number of times product was bought
-  for (let i = 0; i < newOrder.orderItems.length; i++) {
-    await Products.findOneAndUpdate(
-      { _id: newOrder.orderItems[i]._id },
-      { $inc: { times_bought: 1 } }
-    )
-  }
 
   await disconnect()
   res.status(201).send(order)
