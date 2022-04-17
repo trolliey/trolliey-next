@@ -71,6 +71,10 @@ const orderSchema = new mongoose.Schema({
     collect_my_order:{
         type: String,
         default: 'false'
+    },
+    stores_involved:{
+        type: Array,
+        default: []
     }
 }, {
     timestamps: true

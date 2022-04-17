@@ -30,15 +30,19 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   // - process payment .. if available
   // - descrement quantity of product
   // - increment number of times the product was bought
+  // - create an array of all stores involved
   // - edit reports if order has been payed
   // - save new order
   // - edit store orders
+
+  const all_involved_stores = []
 
   const newOrder = new Orders({
     ...req.body,
     // @ts-ignore
     user: req.user._id,
     collect_my_order: collect_my_order,
+    stores_involved: []
   })
   //@ts-ignore
   const the_store = await Store.findOne({ user_id: req.user._id })
@@ -50,6 +54,15 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
       { $inc: { countInStock: -1 } }
     )
   }
+
+  // create an array of all involved stores
+  for (let i = 0; i < newOrder.orderItems.length; i++) {
+    if (all_involved_stores.indexOf(newOrder.orderItems[i].store_id) == -1) {
+      all_involved_stores.push(newOrder.orderItems[i].store_id)
+    }
+  }
+
+  // console.log(all_involved_stores)
 
   // increment number of times product was bought
   for (let i = 0; i < newOrder.orderItems.length; i++) {
@@ -79,6 +92,7 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   // save the order
+  newOrder.stores_involved = all_involved_stores
   const order = await newOrder.save()
 
   //editing the reports schema
@@ -126,6 +140,26 @@ auth_handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 
   await disconnect()
   res.status(201).send(orders)
+})
+
+// change order statusd
+// put request
+// api/orders
+auth_handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
+  await connect()
+
+  // change order status
+  const { status, order_id } = req.body
+
+  const order = await Orders.findOne({ _id: order_id })
+
+  // change order status
+  order.isDelivered = status === 'delivered' ? true : false
+
+  // find order in store item and change its status
+
+  await disconnect()
+  res.status(201).send('edited')
 })
 
 export default auth_handler
