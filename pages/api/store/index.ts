@@ -39,11 +39,9 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   const name_exists = await Store.findOne({ company_name: company_name })
 
   if (!agreed) {
-    return res
-      .status(400)
-      .send({
-        message: 'All applicants must agree to our terms and conditions',
-      })
+    return res.status(400).send({
+      message: 'All applicants must agree to our terms and conditions',
+    })
   }
 
   if (store_exists) {
@@ -52,12 +50,10 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
       .send({ message: 'One account can only have one store' })
   }
   if (name_exists) {
-    return res
-      .status(400)
-      .send({
-        message:
-          'Name already in use. If the name belongs to you contact our support team',
-      })
+    return res.status(400).send({
+      message:
+        'Name already in use. If the name belongs to you contact our support team',
+    })
   }
   if (!company_name) {
     return res.status(400).send({ message: 'Your copmany needs a name' })
@@ -102,6 +98,34 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   //     return res.status(500).json({ error: 'Error when uploading' })
   // })
   await disconnect()
+})
+
+// verify - block - store
+auth_handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
+  const { action, store_id } = req.body
+
+  console.log('action selected is ------- ', action)
+
+  if (!action) {
+    return res.status(500).send('Please specify an action!')
+  }
+
+  if (action === 'verify') {
+    await Store.findOneAndUpdate({ _id: store_id }, { verified: true })
+    return res.status(200).send('Verification action complete')
+  }
+  if (action === 'un-verify') {
+    await Store.findOneAndUpdate({ _id: store_id }, { verified: false })
+    return res.status(200).send('Verification action complete')
+  }
+  if (action === 'block') {
+    await Store.findOneAndUpdate({ id: store_id }, { blocked: true })
+    return res.status(200).send('Blocking action complete')
+  }
+  if (action === 'un-block') {
+    await Store.findOneAndUpdate({ id: store_id }, { blocked: false })
+    return res.status(200).send('Blocking action complete')
+  }
 })
 
 export default auth_handler

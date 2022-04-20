@@ -7,6 +7,7 @@ import DashboardLayout from '../../../layouts/DashboardLayout'
 import { getError } from '../../../utils/error'
 import no_data from '../../../public/img/not_data.svg'
 import Image from 'next/image'
+import moment from 'moment'
 
 function Orders() {
   const { state } = useContext(Store)
@@ -71,7 +72,7 @@ function Orders() {
                           <h3 className="sr-only">
                             Order placed on{' '}
                             <time dateTime={order.createdAt}>
-                              {order.createdAt}
+                            {moment(order.createdAt).fromNow()}
                             </time>
                           </h3>
 
@@ -89,9 +90,9 @@ function Orders() {
                                 <dt className="font-medium text-white">
                                   Date placed
                                 </dt>
-                                <dd className="sm:ml-1">
+                                <dd className="sm:ml-1 text-gray-200 text">
                                   <time dateTime={order.createdAt}>
-                                    {order.createdAt}
+                                    {moment(order.createdAt).fromNow()}
                                   </time>
                                 </dd>
                               </div>

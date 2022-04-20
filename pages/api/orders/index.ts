@@ -42,7 +42,7 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     // @ts-ignore
     user: req.user._id,
     collect_my_order: collect_my_order,
-    stores_involved: []
+    stores_involved: [],
   })
   //@ts-ignore
   const the_store = await Store.findOne({ user_id: req.user._id })
@@ -153,13 +153,33 @@ auth_handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
 
   const order = await Orders.findOne({ _id: order_id })
 
+  // to store all stores involed on the order
+  const all_stores_involved: any = []
+  const all_store_orders: any = []
+
   // change order status
   order.isDelivered = status === 'delivered' ? true : false
 
-  // find order in store item and change its status
+  // getting all stores involved on the order
+  const stores_array = order.stores_involved
 
+  // edit status of order
+  for (let i = 0; i < stores_array.length; i++) {
+    try {
+      await Store.updateOne(
+        { _id: stores_array[i], 'orders.order_id': order_id },
+        {
+          $set: {
+            'orders.$.status': status,
+          },
+        }
+      )
+    } catch (error) {
+      console.log(error)
+    }
+  }
   await disconnect()
-  res.status(201).send('edited')
+  return res.status(201).send('edited')
 })
 
 export default auth_handler

@@ -65,7 +65,7 @@ function StoresTable({ stores }:Props) {
                             {moment(store?.createdAt).fromNow()}
                         </div>
                         <div className="col-span-1  text-blue-primary ">
-                            <StoresDropdown id={store._id} />
+                            <StoresDropdown verified={store?.verified} id={store._id} />
                         </div>
                     </div>
                 ))

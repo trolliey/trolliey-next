@@ -1,13 +1,16 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import AdminDashboard from '../../../layouts/AdminDashboard'
 import Orders from '../../../models/Order'
 import { connect, disconnect } from '../../../utils/mongo'
 import moment from 'moment'
 import OrdersDropdown from '../../../components/Dropdowns/OrdersDropdown'
 import { Text } from '@chakra-ui/react'
+import { Store } from '../../../Context/Store'
 
 function ManageOrders(props: any) {
   const { orders } = props
+  const { state } = useContext(Store)
+  const { userInfo } = state
   return (
     <AdminDashboard>
       <p className="my-8 text-center text-lg font-semibold text-gray-800">
@@ -42,7 +45,7 @@ function ManageOrders(props: any) {
               {moment(order.createdAt).fromNow()}
             </Text>
             <div className="col-span-1">
-              <OrdersDropdown id={order._id} />
+              <OrdersDropdown id={order._id} user={userInfo} />
             </div>
           </div>
         ))}
