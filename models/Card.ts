@@ -18,6 +18,10 @@ const cardSchema = new mongoose.Schema(
       type: String,
       enum: ['USD', 'RTGS'],
     },
+    card_number: {
+      type: String,
+      required: true,
+    }
   },
   {
     timestamps: true,

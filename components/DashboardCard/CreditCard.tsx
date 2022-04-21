@@ -9,7 +9,8 @@ interface Props {
   type?: any
   user_name?: string
   picture?: any
-  bg_color?: string
+  bg_color?: string,
+  onClick: any
 }
 
 function CreditCard({
@@ -19,9 +20,11 @@ function CreditCard({
   picture,
   user_name,
   bg_color,
+  onClick
 }: Props): ReactElement {
   return (
     <div
+      onClick={onClick}
       className={`${
         bg_color ? bg_color : 'bg-gradient-to-r from-blue-dark to-blue-primary '
       } flex w-full flex-col justify-between space-y-4 rounded-lg py-4 px-8 cursor-pointer`}
