@@ -16,7 +16,7 @@ function AllProducts({ products, query, cols, no_text, loading }: Props) {
     const history = useRouter()
 
     return (
-        <div className="flex flex-col w-full bg-white p-4 mb-8">
+        <div className="flex flex-col w-full bg-white p-2 mb-8">
             {
                 !no_text && (
                     <div className="md:text-lg text-sm pb-4 flex flex-row items-center justify-between">

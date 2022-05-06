@@ -1,19 +1,24 @@
-import React, { useState, ReactElement } from 'react'
+import React, { useState, ReactElement, useContext, useEffect } from 'react'
 import { data } from '../../utils/data'
 import { useRouter } from 'next/router'
 import BlueButton from '../Buttons/BlueButton'
 import slugify from '../../utils/slugify'
+import { Store } from '../../Context/Store'
 
 function SearchInput():ReactElement {
     const [search_query, setSearchQuery] = useState('')
     const [search_category, setSearchCategory] = useState('')
     const history = useRouter()
+    const { dispatch } = useContext(Store)
 
     const search_handler = () => {
-        console.log(search_query)
+        dispatch({ type: 'SET_SEARCH_QUERY', payload: search_query })
         history.push('/explore')
-        console.log(search_category, search_query)
     }
+
+    useEffect(()=>{
+        dispatch({ type: 'SET_SEARCH_QUERY', payload: search_category })
+    },[search_category])
 
     return (
         <div className="flex flex-row items-center ">

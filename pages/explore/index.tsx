@@ -31,7 +31,6 @@ export default function Explore(props: any) {
     getData()
   }, [search_query])
 
-  console.log(products)
 
   return (
     <ExploreLayout>
