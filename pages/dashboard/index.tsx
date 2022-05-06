@@ -105,7 +105,7 @@ export default function Dashboard() {
                                 name='Account balance'
                                 icon={<ScaleIcon className="h-6 w-6 text-red-600" aria-hidden="true" />}
                                 location='dashboard/reports'
-                                amount={0}
+                                amount={1190}
                                 loading={loading}
                                 bg_color={'bg-red-200'}
                                 />

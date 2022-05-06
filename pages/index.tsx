@@ -22,10 +22,9 @@ import AllProducts from '../components/HomeSections/AllProducts'
 import axios from 'axios'
 import { Store } from '../Context/Store'
 
-
 function Home(props: any): ReactFragment {
   const history = useRouter()
-  // const { products } = props
+  const { latest_products } = props
   const { state } = useContext(Store)
   const { search_query } = state
   const [products, setProducts] = useState<any>()
@@ -36,7 +35,7 @@ function Home(props: any): ReactFragment {
     const getData = async () => {
       try {
         const { data } = await axios.post(`/api/products`, {
-          query: search_query
+          query: search_query,
         })
         setProducts(data)
         setLoading(false)
@@ -50,7 +49,7 @@ function Home(props: any): ReactFragment {
   const banner_images = [
     { body: '', image: promo_1 },
     { body: '', image: promo_2 },
-    { body: '', image: promo_1 }
+    { body: '', image: promo_1 },
   ]
 
   const search_by_category = (category: string) => {
@@ -58,45 +57,47 @@ function Home(props: any): ReactFragment {
     history.push('/explore')
   }
 
-  var randomItem = data.categories[Math.floor(Math.random() * data.categories.length)];
+  var randomItem =
+    data.categories[Math.floor(Math.random() * data.categories.length)]
 
   return (
-    <GeneralLayout title='Home Page' description='Buy more. Spend Less'>
+    <GeneralLayout title="Home Page" description="Buy more. Spend Less">
       {/* <h1>Products</h1> */}
-      <div className="min-h-screen container max-w-7xl">
-        <div className="top w-full flex flex-row md:gap-8 gap-2 bg-white md:p-8 rounded md:px-4 px-0  md:py-4 py-0 mb-8">
-          <div className="md:w-1/5 md:flex hidden">
+      <div className="container min-h-screen max-w-7xl">
+        <div className="top mb-8 flex w-full flex-row gap-2 rounded bg-white px-0 py-0 md:gap-8  md:p-8 md:px-4 md:py-4">
+          <div className="hidden md:flex md:w-1/5">
             <CategoriesDropdown />
           </div>
           <div className="flex-1">
-
-            <div className='flex flex-col'>
-              <div className="z-0 overflow-hidden w-full  h-auto bg-gray-100 md:mb-4 mb-2">
-                <div className="z-0 grid content-center items-center overflow-hidden rounded w-full  bg-white">
+            <div className="flex flex-col">
+              <div className="z-0 mb-2 h-auto  w-full overflow-hidden bg-gray-100 md:mb-4">
+                <div className="z-0 grid w-full content-center items-center overflow-hidden rounded  bg-white">
                   {/* <img src={banner} alt="banner showing ads for the home page" className="flex-1 max-h-full flex-shrink-0 object-cover w-auto h-auto" /> */}
                   <Courosel data={banner_images} />
                 </div>
               </div>
-              <div className="flex flex-col my-auto">
-                <p className='text-gray-900 font-semibold capitalize md:mb-8 mb-2 md:text-lg text-xs md:flex hidden'>Featured Brands</p>
-                <div className="brands flex flex-row items-center justify-between overflow-auto md:px-8 px-2 md:py-0 py-2 gap-4">
-                  <div className="relative md:h-6 h-4 md:w-16 w-10">
-                    <Image src={samsung} alt="" layout='fill' />
+              <div className="my-auto flex flex-col">
+                <p className="mb-2 hidden text-xs font-semibold capitalize text-gray-900 md:mb-8 md:flex md:text-lg">
+                  Featured Brands
+                </p>
+                <div className="brands flex flex-row items-center justify-between gap-4 overflow-auto px-2 py-2 md:px-8 md:py-0">
+                  <div className="relative h-4 w-10 md:h-6 md:w-16">
+                    <Image src={samsung} alt="" layout="fill" />
                   </div>
-                  <div className="relative md:h-6 h-4 md:w-16 w-10">
-                    <Image src={defy} alt="" layout='fill' />
+                  <div className="relative h-4 w-10 md:h-6 md:w-16">
+                    <Image src={defy} alt="" layout="fill" />
                   </div>
-                  <div className="relative md:h-6 h-4 md:w-16 w-10">
-                    <Image src={kenwood} alt="" layout='fill' />
+                  <div className="relative h-4 w-10 md:h-6 md:w-16">
+                    <Image src={kenwood} alt="" layout="fill" />
                   </div>
-                  <div className="relative md:h-6 h-4 md:w-16 w-10">
-                    <Image src={dell} alt="" layout='fill' />
+                  <div className="relative h-4 w-10 md:h-6 md:w-16">
+                    <Image src={dell} alt="" layout="fill" />
                   </div>
-                  <div className="relative md:h-6 h-4 md:w-16 w-10">
-                    <Image src={oppo} alt="" layout='fill' />
+                  <div className="relative h-4 w-10 md:h-6 md:w-16">
+                    <Image src={oppo} alt="" layout="fill" />
                   </div>
-                  <div className="relative md:h-6 h-4 md:w-16 w-10">
-                    <Image src={oppo} alt="" layout='fill' />
+                  <div className="relative h-4 w-10 md:h-6 md:w-16">
+                    <Image src={oppo} alt="" layout="fill" />
                   </div>
                 </div>
               </div>
@@ -106,30 +107,42 @@ function Home(props: any): ReactFragment {
 
         {/* // featured products */}
         <>
-          <FeaturedProducts products={products} loading={loading} />
+          <FeaturedProducts products={latest_products} loading={loading} />
         </>
         <section aria-labelledby="category-heading" className="my-8">
-          <div className="max-w-7xl mx-auto bg-white md:p-8 p-4 rounded">
+          <div className="mx-auto max-w-7xl rounded bg-white p-4 md:p-8">
             <div className="sm:flex sm:items-baseline sm:justify-between">
-              <h2 id="category-heading" className="md:text-xl text-base font-bold tracking-tight text-gray-700">
+              <h2
+                id="category-heading"
+                className="text-base font-bold tracking-tight text-gray-700 md:text-xl"
+              >
                 Shop by Category
               </h2>
-              <a href="/categories" className="hidden font-semibold text-blue-primary hover:text-blue-primary sm:block">
+              <a
+                href="/categories"
+                className="hidden font-semibold text-blue-primary hover:text-blue-primary sm:block"
+              >
                 Browse all categories<span aria-hidden="true"> &rarr;</span>
               </a>
             </div>
 
             <div className="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:grid-rows-2 sm:gap-x-6 lg:gap-8 ">
-              <div onClick={() => search_by_category(randomItem.value)} className="group relative aspect-w-2 md:h-96 h-40 aspect-h-1 rounded-lg overflow-hidden sm:aspect-h-1 sm:aspect-w-1 sm:row-span-2 transition transform hover:-translate-y-1 motion-reduce:transition-none motion-reduce:transform-none border">
+              <div
+                onClick={() => search_by_category(randomItem.value)}
+                className="group aspect-w-2 aspect-h-1 sm:aspect-h-1 sm:aspect-w-1 relative h-40 transform overflow-hidden rounded-lg border transition hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none sm:row-span-2 md:h-96"
+              >
                 <Image
-                  layout='fill'
-                  objectFit='cover'
+                  layout="fill"
+                  objectFit="cover"
                   src={surprise}
                   alt="suprised user."
-                  className="object-center object-cover group-hover:opacity-75"
+                  className="object-cover object-center group-hover:opacity-75"
                 />
-                <div aria-hidden="true" className="bg-gradient-to-b from-transparent to-black opacity-50" />
-                <div className="p-6 flex items-end">
+                <div
+                  aria-hidden="true"
+                  className="bg-gradient-to-b from-transparent to-black opacity-50"
+                />
+                <div className="flex items-end p-6">
                   <div>
                     <h3 className="font-semibold text-white">
                       <span>
@@ -143,18 +156,21 @@ function Home(props: any): ReactFragment {
                   </div>
                 </div>
               </div>
-              <div onClick={() => search_by_category('tech')} className="group aspect-w-2 aspect-h-1 rounded-lg overflow-hidden sm:relative sm:aspect-none sm:h-full transition transform hover:-translate-y-1 motion-reduce:transition-none motion-reduce:transform-none border">
+              <div
+                onClick={() => search_by_category('tech')}
+                className="group aspect-w-2 aspect-h-1 sm:aspect-none transform overflow-hidden rounded-lg border transition hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none sm:relative sm:h-full"
+              >
                 <Image
-                  layout='fill'
+                  layout="fill"
                   src={tech_stuff}
                   alt="tech category."
-                  className="object-center object-cover group-hover:opacity-75 sm:absolute sm:inset-0 sm:w-full sm:h-full"
+                  className="object-cover object-center group-hover:opacity-75 sm:absolute sm:inset-0 sm:h-full sm:w-full"
                 />
                 <div
                   aria-hidden="true"
                   className="bg-gradient-to-b from-transparent to-black opacity-50 sm:absolute sm:inset-0"
                 />
-                <div className="p-6 flex items-end sm:absolute sm:inset-0">
+                <div className="flex items-end p-6 sm:absolute sm:inset-0">
                   <div>
                     <h3 className="font-semibold text-white">
                       <span>
@@ -168,18 +184,21 @@ function Home(props: any): ReactFragment {
                   </div>
                 </div>
               </div>
-              <div onClick={() => search_by_category('Fashion-And-Luggage')} className="group aspect-w-2 aspect-h-1 rounded-lg overflow-hidden sm:relative sm:aspect-none sm:h-full transition transform hover:-translate-y-1 motion-reduce:transition-none motion-reduce:transform-none border">
+              <div
+                onClick={() => search_by_category('Fashion-And-Luggage')}
+                className="group aspect-w-2 aspect-h-1 sm:aspect-none transform overflow-hidden rounded-lg border transition hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none sm:relative sm:h-full"
+              >
                 <Image
-                  layout='fill'
+                  layout="fill"
                   src={clothes}
                   alt="Clothes and fashion"
-                  className="object-center object-cover group-hover:opacity-75 sm:absolute sm:inset-0 sm:w-full sm:h-full"
+                  className="object-cover object-center group-hover:opacity-75 sm:absolute sm:inset-0 sm:h-full sm:w-full"
                 />
                 <div
                   aria-hidden="true"
                   className="bg-gradient-to-b from-transparent to-black opacity-50 sm:absolute sm:inset-0"
                 />
-                <div className="p-6 flex items-end sm:absolute sm:inset-0">
+                <div className="flex items-end p-6 sm:absolute sm:inset-0">
                   <div>
                     <h3 className="font-semibold text-white">
                       <div>
@@ -196,7 +215,10 @@ function Home(props: any): ReactFragment {
             </div>
 
             <div className="mt-6 sm:hidden">
-              <a href="/categories" className="block font-semibold text-blue-primary hover:text-blue-primary">
+              <a
+                href="/categories"
+                className="block font-semibold text-blue-primary hover:text-blue-primary"
+              >
                 Browse all categories<span aria-hidden="true"> &rarr;</span>
               </a>
             </div>
@@ -207,7 +229,6 @@ function Home(props: any): ReactFragment {
         <>
           <AllProducts products={products} loading={loading} />
         </>
-
       </div>
     </GeneralLayout>
   )
@@ -216,12 +237,14 @@ function Home(props: any): ReactFragment {
 export async function getServerSideProps(context: any) {
   await connect()
   const products = await Products.find({}).lean()
+  const latest_products = await Products.find({}).sort({ createdAt: -1 }).lean()
   await disconnect()
   return {
     props: {
       //@ts-ignore
-      products: products?.map(convertDocToObj)
-    }
+      products: products?.map(convertDocToObj),
+      latest_products: latest_products?.map(convertDocToObj),
+    },
   }
 }
 

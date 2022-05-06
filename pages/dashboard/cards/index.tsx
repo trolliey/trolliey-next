@@ -1,38 +1,21 @@
 import axios from 'axios'
-import React, {
-  ReactChild,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import CreditCard from '../../../components/DashboardCard/CreditCard'
 import DashboardLayout from '../../../layouts/DashboardLayout'
 import ecocash from '../../../public/img/eco_cash.svg'
 import { Store } from '../../../Context/Store'
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  useDisclosure,
-  Button,
-  Stack,
-  Input,
-} from '@chakra-ui/react'
+import { Input } from '@chakra-ui/react'
+import BlueButton from '../../../components/Buttons/BlueButton'
 
 function Cards() {
-  const { isOpen, onOpen, onClose } = useDisclosure()
   const [currency_type, setCurrencyType] = useState('')
   const [number, setNumber] = useState('')
   const [title, setTitle] = useState('')
-  const [body, setBody] = useState<any>()
-  const [action_button, setActionButton] = useState<any>()
+  const [loading, setLoading] = useState(false)
   const { state } = useContext(Store)
   const { userInfo } = state
+
+  const [edit_rtgs_panel, setEditRtgsPanel] = useState(false)
 
   const [cards, setCards] = useState()
 
@@ -51,34 +34,22 @@ function Cards() {
   console.log(cards)
 
   const edit_rtgs = async () => {
-    // setActionButton(() => <Button variant="ghost">Secondary Action</Button>)
-    // setBody(() => <p>iam a body of the modal</p>)
-    // setCurrencyType('RTGS')
-    // await axios.put(
-    //   '/api/cards',
-    //   { currency_type, number },
-    //   {
-    //     headers: {
-    //       authorization: userInfo.token,
-    //     },
-    //   }
-    // )
-    onOpen()
-    setTitle('Edit Rtgs card')
-    setActionButton(() => (
-      <Button onClick={() => console.log(number)} variant="ghost">
-        Secondary Action
-      </Button>
-    ))
-    setBody(() => (
-      <Stack spacing={3}>
-        <Input
-          onChange={(e: any) => setNumber(e.target.value)}
-          placeholder="write card number"
-          size="sm"
-        />
-      </Stack>
-    ))
+    try {
+      setLoading(false)
+      await axios.put(
+        '/api/cards',
+        { currency_type: 'RTGS' },
+        {
+          headers: {
+            authorization: userInfo.token,
+          },
+        }
+      )
+      setLoading(true)
+    } catch (error) {
+      setLoading(false)
+      console.log(error)
+    }
   }
 
   const edit_usd = () => {}
@@ -99,9 +70,9 @@ function Cards() {
                 Card for all RTGS payments
               </p>
             </div>
-            <div className="flex w-1/3 flex-row">
+            <div className="flex w-1/3 flex-col">
               <CreditCard
-                onClick={edit_rtgs}
+                onClick={() => setEditRtgsPanel(true)}
                 type={'RTGS'}
                 number={'No Number Yet'}
                 picture={ecocash}
@@ -109,55 +80,19 @@ function Cards() {
                 date={Date.now()}
                 bg_color={'bg-gradient-to-r from-black to-gray-800 h-full'}
               />
+              {edit_rtgs_panel && (
+                <div className="my-2 flex w-full flex-col">
+                  <Input placeholder="Enter Card number " />
+                  <div className="ml-auto mt-2 flex">
+                    <BlueButton text={'Edit'} />
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
-        <CardsModal
-          isOpen={isOpen}
-          onClose={onClose}
-          title={title}
-          setNumber={setNumber}
-          body={body}
-          ActionButton={action_button}
-        />
       </div>
     </DashboardLayout>
-  )
-}
-
-interface CardProps {
-  isOpen: any
-  onClose: any
-  title: string
-  ActionButton: ReactNode
-  setNumber: any
-  body: any
-}
-
-const CardsModal = ({
-  isOpen,
-  onClose,
-  title,
-  ActionButton,
-  setNumber,
-  body,
-}: CardProps) => {
-  return (
-    <Modal isOpen={isOpen} onClose={onClose}>
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>{title}</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody>{body}</ModalBody>
-
-        <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={onClose}>
-            Close
-          </Button>
-          {ActionButton}
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
   )
 }
 
