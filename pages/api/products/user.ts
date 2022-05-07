@@ -11,28 +11,40 @@ const handler = nc()
 // get request
 // /api/products/user?id=id_of_user
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
-    try {
+  try {
+    await connect()
+    const id = req.query.user_id
+    const store = await Store.findOne({ user: id })
 
-        // search query on seller inventory
-        const queryString = req.body.query
-        const queryStrings = queryString.split(" ")
-        let allQueries: any = []
+    if (req.body.query) {
+      // search query on seller inventory
+      const queryString = req.body.query
+      const queryStrings = queryString.split(' ')
+      let allQueries: any = []
 
-        queryStrings.forEach((element: any) => {
-            let regex = new RegExp(element, 'i');
-            allQueries.push({ title: regex }, { description: regex }, { category: regex }, { category_slug: regex })
-        });
+      queryStrings.forEach((element: any) => {
+        let regex = new RegExp(element, 'i')
+        allQueries.push(
+          { title: regex },
+          { description: regex },
+          { category: regex },
+          { category_slug: regex }
+        )
+      })
 
-        await connect()
-        const id = req.query.user_id
-        const store = await Store.findOne({ user: id })
-        //@ts-ignore
-        const products = await Products.find({ store_id: store._id, $and: [{ $or: allQueries }] })
-        await disconnect()
-        res.status(200).send(products)
-    } catch (error) {
-        return res.send(error)
+      //@ts-ignore
+      const products = await Products.find({
+        store_id: store._id,
+        $and: [{ $or: allQueries }],
+      })
+      await disconnect()
+      res.status(200).send(products)
+    } else {
+      console.log('no qury')
     }
+  } catch (error) {
+    return res.send(error)
+  }
 })
 
 export default handler

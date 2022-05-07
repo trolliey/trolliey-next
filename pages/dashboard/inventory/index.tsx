@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import DashboardLayout from '../../../layouts/DashboardLayout'
-import { SearchIcon, ArrowDownIcon } from '@heroicons/react/outline'
+import { SearchIcon } from '@heroicons/react/outline'
 import ProductsTable from '../../../components/Tables/ProductsTable'
-import { data } from '../../../utils/data'
 import BlueButton from '../../../components/Buttons/BlueButton'
 import { useRouter } from 'next/router'
 import axios from 'axios'
@@ -10,11 +9,10 @@ import { Store } from '../../../Context/Store'
 import { Spinner } from '@chakra-ui/react'
 
 export default function Inventory() {
-    const [show_filter, setShowFilter] = useState<boolean>(false)
     const history = useRouter()
     const [loading, setLoading] = useState<boolean>(false)
     const [search_query, setSearchQuery] = useState<string>('')
-    const [products, setProducts] = useState<any>()
+    const [products, setProducts] = useState<any>([])
     const { state } = useContext(Store)
     const { userInfo } = state
 
@@ -34,7 +32,7 @@ export default function Inventory() {
         getData()
     }, [search_query])
 
-    // console.log(products)
+    console.log(products)
 
     return (
         <DashboardLayout>
@@ -62,7 +60,15 @@ export default function Inventory() {
                         </div>
                     ) : (
                             <>
-                                <ProductsTable products={products} />
+                               {
+                                   products?.length < 1 ? (
+                                       <p>no products</p>
+                                   ):(
+                                       <>
+                                         <ProductsTable products={products} />
+                                       </>
+                                   )
+                               }
                             </>
                         )
                 }

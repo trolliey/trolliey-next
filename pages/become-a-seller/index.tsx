@@ -19,7 +19,7 @@ const includedFeatures = [
 ]
 
 const metrics = [
-    { id: 1, stat: '8K+', emphasis: 'Companies', rest: 'use laoreet amet lacus nibh integer quis.' },
+    { id: 1, stat: '8K+', emphasis: 'Companies', rest: 'use laoreet amet123456 lacus nibh integer quis.' },
     { id: 2, stat: '25K+', emphasis: 'Countries around the globe', rest: 'lacus nibh integer quis.' },
     { id: 3, stat: '98%', emphasis: 'Customer satisfaction', rest: 'laoreet amet lacus nibh integer quis.' },
     { id: 4, stat: '12M+', emphasis: 'Issues resolved', rest: 'lacus nibh integer quis.' },
@@ -178,10 +178,11 @@ function BecomeASeller() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="mt-12 sm:mt-16 lg:mt-0">
-                                <div className="pl-4 -mr-48 sm:pl-6 md:-mr-16 lg:px-0 lg:m-0 lg:relative lg:h-full">
+                            <div className="relative mt-12 sm:mt-16 lg:mt-0">
+                                <div className="relative pl-4 -mr-48 sm:pl-6 md:-mr-16 lg:px-0 lg:m-0 lg:relative lg:h-full">
                                     <Image
                                         layout='fill'
+                                        objectFit='cover'
                                         className="w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 lg:absolute lg:left-0 lg:h-full lg:w-auto lg:max-w-none"
                                         src={dashboard}
                                         alt="Inbox user interface"
@@ -220,9 +221,10 @@ function BecomeASeller() {
                                 </div>
                             </div>
                             <div className="mt-12 sm:mt-16 lg:mt-0 lg:col-start-1">
-                                <div className="pr-4 -ml-48 sm:pr-6 md:-ml-16 lg:px-0 lg:m-0 lg:relative lg:h-full">
+                                <div className="relative pr-4 -ml-48 sm:pr-6 md:-ml-16 lg:px-0 lg:m-0 lg:relative lg:h-full">
                                     <Image
                                         layout='fill'
+                                        objectFit='cover'
                                         className="w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 lg:absolute lg:right-0 lg:h-full lg:w-auto lg:max-w-none"
                                         src={dashboard}
                                         alt="Customer profile user interface"
