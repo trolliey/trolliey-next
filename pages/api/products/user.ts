@@ -32,6 +32,8 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
         )
       })
 
+      // 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
+
       //@ts-ignore
       const products = await Products.find({
         store_id: store._id,
