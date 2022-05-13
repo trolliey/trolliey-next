@@ -1,11 +1,21 @@
 import Head from 'next/head'
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 import GeneralNavbar from '../components/Navigations/GeneralNavbar'
-import { Container } from '@chakra-ui/react'
+import { Button, Container, useDisclosure } from '@chakra-ui/react'
 import Footer from '../components/Navigations/Footer'
 import { XIcon } from '@heroicons/react/outline'
 import Image from 'next/image'
-import the_image from '../public/img/tech_stuff.jpg'
+import Cookies from 'js-cookie'
+
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+} from '@chakra-ui/react'
 
 interface Props {
   title: string
@@ -36,10 +46,22 @@ function GeneralLayout({
   canonical_url,
   og_image,
 }: Props): ReactElement {
+  const { isOpen, onOpen, onClose } = useDisclosure()
   const desc =
     'Trolliey is a modern ecommerce platform. You can become a seller or become a buyer and trade your items from anywhere you like. You can manage you inventory and customers using our intuitive dashboard, Buy and sell goods and items online'
   const original_title = 'Trolliey'
   const url = 'www.trolliey.com'
+
+  const [_currency_, setCurrency] = useState<any>('')
+
+  useEffect(() => {
+    const currency = Cookies.get('trolliey_currency')
+    if (!currency) {
+      onOpen()
+    }
+    setCurrency(currency)
+  }, [])
+
   return (
     <div
       className="overflow-scroll bg-gray-100"
@@ -100,6 +122,53 @@ function GeneralLayout({
             </h1>
           )}
           {children}
+          {!_currency_ && (
+            <Modal isOpen={isOpen} onClose={onClose} isCentered>
+              <ModalOverlay />
+              <ModalContent>
+                <ModalHeader>Select Preferred Currency</ModalHeader>
+                <ModalCloseButton />
+                <ModalBody>
+                  <div className="flex w-full flex-col items-center">
+                    <div
+                      onClick={() => {
+                        Cookies.set('trolliey_currency', 'USD')
+                        onClose()
+                      }}
+                      className="w-full cursor-pointer rounded border-y border-gray-200 p-2 text-center hover:bg-gray-100"
+                    >
+                      USD
+                    </div>
+                    <div
+                      onClick={() => {
+                        Cookies.set('trolliey_currency', 'ZWL')
+                        onClose()
+                      }}
+                      className="w-full cursor-pointer rounded border-y border-gray-200 bg-gray-100 p-2 text-center hover:bg-gray-200"
+                    >
+                      ZWL
+                    </div>
+                    <div
+                      onClick={() => {
+                        Cookies.set('trolliey_currency', 'ANY')
+                        onClose()
+                      }}
+                      className="w-full cursor-pointer rounded border-y border-gray-200 p-2 text-center hover:bg-gray-100"
+                    >
+                      ALL
+                    </div>
+                  </div>
+                </ModalBody>
+
+                <ModalFooter>
+                  <Button colorScheme="blue" mr={3} onClick={onClose}>
+                    Close
+                  </Button>
+                  <Button variant="ghost">Proceed</Button>
+                </ModalFooter>
+              </ModalContent>
+            </Modal>
+          )}
         </Container>
       </main>
 
