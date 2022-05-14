@@ -9,6 +9,7 @@ const navigation = {
         { name: 'Jobs', href: '/jobs' },
         { name: 'Explore', href: '/explore' },
         { name: 'Join', href: '/register' },
+        { name: 'Terms And Conditions', href: '/termsandconditions' },
     ],
     auth_main: [
         { name: 'About', href: '/about' },
@@ -16,6 +17,7 @@ const navigation = {
         { name: 'Jobs', href: '/jobs' },
         { name: 'Explore', href: '/explore' },
         { name: 'Account', href: '/account' },
+        { name: 'Terms And Conditions', href: '/termsandconditions' },
     ],
     social: [
         {
