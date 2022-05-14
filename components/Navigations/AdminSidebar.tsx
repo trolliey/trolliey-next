@@ -27,6 +27,7 @@ const navigation = [
     { name: 'Categories', href: '/admin/categories', icon: TrendingUpIcon, current: false },
     // { name: 'Recipients', href: '/dashboard/receipts', icon: UserGroupIcon, current: false },
     { name: 'Admin Settings', href: '/dashboard/settings', icon: CogIcon },
+    { name: 'Site Management ', href: '/dashboard/settings', icon: CogIcon },
 ]
 
 const buyer_navigation = [
