@@ -164,7 +164,7 @@ function GeneralLayout({
                   <Button colorScheme="blue" mr={3} onClick={onClose}>
                     Close
                   </Button>
-                  <Button variant="ghost">Proceed</Button>
+                  <Button onClick={onClose} variant="ghost">Proceed</Button>
                 </ModalFooter>
               </ModalContent>
             </Modal>
