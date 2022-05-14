@@ -26,6 +26,7 @@ interface Props {
 function MobileNavDrawers({ user }: Props): ReactElement {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [show_category, setShowCotegory] = useState(false)
+    const [show_currencies, serShowCurrencies] = useState(false)
     const history = useRouter()
 
     return (
@@ -87,7 +88,7 @@ function MobileNavDrawers({ user }: Props): ReactElement {
 
                                 </div>
 
-                            </DrawerBody>
+                                show_category </DrawerBody>
                         ) : (
                             <DrawerBody bg={'gray.200'} p={0}>
                                 <Divider />
@@ -123,6 +124,12 @@ function MobileNavDrawers({ user }: Props): ReactElement {
                                 <Divider />
                                 <div onClick={() => setShowCotegory(true)} className="capitalize text-gray-700 py-4 bg-white px-4 text-sm font-semibold flex flex-row items-center justify-between">
                                     <p>shop by categories</p>
+                                    <ChevronRightIcon height={20} width={20} />
+                                </div>
+                                <Divider />
+
+                                <div onClick={() => console.log('show products')} className="capitalize text-gray-700 py-4 bg-white px-4 text-sm font-semibold flex flex-row items-center justify-between">
+                                    <p>Preferred Currecy</p>
                                     <ChevronRightIcon height={20} width={20} />
                                 </div>
                                 <Divider />
