@@ -76,11 +76,11 @@ function NavSearch():ReactElement {
                         >
                           {/* <Avatar src={item.picture}   rounded={"md"} /> */}
                           <div className="relative h-16 rounded w-16 bg-gray-50 overflow-hidden">
-                            <Image
+                            {/* <Image
                               src={item.pictures[0]}
                               layout="fill"
                               objectFit="contain"
-                            />
+                            /> */}
                           </div>
                           <div className="flex flex-col pl-4">
                             <Text
