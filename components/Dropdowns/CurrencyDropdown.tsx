@@ -1,20 +1,22 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/solid'
 import Cookies from 'js-cookie'
+import { Store } from '../../Context/Store'
 
 function classNames(...classes: any[]) {
   return classes.filter(Boolean).join(' ')
 }
 
 function CurrencyDropdown() {
-  const currency = Cookies.get('trolliey_currency')
   const [new_currency, setNewCurrency] = useState<any>('')
+  const { state, dispatch } = useContext(Store)
+  const { currency } = state
 
-  useEffect(()=>{
+  useEffect(() => {
     setNewCurrency(currency)
-  },[new_currency, currency])
+  }, [new_currency, currency])
 
   return (
     <>
@@ -45,11 +47,12 @@ function CurrencyDropdown() {
                   <div
                     onClick={() => {
                       Cookies.set('trolliey_currency', 'USD')
+                      dispatch({ type: 'CHANGE_CURRENCY', payload: 'USD' })
                       setNewCurrency('USD')
                     }}
                     className={classNames(
                       active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                      'block px-4 py-2 text-sm cursor-pointer'
+                      'block cursor-pointer px-4 py-2 text-sm'
                     )}
                   >
                     USD
@@ -61,14 +64,32 @@ function CurrencyDropdown() {
                   <div
                     onClick={() => {
                       Cookies.set('trolliey_currency', 'ZWL')
+                      dispatch({ type: 'CHANGE_CURRENCY', payload: 'ZWL' })
                       setNewCurrency('ZWL')
                     }}
                     className={classNames(
                       active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                      'block px-4 py-2 text-sm cursor-pointer'
+                      'block cursor-pointer px-4 py-2 text-sm'
                     )}
                   >
                     ZWL
+                  </div>
+                )}
+              </Menu.Item>
+              <Menu.Item>
+                {({ active }) => (
+                  <div
+                    onClick={() => {
+                      Cookies.set('trolliey_currency', 'ANY')
+                      dispatch({ type: 'CHANGE_CURRENCY', payload: 'ANY' })
+                      setNewCurrency('ANY')
+                    }}
+                    className={classNames(
+                      active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                      'block cursor-pointer px-4 py-2 text-sm'
+                    )}
+                  >
+                    ANY
                   </div>
                 )}
               </Menu.Item>

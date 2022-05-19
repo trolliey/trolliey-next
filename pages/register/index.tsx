@@ -27,7 +27,7 @@ function Register() {
             history.push(redirect || '/login')
             console.log(data)
             toast({
-                title: 'Rgstration successful.',
+                title: 'Account created sucessfully!.',
                 status: 'success',
                 position: 'top-right',
                 duration: 9000,

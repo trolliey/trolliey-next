@@ -77,6 +77,7 @@ export default function CreateProduct() {
         '/api/products/create',
         {
           pictures: uploads,
+          // pictures: [''],
           description: description,
           title: title,
           category: category,
@@ -87,6 +88,7 @@ export default function CreateProduct() {
           status: status,
           sku: sku,
           variants: variations,
+          currency: currency
         },
         { headers: { authorization: userInfo?.token } }
       )
@@ -125,7 +127,7 @@ export default function CreateProduct() {
             {/* // featured iamge */}
             <div>
               <div className="md:grid md:grid-cols-3 md:gap-6">
-                <div className="md:col-span-1">
+                {/* <div className="md:col-span-1">
                   <div className="px-4 sm:px-0">
                     <h3 className="text-lg font-medium leading-6 text-gray-900">
                       Featured Image
@@ -134,8 +136,8 @@ export default function CreateProduct() {
                       This image will be shown in most places.
                     </p>
                   </div>
-                </div>
-                <div className="mt-5 md:col-span-2 md:mt-0">
+                </div> */}
+                {/* <div className="mt-5 md:col-span-2 md:mt-0">
                   <form action="#" method="POST">
                     <div className="shadow sm:overflow-hidden sm:rounded-md">
                       <div className="space-y-6 bg-white px-4 py-5 sm:p-6">
@@ -180,7 +182,7 @@ export default function CreateProduct() {
                       </div>
                     </div>
                   </form>
-                </div>
+                </div> */}
               </div>
             </div>
 
@@ -434,7 +436,7 @@ export default function CreateProduct() {
                               htmlFor="city"
                               className="block text-sm font-medium text-gray-700"
                             >
-                              Preffed currency
+                              Preffed currency (if not selected we assume USD)
                             </label>
                             <select
                               id="country"
@@ -445,7 +447,7 @@ export default function CreateProduct() {
                               className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                             >
                               <option value={'USD'}>USD</option>
-                              <option value={'USD'}>ZWL</option>
+                              <option value={'ZWL'}>ZWL</option>
                             </select>
                           </div>
 

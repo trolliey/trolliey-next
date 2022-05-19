@@ -11,30 +11,27 @@ import {
   useDisclosure,
   Button,
 } from '@chakra-ui/react'
-import { useRouter } from 'next/router'
+import moment from 'moment'
 
 interface Props {
-  products?: any
+  users?: any
 }
-
-export default function ProductsTable({ products }: Props): ReactElement {
+function AdminUsersTable({ users }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const [product_name, setProductName] = useState('')
-  const [product_id, setProductId] = useState('')
-  const router = useRouter()
+  const [user_name, setuserName] = useState('')
+  const [user_id, setuserId] = useState('')
 
   const set_delete_item = (id: string, name: string) => {
-    setProductId(id)
-    setProductName(name)
+    setuserId(id)
+    setuserName(name)
     onOpen()
   }
 
   const delele_item = () => {
     console.log('item deleted')
-    setProductId('')
-    setProductName('')
+    setuserId('')
+    setuserName('')
   }
-
   return (
     <div className="flex flex-col">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -49,36 +46,26 @@ export default function ProductsTable({ products }: Props): ReactElement {
                   >
                     Name
                   </th>
+                 
                   <th
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
                   >
-                    Category
+                    email
                   </th>
                   <th
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
                   >
-                    Price/Unit
+                    role
                   </th>
                   <th
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
                   >
-                    discount
+                    createdAt
                   </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
-                  >
-                    quantity
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
-                  >
-                    Status
-                  </th>
+                 
 
                   <th
                     scope="col"
@@ -89,57 +76,49 @@ export default function ProductsTable({ products }: Props): ReactElement {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 bg-white">
-                {products && (
+                {users && (
                   <>
-                    {products?.map((product: any) => (
-                      <tr key={product._id}>
+                    {users?.map((user: any) => (
+                      <tr key={user._id}>
                         <td className="whitespace-nowrap px-6 py-4">
                           <div className="flex items-center">
                             <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gray-100">
                               <img
                                 className="h-10 w-10 rounded-full"
-                                src={product.pictures[0]}
+                                src={user.photoURL}
                                 alt=""
                               />
                             </div>
                             <div className="ml-4">
                               <div className="text-sm font-medium text-gray-900">
-                                {product.title}
+                                {user.name}
                               </div>
                             </div>
                           </div>
                         </td>
-                        <td className="whitespace-nowrap px-6 py-4">
-                          <div className="text-sm text-gray-500">
-                            {product.category}
-                          </div>
-                        </td>
+                     
 
-                        <td className="whitespace-nowrap px-6 py-4">
+                        <td className=" px-6 py-4">
                           <div className="text-sm text-gray-500">
-                            {product.price}
+                            {user.email}
                           </div>
                         </td>
                         <td className="whitespace-nowrap px-6 py-4">
                           <div className="text-sm text-gray-500">
-                            {product.discount_price}
+                            {user.role}
                           </div>
                         </td>
                         <td className="whitespace-nowrap px-6 py-4">
                           <div className="text-sm text-gray-500">
-                            {product.countInStock}
+                            {moment(user.createdAt).fromNow()}
                           </div>
                         </td>
-                        <td className="whitespace-nowrap px-6 py-4">
-                          <span className="inline-flex rounded-full bg-green-700 px-2 text-xs font-semibold leading-5 text-white">
-                            Active
-                          </span>
-                        </td>
+                       
                         <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
                           <div className="flex flex-row items-center space-x-2">
                             <span
                               onClick={() =>
-                                set_delete_item(product.id, product.title)
+                                set_delete_item(user.id, user.title)
                               }
                               className="cursor-pointer"
                             >
@@ -149,7 +128,7 @@ export default function ProductsTable({ products }: Props): ReactElement {
                                 className="text-red-400 "
                               />
                             </span>
-                            <span onClick={() => router.push(`/dashboard/inventory/edit/${product?._id}`)} className="cursor-pointer">
+                            <span className="cursor-pointer">
                               <PencilIcon
                                 height={20}
                                 width={20}
@@ -171,8 +150,7 @@ export default function ProductsTable({ products }: Props): ReactElement {
                                 Delete
                               </p>
                               <p className="text-center">
-                                Are you sure you want to delete product with
-                                name {product_name}?
+                                Are you sure you want to delete user
                               </p>
                             </ModalBody>
 
@@ -202,3 +180,5 @@ export default function ProductsTable({ products }: Props): ReactElement {
     </div>
   )
 }
+
+export default AdminUsersTable

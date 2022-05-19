@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import ProductItem from '../ProductItem/ProductItem'
 import { ArrowRightIcon } from '@heroicons/react/outline'
 import { useRouter } from 'next/router'
 import ProductLoading from '../ProductItem/ProductLoading'
 import no_product from '../../public/img/no_product.svg'
 import Image from 'next/image'
+import { Store } from '../../Context/Store'
 
 interface Props {
   products?: any | null
@@ -16,6 +17,10 @@ interface Props {
 
 function AllProducts({ products, query, cols, no_text, loading }: Props) {
   const history = useRouter()
+  const { state, dispatch } = useContext(Store)
+  const { currency } = state
+
+  console.log(products)
 
   return (
     <div className="mb-8 flex w-full flex-col bg-white p-2">
@@ -48,7 +53,7 @@ function AllProducts({ products, query, cols, no_text, loading }: Props) {
       ) : (
         <>
           {products?.length < 1 ? (
-            <div className=" grid h-68 content-center items-center justify-center">
+            <div className=" h-68 grid content-center items-center justify-center">
               <div className="relative h-40">
                 <Image src={no_product} layout="fill" objectFit="contain" />
               </div>
@@ -65,19 +70,35 @@ function AllProducts({ products, query, cols, no_text, loading }: Props) {
               >
                 {products?.map((product: any, index: number) => (
                   <div key={index} className="col-span-1 p-0">
-                    <ProductItem
-                      name={product.title}
-                      description={product.description}
-                      rating={product.rating}
-                      picture={product.pictures[0]}
-                      price={product.price}
-                      discount_price={product.discount_price}
-                      category={product.category}
-                      id={product._id}
-                      countInStock={product.countInStock}
-                      product={product}
-                      averageRating={product.averageRating}
-                    />
+                    {product.currency_type === currency ? (
+                      <ProductItem
+                        name={product.title}
+                        description={product.description}
+                        rating={product.rating}
+                        picture={product.pictures[0]}
+                        price={product.price}
+                        discount_price={product.discount_price}
+                        category={product.category}
+                        id={product._id}
+                        countInStock={product.countInStock}
+                        product={product}
+                        averageRating={product.averageRating}
+                      />
+                    ) : currency === 'ANY' ? (
+                      <ProductItem
+                        name={product.title}
+                        description={product.description}
+                        rating={product.rating}
+                        picture={product.pictures[0]}
+                        price={product.price}
+                        discount_price={product.discount_price}
+                        category={product.category}
+                        id={product._id}
+                        countInStock={product.countInStock}
+                        product={product}
+                        averageRating={product.averageRating}
+                      />
+                    ) : null}
                   </div>
                 ))}
               </div>

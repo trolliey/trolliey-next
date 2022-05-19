@@ -10,7 +10,8 @@ import {
     ShoppingBagIcon,
     ClockIcon,
     TemplateIcon,
-    TrendingUpIcon
+    TrendingUpIcon,
+    UserGroupIcon
 } from '@heroicons/react/outline'
 import logo from '../../public/img/icon.png'
 import { Store } from '../../Context/Store'
@@ -20,6 +21,7 @@ import Image from 'next/image'
 const navigation = [
     { name: 'Home', href: '/admin/home', icon: TemplateIcon, current: false },
     { name: 'Manage Stores', href: '/admin/stores', icon: ClipboardListIcon, current: false },
+    { name: 'Manage Users', href: '/admin/users', icon: UserGroupIcon, current: false },
     { name: "Manage Orders", href: '/admin/orders', icon: ShoppingBagIcon, current: false },
     // { name: 'History', href: '/dashboard/history', icon: ClockIcon, current: false },
     // { name: 'Balances', href: '/dashboard/balances', icon: ScaleIcon, current: false },

@@ -9,12 +9,14 @@ const handler = nc()
 
 // get all user products
 // get request
-// /api/products/user?id=id_of_user
-handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
+// /api/dashboard/products
+auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await connect()
+    //@ts-ignore
+    const _user = req.user
     const id = req.query.user_id
-    const store = await Store.findOne({ user: id })
+    const store = await Store.findOne({ user: _user._id })
 
     if (req.body.query) {
       // search query on seller inventory
@@ -40,7 +42,6 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
       await disconnect()
       res.status(200).send(products)
     } else {
-      //@ts-ignore
       const products = await Products.find({
         store_id: store._id,
       })
@@ -52,4 +53,4 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   }
 })
 
-export default handler
+export default auth_handler

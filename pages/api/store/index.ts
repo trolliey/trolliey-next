@@ -110,6 +110,13 @@ auth_handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(500).send('Please specify an action!')
   }
 
+  if (action === 'approve') {
+    await Store.findOneAndUpdate({ _id: store_id }, { approved: true })
+    return res
+      .status(200)
+      .send('Store has been approved and can start selling now!')
+  }
+
   if (action === 'verify') {
     await Store.findOneAndUpdate({ _id: store_id }, { verified: true })
     return res.status(200).send('Verification action complete')

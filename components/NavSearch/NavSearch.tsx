@@ -1,7 +1,8 @@
 import { Modal, ModalBody, ModalContent, ModalOverlay, useDisclosure } from '@chakra-ui/react'
 import { SearchIcon } from '@heroicons/react/outline'
+import axios from 'axios'
 import { useRouter } from 'next/router'
-import React, { ReactElement, useState, useContext } from 'react'
+import React, { ReactElement, useState, useContext, useEffect } from 'react'
 import { Store } from '../../Context/Store'
 
 function NavSearch():ReactElement {
@@ -15,6 +16,13 @@ function NavSearch():ReactElement {
         history.push('/explore')
         onClose()
     }
+    
+    useEffect(()=>{
+        const getData = async () =>{
+            // const {data} = await axios.get('/api/products')
+        }
+        getData()
+    },[search_query])
 
     return (
         <>

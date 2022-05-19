@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import GeneralLayout from '../../layouts/GeneralLayout'
 import {
     CheckCircleIcon,
@@ -10,6 +10,7 @@ import { useRouter } from 'next/router'
 import BlueButton from '../../components/Buttons/BlueButton'
 import dashboard from '../../public/img/dashboard_screenshot.png'
 import Image from 'next/image'
+import {Store} from '../../Context/Store'
 
 const includedFeatures = [
     'Unlimited products',
@@ -27,6 +28,8 @@ const metrics = [
 
 function BecomeASeller() {
     const history = useRouter()
+    const { state, dispatch } = useContext(Store)
+  const { userInfo } = state
     return (
         <div className="bg-white">
             <header>
@@ -58,7 +61,7 @@ function BecomeASeller() {
                                     <div className="space-y-4 sm:space-y-0 sm:mx-auto sm:inline-grid sm:grid-cols-2 sm:gap-5">
 
                                         <div
-                                            onClick={() => history.push('/create-store')}
+                                            onClick={userInfo ? () => history.push('/create-store') : () => history.push('/login?redirect=/create-store')}
                                             className="flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-indigo-700 bg-white hover:bg-indigo-50 sm:px-8 cursor-pointer"
                                         >
                                             Apply Now
@@ -238,7 +241,7 @@ function BecomeASeller() {
 
 
                 {/* Stats section */}
-                <div className="relative bg-gray-900">
+                {/* <div className="relative bg-gray-900">
                     <div className="h-80 absolute inset-x-0 bottom-0 xl:top-0 xl:h-full">
                         <div className="h-full w-full xl:grid xl:grid-cols-2">
                             <div className="h-full xl:relative xl:col-start-2">
@@ -281,7 +284,7 @@ function BecomeASeller() {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
 
                 {/* CTA Section */}
                 <div className="bg-white">

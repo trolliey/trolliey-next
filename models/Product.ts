@@ -16,6 +16,11 @@ const productSchema = new mongoose.Schema({
         required: true,
         index: true
     },
+    currency_type:{
+        type: String,
+        enum: ['ZWL', 'USD'],
+        default: 'USD'
+    },
     averageRating:{
         type: Number,
         default: 0

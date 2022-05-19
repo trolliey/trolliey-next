@@ -15,47 +15,53 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
         const _user = req.user
         const store = await Store.findOne({ user: _user._id })
 
-        const {
-            pictures,
-            description,
-            title,
-            category,
-            price,
-            discount_price,
-            brand,
-            countInStock,
-            status,
-            sku,
-            variants,
-        } = req.body
+        if(store){
 
-        const newProduct = new Products({
-            title: title,
-            slug: slugify(title),
-            description: description,
-            price: price,
-            discount_price: discount_price,
-            pictures: pictures,
-            brand: brand,
-            countInStock: countInStock,
-            category: category,
-            category_slug: slugify(category),
-            variants: variants,
-            store_id: store._id,
-            sku: sku,
-            status: status
-        })
-
-        await newProduct.save()
-
-        // console.log(saved_product)
-
-        // console.log(newProduct)
-
-        await disconnect()
-        return res.send({message: 'Product saved Successfully'})
+            // coming from client request
+            const {
+                pictures,
+                description,
+                title,
+                category,
+                price,
+                discount_price,
+                brand,
+                countInStock,
+                status,
+                sku,
+                variants,
+                currency
+            } = req.body
+    
+            // using mongoose schema
+            const newProduct = new Products({
+                title: title,
+                slug: slugify(title),
+                description: description,
+                price: price,
+                discount_price: discount_price,
+                pictures: pictures,
+                brand: brand,
+                countInStock: countInStock,
+                category: category,
+                category_slug: slugify(category),
+                variants: variants,
+                store_id: store._id,
+                sku: sku,
+                status: status,
+                currency_type: currency
+            })
+    
+            // saving the new product
+            await newProduct.save()
+    
+            await disconnect()
+            return res.send({message: 'Product saved Successfully'})
+        }else{
+            return res.status(500).send({message: 'No store found'})
+        }
     } catch (error) {
-        return res.send(error)
+        return res.send({message: error})
     }
 })
 

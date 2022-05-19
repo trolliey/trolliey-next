@@ -66,10 +66,10 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
                     verified: is_store.verified,
                 })
             } else {
-                return res.status(422).send({ error: 'Failed to login, Wrong details!' })
+                return res.status(422).send({ message: 'Failed to login, Wrong details!' })
             }
         } else {
-            return res.status(400).send({ error: 'Wrong login details' })
+            return res.status(400).send({ message: 'Wrong login details' })
         }
     }
 

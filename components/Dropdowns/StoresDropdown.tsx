@@ -23,7 +23,7 @@ function classNames(...classes: any[]) {
 }
 
 interface Props {
-  id: string,
+  id: string
   verified: any
 }
 
@@ -72,6 +72,62 @@ function StoresDropdown({ id, verified }: Props) {
       })
       setLoading(false)
     }
+  }
+
+  // handle api calls to approve store
+  const handle_approve_store = async () => {
+    try {
+      setLoading(true)
+      await axios.put(
+        `/api/store`,
+        { store_id: id, action: 'approve' },
+        {
+          headers: {
+            Authorization: userInfo?.token,
+          },
+        }
+      )
+      setLoading(false)
+      toast({
+        title: 'Success.',
+        description: 'Store Approved Successfully',
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+        position: 'top-right',
+      })
+      onClose()
+    } catch (error) {
+      toast({
+        title: 'Failed to approve.',
+        description: 'Failed to approve store. Contact Support Team!',
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+        position: 'top-right',
+      })
+      setLoading(false)
+    }
+    // console.log('the store has been approved and can start selling now')
+  }
+
+  //modal to approve store
+  const approve_store = () => {
+    onOpen()
+    setModalBody(
+      'By approving. An email will be sent to them imforming them that they can now start selling'
+    )
+    setModalHeading('Approve Store')
+    setModalButton(() => (
+      <Button
+        onClick={handle_approve_store}
+        variant="solid"
+        isLoading={loading}
+        colorScheme={'blue'}
+      >
+        Approve Store
+      </Button>
+    ))
   }
 
   const verify_store = () => {
@@ -192,6 +248,21 @@ function StoresDropdown({ id, verified }: Props) {
                   )}
                 >
                   View Store
+                </div>
+              )}
+            </Menu.Item>
+          </div>
+          <div className="py-1">
+            <Menu.Item>
+              {({ active }) => (
+                <div
+                  onClick={approve_store}
+                  className={classNames(
+                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                    'block px-4 py-2 text-sm'
+                  )}
+                >
+                  Approve Store
                 </div>
               )}
             </Menu.Item>

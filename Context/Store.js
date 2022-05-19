@@ -7,7 +7,8 @@ const initialState = {
         cartItems: Cookies.get('cartItems') ? JSON.parse(Cookies.get('cartItems')) : []
     },
     userInfo: Cookies.get('userInfo') ? JSON.parse(Cookies.get('userInfo')) : null,
-    search_query: ''
+    search_query: '',
+    currency: Cookies.get('trolliey_currency') ? Cookies.get('trolliey_currency') : 'ANY'
 }
 
 export const Store = createContext();
@@ -24,6 +25,8 @@ function reducer(state, action) {
             const cartItems = existItem ? state.cart.cartItems.map((item) => item._id === existItem._id ? newItem : item) : [...state.cart.cartItems, newItem];
             Cookies.set('cartItems', JSON.stringify(cartItems))
             return { ...state, cart: { ...state.cart, cartItems } }
+        case 'CHANGE_CURRENCY':
+            return {...state, currency: action.payload}
         case 'REMOVE_FROM_CART':
             const NewcartItems = state.cart.cartItems.filter(item => item._id !== action.payload._id)
             Cookies.set('cartItems', JSON.stringify(NewcartItems))
