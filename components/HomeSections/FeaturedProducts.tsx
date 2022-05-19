@@ -1,9 +1,10 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/outline'
-import React, { ReactElement, useState } from 'react'
+import React, { ReactElement, useContext, useState } from 'react'
 import ProductItem from '../ProductItem/ProductItem'
 import ProductLoading from '../ProductItem/ProductLoading'
 import no_product from '../../public/img/no_product.svg'
 import Image from 'next/image'
+import { Store } from '../../Context/Store'
 
 interface Props {
   products?: any | null
@@ -12,6 +13,9 @@ interface Props {
 
 function FeaturedProducts({ products, loading }: Props): ReactElement {
   const [show_indicators, setShowIndicators] = useState<boolean>(false)
+
+  const { state, dispatch } = useContext(Store)
+  const { currency } = state
 
   const handleOnPrevClick = () => {
     console.log('previous')
@@ -50,17 +54,35 @@ function FeaturedProducts({ products, loading }: Props): ReactElement {
             >
               {products?.map((product: any, index: number) => (
                 <div key={index} className="col-span-1 p-0">
-                  <ProductItem
-                    name={product.title}
-                    description={product.description}
-                    rating={product.rating}
-                    picture={product.pictures[0]}
-                    price={product.price}
-                    discount_price={product.discount_price}
-                    category={product.category}
-                    id={product._id}
-                    countInStock={product.countInStock}
-                  />
+                   {product.currency_type === currency ? (
+                      <ProductItem
+                        name={product.title}
+                        description={product.description}
+                        rating={product.rating}
+                        picture={product.pictures[0]}
+                        price={product.price}
+                        discount_price={product.discount_price}
+                        category={product.category}
+                        id={product._id}
+                        countInStock={product.countInStock}
+                        product={product}
+                        averageRating={product.averageRating}
+                      />
+                    ) : currency === 'ANY' ? (
+                      <ProductItem
+                        name={product.title}
+                        description={product.description}
+                        rating={product.rating}
+                        picture={product.pictures[0]}
+                        price={product.price}
+                        discount_price={product.discount_price}
+                        category={product.category}
+                        id={product._id}
+                        countInStock={product.countInStock}
+                        product={product}
+                        averageRating={product.averageRating}
+                      />
+                    ) : null}
                 </div>
               ))}
               <div className="absolute top-1/2 flex w-full -translate-y-1/2 transform items-start justify-between px-3">
