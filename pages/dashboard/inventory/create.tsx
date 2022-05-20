@@ -53,7 +53,7 @@ export default function CreateProduct() {
       const uploads: any = []
       const promises: any = []
 
-      pictures_for_upload.forEach((file: string | Blob) => {
+      pictures_for_upload.forEach((file: any | Blob) => {
         formData.append('file', file)
         formData.append('upload_preset', 'g6ixv6cg')
         //@ts-ignore
