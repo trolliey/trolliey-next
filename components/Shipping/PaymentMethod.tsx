@@ -133,7 +133,7 @@ function PaymentMethod({
   return (
     <ShipmentLayout step={step} heading="Payment Info">
       <div>
-        <label className="px-4 pt-4 text-base font-medium text-gray-900">
+        <label className="md:px-4 px-2 pt-4 text-base font-medium text-gray-900">
           Payment Methods
         </label>
         <p className="px-4 text-sm leading-5 text-gray-500">

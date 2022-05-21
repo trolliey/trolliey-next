@@ -123,7 +123,7 @@ function Reviews(props: any) {
             <Image src={no_data} objectFit="contain" height={96} />
           </div>
           <p className="text-center font-semibold text-gray-700">
-            Store had no reviews yet
+            Store has no reviews yet
           </p>
         </div>
         <div
