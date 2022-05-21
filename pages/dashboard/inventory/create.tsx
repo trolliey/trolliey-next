@@ -13,6 +13,7 @@ import axios from 'axios'
 import { Store } from '../../../Context/Store'
 import { useToast } from '@chakra-ui/react'
 import { getError } from '../../../utils/error'
+import { useRouter } from 'next/router'
 
 const product_options = [
   { id: 'private', title: 'Private' },
@@ -31,12 +32,13 @@ export default function CreateProduct() {
   const [category, setCategory] = useState<any>(0)
   const [status, setStatus] = useState<any>()
   const [sku, setSku] = useState<string>('')
-  const [loading, setLoading] = useState(false)
-  const toast = useToast()
   const [currency, setCurrency] = useState('')
-
+  const [loading, setLoading] = useState(false)
+  
+  const toast = useToast()
   const { state } = useContext(Store)
   const { userInfo } = state
+  const router = useRouter()
 
   const selectedPictures = (pictures: any) => {
     setPicturesForUpload(pictures)
@@ -47,71 +49,150 @@ export default function CreateProduct() {
   }
 
   const create_product = async () => {
-    try {
-      setLoading(true)
-      const formData = new FormData()
-      const uploads: any = []
-      const promises: any = []
-
-      pictures_for_upload.forEach((file: any | Blob) => {
-        formData.append('file', file)
-        formData.append('upload_preset', 'g6ixv6cg')
-        //@ts-ignore
-        formData.append('api_key', process.env.CLOUDNARY_API_KEY)
-
-        const uploadPromise = axios
-          .post(
-            'https://api.cloudinary.com/v1_1/trolliey/image/upload',
-            formData,
-            { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
-          )
-          .then((response) => {
-            uploads.push(response.data.url)
-          })
-        promises.push(uploadPromise)
-      })
-      await Promise.all(promises)
-
-      //upload the product to database from here
-      const { data } = await axios.post(
-        '/api/products/create',
-        {
-          pictures: uploads,
-          // pictures: [''],
-          description: description,
-          title: title,
-          category: category,
-          price: price,
-          discount_price: discount_price,
-          brand: brand,
-          countInStock: countInStock,
-          status: status,
-          sku: sku,
-          variants: variations,
-          currency: currency
-        },
-        { headers: { authorization: userInfo?.token } }
-      )
-      setLoading(false)
-      console.log(data)
-      toast({
-        title: 'Product Added.',
-        description: 'Product Added successfully!.',
-        status: 'success',
-        position: 'top-right',
-        duration: 9000,
-        isClosable: true,
-      })
-    } catch (error) {
-      setLoading(false)
+    if (!pictures_for_upload) {
       toast({
         title: 'Error Adding.',
-        description: getError(error),
+        description: 'Atleast one picture is needed',
         status: 'error',
         position: 'top-right',
         duration: 9000,
         isClosable: true,
       })
+    }
+    if (!description) {
+      setLoading(false)
+      toast({
+        title: 'Error Adding.',
+        description: 'Please enter the description',
+        status: 'error',
+        position: 'top-right',
+        duration: 9000,
+        isClosable: true,
+      })
+    }
+    if (!title) {
+      setLoading(false)
+      toast({
+        title: 'Error Adding.',
+        description: 'Please enter the title',
+        status: 'error',
+        position: 'top-right',
+        duration: 9000,
+        isClosable: true,
+      })
+    }
+    if (!price) {
+      setLoading(false)
+      toast({
+        title: 'Error Adding.',
+        description: 'A price is needed',
+        status: 'error',
+        position: 'top-right',
+        duration: 9000,
+        isClosable: true,
+      })
+    }
+    if (!category) {
+      setLoading(false)
+      toast({
+        title: 'Error Adding.',
+        description: 'Please enter a category',
+        status: 'error',
+        position: 'top-right',
+        duration: 9000,
+        isClosable: true,
+      })
+    }
+    if (!currency) {
+      setLoading(false)
+      toast({
+        title: 'Error Adding.',
+        description: 'You should choose atleast one preferred currency!',
+        status: 'error',
+        position: 'top-right',
+        duration: 9000,
+        isClosable: true,
+      })
+    }
+    else {
+      try {
+        setLoading(true)
+        const formData = new FormData()
+        const uploads: any = []
+        const promises: any = []
+
+        pictures_for_upload.forEach((file: any | Blob) => {
+          formData.append('file', file)
+          formData.append('upload_preset', 'g6ixv6cg')
+          //@ts-ignore
+          formData.append('api_key', process.env.CLOUDNARY_API_KEY)
+
+          const uploadPromise = axios
+            .post(
+              'https://api.cloudinary.com/v1_1/trolliey/image/upload',
+              formData,
+              { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
+            )
+            .then((response) => {
+              uploads.push(response.data.url)
+            })
+          promises.push(uploadPromise)
+        })
+        await Promise.all(promises)
+
+        //upload the product to database from here
+        const { data } = await axios.post(
+          '/api/products/create',
+          {
+            pictures: uploads,
+            // pictures: [''],
+            description: description,
+            title: title,
+            category: category,
+            price: price,
+            discount_price: discount_price,
+            brand: brand,
+            countInStock: countInStock,
+            status: status,
+            sku: sku,
+            variants: variations,
+            currency: currency,
+          },
+          { headers: { authorization: userInfo?.token } }
+        )
+        setLoading(false)
+        console.log(data)
+        toast({
+          title: 'Product Added.',
+          description: 'Product Added successfully!.',
+          status: 'success',
+          position: 'top-right',
+          duration: 9000,
+          isClosable: true,
+        })
+        setPicturesForUpload([])
+        setQuillDescription('')
+        setVariations([])
+        setTitle('')
+        setPrice(0)
+        setDiscountPrice(0)
+        setBrand('')
+        setCountInStock(0)
+        setCategory('')
+        setStatus('')
+        setSku('')
+        router.push('/dashboard/invetory/create')
+      } catch (error) {
+        setLoading(false)
+        toast({
+          title: 'Error Adding.',
+          description: getError(error),
+          status: 'error',
+          position: 'top-right',
+          duration: 9000,
+          isClosable: true,
+        })
+      }
     }
   }
 

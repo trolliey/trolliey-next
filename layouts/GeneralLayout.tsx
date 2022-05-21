@@ -1,10 +1,8 @@
 import Head from 'next/head'
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, { ReactElement, useContext, useEffect, useState } from 'react'
 import GeneralNavbar from '../components/Navigations/GeneralNavbar'
 import { Button, Container, useDisclosure } from '@chakra-ui/react'
 import Footer from '../components/Navigations/Footer'
-import { XIcon } from '@heroicons/react/outline'
-import Image from 'next/image'
 import Cookies from 'js-cookie'
 
 import {
@@ -16,6 +14,7 @@ import {
   ModalBody,
   ModalCloseButton,
 } from '@chakra-ui/react'
+import { Store } from '../Context/Store'
 
 interface Props {
   title: string
@@ -52,14 +51,14 @@ function GeneralLayout({
   const original_title = 'Trolliey'
   const url = 'www.trolliey.com'
 
-  const [_currency_, setCurrency] = useState<any>('')
+  const { state, dispatch } = useContext(Store)
+  const { currency } = state
 
   useEffect(() => {
-    const currency = Cookies.get('trolliey_currency')
     if (!currency) {
       onOpen()
     }
-    setCurrency(currency)
+    dispatch({ type: 'CHANGE_CURRENCY', payload: currency })
   }, [])
 
   return (
@@ -122,7 +121,7 @@ function GeneralLayout({
             </h1>
           )}
           {children}
-          {!_currency_ && (
+          {!currency && (
             <Modal isOpen={isOpen} onClose={onClose} isCentered>
               <ModalOverlay />
               <ModalContent>
@@ -133,6 +132,7 @@ function GeneralLayout({
                     <div
                       onClick={() => {
                         Cookies.set('trolliey_currency', 'USD')
+                        dispatch({ type: 'CHANGE_CURRENCY', payload: 'USD' })
                         onClose()
                       }}
                       className="w-full cursor-pointer rounded border-y border-gray-200 p-2 text-center hover:bg-gray-100"
@@ -142,6 +142,7 @@ function GeneralLayout({
                     <div
                       onClick={() => {
                         Cookies.set('trolliey_currency', 'ZWL')
+                        dispatch({ type: 'CHANGE_CURRENCY', payload: 'ZWL' })
                         onClose()
                       }}
                       className="w-full cursor-pointer rounded border-y border-gray-200 bg-gray-100 p-2 text-center hover:bg-gray-200"
@@ -151,6 +152,7 @@ function GeneralLayout({
                     <div
                       onClick={() => {
                         Cookies.set('trolliey_currency', 'ANY')
+                        dispatch({ type: 'CHANGE_CURRENCY', payload: 'ANY' })
                         onClose()
                       }}
                       className="w-full cursor-pointer rounded border-y border-gray-200 p-2 text-center hover:bg-gray-100"
@@ -164,7 +166,9 @@ function GeneralLayout({
                   <Button colorScheme="blue" mr={3} onClick={onClose}>
                     Close
                   </Button>
-                  <Button onClick={onClose} variant="ghost">Proceed</Button>
+                  <Button onClick={onClose} variant="ghost">
+                    Proceed
+                  </Button>
                 </ModalFooter>
               </ModalContent>
             </Modal>
@@ -172,74 +176,9 @@ function GeneralLayout({
         </Container>
       </main>
 
-      {/* // commpare items */}
-      {/* <div className="fixed bottom-0 left-0 z-40 h-24 w-full bg-white p-4 shadow">
-        <div className="absolute top-0 right-0 z-30 cursor-pointer flex-row items-center rounded-full border border-gray-300 bg-white p-1">
-          <XIcon className="text-gray-700" height={16} width={16} />
-        </div>
-        <div className="flex w-full flex-row items-center justify-between px-8">
-          <div className="flex flex-row ">
-            <Image
-              src={the_image}
-              width={80}
-              height={60}
-              objectFit="cover"
-              className="rounded"
-            />
-            <div className="ml-2 flex flex-col">
-              <p className="font-semibold text-gray-800">name</p>
-              <p className="text-sm text-gray-400">price</p>
-            </div>
-          </div>
-          <div className="flex flex-row ">
-            <Image
-              src={the_image}
-              width={80}
-              height={60}
-              objectFit="cover"
-              className="rounded"
-            />
-            <div className="flex flex-col">
-              <p>name</p>
-              <p>price</p>
-            </div>
-          </div>
-          <div className="flex flex-row ">
-            <Image
-              src={the_image}
-              width={80}
-              height={60}
-              objectFit="cover"
-              className="rounded"
-            />
-            <div className="flex flex-col">
-              <p>name</p>
-              <p>price</p>
-            </div>
-          </div>
-        </div>
-      </div> */}
       <footer className="text-gray-700">
         <Footer />
       </footer>
-    </div>
-  )
-}
-
-const CompareItem = ({ name, price, picture, id }: CompareItemProps) => {
-  return (
-    <div className="flex flex-row ">
-      <Image
-        src={picture}
-        width={80}
-        height={60}
-        objectFit="cover"
-        className="rounded"
-      />
-      <div className="flex flex-col">
-        <p>{name}</p>
-        <p>{price}</p>
-      </div>
     </div>
   )
 }
