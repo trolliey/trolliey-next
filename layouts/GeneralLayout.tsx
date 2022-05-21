@@ -149,16 +149,6 @@ function GeneralLayout({
                     >
                       ZWL
                     </div>
-                    <div
-                      onClick={() => {
-                        Cookies.set('trolliey_currency', 'ANY')
-                        dispatch({ type: 'CHANGE_CURRENCY', payload: 'ANY' })
-                        onClose()
-                      }}
-                      className="w-full cursor-pointer rounded border-y border-gray-200 p-2 text-center hover:bg-gray-100"
-                    >
-                      ALL
-                    </div>
                   </div>
                 </ModalBody>
 

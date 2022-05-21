@@ -25,11 +25,16 @@ interface Props {
 }
 
 const payment_methods = [
-  { id: 'ecocash', title: 'Ecocash', icon: ecocash },
-  { id: 'telecash', title: 'Telecash', icon: telecash },
-  { id: 'onemoney', title: 'One  Money', icon:onemoney },
-  { id: 'paypal', title: 'PayPal',icon:paypal_logo },
-  { id: 'visa/mastercard', title: 'Visa/Mastercard',icon:visa_mastercard },
+  { id: 'ecocash', title: 'Ecocash', icon: ecocash, currency: 'ZWL' },
+  { id: 'telecash', title: 'Telecash', icon: telecash, currency: 'ZWL' },
+  { id: 'onemoney', title: 'One  Money', icon: onemoney, currency: 'ZWL' },
+  // { id: 'paypal', title: 'PayPal', icon: paypal_logo, currency: 'USD' },
+  {
+    id: 'visa/mastercard',
+    title: 'Visa/Mastercard',
+    icon: visa_mastercard,
+    currency: 'USD',
+  },
 ]
 
 function PaymentMethod({
@@ -41,7 +46,7 @@ function PaymentMethod({
 }: Props): ReactElement {
   const { state, dispatch } = useContext(Store)
   const router = useRouter()
-  const { userInfo, cart } = state
+  const { userInfo, cart, currency } = state
   const [selected_method, setSelectedMethod] = useState('')
   const [loading, setLoading] = useState<boolean>(false)
 
@@ -108,7 +113,9 @@ function PaymentMethod({
 
           <div className="mt-4 bg-gray-100 p-4">
             <legend className="sr-only">Our warehouses</legend>
-            <p className="text-center capitalize text-black font-semibold pb-4">A list of our ware houses</p>
+            <p className="pb-4 text-center font-semibold capitalize text-black">
+              A list of our ware houses
+            </p>
           </div>
         </div>
         <div className="mt-4 flex w-full space-x-4 border-t border-gray-200 px-4 pt-4 pb-4">
@@ -137,19 +144,23 @@ function PaymentMethod({
           <legend className="sr-only">Payment Method</legend>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             {payment_methods.map((method: any, index: number) => (
-              <div
-                key={index}
-                onClick={() => setSelectedMethod(method.id)}
-                className="col-span-1"
-              >
-                <PaymentCard
-                  className="col-span-1"
-                  method={method.id}
-                  title={method.title}
-                  selected_method={selected_method}
-                  icon={method.icon}
-                />
-              </div>
+              <>
+                {method.currency === currency && (
+                  <div
+                    key={index}
+                    onClick={() => setSelectedMethod(method.id)}
+                    className="col-span-1"
+                  >
+                    <PaymentCard
+                      className="col-span-1"
+                      method={method.id}
+                      title={method.title}
+                      selected_method={selected_method}
+                      icon={method.icon}
+                    />
+                  </div>
+                )}
+              </>
             ))}
           </div>
         </div>
@@ -236,25 +247,25 @@ function PaymentMethod({
               placeholder="Enter card number"
               className="block w-full rounded-md border border-gray-200 p-2 outline-none focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
             />
-            <div className="flex flex-row items-center gap-4 mt-4">
-            <input
-              type="text"
-              value={values.paying_number}
-              onChange={handleChange('paying_number')}
-              id="paying_number"
-              name="paying_number"
-              placeholder="Expiry Date"
-              className="block w-full rounded-md border border-gray-200 p-2 outline-none focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-            />
-            <input
-              type="text"
-              value={values.paying_number}
-              onChange={handleChange('paying_number')}
-              id="paying_number"
-              name="paying_number"
-              placeholder="CVV"
-              className="block w-full rounded-md border border-gray-200 p-2 outline-none focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-            />
+            <div className="mt-4 flex flex-row items-center gap-4">
+              <input
+                type="text"
+                value={values.paying_number}
+                onChange={handleChange('paying_number')}
+                id="paying_number"
+                name="paying_number"
+                placeholder="Expiry Date"
+                className="block w-full rounded-md border border-gray-200 p-2 outline-none focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              />
+              <input
+                type="text"
+                value={values.paying_number}
+                onChange={handleChange('paying_number')}
+                id="paying_number"
+                name="paying_number"
+                placeholder="CVV"
+                className="block w-full rounded-md border border-gray-200 p-2 outline-none focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              />
             </div>
           </div>
         </div>
@@ -275,7 +286,7 @@ interface IProps {
   className?: string
   method: any
   title: string
-  selected_method: string,
+  selected_method: string
   icon: any
 }
 
