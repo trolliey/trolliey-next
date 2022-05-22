@@ -181,7 +181,7 @@ export default function CreateProduct() {
         setCategory('')
         setStatus('')
         setSku('')
-        router.push('/dashboard/invetory/create')
+        router.push('/dashboard/inventory')
       } catch (error) {
         setLoading(false)
         toast({
@@ -523,7 +523,7 @@ export default function CreateProduct() {
                               id="country"
                               name="country"
                               autoComplete="country-name"
-                              value={currency}
+                              defaultValue={'ZWL'}
                               onChange={(e) => setCurrency(e.target.value)}
                               className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                             >
