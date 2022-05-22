@@ -153,16 +153,16 @@ function ProductDescription(props: any) {
 
                                             {
                                                 selected_variant ? (
-                                                    <p className="text-2xl font-bold text-gray-700">${selected_variant?.price - selected_variant?.discount_price}</p>
+                                                    <p className="text-2xl font-bold text-gray-700">{product?.currency_type === 'USD' && '$'}{selected_variant?.price - selected_variant?.discount_price} {product?.currency_type === 'ZWL' && 'ZWL'}</p>
                                                 ) : (
-                                                    <p className="text-2xl font-bold text-gray-700">${product?.price - product?.discount_price}</p>
+                                                    <p className="text-2xl font-bold text-gray-700">{product?.currency_type === 'USD' && '$'}{product?.price - product?.discount_price} {product?.currency_type === 'ZWL' && 'ZWL'}</p>
                                                 )
                                             }
                                             {
                                                 selected_variant ? (
-                                                    <p className="text-xl line-through text-gray-300">${selected_variant?.price}</p>
+                                                    <p className="text-xl line-through text-gray-300">{product?.currency_type === 'USD' && '$'}{selected_variant?.price} {product?.currency_type === 'ZWL' && 'ZWL'}</p>
                                                 ) : (
-                                                    <p className="text-xl line-through text-gray-300">${product?.price}</p>
+                                                    <p className="text-xl line-through text-gray-300">{product?.currency_type === 'USD' && '$'}{product?.price} {product?.currency_type === 'ZWL' && 'ZWL'}</p>
                                                 )
                                             }
                                         </div>

@@ -67,6 +67,7 @@ function FeaturedProducts({ products, loading }: Props): ReactElement {
                         countInStock={product.countInStock}
                         product={product}
                         averageRating={product.averageRating}
+                        currency={product.currency_type}
                       />
                     ) : currency === 'ANY' ? (
                       <ProductItem
@@ -81,6 +82,7 @@ function FeaturedProducts({ products, loading }: Props): ReactElement {
                         countInStock={product.countInStock}
                         product={product}
                         averageRating={product.averageRating}
+                        currency={product.currency_type}
                       />
                     ) : null}
                 </div>

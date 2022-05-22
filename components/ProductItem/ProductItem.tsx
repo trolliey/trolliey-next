@@ -18,10 +18,11 @@ interface Props {
     category: string,
     countInStock: number,
     product?: any,
-    averageRating?: any
+    averageRating?: any,
+    currency?: any
 }
 
-function ProductItem({ picture, rating, name, description, price, discount_price, id, category, product, averageRating }: Props): ReactElement {
+function ProductItem({ picture, rating, name, description, price, discount_price, id, category, product, averageRating, currency }: Props): ReactElement {
     const history = useRouter()
     const { pathname } = useRouter()
     const { dispatch } = useContext(Store)
@@ -86,16 +87,16 @@ function ProductItem({ picture, rating, name, description, price, discount_price
                         {
                             discount_price ? (
                                 <div onClick={() => history.push(`/product/description/${id}`)} className="flex flex-row items-center">
-                                    <p className="text-gray-900 font-bold mr-2">${discount_price ? discount_price : price}</p>
+                                    <p className="text-gray-900 font-bold mr-2">{currency === 'USD' && '$'}{discount_price ? discount_price : price} {currency === 'ZWL' && 'ZWL'}</p>
                                     {
                                         discount_price && (
-                                            <p className="line-through text-gray-400 text-sm">${price}</p>
+                                            <p className="line-through text-gray-400 text-sm">{currency === 'USD' && '$'}{price} {currency === 'ZWL' && 'ZWL'}</p>
                                         )
                                     }
                                 </div>
                             ) : (
                                     <div onClick={() => history.push(`/product/description/${id}`)} className="flex flex-row items-center">
-                                        <p className="text-gray-900 font-bold mr-2">${price}</p>
+                                        <p className="text-gray-900 font-bold mr-2">{currency === 'USD' && '$'}{price} {currency === 'ZWL' && 'ZWL'}</p>
                                     </div>
                                 )
                         }
