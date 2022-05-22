@@ -86,7 +86,7 @@ function ProductItem({ picture, rating, name, description, price, discount_price
                         {
                             discount_price ? (
                                 <div onClick={() => history.push(`/product/description/${id}`)} className="flex flex-row items-center">
-                                    <p className="text-gray-900 font-bold mr-2">${discount_price ? price - discount_price : price}</p>
+                                    <p className="text-gray-900 font-bold mr-2">${discount_price ? discount_price : price}</p>
                                     {
                                         discount_price && (
                                             <p className="line-through text-gray-400 text-sm">${price}</p>
