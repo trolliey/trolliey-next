@@ -21,8 +21,6 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
         { description: regex },
         { category: regex },
         { category_slug: regex },
-        { price: regex },
-        { currency_type: regex }
       )
     })
 

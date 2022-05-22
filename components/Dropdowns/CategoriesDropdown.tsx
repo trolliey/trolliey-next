@@ -35,7 +35,7 @@ function CategoriesDropdown() {
               <div
                 key={index}
                 onClick={() => {
-                  dispatch({ type: 'SET_SEARCH_QUERY', payload: category })
+                  dispatch({ type: 'SET_SEARCH_QUERY', payload: category.name })
                   history.push('/explore')
                 }}
                 onMouseEnter={() =>
