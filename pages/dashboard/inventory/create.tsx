@@ -181,7 +181,6 @@ export default function CreateProduct() {
         setCategory('')
         setStatus('')
         setSku('')
-        // router.push('/dashboard/inventory')
       } catch (error) {
         setLoading(false)
         toast({
