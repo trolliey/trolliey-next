@@ -33,7 +33,7 @@ const Address: FunctionComponent<Props> = ({
         </p>
         <div className="mx-auto flex w-full flex-row items-center justify-between border border-gray-200 bg-white p-2 shadow md:p-4">
           <div className="flex flex-row items-center gap-4 overflow-hidden md:gap-8">
-            <div className="picture relative grid h-16 w-16 content-center items-center justify-center rounded-full bg-blue-500">
+            <div className="picture relative md:grid hidden h-16 w-16 content-center items-center justify-center rounded-full bg-blue-500">
               <Image
                 layout="fill"
                 objectFit="contain"
@@ -53,7 +53,7 @@ const Address: FunctionComponent<Props> = ({
             </div>
           </div>
           <BlueButton
-            text={'Deliver My Order'}
+            text={'Deliver Order'}
             outline={collect_my_order}
             onClick={() => {
               setCollectMyOrder(false)
@@ -63,7 +63,7 @@ const Address: FunctionComponent<Props> = ({
         </div>
         <div  className="mx-auto mt-2 flex w-full flex-row items-center justify-between border border-gray-200 bg-white p-2 shadow md:p-4">
           <div className="flex flex-row items-center gap-4 overflow-hidden md:gap-8">
-            <div className="picture relative grid h-16 w-16 content-center items-center justify-center rounded-full bg-green-500">
+            <div className="picture relative md:flex hidden h-16 w-16 content-center items-center justify-center rounded-full bg-green-500">
               <Image
                 layout="fill"
                 objectFit="contain"
