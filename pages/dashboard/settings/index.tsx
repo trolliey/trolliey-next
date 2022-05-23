@@ -1,6 +1,7 @@
 import { Spinner } from '@chakra-ui/spinner'
 import axios from 'axios'
 import React, { useContext, useEffect, useState } from 'react'
+import BlueButton from '../../../components/Buttons/BlueButton'
 import { Store } from '../../../Context/Store'
 import DashboardLayout from '../../../layouts/DashboardLayout'
 import { getError } from '../../../utils/error'
@@ -8,17 +9,14 @@ import { getError } from '../../../utils/error'
 function Settings() {
   const [first_name, setFirstName] = useState('')
   const [last_name, setLastName] = useState('')
+  const [company_name, setCompanyName] = useState('')
   const [about, setAbout] = useState('')
-  const [logo, setLogo] = useState()
-  const [city, setCity] = useState('')
-  const [country, setCountry] = useState('')
-  const [province, setProvince] = useState('')
-  const [phone_number, setPhoneNumber] = useState('')
-  const [website, setWebsite] = useState('')
-  const [facebook, setFacebook] = useState('')
-  const [instagram, setInstagram] = useState('')
-  const [store_address, setStoreAddress] = useState('')
+  const [address, setAddress] = useState('')
   const [email, setEmail] = useState('')
+  const [rtgsAccount, setRtgsAccount] = useState('')
+  const [usdAccount, setUsdAccount] = useState('')
+
+  const [edit_loading, setEditLoading]= useState(false)
 
   const { state } = useContext(Store)
   const { userInfo } = state
@@ -43,12 +41,17 @@ function Settings() {
     }
     getStoreDAta()
   }, [])
+
+  const edit_info_handler = () =>{
+
+  }
+
   console.log(store_data)
 
   if (loading) {
     return (
       <DashboardLayout>
-        <div className="bg-white h-96 grid md:my-8 my-4 w-full content-center items-center justify-center">
+        <div className="my-4 grid h-96 w-full content-center items-center justify-center bg-white md:my-8">
           <Spinner />
         </div>
       </DashboardLayout>
@@ -57,7 +60,7 @@ function Settings() {
 
   return (
     <DashboardLayout>
-      <div className="flex w-full p-2 md:p-8">
+      <div className="flex w-full p-2 md:p-16">
         <form className="w-full space-y-8 divide-y divide-gray-200 rounded bg-white p-2 shadow md:p-8">
           <div className="space-y-8 divide-y divide-gray-200">
             <div>
@@ -89,6 +92,7 @@ function Settings() {
                       id="store_name"
                       defaultValue={store_data?.store?.company_name}
                       autoComplete="store_name"
+                      onChange={(e) => setCompanyName(e.target.value)}
                       className="block w-full min-w-0 flex-1 rounded-none rounded-r-md border border-gray-300 p-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                     />
                   </div>
@@ -107,6 +111,7 @@ function Settings() {
                       name="about"
                       rows={10}
                       defaultValue={store_data?.store?.about}
+                      onChange={(e) => setAbout(e.target.value)}
                       className="block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                     />
                   </div>
@@ -146,6 +151,57 @@ function Settings() {
             <div className="pt-8">
               <div>
                 <h3 className="text-lg font-medium leading-6 text-gray-900">
+                  Payment Settings
+                </h3>
+                <p className="mt-1 text-sm text-gray-500">
+                  How you want to be payed once your items have been bought
+                </p>
+              </div>
+              <div className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+                <div className="sm:col-span-2">
+                  <label
+                    htmlFor="postal-code"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    RTGS Account
+                  </label>
+                  <div className="mt-1">
+                    <input
+                      type="text"
+                      name="rtgs-account"
+                      id="rtgs-account"
+                      autoComplete="postal-code"
+                      placeholder='enter rtgs account'
+                      onChange={(e) => setRtgsAccount(e.target.value)}
+                      className="block w-full rounded-md border border-gray-300 p-2 shadow-sm sm:text-sm"
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-2">
+                  <label
+                    htmlFor="postal-code"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    USD Account
+                  </label>
+                  <div className="mt-1">
+                    <input
+                      type="text"
+                      name="usd-account"
+                      id="usd-account"
+                      placeholder='enter usd account number'
+                      autoComplete="postal-code"
+                      onChange={(e) => setUsdAccount(e.target.value)}
+                      className="block w-full rounded-md border border-gray-300 p-2 shadow-sm sm:text-sm"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="pt-8">
+              <div>
+                <h3 className="text-lg font-medium leading-6 text-gray-900">
                   Personal Information
                 </h3>
                 <p className="mt-1 text-sm text-gray-500">
@@ -165,6 +221,7 @@ function Settings() {
                       type="text"
                       name="first-name"
                       defaultValue={store_data?.store?.first_name}
+                      onChange={e => setFirstName(e.target.value)}
                       id="first-name"
                       autoComplete="given-name"
                       className="block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
@@ -184,6 +241,7 @@ function Settings() {
                       type="text"
                       name="last-name"
                       defaultValue={store_data?.store?.last_name}
+                      onChange={e => setLastName(e.target.value)}
                       id="last-name"
                       autoComplete="family-name"
                       className="block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
@@ -204,6 +262,7 @@ function Settings() {
                       name="email"
                       type="email"
                       defaultValue={store_data?.store?.email}
+                      onChange={e=> setAddress(e.target.value)}
                       autoComplete="email"
                       className="block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                     />
@@ -279,78 +338,6 @@ function Settings() {
                 </p>
               </div>
               <div className="mt-6">
-                <fieldset>
-                  <legend className="text-base font-medium text-gray-900">
-                    By Email
-                  </legend>
-                  <div className="mt-4 space-y-4">
-                    <div className="relative flex items-start">
-                      <div className="flex h-5 items-center">
-                        <input
-                          id="comments"
-                          name="comments"
-                          type="checkbox"
-                          className="h-4 w-4 rounded border border-gray-300 p-2 text-indigo-600 focus:ring-indigo-500"
-                        />
-                      </div>
-                      <div className="ml-3 text-sm">
-                        <label
-                          htmlFor="comments"
-                          className="font-medium text-gray-700"
-                        >
-                          Comments
-                        </label>
-                        <p className="text-gray-500">
-                          Get notified when someones posts a comment on a
-                          posting.
-                        </p>
-                      </div>
-                    </div>
-                    <div className="relative flex items-start">
-                      <div className="flex h-5 items-center">
-                        <input
-                          id="candidates"
-                          name="candidates"
-                          type="checkbox"
-                          className="h-4 w-4 rounded border border-gray-300 p-2 text-indigo-600 focus:ring-indigo-500"
-                        />
-                      </div>
-                      <div className="ml-3 text-sm">
-                        <label
-                          htmlFor="candidates"
-                          className="font-medium text-gray-700"
-                        >
-                          Candidates
-                        </label>
-                        <p className="text-gray-500">
-                          Get notified when a candidate applies for a job.
-                        </p>
-                      </div>
-                    </div>
-                    <div className="relative flex items-start">
-                      <div className="flex h-5 items-center">
-                        <input
-                          id="offers"
-                          name="offers"
-                          type="checkbox"
-                          className="h-4 w-4 rounded border border-gray-300 p-2 text-indigo-600 focus:ring-indigo-500"
-                        />
-                      </div>
-                      <div className="ml-3 text-sm">
-                        <label
-                          htmlFor="offers"
-                          className="font-medium text-gray-700"
-                        >
-                          Offers
-                        </label>
-                        <p className="text-gray-500">
-                          Get notified when a candidate accepts or rejects an
-                          offer.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </fieldset>
                 <fieldset className="mt-6">
                   <div>
                     <legend className="text-base font-medium text-gray-900">
@@ -417,12 +404,7 @@ function Settings() {
               >
                 Cancel
               </button>
-              <button
-                type="submit"
-                className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-              >
-                Save
-              </button>
+             <BlueButton loading={edit_loading} text={'Edit Account'} onClick={edit_info_handler} />
             </div>
           </div>
         </form>
