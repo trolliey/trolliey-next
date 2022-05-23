@@ -69,8 +69,7 @@ function AllProducts({ products, query, cols, no_text, loading }: Props) {
                 } flex overflow-x-auto space-x-6`}
               >
                 {products?.map((product: any, index: number) => (
-                  <div key={index} className="col-span-1 p-0">
-                    {product.currency_type === currency ? (
+                  <div key={index} className="col-span-1 w-60 p-0">
                       <ProductItem
                         name={product.title}
                         description={product.description}
@@ -79,26 +78,12 @@ function AllProducts({ products, query, cols, no_text, loading }: Props) {
                         price={product.price}
                         discount_price={product.discount_price}
                         category={product.category}
+                        display={product.currency_type === currency ? 'relative ': 'hidden '}
                         id={product._id}
                         countInStock={product.countInStock}
                         product={product}
                         averageRating={product.averageRating}
                       />
-                    ) : currency === 'ANY' ? (
-                      <ProductItem
-                        name={product.title}
-                        description={product.description}
-                        rating={product.rating}
-                        picture={product.pictures[0]}
-                        price={product.price}
-                        discount_price={product.discount_price}
-                        category={product.category}
-                        id={product._id}
-                        countInStock={product.countInStock}
-                        product={product}
-                        averageRating={product.averageRating}
-                      />
-                    ) : null}
                   </div>
                 ))}
               </div>
