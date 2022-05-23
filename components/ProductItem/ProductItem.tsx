@@ -67,7 +67,7 @@ function ProductItem({
   }
 
   return (
-    <div className={`${display ? display : 'relative '} ${pathname === '/' ? "w-56 " : "w-full " } relative flex max-h-96 flex-1 transform cursor-pointer flex-col overflow-hidden rounded border border-gray-100 bg-white transition hover:-translate-y-1 hover:shadow-lg motion-reduce:transform-none  motion-reduce:transition-none`}>
+    <div className={`${display ? display : 'relative '} ${pathname === '/' ? "md:w-56 w-44 " : "w-full " } relative flex max-h-96 flex-1 transform cursor-pointer flex-col overflow-hidden rounded border border-gray-100 bg-white transition hover:-translate-y-1 hover:shadow-lg motion-reduce:transform-none  motion-reduce:transition-none`}>
       <div
         onClick={() => history.push(`/product/description/${id}`)}
         className="relative flex h-32 flex-col items-center overflow-hidden rounded bg-white md:h-52"
