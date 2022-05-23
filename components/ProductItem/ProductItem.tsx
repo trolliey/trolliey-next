@@ -6,6 +6,7 @@ import React, { ReactElement, useContext } from 'react'
 import axios from 'axios'
 import { Store } from '../../Context/Store'
 import { Text, useToast } from '@chakra-ui/react'
+import Amount from '../Amount/Amount'
 
 interface Props {
   picture?: string
@@ -123,16 +124,15 @@ function ProductItem({
                 onClick={() => history.push(`/product/description/${id}`)}
                 className="flex flex-row items-center"
               >
-                <p className="mr-2 font-bold text-gray-900">
-                  {currency === 'USD' && '$'}
-                  {discount_price ? (price-discount_price) : price}{' '}
-                  {currency === 'ZWL' && 'ZWL'}
-                </p>
+                <div className="mr-2 font-bold text-gray-900">
+                  <Amount
+                    amount={discount_price ? price - discount_price : price}
+                  />
+                </div>
                 {discount_price && (
-                  <p className="text-sm text-gray-400 line-through">
-                    {currency === 'USD' && '$'}
-                    {price} {currency === 'ZWL' && 'ZWL'}
-                  </p>
+                  <div className="text-sm text-gray-400 line-through">
+                    <Amount amount={price} />
+                  </div>
                 )}
               </div>
             ) : (
@@ -141,8 +141,7 @@ function ProductItem({
                 className="flex flex-row items-center"
               >
                 <p className="mr-2 font-bold text-gray-900">
-                  {currency === 'USD' && '$'}
-                  {price} {currency === 'ZWL' && 'ZWL'}
+                  <Amount amount={price} />
                 </p>
               </div>
             )}

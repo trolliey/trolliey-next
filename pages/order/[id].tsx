@@ -3,6 +3,7 @@ import { LockClosedIcon } from '@heroicons/react/outline'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import React, { useContext, useEffect, useReducer } from 'react'
+import Amount from '../../components/Amount/Amount'
 import { Store } from '../../Context/Store'
 import GeneralLayout from '../../layouts/GeneralLayout'
 import { getError } from '../../utils/error'
@@ -57,7 +58,7 @@ function Order({ params }: Props) {
 
     return (
         <GeneralLayout title='Order Details' description={`Details for order with id ${orderId}`}>
-            <h1 className='text-center font-semibold py-4 text-lg'>Order ${orderId}</h1>
+            <h1 className='text-center font-semibold py-4 text-lg'>Order {orderId}</h1>
             {loading ? (<Spinner />) : error ? (
                 <p>{error}</p>
             ) : (
@@ -131,7 +132,8 @@ function Order({ params }: Props) {
                                         <Avatar src={item.pictures[0]} />
                                         <div className="flex flex-col ml-2">
                                             <p className='text-gray-900 font-semibold'>{item.title}</p>
-                                            <p className='text-sm text-gray-400'>${item.price}</p>
+                                            <Amount currency_type={item.currency_type} amount={item.price} />
+                                            {/* <p className='text-sm text-gray-400'>$ {item.price}</p> */}
                                         </div>
                                         <div className="flex-1"></div>
                                     </div>
@@ -140,7 +142,7 @@ function Order({ params }: Props) {
                                 <div className="flex flex-row items-center w-full justify-between font-semibold mt-4">
                                     <p className='text-gray-800 font-bold text-sm'>TO PAY{" "}</p>
                                     <div className="flex-1"></div>
-                                    <p className='text-blue-primary font-bold'> ${order?.data?.order.itemsPrice}</p>
+                                    <p className='text-blue-primary font-bold'> $ {order?.data?.order.itemsPrice}</p>
                                 </div>
                                 <Divider className='mt-4 mb-2' color={'gray.300'} />
                                 <div className="flex justify-center flex-row items-center">
