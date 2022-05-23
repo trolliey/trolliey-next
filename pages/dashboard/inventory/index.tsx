@@ -42,7 +42,7 @@ export default function Inventory() {
     getData()
   }, [search_query])
 
-  console.log(products)
+  // console.log(products)
 
   return (
     <DashboardLayout>

@@ -1,13 +1,11 @@
-import React, { ReactElement, useState } from 'react'
+import React, { ReactElement, useState, useEffect } from 'react'
 import { TrashIcon, PencilIcon } from '@heroicons/react/outline'
 import {
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalHeader,
   ModalFooter,
   ModalBody,
-  ModalCloseButton,
   useDisclosure,
   Button,
 } from '@chakra-ui/react'
@@ -22,6 +20,10 @@ export default function ProductsTable({ products }: Props): ReactElement {
   const [product_name, setProductName] = useState('')
   const [product_id, setProductId] = useState('')
   const router = useRouter()
+
+  useEffect(()=>{
+    console.log(product_id, products)
+  },[product_id, products])
 
   const set_delete_item = (id: string, name: string) => {
     setProductId(id)
@@ -92,105 +94,119 @@ export default function ProductsTable({ products }: Props): ReactElement {
                 {products && (
                   <>
                     {products?.map((product: any) => (
-                      <tr key={product._id}>
-                        <td className="whitespace-nowrap px-6 py-4">
-                          <div className="flex items-center">
-                            <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gray-100">
-                              <img
-                                className="h-10 w-10 rounded-full"
-                                src={product.pictures[0]}
-                                alt=""
-                              />
-                            </div>
-                            <div className="ml-4">
-                              <div className="text-sm font-medium text-gray-900">
-                                {product.title}
+                      <>
+                        {product._id !== product_id && (
+                          <tr key={product._id}>
+                            <td className="whitespace-nowrap px-6 py-4">
+                              <div className="flex items-center">
+                                <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gray-100">
+                                  <img
+                                    className="h-10 w-10 rounded-full"
+                                    src={product.pictures[0]}
+                                    alt=""
+                                  />
+                                </div>
+                                <div className="ml-4">
+                                  <div className="text-sm font-medium text-gray-900">
+                                    {product.title}
+                                  </div>
+                                </div>
                               </div>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="whitespace-nowrap px-6 py-4">
-                          <div className="text-sm text-gray-500">
-                            {product.category}
-                          </div>
-                        </td>
+                            </td>
+                            <td className="whitespace-nowrap px-6 py-4">
+                              <div className="text-sm text-gray-500">
+                                {product.category}
+                              </div>
+                            </td>
 
-                        <td className="whitespace-nowrap px-6 py-4">
-                          <div className="text-sm text-gray-500">
-                            {product.price}
-                          </div>
-                        </td>
-                        <td className="whitespace-nowrap px-6 py-4">
-                          <div className="text-sm text-gray-500">
-                            {product.discount_price}
-                          </div>
-                        </td>
-                        <td className="whitespace-nowrap px-6 py-4">
-                          <div className="text-sm text-gray-500">
-                            {product.countInStock}
-                          </div>
-                        </td>
-                        <td className="whitespace-nowrap px-6 py-4">
-                          <span className="inline-flex rounded-full bg-green-700 px-2 text-xs font-semibold leading-5 text-white">
-                            Active
-                          </span>
-                        </td>
-                        <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
-                          <div className="flex flex-row items-center space-x-2">
-                            <span
-                              onClick={() =>
-                                set_delete_item(product.id, product.title)
-                              }
-                              className="cursor-pointer"
-                            >
-                              <TrashIcon
-                                height={20}
-                                width={20}
-                                className="text-red-400 "
-                              />
-                            </span>
-                            <span onClick={() => router.push(`/dashboard/inventory/edit/${product?._id}`)} className="cursor-pointer">
-                              <PencilIcon
-                                height={20}
-                                width={20}
-                                className="cursor-pointer text-gray-500"
-                              />
-                            </span>
-                          </div>
-                        </td>
-                        <Modal isOpen={isOpen} onClose={onClose} isCentered>
-                          <ModalOverlay />
-                          <ModalContent>
-                            <ModalBody className="flex w-full  flex-col items-center ">
-                              <TrashIcon
-                                height={80}
-                                width={80}
-                                className="text-blue-primary "
-                              />
-                              <p className="my-4 text-center text-lg font-semibold text-gray-800">
-                                Delete
-                              </p>
-                              <p className="text-center">
-                                Are you sure you want to delete product with
-                                name {product_name}?
-                              </p>
-                            </ModalBody>
+                            <td className="whitespace-nowrap px-6 py-4">
+                              <div className="text-sm text-gray-500">
+                                {product.price}
+                              </div>
+                            </td>
+                            <td className="whitespace-nowrap px-6 py-4">
+                              <div className="text-sm text-gray-500">
+                                {product.discount_price}
+                              </div>
+                            </td>
+                            <td className="whitespace-nowrap px-6 py-4">
+                              <div className="text-sm text-gray-500">
+                                {product.countInStock}
+                              </div>
+                            </td>
+                            <td className="whitespace-nowrap px-6 py-4">
+                              <span className="inline-flex rounded-full bg-green-700 px-2 text-xs font-semibold leading-5 text-white">
+                                Active
+                              </span>
+                            </td>
+                            <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
+                              <div className="flex flex-row items-center space-x-2">
+                                <span
+                                  onClick={() =>
+                                    set_delete_item(product.id, product.title)
+                                  }
+                                  className="cursor-pointer"
+                                >
+                                  <TrashIcon
+                                    height={20}
+                                    width={20}
+                                    className="text-red-400 "
+                                  />
+                                </span>
+                                <span
+                                  onClick={() =>
+                                    router.push(
+                                      `/dashboard/inventory/edit/${product?._id}`
+                                    )
+                                  }
+                                  className="cursor-pointer"
+                                >
+                                  <PencilIcon
+                                    height={20}
+                                    width={20}
+                                    className="cursor-pointer text-gray-500"
+                                  />
+                                </span>
+                              </div>
+                            </td>
+                            <Modal isOpen={isOpen} onClose={onClose} isCentered>
+                              <ModalOverlay />
+                              <ModalContent>
+                                <ModalBody className="flex w-full  flex-col items-center ">
+                                  <TrashIcon
+                                    height={80}
+                                    width={80}
+                                    className="text-blue-primary "
+                                  />
+                                  <p className="my-4 text-center text-lg font-semibold text-gray-800">
+                                    Delete
+                                  </p>
+                                  <p className="text-center">
+                                    Are you sure you want to delete product with
+                                    name {product_name}?
+                                  </p>
+                                </ModalBody>
 
-                            <ModalFooter>
-                              <Button
-                                colorScheme="blue"
-                                mr={3}
-                                onClick={onClose}
-                              >
-                                Close
-                              </Button>
-                              <Button onClick={delele_item} colorScheme="red">
-                                Delete
-                              </Button>
-                            </ModalFooter>
-                          </ModalContent>
-                        </Modal>
-                      </tr>
+                                <ModalFooter>
+                                  <Button
+                                    colorScheme="blue"
+                                    mr={3}
+                                    onClick={onClose}
+                                  >
+                                    Close
+                                  </Button>
+                                  <Button
+                                    onClick={delele_item}
+                                    colorScheme="red"
+                                  >
+                                    Delete
+                                  </Button>
+                                </ModalFooter>
+                              </ModalContent>
+                            </Modal>
+                          </tr>
+                        )}
+                      </>
                     ))}
                   </>
                 )}
