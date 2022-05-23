@@ -13,7 +13,7 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     await connect()
     //@ts-ignore
     const _user = req.user
-    if (_user) {
+    if (!_user) {
       return res.status(500).send({ message: 'Your need to login first' })
     }
     const store = await Store.findOne({ user: _user._id })
