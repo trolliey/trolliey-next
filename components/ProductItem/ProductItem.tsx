@@ -128,7 +128,7 @@ function ProductItem({
               >
                 <div className="mr-2 font-bold text-gray-900">
                   <Amount
-                    amount={discount_price ? price - discount_price : price}
+                    amount={discount_price ? (price ? price : 0 ) - discount_price : price}
                   />
                 </div>
                 {discount_price && (

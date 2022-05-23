@@ -42,7 +42,7 @@ export default function Inventory() {
     getData()
   }, [search_query])
 
-  // console.log(products)
+  console.log(products)
 
   return (
     <DashboardLayout>
@@ -87,7 +87,8 @@ export default function Inventory() {
               </div>
             ) : (
               <>
-                <ProductsTable products={products} />
+                {/* <ProductsTable products={products} /> */}
+                <p>CAnt view products</p>
               </>
             )}
           </>
