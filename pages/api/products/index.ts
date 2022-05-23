@@ -14,6 +14,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     const queryStrings = queryString.split(' ')
     let allQueries: any = []
 
+    // provide regex
     queryStrings.forEach((element: any) => {
       let regex = new RegExp(element, 'i')
       allQueries.push(
@@ -25,6 +26,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     })
 
     const products = await Products.find({ $and: [{ $or: allQueries }] })
+    
     if (!products) {
       return res.status(400).json({ error: 'No Products found' })
     }

@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
 import ExploreLayout from '../../layouts/ExploreLayout'
-import AllProducts from '../../components/HomeSections/AllProducts'
 import { connect, disconnect, convertDocToObj } from '../../utils/mongo'
 import Products from '../../models/Product'
 import { Store } from '../../Context/Store'
@@ -16,6 +15,7 @@ export default function Explore(props: any) {
   const [products, setProducts] = useState<any>()
   const [loading, setLoading] = useState<boolean>(false)
 
+  // get all products
   useEffect(() => {
     setLoading(true)
     const getData = async () => {
