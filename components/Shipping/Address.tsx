@@ -57,8 +57,7 @@ const Address: FunctionComponent<Props> = ({
         isClosable: true,
         position: 'top-right',
       })
-    }
-    if (!values.city) {
+    } else if (!values.city) {
       toast({
         title: 'Missing Info.',
         description: 'Enter your city.',
