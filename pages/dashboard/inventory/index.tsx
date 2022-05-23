@@ -87,8 +87,7 @@ export default function Inventory() {
               </div>
             ) : (
               <>
-                {/* <ProductsTable products={products} /> */}
-                <p>CAnt view products</p>
+                <ProductsTable products={products} />
               </>
             )}
           </>

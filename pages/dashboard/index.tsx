@@ -43,6 +43,8 @@ export default function Dashboard() {
     getStoreDAta()
   }, [])
 
+  console.log(store_data)
+
   return (
     <DashboardLayout>
       <main className="relative z-0 flex-1 overflow-y-auto pb-8">

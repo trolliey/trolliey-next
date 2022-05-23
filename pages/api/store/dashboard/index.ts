@@ -18,21 +18,21 @@ auth_handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
   const store = await Store.findOne({ user: _user._id })
 
   // getting all store orders
-  for (let i = 0; i < store.orders.length; i++) {
-    const order = await Orders.findOne({
-      _id: store.orders[i].order_id,
-    })
-    all_orders.push({
-      createdAt: order.createdAt,
-      status: order.status,
-    })
-  }
+  // for (let i = 0; i < store.orders.length; i++) {
+  //   const order = await Orders.findOne({
+  //     _id: store.orders[i].order_id,
+  //   })
+  //   all_orders.push({
+  //     createdAt: order.createdAt,
+  //     status: order.status,
+  //   })
+  // }
 
   // getting all store products
   const store_products = await Products.find({ store_id: store._id })
 
   await disconnect()
-  return res.status(200).json({ store, store_products, orders: all_orders })
+  return res.status(200).json({ store, store_products, orders: [] })
 })
 
 export default auth_handler
