@@ -100,7 +100,8 @@ function PaymentMethod({
     }
   }
 
-  if (collect_my_order) {
+  //@ts-ignore
+  if (collect_my_order === 'collect_my_order') {
     return (
       <ShipmentLayout step={step} heading="Payment Info">
         <div>
