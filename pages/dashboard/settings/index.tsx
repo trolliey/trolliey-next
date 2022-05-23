@@ -1,3 +1,4 @@
+import { useToast } from '@chakra-ui/react'
 import { Spinner } from '@chakra-ui/spinner'
 import axios from 'axios'
 import React, { useContext, useEffect, useState } from 'react'
@@ -16,12 +17,13 @@ function Settings() {
   const [rtgsAccount, setRtgsAccount] = useState('')
   const [usdAccount, setUsdAccount] = useState('')
 
-  const [edit_loading, setEditLoading]= useState(false)
+  const [edit_loading, setEditLoading] = useState(false)
 
   const { state } = useContext(Store)
   const { userInfo } = state
   const [loading, setLoading] = useState<boolean>(false)
   const [store_data, setStore_Data] = useState<any>()
+  const toast = useToast()
 
   useEffect(() => {
     setLoading(true)
@@ -42,11 +44,20 @@ function Settings() {
     getStoreDAta()
   }, [])
 
-  const edit_info_handler = () =>{
-
+  const edit_info_handler = () => {
+    setEditLoading(true)
+    console.log('edited store')
+    toast({
+      title: 'Edited Sucessfully',
+      status: 'success',
+      position: 'top-right',
+      duration: 9000,
+      isClosable: true,
+    })
+    setLoading(false)
   }
 
-  console.log(store_data)
+  // console.log(store_data)
 
   if (loading) {
     return (
@@ -171,7 +182,7 @@ function Settings() {
                       name="rtgs-account"
                       id="rtgs-account"
                       autoComplete="postal-code"
-                      placeholder='enter rtgs account'
+                      placeholder="enter rtgs account"
                       onChange={(e) => setRtgsAccount(e.target.value)}
                       className="block w-full rounded-md border border-gray-300 p-2 shadow-sm sm:text-sm"
                     />
@@ -189,7 +200,7 @@ function Settings() {
                       type="text"
                       name="usd-account"
                       id="usd-account"
-                      placeholder='enter usd account number'
+                      placeholder="enter usd account number"
                       autoComplete="postal-code"
                       onChange={(e) => setUsdAccount(e.target.value)}
                       className="block w-full rounded-md border border-gray-300 p-2 shadow-sm sm:text-sm"
@@ -221,7 +232,7 @@ function Settings() {
                       type="text"
                       name="first-name"
                       defaultValue={store_data?.store?.first_name}
-                      onChange={e => setFirstName(e.target.value)}
+                      onChange={(e) => setFirstName(e.target.value)}
                       id="first-name"
                       autoComplete="given-name"
                       className="block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
@@ -241,7 +252,7 @@ function Settings() {
                       type="text"
                       name="last-name"
                       defaultValue={store_data?.store?.last_name}
-                      onChange={e => setLastName(e.target.value)}
+                      onChange={(e) => setLastName(e.target.value)}
                       id="last-name"
                       autoComplete="family-name"
                       className="block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
@@ -262,7 +273,7 @@ function Settings() {
                       name="email"
                       type="email"
                       defaultValue={store_data?.store?.email}
-                      onChange={e=> setAddress(e.target.value)}
+                      onChange={(e) => setEmail(e.target.value)}
                       autoComplete="email"
                       className="block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                     />
@@ -301,6 +312,7 @@ function Settings() {
                       name="street-address"
                       id="street-address"
                       defaultValue={store_data?.store?.store_address}
+                      onChange={(e) => setAddress(e.target.value)}
                       autoComplete="street-address"
                       className="block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                     />
@@ -404,7 +416,11 @@ function Settings() {
               >
                 Cancel
               </button>
-             <BlueButton loading={edit_loading} text={'Edit Account'} onClick={edit_info_handler} />
+              <BlueButton
+                loading={edit_loading}
+                text={'Edit Account'}
+                onClick={edit_info_handler}
+              />
             </div>
           </div>
         </form>
