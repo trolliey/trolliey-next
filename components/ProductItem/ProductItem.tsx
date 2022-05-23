@@ -70,13 +70,13 @@ function ProductItem({
         onClick={() => history.push(`/product/description/${id}`)}
         className="relative flex h-32 flex-col items-center overflow-hidden rounded bg-white md:h-52"
       >
-        {/* <Image
+        <Image
           objectFit="cover"
           src={picture ? picture : ''}
           layout="fill"
           alt="product"
           className="h-full max-h-full w-auto flex-1 flex-shrink-0 rounded object-cover"
-        /> */}
+        />
       </div>
       <div className="px-2">
         <div
