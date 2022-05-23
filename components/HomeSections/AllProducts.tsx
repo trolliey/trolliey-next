@@ -65,8 +65,8 @@ function AllProducts({ products, query, cols, no_text, loading }: Props) {
             <>
               <div
                 className={`${
-                  cols ? cols : 'grid-cols-2 md:grid-cols-4 lg:grid-cols-5'
-                } mx-auto grid w-full gap-4 rounded-lg  md:gap-8`}
+                  cols ? cols : 'flex overflow-x-auto space-x-6'
+                } flex overflow-x-auto space-x-6`}
               >
                 {products?.map((product: any, index: number) => (
                   <div key={index} className="col-span-1 p-0">

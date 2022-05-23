@@ -2,92 +2,119 @@
 @tailwind components;
 @tailwind utilities;
 
-*{
-    box-sizing: border-box;
-    border: 0;
-    padding: 0;
+* {
+  box-sizing: border-box;
+  border: 0;
+  padding: 0;
 }
 
 /* ./src/index.css */
 .fade-anim Image {
-    animation: fadeAnim 0.5s ease-out;
+  animation: fadeAnim 0.5s ease-out;
+}
+@keyframes fadeAnim {
+  from {
+    opacity: 0;
   }
-  @keyframes fadeAnim {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
+  to {
+    opacity: 1;
   }
-  
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #e5e7eb;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #6b7280;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #4b5563;
+  cursor: pointer;
+}
 
 .menu-container {
-    width:100%;
-    margin: 0 auto;
-    padding: 20px 0;
-    z-index: 10;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px 0;
+  z-index: 10;
 }
 .menu {
-    width: 250px;
+  width: 250px;
 }
 @media screen and (max-width: 768px) {
-    .menu{
-        display: none;
-    }
+  .menu {
+    display: none;
   }
+}
 .menu > li {
-    display: block;
-    text-align: center;
+  display: block;
+  text-align: center;
 }
 .menu > li > a {
-    padding:20px 18px;
-    display: block;
+  padding: 20px 18px;
+  display: block;
 }
 
 /* Megadrop width dropdown */
- .menu > li > .megadrop {
-    opacity: 0;
-    visibility: hidden;
-    position: absolute;
-    top: 0px;
-    left: 253px;
-    width: 500px;
-    min-height: 100%;
-    text-align: left;
-    z-index: 99;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    overflow: hidden;
+.menu > li > .megadrop {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  top: 0px;
+  left: 253px;
+  width: 500px;
+  min-height: 100%;
+  text-align: left;
+  z-index: 99;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  overflow: hidden;
 }
 .menu > li:hover .megadrop {
-    opacity: 1;
-    visibility: visible;
-    margin-top: 0px;
+  opacity: 1;
+  visibility: visible;
+  margin-top: 0px;
 }
 .menu .col {
-    width: 14.1%;
-    float: left;
-    margin: 0 0 0 2.2%;
+  width: 14.1%;
+  float: left;
+  margin: 0 0 0 2.2%;
 }
 .menu .col ul {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
 }
 .menu .col h3 {
-    padding: 10px 0;
-    margin: 5px 0 5px 0;
+  padding: 10px 0;
+  margin: 5px 0 5px 0;
 }
 .menu .col ul li a {
-    display: block;
-    padding: 0 0 15px 0;
+  display: block;
+  padding: 0 0 15px 0;
 }
 
-.menu > li > ul li ul, .menu li >ul li, .menu > li > .megadrop, .menu > li > ul, .menu > li {
-    -o-transition:  all 0.2 ease-in-out;
-    -moz-transition: all 0.2s ease-in-out;
-    -webkit-transition: all 0.2s ease-in-out;
-    -ms-transition: all 0.2s ease-in-out;
-    -o-transition: all 0.2s ease-in-outs;
-    transition: all 0.2s ease-in-out;
+.menu > li > ul li ul,
+.menu li > ul li,
+.menu > li > .megadrop,
+.menu > li > ul,
+.menu > li {
+  -o-transition: all 0.2 ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -webkit-transition: all 0.2s ease-in-out;
+  -ms-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-outs;
+  transition: all 0.2s ease-in-out;
 }

@@ -50,7 +50,7 @@ function FeaturedProducts({ products, loading }: Props): ReactElement {
             <div
               onMouseEnter={() => setShowIndicators(true)}
               onMouseLeave={() => setShowIndicators(false)}
-              className="relative mx-auto grid grid-cols-2 gap-4 rounded-lg bg-white p-4 md:grid-cols-4 md:gap-8 lg:grid-cols-5"
+              className="relative mx-auto rounded-lg bg-white p-4 flex overflow-x-auto space-x-6"
             >
               {products?.map((product: any, index: number) => (
                 <div key={index} className="col-span-1 p-0">
@@ -72,32 +72,7 @@ function FeaturedProducts({ products, loading }: Props): ReactElement {
                     )}
                 </div>
               ))}
-              <div className="absolute top-1/2 flex w-full -translate-y-1/2 transform items-start justify-between px-3">
-                {show_indicators && (
-                  <>
-                    <button
-                      onClick={handleOnPrevClick}
-                      className="rounded-full bg-gray-100 p-2"
-                    >
-                      <ChevronLeftIcon
-                        height={20}
-                        width={20}
-                        className="text-gray-700"
-                      />
-                    </button>
-                    <button
-                      onClick={handleOnNextClick}
-                      className="rounded-full bg-gray-100 p-2"
-                    >
-                      <ChevronRightIcon
-                        height={20}
-                        width={20}
-                        className="text-gray-700"
-                      />
-                    </button>
-                  </>
-                )}
-              </div>
+            
             </div>
           )}
         </>
