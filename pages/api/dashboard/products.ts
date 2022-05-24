@@ -11,6 +11,12 @@ const handler = nc()
 // get request
 // /api/dashboard/products
 auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
+  // for pagination
+  const resultsPerPage = 8
+  //@ts-ignore
+  let page = parseInt(req.query.page) >= 1 ? parseInt(req.query.page) : 1
+  page = page - 1
+
   try {
     await connect()
     //@ts-ignore
@@ -39,12 +45,18 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
         store_id: store._id,
         $and: [{ $or: allQueries }],
       })
+        .sort({ createdAt: 'asc' })
+        .limit(resultsPerPage)
+        .skip(resultsPerPage * page)
       await disconnect()
       res.status(200).send(products)
     } else {
       const products = await Products.find({
         store_id: store._id,
       })
+        .sort({ createdAt: 'asc' })
+        .limit(resultsPerPage)
+        .skip(resultsPerPage * page)
       await disconnect()
       res.status(200).send(products)
     }

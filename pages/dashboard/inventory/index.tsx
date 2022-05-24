@@ -16,14 +16,15 @@ export default function Inventory() {
   const [search_query, setSearchQuery] = useState<string>('')
   const [products, setProducts] = useState<any>([])
   const { state } = useContext(Store)
+  const [page, setPage] = useState(1)
   const { userInfo } = state
 
   useEffect(() => {
-    setLoading(true)
     const getData = async () => {
       try {
+        setLoading(true)
         const { data } = await axios.post(
-          `/api/dashboard/products`,
+          `/api/dashboard/products?page=${page}`,
           {
             query: search_query,
           },
@@ -40,7 +41,7 @@ export default function Inventory() {
       }
     }
     getData()
-  }, [search_query])
+  }, [search_query, page])
 
   // console.log(products)
   const delete_item_from_table = (id: any) => {
@@ -90,7 +91,12 @@ export default function Inventory() {
               </div>
             ) : (
               <>
-                <ProductsTable products={products} delete_item_from_table={delete_item_from_table} />
+                <ProductsTable
+                  products={products}
+                  delete_item_from_table={delete_item_from_table}
+                  setPage={setPage}
+                  page={page}
+                />
               </>
             )}
           </>

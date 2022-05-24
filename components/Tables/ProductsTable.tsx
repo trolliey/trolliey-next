@@ -13,15 +13,20 @@ import { useRouter } from 'next/router'
 import { useToast } from '@chakra-ui/react'
 import axios from 'axios'
 import { Store } from '../../Context/Store'
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid'
 
 interface Props {
   products?: any
-  delete_item_from_table?: any
+  delete_item_from_table?: any,
+  setPage?:any
+  page?:any
 }
 
 export default function ProductsTable({
   products,
   delete_item_from_table,
+  setPage,
+  page
 }: Props): ReactElement {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [product_name, setProductName] = useState('')
@@ -70,7 +75,6 @@ export default function ProductsTable({
       })
       setLoading(false)
     }
-    
   }
 
   const set_delete_item = (id: string, name: string) => {
@@ -83,7 +87,7 @@ export default function ProductsTable({
     <div className="flex flex-col">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-          <div className="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
+          <div className="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg w-full">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
@@ -217,6 +221,7 @@ export default function ProductsTable({
                 )}
               </tbody>
             </table>
+
             <Modal isOpen={isOpen} onClose={onClose} isCentered>
               <ModalOverlay />
               <ModalContent>
@@ -249,6 +254,17 @@ export default function ProductsTable({
                 </ModalFooter>
               </ModalContent>
             </Modal>
+          </div>
+          <div className="ml-auto flex w-full items-end flex-col">
+            <div className="ml-auto flex w-full flex-row items-center gap-4 self-end py-4">
+              <div className="flex-1"></div>
+              <div onClick={() => setPage(page-1)} className="flex cursor-pointer rounded bg-white p-1 shadow hover:bg-gray-50">
+                <ChevronLeftIcon height={28} width={28} />
+              </div>
+              <div onClick={() => setPage(page+1)} className="flex cursor-pointer rounded bg-white p-1 shadow hover:bg-gray-50">
+                <ChevronRightIcon height={28} width={28} />
+              </div>
+            </div>
           </div>
         </div>
       </div>
