@@ -18,8 +18,8 @@ const ShipmentLayout: FunctionComponent<Props> = ({ children, step, heading }: P
     const percentage = (step / 4) * 100
 
     return (
-        <GeneralLayout title='Shipping' description='describe how you want trolliey to handle yout equipmwnt'>
-            <div className="w-full items-center min-h-screen">
+        <GeneralLayout no_text title='Shipping' description='describe how you want Trolliey to handle yout equipmwnt'>
+            <div className="w-full items-center min-h-screen py-6">
                 <main className="grid lg:grid-cols-4 md:grid-cols-3 grid-col-1 gap-8 max-w-7xl">
                     {/* Checkout form */}
                     <div className="flex flex-col lg:col-span-3 md:col-span-2 col-span-1  bg-white md:p-8 p-4 rounded shadow mb-8">
