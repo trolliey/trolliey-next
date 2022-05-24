@@ -142,6 +142,7 @@ export default function CreateProduct() {
                 duration: 9000,
                 isClosable: true,
               })
+              setLoading(false)
             })
           promises.push(uploadPromise)
         })
