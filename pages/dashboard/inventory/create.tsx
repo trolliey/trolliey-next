@@ -389,7 +389,7 @@ export default function CreateProduct() {
                             <input
                               type="text"
                               name="title"
-                              value={description}
+                              value={title}
                               onChange={(e) => setTitle(e.target.value)}
                               id="title"
                               autoComplete="title"
