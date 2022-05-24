@@ -36,6 +36,12 @@ function MobileNavDrawers({ user }: Props): ReactElement {
   const history = useRouter()
   const { state, dispatch } = useContext(Store)
 
+  const logout_user = () =>{
+    history.push('/')
+        Cookies.remove('userInfo')
+        window.location.reload()
+  }
+
   return (
     <>
       <div onClick={onOpen}>
@@ -244,7 +250,7 @@ function MobileNavDrawers({ user }: Props): ReactElement {
               <div className="flex-1"></div>
               {user ? (
                 <p
-                  onClick={() => history.push('/login')}
+                  onClick={logout_user}
                   className="ml-8 font-bold text-gray-700"
                 >
                   Logout
