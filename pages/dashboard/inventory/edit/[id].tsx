@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
 import DashboardLayout from '../../../../layouts/DashboardLayout'
-import { Divider } from '@chakra-ui/react'
+import { Divider, Select } from '@chakra-ui/react'
 import FileUploadComponent from '../../../../components/FileUploadComponent/FileUploadComponent'
 import { data } from '../../../../utils/data'
 import dynamic from 'next/dynamic'
@@ -40,8 +40,9 @@ export default function EditProduct(props: any) {
   const { state } = useContext(Store)
   const { userInfo } = state
   const [showMore, setShowMore] = useState<any>()
+  const [currency, setCurrency] = useState('')
 
-  console.log(product)
+  // console.log(product)
 
   const selectedPictures = (pictures: any) => {
     setPicturesForUpload(pictures)
@@ -92,6 +93,7 @@ export default function EditProduct(props: any) {
           status: status,
           sku: sku,
           variants: variations,
+          currency: currency,
         },
         { headers: { authorization: userInfo?.token } }
       )
@@ -406,6 +408,27 @@ export default function EditProduct(props: any) {
                       <div className="bg-white px-4 py-5 sm:p-6">
                         <div className="grid grid-cols-6 gap-6">
                           <div className="col-span-6 ">
+                          <div className="col-span-6 ">
+                            <label
+                              htmlFor="city"
+                              className="block text-sm font-medium text-gray-700"
+                            >
+                              Edit Preffed currency
+                            </label>
+                            <Select
+                              id="currency"
+                              name="currency"
+                              autoComplete="currency"
+                              bg={'white'}
+                              placeholder="select currency"
+                              defaultValue={product?.currency_type}
+                              onChange={(e) => setCurrency(e.target.value)}
+                              className="rounded border border-gray-300 outline-none"
+                            >
+                              <option value={'USD'}>USD</option>
+                              <option value={'ZWL'}>ZWL</option>
+                            </Select>
+                          </div>
                             <label
                               htmlFor="city"
                               className="block text-sm font-medium text-gray-700"

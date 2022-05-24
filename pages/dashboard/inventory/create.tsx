@@ -13,6 +13,7 @@ import axios from 'axios'
 import { Store } from '../../../Context/Store'
 import { useToast } from '@chakra-ui/react'
 import { getError } from '../../../utils/error'
+import { useRouter } from 'next/router'
 
 const product_options = [
   { id: 'private', title: 'Private' },
@@ -41,6 +42,7 @@ export default function CreateProduct() {
   const toast = useToast()
   const { state } = useContext(Store)
   const { userInfo } = state
+  const router = useRouter()
 
   const selectedPictures = (pictures: any) => {
     setPicturesForUpload(pictures)
@@ -203,6 +205,7 @@ export default function CreateProduct() {
         setCategory('')
         setStatus('')
         setSku('')
+        router.push('/dashboard/inventory/add_success')
       } catch (error) {
         setLoading(false)
         toast({
@@ -281,6 +284,7 @@ export default function CreateProduct() {
                             <Select
                               bg={'white'}
                               id="category"
+                              value={category}
                               placeholder="Select category"
                               onChange={(e) => setCategory(e.target.value)}
                               className="rounded border border-gray-300 outline-none"
@@ -303,6 +307,7 @@ export default function CreateProduct() {
 
                             <Select
                               bg={'white'}
+                              value={sub_category}
                               placeholder={
                                 current_category?.sub_categories?.[0].name
                                   ? current_category?.sub_categories?.[0].name
@@ -334,6 +339,7 @@ export default function CreateProduct() {
                             <input
                               type="text"
                               name="brand"
+                              value={brand}
                               onChange={(e) => setBrand(e.target.value)}
                               id="brand"
                               autoComplete="brand"
@@ -383,6 +389,7 @@ export default function CreateProduct() {
                             <input
                               type="text"
                               name="title"
+                              value={description}
                               onChange={(e) => setTitle(e.target.value)}
                               id="title"
                               autoComplete="title"
@@ -403,6 +410,7 @@ export default function CreateProduct() {
                               // value={quill_description}
                               placeholder="Enter your description here"
                               style={{ borderRadius: '5px' }}
+                              value={description}
                               onChange={setQuillDescription}
                             />
                           </div>
@@ -505,6 +513,7 @@ export default function CreateProduct() {
                               type="number"
                               name="price"
                               id="price"
+                              value={price}
                               onChange={(e) => setPrice(e.target.value)}
                               autoComplete="price"
                               placeholder="Enter price"
@@ -523,6 +532,7 @@ export default function CreateProduct() {
                               type="number"
                               name="discount"
                               id="discount"
+                              value={discount_price}
                               onChange={(e) => setDiscountPrice(e.target.value)}
                               autoComplete="discount"
                               placeholder="Enter discount"
@@ -542,6 +552,7 @@ export default function CreateProduct() {
                               type="text"
                               name="sku"
                               id="sku"
+                              value={sku}
                               onChange={(e) => setSku(e.target.value)}
                               autoComplete="sku"
                               placeholder="Enter sku"
@@ -560,6 +571,7 @@ export default function CreateProduct() {
                               type="number"
                               name="quantity"
                               id="quantity"
+                              value={countInStock}
                               onChange={(e) => setCountInStock(e.target.value)}
                               autoComplete="quantity"
                               placeholder="Enter quantity"
