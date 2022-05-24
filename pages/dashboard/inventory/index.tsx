@@ -42,7 +42,10 @@ export default function Inventory() {
     getData()
   }, [search_query])
 
-  console.log(products)
+  // console.log(products)
+  const delete_item_from_table = (id: any) => {
+    setProducts(products.filter((item: any) => item._id !== id))
+  }
 
   return (
     <DashboardLayout>
@@ -82,12 +85,12 @@ export default function Inventory() {
                 </p>
                 <BlueButton
                   text={'Click here to add product'}
-                  onClick={()=> history.push('/dashboard/inventory/create')}
+                  onClick={() => history.push('/dashboard/inventory/create')}
                 />
               </div>
             ) : (
               <>
-                <ProductsTable products={products} />
+                <ProductsTable products={products} delete_item_from_table={delete_item_from_table} />
               </>
             )}
           </>
