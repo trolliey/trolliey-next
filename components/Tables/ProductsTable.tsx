@@ -1,4 +1,4 @@
-import React, { ReactElement, useState, useEffect } from 'react'
+import React, { ReactElement, useState, useContext } from 'react'
 import { TrashIcon, PencilIcon } from '@heroicons/react/outline'
 import {
   Modal,
@@ -11,6 +11,8 @@ import {
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { useToast } from '@chakra-ui/react'
+import axios from 'axios'
+import { Store } from '../../Context/Store'
 
 interface Props {
   products?: any
@@ -25,19 +27,56 @@ export default function ProductsTable({
   const [product_name, setProductName] = useState('')
   const [product_id, setProductId] = useState('')
   const router = useRouter()
+  const [loading, setLoading] = useState(false)
   const toast = useToast()
+
+  // user info from cookies
+  const { state } = useContext(Store)
+  const { userInfo } = state
+
+  const confirm_delete_item = async (product_id: string) => {
+    setLoading(true)
+    try {
+      const { data } = await axios.delete(
+        `/api/products/delete?product_id=${product_id}`,
+        {
+          headers: {
+            authorization: userInfo?.token,
+          },
+        }
+      )
+      console.log(data)
+      delete_item_from_table(product_id)
+      setLoading(false)
+      onClose()
+      toast({
+        title: 'Sucesfully deleted.',
+        description: 'Product successfully deleted!',
+        status: 'success',
+        position: 'top-right',
+        duration: 9000,
+        isClosable: true,
+      })
+    } catch (error) {
+      console.log(error)
+      onClose()
+      toast({
+        title: 'Error Deleting item.',
+        description: 'There was an error deleting the item!',
+        status: 'error',
+        position: 'top-right',
+        duration: 9000,
+        isClosable: true,
+      })
+      setLoading(false)
+    }
+    
+  }
 
   const set_delete_item = (id: string, name: string) => {
     onOpen()
     setProductId(id)
     setProductName(name)
-  }
-
-  const delele_item = () => {
-    console.log('item deleted')
-    // setProductId('')
-    // setProductName('')
-    onClose()
   }
 
   return (
@@ -201,19 +240,9 @@ export default function ProductsTable({
                     Close
                   </Button>
                   <Button
-                    onClick={() => {
-                      delete_item_from_table(product_id)
-                      onClose()
-                      toast({
-                        title: 'Sucesfully deleted.',
-                        description: 'Product successfully deleted!',
-                        status: 'error',
-                        position: 'top-right',
-                        duration: 9000,
-                        isClosable: true,
-                      })
-                    }}
+                    onClick={() => confirm_delete_item(product_id)}
                     colorScheme="red"
+                    isLoading={loading}
                   >
                     Delete
                   </Button>

@@ -6,16 +6,24 @@ import Store from '../../../models/Store'
 
 // get all products
 // get request
-// /api/products
+// /api/products?product_id=abc123
 auth_handler.delete(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
+
+    // connect database
     await connect()
+
     //@ts-ignore
     const _user = req.user
+
+    // get product id from client query
     const product_id = req.query.product_id
+
     if (!_user) {
       return res.status(500).send({ message: 'Your need to login first' })
     }
+
+    // check if the user has a store
     const store = await Store.findOne({ user: _user._id })
 
     if (store) {
