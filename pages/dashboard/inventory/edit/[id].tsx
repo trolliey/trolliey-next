@@ -147,6 +147,29 @@ export default function EditProduct(props: any) {
                   </div>
                 </div>
                 <div className="mt-5 md:col-span-2 md:mt-0">
+                  <div className="flex flex-col items-start w-full">
+                    <p className="pb-1 font-semibold text-gray-700">
+                      Old Pictures
+                    </p>
+                    {(product?.pictures).map(
+                      (url: string | undefined, index: number) => (
+                        <div
+                          key={index}
+                          className="relative col-span-1 flex flex-col items-center rounded"
+                        >
+                          {/* <span onClick={() => removePicture(index)} className='cursor-pointer absolute top-0 right-0 bg-white rounded-full p-1'>
+                                <XIcon height={12} width={12} className='text-gray-700' />
+                            </span> */}
+                          <img src={url} alt="..." className="h-28 rounded" />
+                        </div>
+                      )
+                    )}
+                  </div>
+                  {pictures_for_upload?.length >= 1 && (
+                    <p className="pb-1 pt-4 font-semibold text-gray-700">
+                      New Pictures
+                    </p>
+                  )}
                   <FileUploadComponent
                     selectedPictures={selectedPictures}
                     multiple
@@ -408,27 +431,27 @@ export default function EditProduct(props: any) {
                       <div className="bg-white px-4 py-5 sm:p-6">
                         <div className="grid grid-cols-6 gap-6">
                           <div className="col-span-6 ">
-                          <div className="col-span-6 ">
-                            <label
-                              htmlFor="city"
-                              className="block text-sm font-medium text-gray-700"
-                            >
-                              Edit Preffed currency
-                            </label>
-                            <Select
-                              id="currency"
-                              name="currency"
-                              autoComplete="currency"
-                              bg={'white'}
-                              placeholder="select currency"
-                              defaultValue={product?.currency_type}
-                              onChange={(e) => setCurrency(e.target.value)}
-                              className="rounded border border-gray-300 outline-none"
-                            >
-                              <option value={'USD'}>USD</option>
-                              <option value={'ZWL'}>ZWL</option>
-                            </Select>
-                          </div>
+                            <div className="col-span-6 ">
+                              <label
+                                htmlFor="city"
+                                className="block text-sm font-medium text-gray-700"
+                              >
+                                Edit Preffed currency
+                              </label>
+                              <Select
+                                id="currency"
+                                name="currency"
+                                autoComplete="currency"
+                                bg={'white'}
+                                placeholder="select currency"
+                                defaultValue={product?.currency_type}
+                                onChange={(e) => setCurrency(e.target.value)}
+                                className="rounded border border-gray-300 outline-none"
+                              >
+                                <option value={'USD'}>USD</option>
+                                <option value={'ZWL'}>ZWL</option>
+                              </Select>
+                            </div>
                             <label
                               htmlFor="city"
                               className="block text-sm font-medium text-gray-700"
