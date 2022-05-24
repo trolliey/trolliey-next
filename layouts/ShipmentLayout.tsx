@@ -78,18 +78,10 @@ const ShipmentLayout: FunctionComponent<Props> = ({
                   key={index}
                   className="flex w-full flex-1 flex-row items-center"
                 >
-                  <div className="flex rounded overflow-hidden">
-                    <Image
-                      objectFit="cover"
-                    //   layout="responsive"
-                      height={44} width={44}
-                      className="rounded"
-                      src={item?.pictures[0]}
-                    />
-                  </div>
+                  <Avatar src={item.pictures[0]} />
                   <div className="ml-2 flex flex-col">
                     <p className="font-semibold text-gray-900">{item.title}</p>
-                    <p className="text-sm text-gray-400">${item.price}</p>
+                    <p className="text-sm text-gray-400">$ {item.price}</p>
                   </div>
                   <div className="flex-1"></div>
                 </div>
