@@ -71,7 +71,7 @@ const Address: FunctionComponent<Props> = ({
     }
   }
   return (
-    <ShipmentLayout heading="Delivery Info" step={step} no_text>
+    <ShipmentLayout heading="Delivery Info" step={step}>
       <div className="flex w-full flex-col">
         <p className="mb-4 text-center font-semibold text-gray-700">
           How do you want us to handle your order?
