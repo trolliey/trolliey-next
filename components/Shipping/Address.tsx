@@ -105,7 +105,7 @@ const Address: FunctionComponent<Props> = ({
         </div>
       </div>
 
-      <form className="flex w-full flex-col p-4">
+      <form className="flex w-full flex-col md:p-4 p-2">
         <p className="mt-8 mb-4 text-center font-semibold text-gray-700">
           Contact Info
         </p>
