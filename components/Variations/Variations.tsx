@@ -74,6 +74,7 @@ export default function Variations(props: { selectedTags: (arg0: any[]) => void;
                 <input
                     type="text"
                     name="name"
+                    value={variant_name}
                     onChange={e => setVarinatName(e.target.value)}
                     id="name"
                     autoComplete="name"
@@ -89,6 +90,7 @@ export default function Variations(props: { selectedTags: (arg0: any[]) => void;
                     <input
                         type="number"
                         name="price"
+                        value={variant_price}
                         onChange={e => setVariantPrice(e.target.value)}
                         id="price"
                         autoComplete="price"
@@ -103,6 +105,7 @@ export default function Variations(props: { selectedTags: (arg0: any[]) => void;
                     <input
                         type="number"
                         name="quantity"
+                        value={variant_quantity}
                         onChange={e => setVariantQuantity(e.target.value)}
                         id="quantity"
                         autoComplete="quantity"
@@ -117,6 +120,7 @@ export default function Variations(props: { selectedTags: (arg0: any[]) => void;
                     <input
                         type="number"
                         name="quantity"
+                        value={discount}
                         onChange={e => setVariantDiscount(e.target.value)}
                         id="quantity"
                         autoComplete="quantity"

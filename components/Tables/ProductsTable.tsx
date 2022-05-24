@@ -40,8 +40,8 @@ export default function ProductsTable({
   const { userInfo } = state
 
   const confirm_delete_item = async (product_id: string) => {
-    setLoading(true)
     try {
+      setLoading(true)
       const { data } = await axios.delete(
         `/api/products/delete?product_id=${product_id}`,
         {

@@ -58,6 +58,10 @@
   .menu {
     display: none;
   }
+  /* width */
+  ::-webkit-scrollbar {
+    display: none;
+  }
 }
 .menu > li {
   display: block;
