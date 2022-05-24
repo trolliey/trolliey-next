@@ -178,7 +178,7 @@ export default function CreateProduct() {
             sku: sku,
             variants: variations,
             currency: currency,
-            sub_category: sub_category
+            sub_category: sub_category,
           },
           { headers: { authorization: userInfo?.token } }
         )
@@ -291,7 +291,6 @@ export default function CreateProduct() {
                                 </option>
                               ))}
                             </Select>
-       
                           </div>
 
                           <div className="col-span-6">
@@ -316,14 +315,13 @@ export default function CreateProduct() {
                               className="rounded border border-gray-300 outline-none"
                             >
                               {current_category?.sub_categories?.map(
-                                (category:any, index:any) => (
+                                (category: any, index: any) => (
                                   <option key={index} value={category.name}>
                                     {category.name}
                                   </option>
                                 )
                               )}
                             </Select>
-
                           </div>
 
                           <div className="col-span-6 ">
@@ -481,19 +479,19 @@ export default function CreateProduct() {
                             >
                               Preffed currency (if not selected we assume USD)
                             </label>
-                            <select
+                            <Select
                               id="currency"
                               name="currency"
                               autoComplete="currency"
+                              bg={'white'}
                               placeholder="select currency"
-                              defaultValue={'USD'}
                               value={currency}
                               onChange={(e) => setCurrency(e.target.value)}
-                              className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                              className="rounded border border-gray-300 outline-none"
                             >
                               <option value={'USD'}>USD</option>
                               <option value={'ZWL'}>ZWL</option>
-                            </select>
+                            </Select>
                           </div>
 
                           <div className="col-span-6 ">
