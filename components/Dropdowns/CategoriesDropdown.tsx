@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { ChevronRightIcon } from '@heroicons/react/outline'
 import { ChevronDownIcon } from '@heroicons/react/solid'
 import SubCategoryComponent from './SubCategoryComponent'
@@ -13,12 +13,25 @@ function CategoriesDropdown() {
   const [cat_name, setCatName] = useState('')
   const [category_image, setCategoryImage] = useState()
 
+  // for showing sub categories
+  const [category_value, setCategoryValue] = useState<any>('')
+  const [current_category, setCurrentCategory] = useState<any>('')
+
+  useEffect(() => {
+    var tuna = data?.categories?.find(function (sandwich) {
+      return sandwich.value === category_value;
+    });
+    setCurrentCategory(tuna);
+  }, [category_value]);
+
+
   const { dispatch } = useContext(Store)
 
-  const handle_hover = (slug: any, name: any, imag: any) => {
+  const handle_hover = (slug: any, name: any, imag: any, value: any) => {
     setCategorySlug(slug)
     setCatName(name)
     setCategoryImage(imag)
+    setCategoryValue(value)
   }
 
   return (
@@ -42,7 +55,8 @@ function CategoriesDropdown() {
                   handle_hover(
                     slugify(category.name),
                     category.name,
-                    category.icon
+                    category.icon,
+                    category.value
                   )
                 }
                 className="flex cursor-pointer flex-row items-center justify-between gap-2 overflow-hidden overflow-ellipsis py-2 px-4 text-sm hover:bg-gray-100"
@@ -65,6 +79,7 @@ function CategoriesDropdown() {
                 category_id={category_slug}
                 cat_name={cat_name}
                 cat_image={category_image}
+                category={current_category}
               />
             </>
           )}
