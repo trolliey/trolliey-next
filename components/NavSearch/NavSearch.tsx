@@ -36,8 +36,6 @@ function NavSearch(): ReactElement {
     getData()
   }, [search_query])
 
-  console.log(searched_products)
-
   return (
     <>
       <div

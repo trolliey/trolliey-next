@@ -73,23 +73,26 @@ function MobileNavDrawers({ user }: Props): ReactElement {
                   <ArrowLeftIcon height={20} width={20} />
                 </span>
                 <p className="my-4 mx-auto text-center font-semibold capitalize text-gray-700 ">
-                  Change Default Currency 
+                  Change Default Currency
                 </p>
               </div>
               <div className="flex w-full flex-col items-center">
                 <div
                   onClick={() => {
-                    Cookies.set('trolliey_currency', 'ZWL')
                     dispatch({ type: 'CHANGE_CURRENCY', payload: 'ZWL' })
                   }}
                   className="zwl py-2"
                 >
                   ZWL
                 </div>
-                <div onClick={() => {
-                    Cookies.set('trolliey_currency', 'USD')
+                <div
+                  onClick={() => {
                     dispatch({ type: 'CHANGE_CURRENCY', payload: 'USD' })
-                  }} className="usd py-2 ">USD</div>
+                  }}
+                  className="usd py-2 "
+                >
+                  USD
+                </div>
               </div>
             </DrawerBody>
           ) : (

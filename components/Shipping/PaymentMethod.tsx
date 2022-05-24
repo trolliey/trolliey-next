@@ -22,6 +22,7 @@ interface Props {
   handleChange: any
   prevStep?: any
   collect_my_order: boolean
+  payment_method?:any
 }
 
 const payment_methods = [
@@ -43,6 +44,7 @@ function PaymentMethod({
   handleChange,
   prevStep,
   collect_my_order,
+  payment_method
 }: Props): ReactElement {
   const { state, dispatch } = useContext(Store)
   const router = useRouter()
@@ -98,6 +100,38 @@ function PaymentMethod({
       setLoading(false)
       console.log(getError(error))
     }
+  }
+
+  console.log(payment_method)
+
+  if(payment_method === 'pay_on_delivery'){
+    return(
+      <ShipmentLayout step={step} heading="Payment Info">
+        <div>
+          <label className="px-4 pt-4 text-base font-medium text-gray-900">
+            We will deliver to you
+          </label>
+          <p className="px-4 text-sm leading-5 text-gray-500">
+            The item will be delivered to your doorstep within 5 working days 
+          </p>
+
+          <div className="mt-4 bg-gray-100 p-4 rounded">
+            <legend className="sr-only">Thank your for shopping with us</legend>
+            <p className=" text-center font-semibold capitalize text-black">
+              Enjoy your items
+            </p>
+          </div>
+        </div>
+        <div className="mt-4 flex w-full space-x-4 border-t border-gray-200 px-4 pt-4 pb-4">
+          <BlueButton text="previous" onClick={() => prevStep(values)} />
+          <BlueButton
+            text="Place Order"
+            loading={loading}
+            onClick={placeOrderHandler}
+          />
+        </div>
+      </ShipmentLayout>
+    )
   }
 
   //@ts-ignore

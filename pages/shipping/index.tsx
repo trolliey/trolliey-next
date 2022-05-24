@@ -110,6 +110,7 @@ function Shipping() {
           nextStep={nextStep}
           handleChange={handleChange}
           collect_my_order={collect_my_order}
+          payment_method={payment_method}
           prevStep={prevStep}
           values={values}
           step={step}
