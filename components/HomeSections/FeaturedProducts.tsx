@@ -28,7 +28,7 @@ function FeaturedProducts({ products, loading }: Props): ReactElement {
   return (
     <>
       {loading ? (
-        <div className="relative mx-auto grid grid-cols-2 gap-4 rounded-lg bg-white p-4 md:grid-cols-4 md:gap-8 lg:grid-cols-5">
+        <div className="scrollbar-hide relative mx-auto grid grid-cols-2 gap-4 rounded-lg bg-white p-4 md:grid-cols-4 md:gap-8 lg:grid-cols-5">
           {[1, 2, 3, 4, 5]?.map((product: any, index: number) => (
             <div key={index} className="col-span-1 p-0">
               <ProductLoading />
@@ -50,7 +50,7 @@ function FeaturedProducts({ products, loading }: Props): ReactElement {
             <div
               onMouseEnter={() => setShowIndicators(true)}
               onMouseLeave={() => setShowIndicators(false)}
-              className="relative mx-auto rounded-lg bg-white p-4 flex overflow-x-auto space-x-6"
+              className="scrollbar-hide relative mx-auto rounded-lg bg-white p-4 flex overflow-x-auto space-x-6"
             >
               {products?.map((product: any, index: number) => (
                 <div key={index} className="col-span-1 p-0">

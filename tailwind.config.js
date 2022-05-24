@@ -5,7 +5,8 @@ module.exports = {
         require("tailwindcss")("./src/tailwind.config.js"),
         require("autoprefixer"),
         require('@tailwindcss/forms'),
-        require("@tailwindcss/aspect-ratio")
+        require("@tailwindcss/aspect-ratio"),
+        require('tailwind-scrollbar-hide')
       ],
     },
   },
