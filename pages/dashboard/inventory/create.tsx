@@ -1,6 +1,6 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import DashboardLayout from '../../../layouts/DashboardLayout'
-import { Divider } from '@chakra-ui/react'
+import { Divider, Select } from '@chakra-ui/react'
 import FileUploadComponent from '../../../components/FileUploadComponent/FileUploadComponent'
 import { data } from '../../../utils/data'
 import dynamic from 'next/dynamic'
@@ -29,10 +29,14 @@ export default function CreateProduct() {
   const [brand, setBrand] = useState<string>('')
   const [countInStock, setCountInStock] = useState<any>(0)
   const [category, setCategory] = useState<any>(0)
+  const [sub_category, setSubCategory] = useState<any>('')
   const [status, setStatus] = useState<any>()
   const [sku, setSku] = useState<string>('')
   const [currency, setCurrency] = useState('')
   const [loading, setLoading] = useState(false)
+
+  //for selecting sub category
+  const [current_category, setCurrentCategory] = useState<any>('')
 
   const toast = useToast()
   const { state } = useContext(Store)
@@ -41,6 +45,15 @@ export default function CreateProduct() {
   const selectedPictures = (pictures: any) => {
     setPicturesForUpload(pictures)
   }
+
+  useEffect(() => {
+    var tuna = data?.categories?.find(function (sandwich) {
+      return sandwich.name === category
+    })
+    setCurrentCategory(tuna)
+  }, [category])
+
+  console.log(current_category)
 
   const selectedTags = (tags: any) => {
     setVariations(tags)
@@ -165,6 +178,7 @@ export default function CreateProduct() {
             sku: sku,
             variants: variations,
             currency: currency,
+            sub_category: sub_category
           },
           { headers: { authorization: userInfo?.token } }
         )
@@ -264,22 +278,20 @@ export default function CreateProduct() {
                             >
                               Category
                             </label>
-                            <select
-                              id="country"
-                              name="country"
-                              autoComplete="country-name"
-                              value={category}
+                            <Select
+                              bg={'white'}
+                              id="category"
+                              placeholder="Select category"
                               onChange={(e) => setCategory(e.target.value)}
-                              className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                              className="rounded border border-gray-300 outline-none"
                             >
-                              {data.categories.map(
-                                (category: any, index: number) => (
-                                  <option key={index} value={category.name}>
-                                    {category.name}
-                                  </option>
-                                )
-                              )}
-                            </select>
+                              {data.categories.map((category, index) => (
+                                <option key={index} value={category.name}>
+                                  {category.name}
+                                </option>
+                              ))}
+                            </Select>
+       
                           </div>
 
                           <div className="col-span-6">
@@ -289,18 +301,29 @@ export default function CreateProduct() {
                             >
                               Sub- Category
                             </label>
-                            <select
-                              id="country"
-                              name="country"
-                              autoComplete="country-name"
-                              className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+
+                            <Select
+                              bg={'white'}
+                              placeholder={
+                                current_category?.sub_categories?.[0].name
+                                  ? current_category?.sub_categories?.[0].name
+                                  : 'No category selected'
+                              }
+                              onChange={(e) => setSubCategory(e.target.value)}
+                              defaultValue={
+                                current_category?.sub_categories?.[0].name
+                              }
+                              className="rounded border border-gray-300 outline-none"
                             >
-                              {data.categories.map(
-                                (category: any, index: number) => (
-                                  <option key={index}>{category.name}</option>
+                              {current_category?.sub_categories?.map(
+                                (category:any, index:any) => (
+                                  <option key={index} value={category.name}>
+                                    {category.name}
+                                  </option>
                                 )
                               )}
-                            </select>
+                            </Select>
+
                           </div>
 
                           <div className="col-span-6 ">
@@ -462,7 +485,7 @@ export default function CreateProduct() {
                               id="currency"
                               name="currency"
                               autoComplete="currency"
-                              placeholder='select currency'
+                              placeholder="select currency"
                               defaultValue={'USD'}
                               value={currency}
                               onChange={(e) => setCurrency(e.target.value)}

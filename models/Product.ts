@@ -79,6 +79,10 @@ const productSchema = new mongoose.Schema({
     times_bought:{
         type:Number,
         default: 0
+    },
+    sub_category:{
+        type: String,
+        default: ''
     }
 }, {
     timestamps: true

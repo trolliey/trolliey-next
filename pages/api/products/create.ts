@@ -14,7 +14,7 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     //@ts-ignore
     const _user = req.user
     if (!_user) {
-      return res.status(500).send({ message: 'Your need to login first' })
+      return res.status(500).send({ message: 'Please login to your account again!' })
     }
     const store = await Store.findOne({ user: _user._id })
 
@@ -33,6 +33,7 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
         sku,
         variants,
         currency,
+        sub_category
       } = req.body
 
       if (
@@ -65,6 +66,7 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
         sku: sku,
         status: status,
         currency_type: currency,
+        sub_category: sub_category
       })
 
       // saving the new product
