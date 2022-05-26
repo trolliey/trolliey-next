@@ -43,6 +43,7 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     user: req.user._id,
     collect_my_order: collect_my_order,
     stores_involved: [],
+    method: method
   })
   //@ts-ignore
   const the_store = await Store.findOne({ user_id: req.user._id })
@@ -61,8 +62,6 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
       all_involved_stores.push(newOrder.orderItems[i].store_id)
     }
   }
-
-  // console.log(all_involved_stores)
 
   // increment number of times product was bought
   for (let i = 0; i < newOrder.orderItems.length; i++) {

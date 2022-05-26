@@ -1,9 +1,8 @@
 import React, { ReactElement, useState, useContext } from 'react'
 import BlueButton from '../Buttons/BlueButton'
 import ShipmentLayout from '../../layouts/ShipmentLayout'
-import paypal_logo from '../../public/img/paypal.png'
 import Image from 'next/image'
-import { Divider } from '@chakra-ui/react'
+import { Divider, useToast } from '@chakra-ui/react'
 import { getError } from '../../utils/error'
 import axios from 'axios'
 import { Store } from '../../Context/Store'
@@ -22,7 +21,7 @@ interface Props {
   handleChange: any
   prevStep?: any
   collect_my_order: boolean
-  payment_method?:any
+  payment_method?: any
 }
 
 const payment_methods = [
@@ -44,15 +43,20 @@ function PaymentMethod({
   handleChange,
   prevStep,
   collect_my_order,
-  payment_method
+  payment_method,
 }: Props): ReactElement {
   const { state, dispatch } = useContext(Store)
   const router = useRouter()
   const { userInfo, cart, currency } = state
   const [selected_method, setSelectedMethod] = useState('')
   const [loading, setLoading] = useState<boolean>(false)
+  const toast = useToast()
 
   const placeOrderHandler = async () => {
+    if (payment_method === 'pay_on_delivery') {
+      setSelectedMethod(payment_method)
+    }
+
     try {
       setLoading(true)
       const { data } = await axios.post(
@@ -94,28 +98,45 @@ function PaymentMethod({
       dispatch({ type: 'CART_CLEAR' })
       Cookies.remove('cartItems')
       setLoading(false)
+      toast({
+        title: 'Order Created.',
+        description:
+          'Your order has been created and will be delivered to your within 5 working days! Thank You',
+        status: 'success',
+        position: 'top-right',
+        duration: 9000,
+        isClosable: true,
+      })
       // console.log(cart.cartItems)
       router.push(`/order/${data._id}`)
     } catch (error) {
       setLoading(false)
       console.log(getError(error))
+      toast({
+        title: 'Order Not Created.',
+        description: 'Could not create your order. Try again later',
+        status: 'error',
+        position: 'top-right',
+        duration: 9000,
+        isClosable: true,
+      })
     }
   }
 
   console.log(payment_method)
 
-  if(payment_method === 'pay_on_delivery'){
-    return(
+  if (payment_method === 'pay_on_delivery') {
+    return (
       <ShipmentLayout step={step} heading="Payment Info">
         <div>
           <label className="px-4 pt-4 text-base font-medium text-gray-900">
             We will deliver to you
           </label>
           <p className="px-4 text-sm leading-5 text-gray-500">
-            The item will be delivered to your doorstep within 5 working days 
+            The item will be delivered to your doorstep within 5 working days
           </p>
 
-          <div className="mt-4 bg-gray-100 p-4 rounded">
+          <div className="mt-4 rounded bg-gray-100 p-4">
             <legend className="sr-only">Thank your for shopping with us</legend>
             <p className=" text-center font-semibold capitalize text-black">
               Enjoy your items
@@ -168,7 +189,7 @@ function PaymentMethod({
   return (
     <ShipmentLayout step={step} heading="Payment Info">
       <div>
-        <label className="md:px-4 px-2 pt-4 text-base font-medium text-gray-900">
+        <label className="px-2 pt-4 text-base font-medium text-gray-900 md:px-4">
           Payment Methods
         </label>
         <p className="px-4 text-sm leading-5 text-gray-500">
