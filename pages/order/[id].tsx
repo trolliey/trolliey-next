@@ -176,7 +176,7 @@ function Order({ params }: Props) {
                       {order?.data?.order?.number_of_items_bought} items
                     </span>
                   </p>
-                  <p>$ {order?.data?.order?.itemsPrice}</p>
+                  <p>$ {parseFloat(order?.data?.order.itemsPrice) + parseFloat(1)}</p>
                 </div>
                 <Divider className="my-4" color={'gray.400'} />
                 {order?.data?.order?.orderItems.map((item: any, index: any) => (
@@ -204,7 +204,7 @@ function Order({ params }: Props) {
                   <div className="flex-1"></div>
                   <p className="font-bold text-blue-primary">
                     {' '}
-                    $ {order?.data?.order.itemsPrice}
+                    $ {parseFloat(order?.data?.order.itemsPrice) + parseFloat(1)}
                   </p>
                 </div>
                 <Divider className="mt-4 mb-2" color={'gray.300'} />
