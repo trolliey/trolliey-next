@@ -23,6 +23,8 @@ export default function Dashboard() {
   const [loading, setLoading] = useState<boolean>(false)
   const [store_data, setStore_Data] = useState<any>()
   const history = useRouter()
+  var today = new Date()
+var curHr = today.getHours()
 
   useEffect(() => {
     setLoading(true)
@@ -72,7 +74,7 @@ export default function Dashboard() {
                         />
                       </div>
                       <h1 className="ml-3 text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:leading-9">
-                        Good morning, {userInfo?.name}
+                        Good {curHr < 12 ? ' Morning' : curHr < 18 ? ' Afternoon ' : 'Evening'}, {userInfo?.name}
                       </h1>
                     </div>
                     <dl className="mt-6 flex flex-col sm:ml-3 sm:mt-1 sm:flex-row sm:flex-wrap">
