@@ -43,7 +43,7 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     user: req.user._id,
     collect_my_order: collect_my_order,
     stores_involved: [],
-    method: method
+    method: method,
   })
   //@ts-ignore
   const the_store = await Store.findOne({ user_id: req.user._id })
@@ -161,6 +161,9 @@ auth_handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
 
   // getting all stores involved on the order
   const stores_array = order.stores_involved
+
+  // save new order
+  await order.save()
 
   // edit status of order
   for (let i = 0; i < stores_array.length; i++) {
