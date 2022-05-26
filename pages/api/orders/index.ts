@@ -22,111 +22,129 @@ paynow.returnUrl = 'http://localhost:3000/payments/return'
 // post request
 // /api/orders
 auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
-  await connect()
+  try {
+    await connect()
+    const { collect_my_order, method, paying_number } = req.body
 
-  const { collect_my_order, method, paying_number } = req.body
+    // steps to follow
+    // - process payment .. if available
+    // - descrement quantity of product
+    // - increment number of times the product was bought
+    // - create an array of all stores involved
+    // - edit reports if order has been payed
+    // - save new order
+    // - edit store orders
 
-  // steps to follow
-  // - process payment .. if available
-  // - descrement quantity of product
-  // - increment number of times the product was bought
-  // - create an array of all stores involved
-  // - edit reports if order has been payed
-  // - save new order
-  // - edit store orders
+    if (!method) {
+      return res
+        .status(500)
+        .send({ message: 'Please select a required method' })
+    } else {
+      const all_involved_stores = []
 
-  const all_involved_stores = []
+      const newOrder = new Orders({
+        ...req.body,
+        // @ts-ignore
+        user: req.user._id,
+        collect_my_order: collect_my_order,
+        stores_involved: [],
+        method: method,
+      })
+      //@ts-ignore
+      const the_store = await Store.findOne({ user_id: req.user._id })
+      if (!the_store) {
+        return res.status(500).send({
+          message:
+            'Store cannot receive orders at the moment. We Apologise for any inconviniences',
+        })
+      } else {
+        // decrement quantity of product
+        for (let i = 0; i < newOrder.orderItems.length; i++) {
+          await Products.findOneAndUpdate(
+            { _id: newOrder.orderItems[i]._id },
+            { $inc: { countInStock: -1 } }
+          )
+        }
 
-  const newOrder = new Orders({
-    ...req.body,
-    // @ts-ignore
-    user: req.user._id,
-    collect_my_order: collect_my_order,
-    stores_involved: [],
-    method: method,
-  })
-  //@ts-ignore
-  const the_store = await Store.findOne({ user_id: req.user._id })
+        // create an array of all involved stores
+        for (let i = 0; i < newOrder.orderItems.length; i++) {
+          if (
+            all_involved_stores.indexOf(newOrder.orderItems[i].store_id) == -1
+          ) {
+            all_involved_stores.push(newOrder.orderItems[i].store_id)
+          }
+        }
 
-  // decrement quantity of product
-  for (let i = 0; i < newOrder.orderItems.length; i++) {
-    await Products.findOneAndUpdate(
-      { _id: newOrder.orderItems[i]._id },
-      { $inc: { countInStock: -1 } }
-    )
-  }
+        // increment number of times product was bought
+        for (let i = 0; i < newOrder.orderItems.length; i++) {
+          await Products.findOneAndUpdate(
+            { _id: newOrder.orderItems[i]._id },
+            { $inc: { times_bought: 1 } }
+          )
+        }
 
-  // create an array of all involved stores
-  for (let i = 0; i < newOrder.orderItems.length; i++) {
-    if (all_involved_stores.indexOf(newOrder.orderItems[i].store_id) == -1) {
-      all_involved_stores.push(newOrder.orderItems[i].store_id)
-    }
-  }
+        // editing the store schema to increse its orders
+        for (let i = 0; i < newOrder.orderItems.length; i++) {
+          await Store.findOneAndUpdate(
+            { _id: newOrder.orderItems[i].store_id },
+            {
+              $push: {
+                orders: {
+                  order_id: newOrder._id,
+                  items: newOrder.orderItems.filter(
+                    (item: any) =>
+                      item.store_id === newOrder.orderItems[i].store_id
+                  ),
+                  status: 'pending',
+                  createdAt: Date.now(),
+                },
+              },
+            }
+          )
+        }
 
-  // increment number of times product was bought
-  for (let i = 0; i < newOrder.orderItems.length; i++) {
-    await Products.findOneAndUpdate(
-      { _id: newOrder.orderItems[i]._id },
-      { $inc: { times_bought: 1 } }
-    )
-  }
+        // save the order
+        newOrder.stores_involved = all_involved_stores
+        const order = await newOrder.save()
 
-  // editing the store schema to increse its orders
-  for (let i = 0; i < newOrder.orderItems.length; i++) {
-    await Store.findOneAndUpdate(
-      { _id: newOrder.orderItems[i].store_id },
-      {
-        $push: {
-          orders: {
-            order_id: newOrder._id,
-            items: newOrder.orderItems.filter(
-              (item: any) => item.store_id === newOrder.orderItems[i].store_id
-            ),
-            status: 'pending',
-            createdAt: Date.now(),
-          },
-        },
+        //editing the reports schema
+        await Report.findOneAndUpdate(
+          { store: the_store._id },
+          { $push: { pending_orders: order._id } }
+        )
+
+        // // @ts-ignore
+        //   let payment = paynow.createPayment('Invoice from trolliey', req.user.email)
+        //   newOrder.orderItems.forEach((item: any) => {
+        //     payment.add(item.title, item.price)
+        //   })
+
+        //   const response = await paynow.sendMobile(payment, paying_number, method);
+
+        //   if (response && response.success) {
+        //     let instructions = response.instructions
+        //     let pollUrl = response.pollUrl;
+
+        //     console.log('PollUrl', pollUrl);
+        //     console.log('Instructions', instructions)
+        //     let status = await paynow.pollTransaction(pollUrl);
+
+        //     console.log('Status', status);
+        //     if (status.status) {
+        //         res.json({ message: 'Yay! Transaction was paid for' });
+        //     }
+        //     else {
+        //         res.json({ error: "Why you no pay?" });
+        //     }
+        // }
+
+        await disconnect()
+        res.status(201).send(order)
       }
-    )
+    }
+  } catch (error) {
+    return res.status(500).send({ message: error })
   }
-
-  // save the order
-  newOrder.stores_involved = all_involved_stores
-  const order = await newOrder.save()
-
-  //editing the reports schema
-  await Report.findOneAndUpdate(
-    { store: the_store._id },
-    { $push: { pending_orders: order._id } }
-  )
-
-  // // @ts-ignore
-  //   let payment = paynow.createPayment('Invoice from trolliey', req.user.email)
-  //   newOrder.orderItems.forEach((item: any) => {
-  //     payment.add(item.title, item.price)
-  //   })
-
-  //   const response = await paynow.sendMobile(payment, paying_number, method);
-
-  //   if (response && response.success) {
-  //     let instructions = response.instructions
-  //     let pollUrl = response.pollUrl;
-
-  //     console.log('PollUrl', pollUrl);
-  //     console.log('Instructions', instructions)
-  //     let status = await paynow.pollTransaction(pollUrl);
-
-  //     console.log('Status', status);
-  //     if (status.status) {
-  //         res.json({ message: 'Yay! Transaction was paid for' });
-  //     }
-  //     else {
-  //         res.json({ error: "Why you no pay?" });
-  //     }
-  // }
-
-  await disconnect()
-  res.status(201).send(order)
 })
 
 // get all orders`

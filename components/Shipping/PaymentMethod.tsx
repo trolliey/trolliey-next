@@ -1,4 +1,4 @@
-import React, { ReactElement, useState, useContext } from 'react'
+import React, { ReactElement, useState, useContext, useEffect } from 'react'
 import BlueButton from '../Buttons/BlueButton'
 import ShipmentLayout from '../../layouts/ShipmentLayout'
 import Image from 'next/image'
@@ -51,6 +51,10 @@ function PaymentMethod({
   const [selected_method, setSelectedMethod] = useState('')
   const [loading, setLoading] = useState<boolean>(false)
   const toast = useToast()
+
+  useEffect(() => {
+    setSelectedMethod(payment_method)
+  }, [payment_method])
 
   const placeOrderHandler = async () => {
     if (payment_method === 'pay_on_delivery') {
@@ -111,10 +115,10 @@ function PaymentMethod({
       router.push(`/order/${data._id}`)
     } catch (error) {
       setLoading(false)
-      console.log(getError(error))
+      // console.log(getError(error))
       toast({
         title: 'Order Not Created.',
-        description: 'Could not create your order. Try again later',
+        description: getError(error),
         status: 'error',
         position: 'top-right',
         duration: 9000,
