@@ -147,7 +147,7 @@ export default function Dashboard() {
                   />
                 }
                 location="dashboard/reports"
-                amount={0}
+                amount={store_data?.store?.amount_to_be_paid}
                 loading={loading}
                 bg_color={'bg-red-200'}
               />
