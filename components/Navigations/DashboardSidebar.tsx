@@ -101,7 +101,7 @@ function DashboardSidebar({ sidebarOpen, setSidebarOpen }: Props) {
                                 </div>
                             </Transition.Child>
                             <div onClick={() => router.push('/')} className="cursor pointer flex-shrink-0 flex items-center px-4">
-                                <div className="relative self-center mx-auto h-24 my-4">
+                                <div className="relative self-center mx-auto h-32 w-32 my-4">
                                     <Image layout="fill" src={logo} alt="dashboard indicator of site name" />
                                 </div>
                             </div>
