@@ -24,7 +24,7 @@ export default function Dashboard() {
   const [store_data, setStore_Data] = useState<any>()
   const history = useRouter()
   var today = new Date()
-var curHr = today.getHours()
+  var curHr = today.getHours()
 
   useEffect(() => {
     setLoading(true)
@@ -73,30 +73,38 @@ var curHr = today.getHours()
                           name={userInfo?.name}
                         />
                       </div>
-                      <h1 className="ml-3 text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:leading-9">
-                        Good {curHr < 12 ? ' Morning' : curHr < 18 ? ' Afternoon ' : 'Evening'}, {userInfo?.name}
-                      </h1>
+                      <div className="flex flex-col ml-3">
+                        <h1 className=" md:text-2xl text-xl font-bold leading-7 text-gray-900 sm:truncate sm:leading-9">
+                          Good{' '}
+                          {curHr < 12
+                            ? ' Morning'
+                            : curHr < 18
+                            ? ' Afternoon '
+                            : 'Evening'}
+                          , {userInfo?.name}
+                        </h1>
+                        <dl className=" flex flex-col sm:flex-row sm:flex-wrap">
+                          <dt className="sr-only">Account status</dt>
+                          {userInfo?.verified ? (
+                            <dd className=" flex items-center text-sm font-medium capitalize text-gray-500 sm:mr-6 sm:mt-0">
+                              <CheckCircleIcon
+                                className="mr-1.5 h-5 w-5 flex-shrink-0 text-blue-400"
+                                aria-hidden="true"
+                              />
+                              Verified account
+                            </dd>
+                          ) : (
+                            <dd className=" flex items-center text-sm font-medium capitalize text-gray-500 sm:mr-6 sm:mt-0">
+                              <CheckCircleIcon
+                                className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
+                                aria-hidden="true"
+                              />
+                              Account not verified
+                            </dd>
+                          )}
+                        </dl>
+                      </div>
                     </div>
-                    <dl className="mt-6 flex flex-col sm:ml-3 sm:mt-1 sm:flex-row sm:flex-wrap">
-                      <dt className="sr-only">Account status</dt>
-                      {userInfo?.verified ? (
-                        <dd className="mt-3 flex items-center text-sm font-medium capitalize text-gray-500 sm:mr-6 sm:mt-0">
-                          <CheckCircleIcon
-                            className="mr-1.5 h-5 w-5 flex-shrink-0 text-blue-400"
-                            aria-hidden="true"
-                          />
-                          Verified account
-                        </dd>
-                      ) : (
-                        <dd className="mt-3 flex items-center text-sm font-medium capitalize text-gray-500 sm:mr-6 sm:mt-0">
-                          <CheckCircleIcon
-                            className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
-                            aria-hidden="true"
-                          />
-                          Account not verified
-                        </dd>
-                      )}
-                    </dl>
                   </div>
                 </div>
               </div>
