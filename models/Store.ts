@@ -120,6 +120,14 @@ const storeSchema = new mongoose.Schema(
     usd_account: {
       type: String,
     },
+    total_amount: {
+      type: Number,
+      default: 0,
+    },
+    amount_to_be_paid: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: true,

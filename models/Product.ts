@@ -1,93 +1,105 @@
 import mongoose from 'mongoose'
 
-const productSchema = new mongoose.Schema({
+const productSchema = new mongoose.Schema(
+  {
     title: {
-        type: String,
-        required: true,
-        index: true
+      type: String,
+      required: true,
+      index: true,
     },
     slug: {
-        type: String,
-        required: true,
-        index: true
+      type: String,
+      required: true,
+      index: true,
     },
     description: {
-        type: String,
-        required: true,
-        index: true
+      type: String,
+      required: true,
+      index: true,
     },
-    currency_type:{
-        type: String,
-        enum: ['ZWL', 'USD'],
-        default: 'USD'
+    currency_type: {
+      type: String,
+      enum: ['ZWL', 'USD'],
+      default: 'USD',
     },
-    averageRating:{
-        type: Number,
-        default: 0
+    averageRating: {
+      type: Number,
+      default: 0,
     },
     price: {
-        type: Number,
-        required: true
+      type: Number,
+      required: true,
     },
     discount_price: {
-        type: Number
+      type: Number,
     },
     pictures: {
-        type: Array,
+      type: Array,
     },
-    brand:{
-        type:String,
-        default:''
+    brand: {
+      type: String,
+      default: '',
     },
     numReviews: {
-        type: Number,
-        default: 0
+      type: Number,
+      default: 0,
     },
     countInStock: {
-        type: Number,
-        default: 0
+      type: Number,
+      default: 0,
     },
     category: {
-        type: String,
-        required: true,
-        index: true
+      type: String,
+      required: true,
+      index: true,
     },
-    category_slug:{
-        type: String,
-        default: '',
-        index:true
+    category_slug: {
+      type: String,
+      default: '',
+      index: true,
     },
-    variants:{
-        type:Array
+    variants: {
+      type: Array,
     },
-    store_id:{
-        type:String,
-        default: ''
+    store_id: {
+      type: String,
+      default: '',
     },
     ratings: {
-        type: Array,
-        default: []
+      type: Array,
+      default: [],
     },
-    sku:{
-        type: String,
-        default: ''
+    sku: {
+      type: String,
+      default: '',
     },
     status: {
-        type: String,
-        default: 'private'
+      type: String,
+      default: 'private',
     },
-    times_bought:{
-        type:Number,
-        default: 0
+    times_bought: {
+      type: Number,
+      default: 0,
     },
-    sub_category:{
-        type: String,
-        default: ''
+    sub_category: {
+      type: String,
+      default: '',
     }
-}, {
-    timestamps: true
-})
+  },
+  {
+    timestamps: true,
+  }
+)
 
-productSchema.index({ category: 'text', description: 'text', title: 'text', owner: 'text', category_slug: 'text', slug: 'text', _id: 'text' });
-const Products = mongoose.models.Product || mongoose.model('Product', productSchema)
+productSchema.index({
+  category: 'text',
+  description: 'text',
+  title: 'text',
+  owner: 'text',
+  category_slug: 'text',
+  slug: 'text',
+  _id: 'text',
+})
+const Products =
+  mongoose.models.Product || mongoose.model('Product', productSchema)
 export default Products

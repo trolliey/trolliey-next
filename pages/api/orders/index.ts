@@ -177,8 +177,6 @@ auth_handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
   // getting all stores involved on the order
   const stores_array = order.stores_involved
 
-  console.log(stores_array)
-
   // save new order
   await order.save()
 
