@@ -115,7 +115,7 @@ function StoresDropdown({ id, verified }: Props) {
   const approve_store = () => {
     onOpen()
     setModalBody(
-      'By approving. An email will be sent to them imforming them that they can now start selling'
+      'By approving. You are allowing certain store to start selling on Trolliey. An email will be sent to them informing them that they can now start selling'
     )
     setModalHeading('Approve Store')
     setModalButton(() => (
@@ -259,7 +259,7 @@ function StoresDropdown({ id, verified }: Props) {
                   onClick={approve_store}
                   className={classNames(
                     active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm'
+                    'block px-4 py-2 text-sm cursor-pointer'
                   )}
                 >
                   Approve Store
@@ -350,7 +350,7 @@ const StoreModal = ({
         <ModalContent>
           <ModalHeader>{heading}</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>{body_text}</ModalBody>
+          <ModalBody className='text-center'>{body_text}</ModalBody>
 
           <ModalFooter>
             <Button variant={'ghost'} mr={3} onClick={onClose}>

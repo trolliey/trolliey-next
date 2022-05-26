@@ -3,7 +3,6 @@ import GeneralLayout from './GeneralLayout'
 import { Divider, Avatar } from '@chakra-ui/react'
 import { Store } from '../Context/Store'
 import { LockClosedIcon } from '@heroicons/react/outline'
-import Image from 'next/image'
 
 interface Props {
   children: any
@@ -64,7 +63,7 @@ const ShipmentLayout: FunctionComponent<Props> = ({
                   </span>
                 </p>
                 <p>
-                  ${' '}
+                  $ {' '}
                   {cart?.cartItems.reduce(
                     (a: any, c: any) =>
                       parseInt(a) + parseInt(c.quantity) * parseInt(c.price),
