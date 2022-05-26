@@ -160,45 +160,75 @@ auth_handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
   res.status(201).send(orders)
 })
 
-// change order statusd
+// change order status and mark as delivered
 // put request
 // api/orders
 auth_handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
-  await connect()
+  try {
+    await connect()
+    // change order status
+    const { status, order_id } = req.body
+    const order = await Orders.findOne({ _id: order_id })
+    // change order status
 
-  // change order status
-  const { status, order_id } = req.body
+    if (order.isDelivered === true) {
+      return res
+        .status(500)
+        .send({ message: 'Order already marked as delivered' })
+    } else {
+      order.isDelivered = status === 'delivered' ? true : false
+      // getting all stores involved on the order
+      const stores_array = order.stores_involved
 
-  const order = await Orders.findOne({ _id: order_id })
+      // save new order
+      await order.save()
 
-  // change order status
-  order.isDelivered = status === 'delivered' ? true : false
+      // edit status of order
+      for (let i = 0; i < stores_array.length; i++) {
+        await Store.findOneAndUpdate(
+          {
+            _id: stores_array[i],
+            orders: {
+              $elemMatch: { order_id: new mongoose.Types.ObjectId(order_id) },
+            },
+          },
+          {
+            $set: {
+              'orders.$.status': status,
+            },
+          }, // list fields you like to change
+          { new: true, safe: true, upsert: true }
+        )
+      }
 
-  // getting all stores involved on the order
-  const stores_array = order.stores_involved
+      // add user amounts to total amount and to the to be paid amount
+      for (let i = 0; i < stores_array.length; i++) {
+        const ordered_store = await Store.findOne({ _id: stores_array[i] })
+        const store_orders = await ordered_store.orders
+        var picked_order = store_orders.find(
+          (order: any) => order.order_id.toString() === order_id
+        )
+        let sum = 0
+        picked_order.items.forEach((item: any) => {
+          sum += item.price - item.discount_price
+        })
+        await Store.findOneAndUpdate(
+          { _id: stores_array[i] },
+          {
+            $inc: {
+              total_amount: Math.round(sum * 100) / 100,
+              amount_to_be_paid: Math.round(sum * 100) / 100,
+            },
+          }
+        )
+      }
 
-  // save new order
-  await order.save()
-
-  // edit status of order
-  for (let i = 0; i < stores_array.length; i++) {
-    await Store.findOneAndUpdate(
-      {
-        _id: stores_array[i],
-        orders: {
-          $elemMatch: { order_id: new mongoose.Types.ObjectId(order_id) },
-        },
-      },
-      {
-        $set: {
-          'orders.$.status': status,
-        },
-      }, // list fields you like to change
-      { new: true, safe: true, upsert: true }
-    )
+      await disconnect()
+      return res.status(201).send('edited')
+    }
+  } catch (error) {
+    res.status(500).send({ message: error })
   }
-  await disconnect()
-  return res.status(201).send('edited')
 })
 
 export default auth_handler

@@ -17,6 +17,7 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react'
+import { getError } from '../../utils/error'
 
 function classNames(...classes: any[]) {
   return classes.filter(Boolean).join(' ')
@@ -73,8 +74,7 @@ function OrdersDropdown({ id, user }: Props) {
       setLoading(false)
       toast({
         title: 'Failed to deliver.',
-        description:
-          'Could not mark as delivered. Try again! If error persists contact support!',
+        description: getError(error),
         status: 'error',
         duration: 9000,
         isClosable: true,
