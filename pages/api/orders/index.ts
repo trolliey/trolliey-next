@@ -7,6 +7,7 @@ import Store from '../../../models/Store'
 import { Paynow } from 'paynow'
 import Report from '../../../models/Reports'
 import Products from '../../../models/Product'
+import mongoose from 'mongoose'
 
 // Create instance of Paynow class
 let paynow = new Paynow(
@@ -170,33 +171,33 @@ auth_handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
 
   const order = await Orders.findOne({ _id: order_id })
 
-  // to store all stores involed on the order
-  const all_stores_involved: any = []
-  const all_store_orders: any = []
-
   // change order status
   order.isDelivered = status === 'delivered' ? true : false
 
   // getting all stores involved on the order
   const stores_array = order.stores_involved
 
+  console.log(stores_array)
+
   // save new order
   await order.save()
 
   // edit status of order
   for (let i = 0; i < stores_array.length; i++) {
-    try {
-      await Store.updateOne(
-        { _id: stores_array[i], 'orders.order_id': order_id },
-        {
-          $set: {
-            'orders.$.status': status,
-          },
-        }
-      )
-    } catch (error) {
-      console.log(error)
-    }
+    await Store.findOneAndUpdate(
+      {
+        _id: stores_array[i],
+        orders: {
+          $elemMatch: { order_id: new mongoose.Types.ObjectId(order_id) },
+        },
+      },
+      {
+        $set: {
+          'orders.$.status': status,
+        },
+      }, // list fields you like to change
+      { new: true, safe: true, upsert: true }
+    )
   }
   await disconnect()
   return res.status(201).send('edited')
