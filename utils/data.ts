@@ -216,7 +216,7 @@ export const data = {
     },
     {
       name: 'Automotive',
-      value: 'agriculture',
+      value: 'automotive',
       icon: automotive,
       sub_categories: [
         { name: 'Car Care', description: '' },
@@ -237,6 +237,30 @@ export const data = {
 
       ],
       id: 167,
+    },
+    {
+      name: 'Baby',
+      value: 'automotive',
+      icon: automotive,
+      sub_categories: [
+        { name: 'Activity & Entertainment', description: '' },
+        { name: 'Apparel & Accessories', description: '' },
+        { name: 'Baby & Toddler Toys', description: '' },
+        { name: 'Baby Care', description: '' },
+        { name: 'Baby Stationery', description: '' },
+        { name: 'Car Seats & Accessories', description: '' },
+        { name: "Diapering", description: '' },
+        { name: 'Feeding', description: '' },
+        { name: 'Gifts', description: '' },
+        { name: 'Nursery', description: '' },
+        { name: "Potty Training", description: '' },
+        { name: 'Pregnancy & Maternity', description: '' },
+        { name: 'Safety', description: '' },
+        { name: 'Strollers & Accessories', description: '' },
+        { name: 'Travel Gear', description: '' },
+
+      ],
+      id: 347,
     },
   ],
   benefits: [
