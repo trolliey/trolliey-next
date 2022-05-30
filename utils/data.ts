@@ -262,6 +262,58 @@ export const data = {
       ],
       id: 347,
     },
+    {
+      name: 'Beauty And Personal Care',
+      value: 'beauty-and-personal-care',
+      icon: automotive,
+      sub_categories: [
+        { name: 'Makeup', description: '' },
+        { name: 'Skin Care', description: '' },
+        { name: 'Hair Care', description: '' },
+        { name: 'Fragrance', description: '' },
+        { name: 'Foot, Hand & Nail Care', description: '' },
+        { name: 'Tools & Accessories', description: '' },
+        { name: "Shave & Hair Removal", description: '' },
+        { name: 'Personal Care', description: '' },
+        { name: 'Oral Care', description: '' }
+
+      ],
+      id: 347,
+    },
+    {
+      name: "Women's Fashion",
+      value: "womens-fashion",
+      icon: automotive,
+      sub_categories: [
+        { name: "Clothing", description: '' },
+        { name: 'Shoes', description: '' },
+        { name: 'Jewelry', description: '' },
+        { name: 'Watches', description: '' },
+        { name: "Handbags", description: '' },
+        { name: 'Accessories', description: '' },
+        { name: "Men's Fashion", description: '' },
+        { name: "Girls' Fashion", description: '' },
+
+      ],
+      id: 3465,
+    },
+    {
+      name: "Men's Fashion",
+      value: "mens-fashion",
+      icon: automotive,
+      sub_categories: [
+        { name: "Clothing", description: '' },
+        { name: 'Shoes', description: '' },
+        { name: 'Watches', description: '' },
+        { name: 'Accessories', description: '' },
+        { name: "Handbags", description: '' },
+        { name: 'Accessories', description: '' },
+        { name: "Men's Fashion", description: '' },
+        { name: "Boys' Fashion", description: '' },
+
+      ],
+      id: 347,
+    },
   ],
   benefits: [
     {
