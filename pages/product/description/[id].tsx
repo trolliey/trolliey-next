@@ -98,7 +98,7 @@ function ProductDescription(props: any) {
                             <span className="absolute inset-0 overflow-hidden rounded-md">
                               <Image
                                 src={image}
-                                objectFit="cover"
+                                objectFit="contain"
                                 layout="fill"
                                 alt="for a single product"
                                 className="h-full w-full rounded object-cover object-center"
