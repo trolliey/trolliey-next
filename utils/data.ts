@@ -405,8 +405,26 @@ export const data = {
         { name: 'Rough Plumbing', description: '' },
         { name: 'Safety & Security', description: '' },
         { name: 'Storage & Home Organization', description: '' },
+        { name: 'Welding & Soldering', description: '' },
+
       ],
       id: 6765,
+    },
+    {
+      name: 'Pet Supplies',
+      value: 'pet-supplies',
+      icon: beauty,
+      sub_categories: [
+        { name: 'Dogs', description: '' },
+        { name: 'Cats', description: '' },
+        { name: 'Fish & Aquatic Pets', description: '' },
+        { name: 'Birds', description: '' },
+        { name: 'Horses', description: '' },
+        { name: 'Reptiles & Amphibians', description: '' },
+        { name: 'Small Animals', description: '' },
+      
+      ],
+      id: 676765,
     },
   ],
   benefits: [
