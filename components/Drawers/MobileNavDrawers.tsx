@@ -42,6 +42,11 @@ function MobileNavDrawers({ user }: Props): ReactElement {
         window.location.reload()
   }
 
+  const search_using_category = (category: any) =>{
+      dispatch({ type: 'SET_SEARCH_QUERY', payload: category })
+      history.push('/explore')
+  }
+
   return (
     <>
       <div onClick={onOpen}>
@@ -133,7 +138,7 @@ function MobileNavDrawers({ user }: Props): ReactElement {
                         className="flex cursor-pointer flex-row items-center justify-between gap-2 py-2 px-4 text-sm hover:bg-gray-100"
                       >
                         <div
-                          onClick={() => console.log(category.name)}
+                          onClick={() => search_using_category(category.name)}
                           className="flex flex-row items-center"
                         >
                           <div className="relative mr-2    h-6 w-6">
@@ -153,7 +158,7 @@ function MobileNavDrawers({ user }: Props): ReactElement {
                       </div>
                     ))}
                   </div>
-                  show_category{' '}
+                  {/* show_category{' '} */}
                 </DrawerBody>
               ) : (
                 <DrawerBody bg={'gray.200'} p={0}>
