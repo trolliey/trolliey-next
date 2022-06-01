@@ -35,7 +35,7 @@ function SubCategoryComponent({
               <p className="text-center">No subcategories to show</p>
             ) : (
               <>
-                {category?.sub_categories?.map(
+                {category?.sub_categories.slice(0, 13)?.map(
                   (sub_cat: any, index: number) => (
                     <li
                       onClick={() => search_handler(sub_cat.name)}

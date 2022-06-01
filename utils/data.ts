@@ -82,8 +82,8 @@ export const data = {
     // { name: 'Books & courses', value: 'sooks-&-courses', icon: books },
     // { name: 'Groceries', value: 'groceries', icon: groceries, id: 2 },
     {
-      name: 'Computer & electronics',
-      value: 'computer-&-electronics',
+      name: 'Computers',
+      value: 'computers',
       icon: computers,
       sub_categories: [
         { name: 'Computer Accessories & Peripherals', description: '' },
@@ -174,7 +174,7 @@ export const data = {
     {
       name: 'Baby',
       value: 'automotive',
-      icon: automotive,
+      icon: baby,
       sub_categories: [
         { name: 'Activity & Entertainment', description: '' },
         { name: 'Apparel & Accessories', description: '' },
@@ -197,7 +197,7 @@ export const data = {
     {
       name: 'Home and kitchen',
       value: 'home-and-kitchen',
-      icon: automotive,
+      icon: kitchen,
       sub_categories: [
         { name: "Kids' Home Store", description: '' },
         { name: 'Kitchen & Dining', description: '' },
@@ -220,7 +220,7 @@ export const data = {
     {
       name: 'Books & Courses',
       value: 'books-and-courses',
-      icon: automotive,
+      icon: books,
       sub_categories: [
         { name: 'Gifts of Faith Store', description: '' },
         { name: 'Fiction', description: '' },
@@ -239,7 +239,7 @@ export const data = {
     {
       name: 'Beauty And Personal Care',
       value: 'beauty-and-personal-care',
-      icon: automotive,
+      icon: beauty,
       sub_categories: [
         { name: 'Makeup', description: '' },
         { name: 'Skin Care', description: '' },
@@ -257,7 +257,7 @@ export const data = {
     {
       name: "Women's Fashion",
       value: 'womens-fashion',
-      icon: automotive,
+      icon: fashion,
       sub_categories: [
         { name: 'Clothing', description: '' },
         { name: 'Shoes', description: '' },
@@ -273,7 +273,7 @@ export const data = {
     {
       name: "Men's Fashion",
       value: 'mens-fashion',
-      icon: automotive,
+      icon: fashion,
       sub_categories: [
         { name: 'Clothing', description: '' },
         { name: 'Shoes', description: '' },
@@ -422,6 +422,35 @@ export const data = {
         { name: 'Horses', description: '' },
         { name: 'Reptiles & Amphibians', description: '' },
         { name: 'Small Animals', description: '' },
+      
+      ],
+      id: 676765,
+    },
+    {
+      name: 'Software',
+      value: 'software',
+      icon: beauty,
+      sub_categories: [
+        { name: 'Accounting & Finance', description: '' },
+        { name: 'Antivirus & Security', description: '' },
+        { name: 'Business & Office', description: '' },
+        { name: "Children's", description: '' },
+        { name: 'Design & Illustration', description: '' },
+        { name: 'Digital Software', description: '' },
+        { name: 'Education & Reference', description: '' },
+        { name: 'Games', description: '' },
+        { name: 'Lifestyle & Hobbies', description: '' },
+        { name: 'Music', description: '' },
+        { name: 'Networking & Servers', description: '' },
+        { name: 'Operating Systems', description: '' },
+        { name: 'Photography', description: '' },
+        { name: 'Programming & Web Development', description: '' },
+        { name: 'Tax Preparation', description: '' },
+        { name: 'Utilities', description: '' },
+        { name: 'Video', description: '' },
+
+
+
       
       ],
       id: 676765,
