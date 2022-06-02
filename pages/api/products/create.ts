@@ -14,66 +14,76 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     //@ts-ignore
     const _user = req.user
     if (!_user) {
-      return res.status(500).send({ message: 'Please login to your account again!' })
+      return res
+        .status(500)
+        .send({ message: 'Please login to your account again!' })
     }
     const store = await Store.findOne({ user: _user._id })
 
     if (store) {
-      // coming from client request
-      const {
-        pictures,
-        description,
-        title,
-        category,
-        price,
-        discount_price,
-        brand,
-        countInStock,
-        status,
-        sku,
-        variants,
-        currency,
-        sub_category
-      } = req.body
+      if (store.verified) {
+        // coming from client request
+        const {
+          pictures,
+          description,
+          title,
+          category,
+          price,
+          discount_price,
+          brand,
+          countInStock,
+          status,
+          sku,
+          variants,
+          currency,
+          sub_category,
+        } = req.body
 
-      if (
-        !pictures ||
-        !description ||
-        !title ||
-        !category ||
-        !price ||
-        !currency
-      ) {
+        if (
+          !pictures ||
+          !description ||
+          !title ||
+          !category ||
+          !price ||
+          !currency
+        ) {
+          return res
+            .status(500)
+            .send({ message: 'Please enter all required fields' })
+        }
+
+        // using mongoose schema
+        const newProduct = new Products({
+          title: title,
+          slug: slugify(title),
+          description: description,
+          price: price,
+          discount_price: discount_price,
+          pictures: pictures,
+          brand: brand,
+          countInStock: countInStock,
+          category: category,
+          category_slug: slugify(category),
+          variants: variants,
+          store_id: store._id,
+          sku: sku,
+          status: status,
+          currency_type: currency,
+          sub_category: sub_category,
+        })
+
+        // saving the new product
+        await newProduct.save()
+
+        await disconnect()
+        return res.send({ message: 'Product saved Successfully' })
+      } else {
         return res
           .status(500)
-          .send({ message: 'Please enter all required fields' })
+          .send({
+            message: 'Could not verify store. Please logout then login again',
+          })
       }
-
-      // using mongoose schema
-      const newProduct = new Products({
-        title: title,
-        slug: slugify(title),
-        description: description,
-        price: price,
-        discount_price: discount_price,
-        pictures: pictures,
-        brand: brand,
-        countInStock: countInStock,
-        category: category,
-        category_slug: slugify(category),
-        variants: variants,
-        store_id: store._id,
-        sku: sku,
-        status: status,
-        currency_type: currency,
-        sub_category: sub_category
-      })
-
-      // saving the new product
-      await newProduct.save()
-
-      await disconnect()
-      return res.send({ message: 'Product saved Successfully' })
     } else {
       return res.status(500).send({ message: 'No store found' })
     }
