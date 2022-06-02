@@ -81,7 +81,7 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
         return res
           .status(500)
           .send({
-            message: 'Could not verify store. Please logout then login again',
+            message: 'Could not verify store. Please logout then login again!',
           })
       }
     } else {
