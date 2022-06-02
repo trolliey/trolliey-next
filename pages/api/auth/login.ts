@@ -16,7 +16,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     const _user = await Users.findOne({ email: email })
 
     if(!_user){
-        res.status(404).send({message: 'Account does not exist!'})
+        return res.status(404).send({message: 'Account does not exist!'})
     }
 
     // if(!_user.emailVerified ){
@@ -92,7 +92,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
             name: _user.name
         })
     } else {
-        res.status(401).send({message: 'Invalid email or password'})
+        return res.status(401).send({message: 'Invalid email or password'})
     }
 
 })
