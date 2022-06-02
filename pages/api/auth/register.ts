@@ -15,23 +15,23 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   await connect()
   const { email, password, name, agreed } = req.body
   if (!agreed) {
-    res
+    return res
       .status(401)
       .send({ message: 'Your have to agree to our terms and conditions' })
   }
-  if (!emailRegexp.test(email)) {
-    res.status(401).send({ message: 'Please enter a valid email' })
+  else if (!emailRegexp.test(email)) {
+    return res.status(401).send({ message: 'Please enter a valid email' })
   }
-  if (password.length < 6) {
-    res.status(401).send({ message: 'Invalid password' })
+  else if (password.length < 6) {
+    return res.status(401).send({ message: 'Invalid password' })
   }
   const user = await Users.findOne({ email: email })
   const another_user = await Users.findOne({ name: name })
   if (user) {
-    res.status(500).send({ message: 'Email already registered' })
+    return res.status(500).send({ message: 'Email already registered' })
   }
-  if (another_user) {
-    res.status(500).send({ message: 'Username already taken' })
+  else if (another_user) {
+    return res.status(500).send({ message: 'Username already taken' })
   } else {
     const newUser = new Users({
       name: name,
@@ -42,7 +42,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     await newUser.save()
     await disconnect()
 
-    res.status(200).send('Account Created')
+    return res.status(200).send('Account Created')
   }
 })
 
