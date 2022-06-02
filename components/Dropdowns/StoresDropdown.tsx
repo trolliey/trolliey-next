@@ -66,7 +66,7 @@ function StoresDropdown({ id, verified }: Props) {
       console.log(getError(error))
       toast({
         title: 'Failed to verify.',
-        description: 'Failed to verify store. Contact Support!',
+        description: getError(error),
         status: 'error',
         duration: 9000,
         isClosable: true,
