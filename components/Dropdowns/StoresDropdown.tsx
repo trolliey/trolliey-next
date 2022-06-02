@@ -17,6 +17,7 @@ import {
 } from '@chakra-ui/react'
 import axios from 'axios'
 import { Store } from '../../Context/Store'
+import { getError } from '../../utils/error'
 
 function classNames(...classes: any[]) {
   return classes.filter(Boolean).join(' ')
@@ -62,6 +63,7 @@ function StoresDropdown({ id, verified }: Props) {
       })
       onClose()
     } catch (error) {
+      console.log(getError(error))
       toast({
         title: 'Failed to verify.',
         description: 'Failed to verify store. Contact Support!',
