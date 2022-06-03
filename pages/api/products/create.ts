@@ -55,24 +55,13 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
         await newProduct.save(function (err: any) {
           if (err) {
             console.log(err)
-            return
+            return res.status(500).send({message: 'Error Adding. Please contact support'})
           }
 
           return res
             .status(200)
             .send({ message: 'Product added successfully!' })
         })
-
-        // newProduct
-        //   .save()
-        //   .then((response: any) => {
-        //     return res
-        //       .status(200)
-        //       .send({ message: 'Product added sucessfully!' })
-        //   })
-        //   .catch((error: any) => {
-        //     return res.status(500).send({ message: error })
-        //   })
       } else {
         return res
           .status(500)
