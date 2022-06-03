@@ -83,7 +83,7 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
             await disconnect()
             console.log(error)
             return res.send({
-              message: 'Problem creating product. Refresh page and try again!',
+              message: error,
             })
           })
         await disconnect()
