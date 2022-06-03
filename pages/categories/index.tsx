@@ -20,7 +20,7 @@ function Categories() {
       description="Explore all all products offered by Trolliey marketplace"
     >
       <div className="mb-8 flex md:my-16 my-8 max-w-7xl flex-col flex-wrap items-center">
-        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-4 md:grid-cols-3 md:gap-8">
+        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-4 lg:grid-cols-5 md:grid-cols-4 md:gap-8">
           {data.categories.map((category, index) => (
             <div
               onClick={() => search_by_category(category.name)}
