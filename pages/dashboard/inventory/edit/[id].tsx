@@ -590,7 +590,7 @@ export default function EditProduct(props: any) {
               </div>
             </div>
             <BlueButton
-              text="Edit Product"
+              text="Save Changes"
               loading={loading}
               onClick={() => console.log('edit product')}
             />
