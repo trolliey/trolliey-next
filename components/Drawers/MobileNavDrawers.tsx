@@ -240,14 +240,17 @@ function MobileNavDrawers({ user }: Props): ReactElement {
                   className="text-gray-700"
                 />
                 <div className="pr-2 font-semibold ">
-                  {user ? (
+                  {user?.role === 'seller' ? (
                     <div
                       className="flex"
                       onClick={() => history.push('/dashboard')}
                     >
-                      <Username username={user.name} />
+                      <Username username={'My Seller Dashboard'} />
                     </div>
-                  ) : (
+                  ) : user?.role === 'user' ? (
+                    <Username username={user?.name} />
+                  ):(
+
                     <Username username={'Register'} />
                   )}
                 </div>
