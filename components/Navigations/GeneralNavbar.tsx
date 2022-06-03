@@ -12,8 +12,6 @@ import CartSidebar from '../Sidebars/CartSidebar'
 import { Store } from '../../Context/Store'
 import CurrencyDropdown from '../Dropdowns/CurrencyDropdown'
 
-
-
 function GeneralNavbar() {
   const { state } = useContext(Store)
   const { cart, userInfo } = state
@@ -163,9 +161,11 @@ function GeneralNavbar() {
               width={20}
               className="text-gray-700"
             />
-            <span className="top right absolute right-0 top-0 m-0 h-4 w-4 rounded-full bg-blue-primary p-0 text-center text-xs font-semibold text-white">
-              {basket?.length}
-            </span>
+            {cart?.cartItems?.length > 0 && (
+              <span className="top right absolute right-0 top-0 m-0 h-4 w-4 rounded-full bg-blue-primary p-0 text-center text-xs font-semibold text-white">
+                {cart?.cartItems?.length}
+              </span>
+            )}
           </div>
         </div>
       </div>
