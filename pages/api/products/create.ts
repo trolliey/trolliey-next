@@ -73,16 +73,23 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
         })
 
         // saving the new product
-        await newProduct.save()
-
-        await disconnect()
-        return res.send({ message: 'Product saved Successfully' })
-      } else {
-        return res
-          .status(500)
-          .send({
-            message: 'Could not verify store. Please logout then login again!',
+        newProduct
+          .save()
+          .then(async (res: any) => {
+            await disconnect()
+            return res.send({ message: 'Product saved Successfully' })
           })
+          .catch(async (error: any) => {
+            await disconnect()
+            return res.send({
+              message: 'Problem creating product. Refresh page and try again!',
+            })
+          })
+        await disconnect()
+      } else {
+        return res.status(500).send({
+          message: 'Could not verify store. Please logout then login again!',
+        })
       }
     } else {
       return res.status(500).send({ message: 'No store found' })
