@@ -20,7 +20,7 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     } else {
       const store = await Store.findOne({ user: _user._id })
       if (store) {
-        if (store.verified) {
+        if (store.approved === true) {
           // coming from client request
           const {
             pictures,
@@ -49,38 +49,38 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
             return res
               .status(500)
               .send({ message: 'Please enter all required fields' })
-          }
+          } else {
+            // using mongoose schema
+            const newProduct = new Products({
+              title: title,
+              slug: slugify(title),
+              description: description,
+              price: price,
+              discount_price: discount_price,
+              pictures: pictures,
+              brand: brand,
+              countInStock: countInStock,
+              category: category,
+              category_slug: slugify(category),
+              variants: variants,
+              store_id: store._id,
+              sku: sku,
+              status: status,
+              currency_type: currency,
+              sub_category: sub_category,
+            })
 
-          // using mongoose schema
-          const newProduct = new Products({
-            title: title,
-            slug: slugify(title),
-            description: description,
-            price: price,
-            discount_price: discount_price,
-            pictures: pictures,
-            brand: brand,
-            countInStock: countInStock,
-            category: category,
-            category_slug: slugify(category),
-            variants: variants,
-            store_id: store._id,
-            sku: sku,
-            status: status,
-            currency_type: currency,
-            sub_category: sub_category,
-          })
-
-          // saving the new product
-          try {
-            await newProduct.save()
-            await disconnect()
-            return res
-              .status(200)
-              .send({ message: 'Product saved Successfully' })
-          } catch (error) {
-            await disconnect()
-            return res.status(500).send({ message: error })
+            // saving the new product
+            try {
+              await newProduct.save()
+              await disconnect()
+              return res
+                .status(200)
+                .send({ message: 'Product saved Successfully' })
+            } catch (error) {
+              await disconnect()
+              return res.status(500).send({ message: error })
+            }
           }
         } else {
           return res.status(500).send({
