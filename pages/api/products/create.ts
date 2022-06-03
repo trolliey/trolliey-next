@@ -73,20 +73,14 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
         })
 
         // saving the new product
-        newProduct
-          .save()
-          .then(async (response: any) => {
-            await disconnect()
-            return res.send({ message: 'Product saved Successfully' })
-          })
-          .catch(async (error: any) => {
-            await disconnect()
-            console.log(error)
-            return res.send({
-              message: error,
-            })
-          })
-        await disconnect()
+        try {
+          await newProduct.save()
+          await disconnect()
+          return res.status(200).send({ message: 'Product saved Successfully' })
+        } catch (error) {
+          await disconnect()
+          return res.status(500).send({ message: error })
+        }
       } else {
         return res.status(500).send({
           message: 'Could not verify store. Please logout then login again!',
