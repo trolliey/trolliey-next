@@ -164,48 +164,62 @@ export default function CreateProduct() {
         await Promise.all(promises)
 
         //upload the product to database from here
-        const { data } = await axios.post(
-          '/api/products/create',
-          {
-            pictures: uploads,
-            // pictures: [''],
-            description: description,
-            title: title,
-            category: category,
-            price: price,
-            discount_price: discount_price,
-            brand: brand,
-            countInStock: countInStock,
-            status: status,
-            sku: sku,
-            variants: variations,
-            currency: currency,
-            sub_category: sub_category,
-          },
-          { headers: { authorization: userInfo?.token } }
-        )
-        setLoading(false)
-        // console.log(data)
-        toast({
-          title: 'Product Added.',
-          description: 'Product Added successfully!.',
-          status: 'success',
-          position: 'top-right',
-          duration: 9000,
-          isClosable: true,
-        })
-        setPicturesForUpload([])
-        setQuillDescription('')
-        setVariations([])
-        setTitle('')
-        setPrice(0)
-        setDiscountPrice(0)
-        setBrand('')
-        setCountInStock(0)
-        setCategory('')
-        setStatus('')
-        setSku('')
-        router.push('/dashboard/inventory/add_success')
+        axios
+          .post(
+            '/api/products/create',
+            {
+              pictures: uploads,
+              // pictures: [''],
+              description: description,
+              title: title,
+              category: category,
+              price: price,
+              discount_price: discount_price,
+              brand: brand,
+              countInStock: countInStock,
+              status: status,
+              sku: sku,
+              variants: variations,
+              currency: currency,
+              sub_category: sub_category,
+            },
+            { headers: { authorization: userInfo?.token } }
+          )
+          .then((res: any) => {
+            // console.log(data)
+            toast({
+              title: 'Product Added.',
+              description: 'Product Added successfully!.',
+              status: 'success',
+              position: 'top-right',
+              duration: 9000,
+              isClosable: true,
+            })
+            setLoading(false)
+            setPicturesForUpload([])
+            setQuillDescription('')
+            setVariations([])
+            setTitle('')
+            setPrice(0)
+            setDiscountPrice(0)
+            setBrand('')
+            setCountInStock(0)
+            setCategory('')
+            setStatus('')
+            setSku('')
+            router.push('/dashboard/inventory/add_success')
+          })
+          .catch((error: any) => {
+            setLoading(false)
+            toast({
+              title: 'Error Adding.',
+              description: getError(error),
+              status: 'error',
+              position: 'top-right',
+              duration: 9000,
+              isClosable: true,
+            })
+          })
       } catch (error) {
         setLoading(false)
         toast({
