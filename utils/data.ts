@@ -303,7 +303,23 @@ export const data = {
       ],
       id: 13,
     },
-    // { name: 'Camping & outdoors', value: 'camping-&-outdoors', icon: camping, id: 4 },
+    {
+      name: "Boys' Fashion",
+      value: 'boys-fashion',
+      icon: beauty,
+      sub_categories: [
+        { name: 'Clothing', description: '' },
+        { name: 'Shoes', description: '' },
+        { name: 'Jewelry', description: '' },
+        { name: 'Watches', description: '' },
+        { name: 'Accessories', description: '' },
+        { name: 'School Uniforms', description: '' },
+        { name: "Women's Fashion", description: '' },
+        { name: "Men's Fashion", description: '' },
+        { name: "Girls' Fashion", description: '' },
+      ],
+      id: 13,
+    },
     {
       name: 'Fashion & luggage',
       value: 'fashion-&-luggage',
@@ -447,11 +463,7 @@ export const data = {
         { name: 'Programming & Web Development', description: '' },
         { name: 'Tax Preparation', description: '' },
         { name: 'Utilities', description: '' },
-        { name: 'Video', description: '' },
-
-
-
-      
+        { name: 'Video', description: '' }
       ],
       id: 676765,
     },
@@ -474,6 +486,20 @@ export const data = {
         { name: 'Wellness & Relaxation', description: '' },      
       ],
       id: 6732765,
+    },
+    {
+      name: 'Kindle E-Readers',
+      value: 'pet-supplies',
+      icon: beauty,
+      sub_categories: [
+        { name: 'Kindle Kids', description: '' },
+        { name: 'Kindle', description: '' },
+        { name: 'Kindle Paperwhite', description: '' },
+        { name: 'Kindle Oasis', description: '' },
+        { name: 'Accessories', description: '' },
+        { name: 'See all Kindle E-Readers', description: '' },  
+      ],
+      id: 676905,
     },
   ],
   benefits: [
