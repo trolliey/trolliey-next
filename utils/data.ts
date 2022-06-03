@@ -455,6 +455,26 @@ export const data = {
       ],
       id: 676765,
     },
+    {
+      name: 'Health And Household',
+      value: 'health-and-household',
+      icon: beauty,
+      sub_categories: [
+        { name: 'Baby & Child Care', description: '' },
+        { name: 'Health Care', description: '' },
+        { name: 'Household Supplies', description: '' },
+        { name: "Medical Supplies & Equipment", description: '' },
+        { name: 'Oral Care', description: '' },
+        { name: 'Personal Care', description: '' },
+        { name: 'Sexual Wellness', description: '' },
+        { name: 'Sports Nutrition', description: '' },
+        { name: 'Stationery & Gift Wrapping Supplies', description: '' },
+        { name: 'Vision Care', description: '' },
+        { name: 'Vitamins & Dietary Supplements', description: '' },
+        { name: 'Wellness & Relaxation', description: '' },      
+      ],
+      id: 6732765,
+    },
   ],
   benefits: [
     {
