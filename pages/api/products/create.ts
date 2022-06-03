@@ -75,12 +75,13 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
         // saving the new product
         newProduct
           .save()
-          .then(async (res: any) => {
+          .then(async (response: any) => {
             await disconnect()
             return res.send({ message: 'Product saved Successfully' })
           })
           .catch(async (error: any) => {
             await disconnect()
+            console.log(error)
             return res.send({
               message: 'Problem creating product. Refresh page and try again!',
             })

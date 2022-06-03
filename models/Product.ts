@@ -4,17 +4,14 @@ const productSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      required: true,
       index: true,
     },
     slug: {
       type: String,
-      required: true,
       index: true,
     },
     description: {
       type: String,
-      required: true,
       index: true,
     },
     currency_type: {
@@ -28,7 +25,6 @@ const productSchema = new mongoose.Schema(
     },
     price: {
       type: Number,
-      required: true,
     },
     discount_price: {
       type: Number,
@@ -50,7 +46,6 @@ const productSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      required: true,
       index: true,
     },
     category_slug: {
