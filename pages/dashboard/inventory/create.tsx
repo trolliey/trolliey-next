@@ -55,8 +55,6 @@ export default function CreateProduct() {
     setCurrentCategory(tuna)
   }, [category])
 
-  console.log(current_category)
-
   const selectedTags = (tags: any) => {
     setVariations(tags)
   }
