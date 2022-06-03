@@ -146,7 +146,7 @@ function ProductDescription(props: any) {
                   <h2 className=" text-sm font-semibold tracking-tight text-gray-400">
                     {product?.category}
                   </h2>
-                  <h1 className="text-3xl font-bold uppercase tracking-tight text-gray-900">
+                  <h1 className="md:text-3xl text-xl font-bold uppercase tracking-tight text-gray-900">
                     {product?.title}
                   </h1>
 
