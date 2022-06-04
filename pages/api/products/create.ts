@@ -55,7 +55,7 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
         newProduct.save(function (err: any) {
           if (err) {
             console.log(err)
-            return res.status(500).send({message: 'Error Adding. Please contact support'})
+            return res.status(500).send({message: err})
           }
 
           return res
