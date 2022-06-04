@@ -17,7 +17,6 @@ const productSchema = new mongoose.Schema(
     currency_type: {
       type: String,
       enum: ['ZWL', 'USD'],
-      default: 'USD',
     },
     averageRating: {
       type: Number,
@@ -79,7 +78,7 @@ const productSchema = new mongoose.Schema(
     sub_category: {
       type: String,
       default: '',
-    }
+    },
   },
   {
     timestamps: true,
@@ -95,6 +94,7 @@ productSchema.index({
   slug: 'text',
   _id: 'text',
 })
+
 const Products =
   mongoose.models.Product || mongoose.model('Product', productSchema)
 export default Products
