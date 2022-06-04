@@ -55,13 +55,14 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
         newProduct.save(function (err: any) {
           if (err) {
             console.log(err)
-            return res.status(500).send({message: err})
+            return res.status(500).send({ message: err })
           }
 
           return res
             .status(200)
             .send({ message: 'Product added successfully!' })
         })
+        await disconnect()
       } else {
         return res
           .status(500)
@@ -70,7 +71,6 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     } catch (error) {
       res.status(500).send({ message: error })
     }
-    await disconnect()
   } else {
     return res.status(400).send({ message: 'Please login first' })
   }
