@@ -69,7 +69,7 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
           .send({ message: 'Store has not been approved yet' })
       }
     } catch (error) {
-      res.status(500).send({ message: error })
+      return res.status(500).send({ message: error })
     }
   } else {
     return res.status(400).send({ message: 'Please login first' })
