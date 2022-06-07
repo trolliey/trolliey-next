@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+import next, { NextApiRequest, NextApiResponse } from 'next'
 import Products from '../../../models/Product'
 import { connect, disconnect } from '../../../utils/mongo'
 import auth_handler from '../../../utils/auth_handler'
@@ -62,8 +62,13 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
         //   .status(200)
         //   .send({ message: 'Product added successfully!' })
         // })
-        await disconnect()
-        return res.status(200).send({'item': newProduct})
+        try {
+          const saved_product = await newProduct.save()
+          await disconnect()
+          return res.status(200).send({message: 'Product saved successfully', product: saved_product})
+        } catch (error) {
+          res.status(500).send({message: 'error found here --- ', error})
+        }
       } else {
         return res
           .status(500)
