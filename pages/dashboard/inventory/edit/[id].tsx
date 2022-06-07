@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import DashboardLayout from '../../../../layouts/DashboardLayout'
 import { Divider, Select } from '@chakra-ui/react'
 import FileUploadComponent from '../../../../components/FileUploadComponent/FileUploadComponent'
@@ -42,6 +42,9 @@ export default function EditProduct(props: any) {
   const [showMore, setShowMore] = useState<any>()
   const [currency, setCurrency] = useState('')
 
+  // current images from api
+  const [all_images, setAllImages] = useState()
+
   // console.log(product)
 
   const selectedPictures = (pictures: any) => {
@@ -51,8 +54,11 @@ export default function EditProduct(props: any) {
   const selectedTags = (tags: any) => {
     setVariations(tags)
   }
+  useEffect(()=>{
 
-  const create_product = async () => {
+  },[])
+
+  const edit_product = async () => {
     try {
       setLoading(true)
       const formData = new FormData()

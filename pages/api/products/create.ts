@@ -52,22 +52,13 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
           currency_type: currency,
           sub_category: sub_category,
         })
-        // newProduct.save(async function (err: any) {
-        //   if (err) {
-        //     console.log(err)
-        //     return res.status(500).send({ message: 'error here --- ', err })
-        //   }
-
-        //   return res
-        //   .status(200)
-        //   .send({ message: 'Product added successfully!' })
-        // })
+       
         try {
           const saved_product = await newProduct.save()
           await disconnect()
           return res.status(200).send({message: 'Product saved successfully', product: saved_product})
         } catch (error) {
-          res.status(500).send({message: 'error found here --- ', error})
+          return res.status(500).send({message: 'error found here --- ', error})
         }
       } else {
         return res
