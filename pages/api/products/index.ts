@@ -31,24 +31,33 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
       )
     })
 
-    const products = await Products.find({ $and: [{ $or: allQueries }] })
+    try {
+      const products = await Products.find({ $and: [{ $or: allQueries }] })
+        .sort({ createdAt: 'asc' })
+        .limit(resultsPerPage)
+        .skip(resultsPerPage * page)
+
+      await disconnect()
+
+      if (!products) {
+        return res.status(400).json({ error: 'No Products found' })
+      }
+
+      return res.send(products)
+    } catch (error) {
+      res.status(500).send({ message: error })
+    }
+  }
+  try {
+    const products = await Products.find({})
       .sort({ createdAt: 'asc' })
       .limit(resultsPerPage)
       .skip(resultsPerPage * page)
-
-    if (!products) {
-      return res.status(400).json({ error: 'No Products found' })
-    }
     await disconnect()
-    return res.send(products)
+    res.send(products)
+  } catch (error) {
+    res.status(500).send({ message: error })
   }
-  const products = await Products.find({})
-    .sort({ createdAt: 'asc' })
-    .limit(resultsPerPage)
-    .skip(resultsPerPage * page)
-
-  await disconnect()
-  res.send(products)
 })
 
 export default handler
