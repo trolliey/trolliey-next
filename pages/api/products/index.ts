@@ -43,7 +43,9 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(400).json({ error: 'No Products found' })
       }
 
-      return res.send(products)
+      else{
+        return res.status(200).send(products)
+      }
     } catch (error) {
       res.status(500).send({ message: error })
     }
@@ -54,9 +56,9 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
       .limit(resultsPerPage)
       .skip(resultsPerPage * page)
     await disconnect()
-    res.send(products)
+    return res.status(200).send(products)
   } catch (error) {
-    res.status(500).send({ message: error })
+    return res.status(500).send({ message: error })
   }
 })
 
