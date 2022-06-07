@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext } from 'react'
 import DashboardLayout from '../../../../layouts/DashboardLayout'
 import { Divider, Select } from '@chakra-ui/react'
 import FileUploadComponent from '../../../../components/FileUploadComponent/FileUploadComponent'
@@ -42,9 +42,6 @@ export default function EditProduct(props: any) {
   const [showMore, setShowMore] = useState<any>()
   const [currency, setCurrency] = useState('')
 
-  // current images from api
-  const [all_images, setAllImages] = useState()
-
   // console.log(product)
 
   const selectedPictures = (pictures: any) => {
@@ -54,9 +51,6 @@ export default function EditProduct(props: any) {
   const selectedTags = (tags: any) => {
     setVariations(tags)
   }
-  useEffect(()=>{
-
-  },[])
 
   const edit_product = async () => {
     try {
@@ -65,49 +59,50 @@ export default function EditProduct(props: any) {
       const uploads: any = []
       const promises: any = []
 
-      pictures_for_upload.forEach((file: string | Blob) => {
-        formData.append('file', file)
-        formData.append('upload_preset', 'g6ixv6cg')
-        //@ts-ignore
-        formData.append('api_key', process.env.CLOUDNARY_API_KEY)
+      // pictures_for_upload.forEach((file: string | Blob) => {
+      //   formData.append('file', file)
+      //   formData.append('upload_preset', 'g6ixv6cg')
+      //   //@ts-ignore
+      //   formData.append('api_key', process.env.CLOUDNARY_API_KEY)
 
-        const uploadPromise = axios
-          .post(
-            'https://api.cloudinary.com/v1_1/trolliey/image/upload',
-            formData,
-            { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
-          )
-          .then((response) => {
-            uploads.push(response.data.url)
-          })
-        promises.push(uploadPromise)
-      })
-      await Promise.all(promises)
+      //   const uploadPromise = axios
+      //     .post(
+      //       'https://api.cloudinary.com/v1_1/trolliey/image/upload',
+      //       formData,
+      //       { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
+      //     )
+      //     .then((response) => {
+      //       uploads.push(response.data.url)
+      //     })
+      //   promises.push(uploadPromise)
+      // })
+      // await Promise.all(promises)
 
       //upload the product to database from here
       const { data } = await axios.post(
-        '/api/products/create',
+        '/api/products/edit',
         {
-          pictures: uploads,
-          description: description,
-          title: title,
-          category: category,
-          price: price,
-          discount_price: discount_price,
+          pictures: product?.pictures,
+          description: description ? description : product?.description,
+          title: title ? title : product?.title,
+          category: category ? category : product?.category,
+          price: price ? price : product?.price,
+          discount_price: discount_price ? discount_price ? product?.discount_price,
           brand: brand,
           countInStock: countInStock,
           status: status,
           sku: sku,
           variants: variations,
           currency: currency,
+          product_id: product?._id,
         },
         { headers: { authorization: userInfo?.token } }
       )
       setLoading(false)
       console.log(data)
       toast({
-        title: 'Product Added.',
-        description: 'Product Added successfully!.',
+        title: 'Product Edited.',
+        description: 'Product Edited successfully!.',
         status: 'success',
         position: 'top-right',
         duration: 9000,
@@ -116,7 +111,7 @@ export default function EditProduct(props: any) {
     } catch (error) {
       setLoading(false)
       toast({
-        title: 'Error Adding.',
+        title: 'Error Editing.',
         description: getError(error),
         status: 'error',
         position: 'top-right',
@@ -153,7 +148,7 @@ export default function EditProduct(props: any) {
                   </div>
                 </div>
                 <div className="mt-5 md:col-span-2 md:mt-0">
-                  <div className="flex flex-col items-start w-full">
+                  <div className="flex w-full flex-col items-start">
                     <p className="pb-1 font-semibold text-gray-700">
                       Old Pictures
                     </p>
@@ -214,11 +209,10 @@ export default function EditProduct(props: any) {
                             >
                               Category
                             </label>
-                            <select
+                            <Select
                               id="country"
                               name="country"
                               autoComplete="country-name"
-                              value={category}
                               defaultValue={product?.category}
                               onChange={(e) => setCategory(e.target.value)}
                               className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
@@ -230,7 +224,7 @@ export default function EditProduct(props: any) {
                                   </option>
                                 )
                               )}
-                            </select>
+                            </Select>
                           </div>
 
                           <div className="col-span-6">
@@ -240,7 +234,7 @@ export default function EditProduct(props: any) {
                             >
                               Sub- Category
                             </label>
-                            <select
+                            <Select
                               id="country"
                               name="country"
                               autoComplete="country-name"
@@ -251,7 +245,7 @@ export default function EditProduct(props: any) {
                                   <option key={index}>{category.name}</option>
                                 )
                               )}
-                            </select>
+                            </Select>
                           </div>
 
                           <div className="col-span-6 ">
@@ -598,7 +592,7 @@ export default function EditProduct(props: any) {
             <BlueButton
               text="Save Changes"
               loading={loading}
-              onClick={() => console.log('edit product')}
+              onClick={edit_product}
             />
           </>
         </div>
