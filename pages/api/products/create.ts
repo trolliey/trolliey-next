@@ -1,100 +1,85 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+import next, { NextApiRequest, NextApiResponse } from 'next'
 import Products from '../../../models/Product'
 import { connect, disconnect } from '../../../utils/mongo'
 import auth_handler from '../../../utils/auth_handler'
 import slugify from '../../../utils/slugify'
 import Store from '../../../models/Store'
-import upload from '../../../utils/multer'
-import cloudinary from '../../../utils/multer'
-import fs from 'fs'
 
 // get all products
 // get request
 // /api/products
-auth_handler.post(
-  upload.array('image'),
-  async (req: NextApiRequest, res: NextApiResponse) => {
-    // @ts-ignore
-    const _user = req.user
-    if (_user) {
-      //  do stuff
-      await connect()
-      try {
-        const store = await Store.findOne({ user: _user._id })
-        if (store.approved === true) {
-          // do something
-          const {
-            pictures,
-            description,
-            title,
-            category,
-            price,
-            discount_price,
-            brand,
-            countInStock,
-            status,
-            sku,
-            variants,
-            currency,
-            sub_category,
-          } = req.body
+auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
+  // @ts-ignore
+  const _user = req.user
+  if (_user) {
+    //  do stuff
+    await connect()
+    try {
+      const store = await Store.findOne({ user: _user._id })
+      if (store.approved === true) {
+        // do something
+        const {
+          pictures,
+          description,
+          title,
+          category,
+          price,
+          discount_price,
+          brand,
+          countInStock,
+          status,
+          sku,
+          variants,
+          currency,
+          sub_category,
+        } = req.body
 
-          //image upload
-          const uploader = async (path: any) =>
-            await cloudinary.uploads(path, 'Images')
-          const urls = []
-          const files: any = pictures
+        const newProduct = new Products({
+          title: title,
+          slug: slugify(title),
+          description: description,
+          price: price,
+          discount_price: discount_price,
+          pictures: pictures,
+          brand: brand,
+          countInStock: countInStock,
+          category: category,
+          category_slug: slugify(category),
+          variants: variants,
+          store_id: store._id,
+          sku: sku,
+          status: status,
+          currency_type: currency,
+          sub_category: sub_category,
+        })
+        // newProduct.save(async function (err: any) {
+        //   if (err) {
+        //     console.log(err)
+        //     return res.status(500).send({ message: 'error here --- ', err })
+        //   }
 
-          for (const file of files) {
-            const { path } = file
-            const newPath = await uploader(path)
-            urls.push(newPath)
-            fs.unlinkSync(path)
-          }
-
-          console.log('files uploaded successfully')
-
-          const newProduct = new Products({
-            title: title,
-            slug: slugify(title),
-            description: description,
-            price: price,
-            discount_price: discount_price,
-            pictures: pictures,
-            brand: brand,
-            countInStock: countInStock,
-            category: category,
-            category_slug: slugify(category),
-            variants: variants,
-            store_id: store._id,
-            sku: sku,
-            status: status,
-            currency_type: currency,
-            sub_category: sub_category,
-          })
-
-          try {
-            const saved_product = await newProduct.save()
-            await disconnect()
-            return res.status(200).send({
-              message: 'Product saved successfully',
-              product: saved_product,
-            })
-          } catch (error) {
-            res.status(500).send({ message: 'error found here --- ', error })
-          }
-        } else {
-          return res
-            .status(500)
-            .send({ message: 'Store has not been approved yet' })
+        //   return res
+        //   .status(200)
+        //   .send({ message: 'Product added successfully!' })
+        // })
+        try {
+          const saved_product = await newProduct.save()
+          await disconnect()
+          return res.status(200).send({message: 'Product saved successfully', product: saved_product})
+        } catch (error) {
+          res.status(500).send({message: 'error found here --- ', error})
         }
-      } catch (error) {
-        return res.status(500).send({ message: error })
+      } else {
+        return res
+          .status(500)
+          .send({ message: 'Store has not been approved yet' })
       }
-    } else {
-      return res.status(400).send({ message: 'Please login first' })
+    } catch (error) {
+      return res.status(500).send({ message: error })
     }
+  } else {
+    return res.status(400).send({ message: 'Please login first' })
   }
-)
+})
 
 export default auth_handler

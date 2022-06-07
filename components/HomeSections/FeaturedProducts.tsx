@@ -1,4 +1,3 @@
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/outline'
 import React, { ReactElement, useContext, useEffect, useState } from 'react'
 import ProductItem from '../ProductItem/ProductItem'
 import ProductLoading from '../ProductItem/ProductLoading'
@@ -6,11 +5,12 @@ import no_product from '../../public/img/no_product.svg'
 import Image from 'next/image'
 import { Store } from '../../Context/Store'
 import axios from 'axios'
+import { useRouter } from 'next/router'
 
 function FeaturedProducts(): ReactElement {
-  const [show_indicators, setShowIndicators] = useState<boolean>(false)
   const [all_products, setAllProducts] = useState<any>()
   const [loading, setLoading] = useState(false)
+  const router = useRouter()
 
   useEffect(() => {
     const getAllProducts = async () => {
@@ -26,17 +26,9 @@ function FeaturedProducts(): ReactElement {
     }
     getAllProducts()
   }, [])
-  
+
   const { state } = useContext(Store)
   const { currency } = state
-
-  const handleOnPrevClick = () => {
-    console.log('previous')
-  }
-
-  const handleOnNextClick = () => {
-    console.log('next')
-  }
 
   return (
     <>
@@ -60,11 +52,7 @@ function FeaturedProducts(): ReactElement {
               </p>
             </div>
           ) : (
-            <div
-              onMouseEnter={() => setShowIndicators(true)}
-              onMouseLeave={() => setShowIndicators(false)}
-              className="scrollbar-hide relative mx-auto flex space-x-6 overflow-x-auto rounded-lg bg-white p-4"
-            >
+            <div className="scrollbar-hide relative mx-auto flex space-x-6 overflow-x-auto rounded-lg bg-white p-4">
               {all_products?.map((product: any, index: number) => (
                 <div key={index} className="col-span-1 p-0">
                   {product.currency_type === currency && (
@@ -85,6 +73,16 @@ function FeaturedProducts(): ReactElement {
                   )}
                 </div>
               ))}
+              {all_products?.length > 10 && (
+                <div
+                  onClick={() => router.push('/explore')}
+                  className="col-span-1 my-auto h-full w-full"
+                >
+                  <div className="items-centerlex my-auto grid text-gray-700 hover:bg-gray-100 h-40 w-40 content-center justify-center rounded cursor-pointer bg-gray-200">
+                    Show All
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </>

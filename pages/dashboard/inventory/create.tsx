@@ -126,63 +126,63 @@ export default function CreateProduct() {
       })
     } else {
       try {
-        // setLoading(true)
+        setLoading(true)
         const formData = new FormData()
         const uploads: any = []
         const promises: any = []
-        formData.append('files', pictures_for_upload)
-        formData.append('description', description)
-        formData.append('title', title)
-        formData.append('category', category)
-        formData.append('discount_price', discount_price)
-        formData.append('brand', brand)
-        formData.append('status', status)
-        formData.append('sku', sku)
-        formData.append('countInStock', countInStock)
-        formData.append('variations', variations)
-        formData.append('countInStock', countInStock)
-        formData.append('currency', currency)
-        formData.append('sub_category', sub_category)
 
-        // pictures_for_upload.forEach((file: any | Blob) => {
-        //   formData.append('file', file)
-        //   formData.append('upload_preset', 'g6ixv6cg')
-        //   //@ts-ignore
-        //   formData.append('api_key', process.env.CLOUDNARY_API_KEY)
+        pictures_for_upload.forEach((file: any | Blob) => {
+          formData.append('file', file)
+          formData.append('upload_preset', 'g6ixv6cg')
+          //@ts-ignore
+          formData.append('api_key', process.env.CLOUDNARY_API_KEY)
 
-        //   const uploadPromise = axios
-        //     .post(
-        //       'https://api.cloudinary.com/v1_1/trolliey/image/upload',
-        //       formData,
-        //       { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
-        //     )
-        //     .then((response) => {
-        //       uploads.push(response.data.url)
-        //     })
-        //     .catch(() => {
-        //       toast({
-        //         title: 'Error Adding.',
-        //         description: 'Error Uploading the picture. Try again',
-        //         status: 'error',
-        //         position: 'top-right',
-        //         duration: 9000,
-        //         isClosable: true,
-        //       })
-        //       setLoading(false)
-        //     })
-        //   promises.push(uploadPromise)
-        // })
-        // await Promise.all(promises)
+          const uploadPromise = axios
+            .post(
+              'https://api.cloudinary.com/v1_1/trolliey/image/upload',
+              formData,
+              { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
+            )
+            .then((response) => {
+              uploads.push(response.data.url)
+            })
+            .catch(() => {
+              toast({
+                title: 'Error Adding.',
+                description: 'Error Uploading the picture. Try again',
+                status: 'error',
+                position: 'top-right',
+                duration: 9000,
+                isClosable: true,
+              })
+              setLoading(false)
+            })
+          promises.push(uploadPromise)
+        })
+        await Promise.all(promises)
 
         //upload the product to database from here
-
         axios
-          .post('/api/products/create', formData, {
-            headers: {
-              authorization: userInfo?.token,
-              'content-type': 'multipart/form-data',
+          .post(
+            '/api/products/create',
+            {
+              pictures: uploads,
+              // pictures: [''],
+              description: description,
+              title: title,
+              category: category,
+              price: price,
+              discount_price: discount_price,
+              brand: brand,
+              countInStock: countInStock,
+              status: status,
+              sku: sku,
+              variants: variations,
+              currency: currency,
+              sub_category: sub_category,
             },
-          })
+            { headers: { authorization: userInfo?.token } }
+          )
           .then((res: any) => {
             console.log(res)
             toast({

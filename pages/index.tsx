@@ -20,9 +20,8 @@ import AllProducts from '../components/HomeSections/AllProducts'
 import axios from 'axios'
 import { Store } from '../Context/Store'
 
-function Home(props: any): ReactFragment {
+function Home(): ReactFragment {
   const history = useRouter()
-  const { latest_products } = props
   const { state, dispatch } = useContext(Store)
   const { search_query } = state
   const [products, setProducts] = useState<any>()
@@ -64,7 +63,6 @@ function Home(props: any): ReactFragment {
             <div className="flex flex-col">
               <div className="z-0 mb-2 h-auto  w-full overflow-hidden bg-gray-100 md:mb-4">
                 <div className="z-0 grid w-full content-center items-center overflow-hidden rounded  bg-white">
-                  {/* <img src={banner} alt="banner showing ads for the home page" className="flex-1 max-h-full flex-shrink-0 object-cover w-auto h-auto" /> */}
                   <Courosel data={data?.banner_images} />
                 </div>
               </div>
