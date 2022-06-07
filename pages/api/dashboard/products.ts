@@ -37,26 +37,34 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
         )
       })
 
-      //@ts-ignore
-      const products = await Products.find({
-        store_id: store._id,
-        $and: [{ $or: allQueries }],
-      })
-        .sort({ createdAt: 'asc' })
-        .limit(resultsPerPage)
-        .skip(resultsPerPage * page)
+      try {
+        //@ts-ignore
+        const products = await Products.find({
+          store_id: store._id,
+          $and: [{ $or: allQueries }],
+        })
+          .sort({ createdAt: 'asc' })
+          .limit(resultsPerPage)
+          .skip(resultsPerPage * page)
 
-      await disconnect()
-      res.status(200).send(products)
+        await disconnect()
+        res.status(200).send(products)
+      } catch (error) {
+        return res.status(500).send({ message: 'error ---', error })
+      }
     } else {
-      const products = await Products.find({
-        store_id: store._id,
-      })
-        .sort({ createdAt: 'asc' })
-        .limit(resultsPerPage)
-        .skip(resultsPerPage * page)
-      await disconnect()
-      res.status(200).send(products)
+      try {
+        const products = await Products.find({
+          store_id: store._id,
+        })
+          .sort({ createdAt: 'asc' })
+          .limit(resultsPerPage)
+          .skip(resultsPerPage * page)
+        await disconnect()
+        res.status(200).send(products)
+      } catch (error) {
+        return res.status(500).send({ message: 'error --- ', error })
+      }
     }
   } catch (error) {
     return res.send(error)

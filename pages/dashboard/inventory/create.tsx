@@ -70,7 +70,7 @@ export default function CreateProduct() {
         isClosable: true,
       })
     }
-    if (!description) {
+    else if (!description) {
       setLoading(false)
       toast({
         title: 'Error Adding.',
@@ -81,7 +81,7 @@ export default function CreateProduct() {
         isClosable: true,
       })
     }
-    if (!title) {
+    else if (!title) {
       setLoading(false)
       toast({
         title: 'Error Adding.',
@@ -92,7 +92,7 @@ export default function CreateProduct() {
         isClosable: true,
       })
     }
-    if (!price) {
+    else if (!price) {
       setLoading(false)
       toast({
         title: 'Error Adding.',
@@ -103,7 +103,7 @@ export default function CreateProduct() {
         isClosable: true,
       })
     }
-    if (!category) {
+    else if (!category) {
       setLoading(false)
       toast({
         title: 'Error Adding.',
@@ -114,7 +114,7 @@ export default function CreateProduct() {
         isClosable: true,
       })
     }
-    if (!currency) {
+    else if (!currency) {
       setLoading(false)
       toast({
         title: 'Error Adding.',
