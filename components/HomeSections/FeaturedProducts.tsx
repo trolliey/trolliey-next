@@ -1,19 +1,32 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/outline'
-import React, { ReactElement, useContext, useState } from 'react'
+import React, { ReactElement, useContext, useEffect, useState } from 'react'
 import ProductItem from '../ProductItem/ProductItem'
 import ProductLoading from '../ProductItem/ProductLoading'
 import no_product from '../../public/img/no_product.svg'
 import Image from 'next/image'
 import { Store } from '../../Context/Store'
+import axios from 'axios'
 
-interface Props {
-  products?: any | null
-  loading?: boolean
-}
-
-function FeaturedProducts({ products, loading }: Props): ReactElement {
+function FeaturedProducts(): ReactElement {
   const [show_indicators, setShowIndicators] = useState<boolean>(false)
+  const [all_products, setAllProducts] = useState<any>()
+  const [loading, setLoading] = useState(false)
 
+  useEffect(() => {
+    const getAllProducts = async () => {
+      setLoading(true)
+      try {
+        const { data } = await axios.post(`/api/products?page=1`)
+        setAllProducts(data)
+        setLoading(false)
+      } catch (error) {
+        console.log(error)
+        setLoading(false)
+      }
+    }
+    getAllProducts()
+  }, [])
+  
   const { state } = useContext(Store)
   const { currency } = state
 
@@ -37,8 +50,8 @@ function FeaturedProducts({ products, loading }: Props): ReactElement {
         </div>
       ) : (
         <>
-          {products?.length < 1 ? (
-            <div className=" h-68 grid content-center items-center justify-center bg-white rounded py-2">
+          {all_products?.length < 1 ? (
+            <div className=" h-68 grid content-center items-center justify-center rounded bg-white py-2">
               <div className="relative h-40">
                 <Image src={no_product} layout="fill" objectFit="contain" />
               </div>
@@ -50,29 +63,28 @@ function FeaturedProducts({ products, loading }: Props): ReactElement {
             <div
               onMouseEnter={() => setShowIndicators(true)}
               onMouseLeave={() => setShowIndicators(false)}
-              className="scrollbar-hide relative mx-auto rounded-lg bg-white p-4 flex overflow-x-auto space-x-6"
+              className="scrollbar-hide relative mx-auto flex space-x-6 overflow-x-auto rounded-lg bg-white p-4"
             >
-              {products?.map((product: any, index: number) => (
+              {all_products?.map((product: any, index: number) => (
                 <div key={index} className="col-span-1 p-0">
                   {product.currency_type === currency && (
-                      <ProductItem
-                        name={product.title}
-                        description={product.description}
-                        rating={product.rating}
-                        picture={product.pictures[0]}
-                        price={product.price}
-                        discount_price={product.discount_price}
-                        category={product.category}
-                        id={product._id}
-                        countInStock={product.countInStock}
-                        product={product}
-                        averageRating={product.averageRating}
-                        currency={product.currency_type}
-                      />
-                    )}
+                    <ProductItem
+                      name={product.title}
+                      description={product.description}
+                      rating={product.rating}
+                      picture={product.pictures[0]}
+                      price={product.price}
+                      discount_price={product.discount_price}
+                      category={product.category}
+                      id={product._id}
+                      countInStock={product.countInStock}
+                      product={product}
+                      averageRating={product.averageRating}
+                      currency={product.currency_type}
+                    />
+                  )}
                 </div>
               ))}
-            
             </div>
           )}
         </>

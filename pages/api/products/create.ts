@@ -52,15 +52,15 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
           currency_type: currency,
           sub_category: sub_category,
         })
-        newProduct.save(function (err: any) {
+        newProduct.save(async function (err: any) {
           if (err) {
             console.log(err)
             return res.status(500).send({ message: err })
           }
 
           return res
-            .status(200)
-            .send({ message: 'Product added successfully!' })
+          .status(200)
+          .send({ message: 'Product added successfully!' })
         })
         await disconnect()
       } else {
