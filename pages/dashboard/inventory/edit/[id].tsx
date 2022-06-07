@@ -87,7 +87,7 @@ export default function EditProduct(props: any) {
           title: title ? title : product?.title,
           category: category ? category : product?.category,
           price: price ? price : product?.price,
-          discount_price: discount_price ? discount_price ? product?.discount_price,
+          discount_price: discount_price ? discount_price : product?.discount_price,
           brand: brand,
           countInStock: countInStock,
           status: status,
