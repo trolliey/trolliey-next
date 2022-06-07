@@ -1,4 +1,4 @@
-import React, { ReactElement, useContext, useState } from 'react'
+import React, { ReactElement, useContext, useState, useEffect } from 'react'
 import {
   Drawer,
   DrawerBody,
@@ -32,19 +32,31 @@ interface Props {
 function MobileNavDrawers({ user }: Props): ReactElement {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [show_category, setShowCotegory] = useState(false)
+  const [show_subcategories, setShowSubCategories] = useState(false)
   const [show_currencies, serShowCurrencies] = useState(false)
+  const [selected_category_name, setSelectedCategoryName] = useState<any>('')
+  const [current_category, setCurrentCategory] = useState<any>('')
   const history = useRouter()
   const { state, dispatch } = useContext(Store)
 
-  const logout_user = () =>{
+  const logout_user = () => {
     history.push('/')
-        Cookies.remove('userInfo')
-        window.location.reload()
+    Cookies.remove('userInfo')
+    window.location.reload()
   }
 
-  const search_using_category = (category: any) =>{
-      dispatch({ type: 'SET_SEARCH_QUERY', payload: category })
-      history.push('/explore')
+  useEffect(() => {
+    var tuna = data?.categories?.find(function (sandwich) {
+      return sandwich.name === selected_category_name
+    })
+    setCurrentCategory(tuna)
+  }, [selected_category_name])
+
+  console.log(current_category)
+
+  const search_using_category = (category: any) => {
+    dispatch({ type: 'SET_SEARCH_QUERY', payload: category })
+    history.push('/explore')
   }
 
   return (
@@ -138,7 +150,12 @@ function MobileNavDrawers({ user }: Props): ReactElement {
                         className="flex cursor-pointer flex-row items-center justify-between gap-2 py-2 px-4 text-sm hover:bg-gray-100"
                       >
                         <div
-                          onClick={() => search_using_category(category.name)}
+                          onClick={() => {
+                            setShowSubCategories(true)
+                            // search_using_category(category.name)
+                            setSelectedCategoryName(category.name)
+                            setShowCotegory(false)
+                          }}
                           className="flex flex-row items-center"
                         >
                           <div className="relative mr-2    h-6 w-6">
@@ -157,6 +174,60 @@ function MobileNavDrawers({ user }: Props): ReactElement {
                         />
                       </div>
                     ))}
+                  </div>
+                  {/* show_category{' '} */}
+                </DrawerBody>
+              ) : // sub categories on mobile sidebar
+              show_subcategories ? (
+                <DrawerBody bg={'white'} p={0}>
+                  <Divider />
+                  <div className="flex flex-row items-center gap-8 bg-white py-4 px-4">
+                    <Avatar size="sm" name={user?.name} />
+                    {user ? (
+                      <Username username={user?.name} />
+                    ) : (
+                      <Username username={'Guest User'} />
+                    )}
+                  </div>
+                  <Divider />
+                  <div className="flex flex-row items-center">
+                    <span
+                      onClick={() => {
+                        setShowSubCategories(false)
+                        setShowCotegory(true)
+                      }}
+                      className="ml-2"
+                    >
+                      <ArrowLeftIcon height={20} width={20} />
+                    </span>
+                    <p className="my-4 mx-auto text-center font-semibold capitalize text-gray-700 ">
+                      {selected_category_name}
+                    </p>
+                  </div>
+                  <div className="px-4">
+                    {current_category?.sub_categories.map(
+                      (category: any, index: number) => (
+                        <div
+                          key={index}
+                          className="flex cursor-pointer flex-row items-center justify-between gap-2 py-2 px-4 text-sm hover:bg-gray-100"
+                        >
+                          <div
+                            onClick={() => {
+                              search_using_category(category.name)
+                            }}
+                            className="flex flex-row items-center"
+                          >
+                            <p className="py-2 capitalize">{category.name}</p>
+                          </div>
+                          <ChevronRightIcon
+                            height={16}
+                            width={16}
+                            className="text-gray-400"
+                          />
+                        </div>
+                      )
+                    )}
+                    {/* sub_categoeries */}
                   </div>
                   {/* show_category{' '} */}
                 </DrawerBody>
@@ -199,7 +270,10 @@ function MobileNavDrawers({ user }: Props): ReactElement {
                   </div>
                   <Divider />
                   <div
-                    onClick={() => setShowCotegory(true)}
+                    onClick={() => {
+                      setShowCotegory(true)
+                      setShowSubCategories(false)
+                    }}
                     className="flex flex-row items-center justify-between bg-white py-4 px-4 text-sm font-semibold capitalize text-gray-700"
                   >
                     <p>shop by categories</p>
@@ -230,6 +304,7 @@ function MobileNavDrawers({ user }: Props): ReactElement {
               )}
             </>
           )}
+
           <Divider />
           <DrawerFooter width={'full'} borderTopColor={'gray.200'}>
             <div className="flex flex-row items-center justify-between">
@@ -245,13 +320,17 @@ function MobileNavDrawers({ user }: Props): ReactElement {
                       className="flex"
                       onClick={() => history.push('/dashboard')}
                     >
-                      <Username username={'My Seller Dashboard'} />
+                      <Username username={'My Dashboard'} />
                     </div>
                   ) : user?.role === 'user' ? (
                     <Username username={user?.name} />
-                  ):(
-
-                    <Username username={'Register'} />
+                  ) : (
+                    <div
+                      onClick={() => history.push('/register')}
+                      className="flex"
+                    >
+                      <Username username={'Register'} />
+                    </div>
                   )}
                 </div>
               </div>
