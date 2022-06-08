@@ -84,10 +84,10 @@ function DashboardNavbar({setSidebarOpen}:Props):ReactElement {
                             <div>
                                 <Menu.Button className="max-w-xs bg-white rounded-full space-x-2 flex items-center text-sm focus:outline-none lg:p-2 lg:rounded-md lg:hover:bg-gray-50">
                                     <Avatar size="sm" name={userInfo?.name} src={userInfo?.photoURL} />
-                                    <span className="hidden text-gray-700 text-sm font-medium lg:block">
+                                    <div className="hidden text-gray-700 text-sm font-medium lg:block">
                                         <span className="sr-only">Open user menu for </span>
                                         <Username username={userInfo?.name} />
-                                    </span>
+                                    </div>
                                     <ChevronDownIcon
                                         className="hidden flex-shrink-0 ml-1 h-5 w-5 text-gray-400 lg:block"
                                         aria-hidden="true"

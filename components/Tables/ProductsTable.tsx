@@ -139,9 +139,9 @@ export default function ProductsTable({
               <tbody className="divide-y divide-gray-200 bg-white">
                 {products && (
                   <>
-                    {products?.map((product: any) => (
+                    {products?.map((product: any, index: number) => (
                       <>
-                        <tr key={product._id}>
+                        <tr key={index}>
                           <td className="whitespace-nowrap px-6 py-4">
                             <div className="flex items-center">
                               <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gray-100">

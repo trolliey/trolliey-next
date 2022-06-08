@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, useRef } from 'react'
 import DashboardLayout from '../../../layouts/DashboardLayout'
 import { SearchIcon } from '@heroicons/react/outline'
 import ProductsTable from '../../../components/Tables/ProductsTable'
@@ -18,29 +18,44 @@ export default function Inventory() {
   const { state } = useContext(Store)
   const [page, setPage] = useState(1)
   const { userInfo } = state
+  const cache = useRef<any>({})
 
   useEffect(() => {
+    let cancelRequest = false
+    const url = `/api/dashboard/products?page=${page}`
     const getData = async () => {
-      try {
-        setLoading(true)
-        const { data } = await axios.post(
-          `/api/dashboard/products?page=${page}`,
-          {
-            query: search_query,
-          },
-          {
-            headers: {
-              authorization: userInfo?.token,
-            },
-          }
-        )
+      if (cache.current[url]) {
+        const data = cache.current[url]
         setProducts(data)
         setLoading(false)
-      } catch (error) {
-        setLoading(false)
+      } else {
+        try {
+          setLoading(true)
+          const { data } = await axios.post(
+            url,
+            {
+              query: search_query,
+            },
+            {
+              headers: {
+                authorization: userInfo?.token,
+              },
+            }
+          )
+          cache.current[url] = data
+          if (cancelRequest) return
+          setProducts(data)
+          setLoading(false)
+        } catch (error) {
+          if (cancelRequest) return
+          setLoading(false)
+        }
       }
     }
     getData()
+    return function cleanup() {
+      cancelRequest = true
+    }
   }, [search_query, page])
 
   // console.log(products)

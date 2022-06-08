@@ -18,7 +18,6 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     await connect()
     //@ts-ignore
     const _user = req.user
-    const id = req.query.user_id
     const store = await Store.findOne({ user: _user._id })
 
     if (req.body.query) {
@@ -48,7 +47,7 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
           .skip(resultsPerPage * page)
 
         await disconnect()
-        res.status(200).send(products)
+        return res.status(200).send(products)
       } catch (error) {
         return res.status(500).send({ message: 'error ---', error })
       }
@@ -61,7 +60,7 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
           .limit(resultsPerPage)
           .skip(resultsPerPage * page)
         await disconnect()
-        res.status(200).send(products)
+        return res.status(200).send(products)
       } catch (error) {
         return res.status(500).send({ message: 'error --- ', error })
       }

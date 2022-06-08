@@ -53,8 +53,6 @@ function DashboardSidebar({ sidebarOpen, setSidebarOpen }: Props) {
     const { pathname } = useRouter()
     const router = useRouter()
 
-    console.log(userInfo?.role)
-
     return (
         <div className="h-screen bg-blue-primary">
             <Transition.Root show={sidebarOpen} as={Fragment}>
