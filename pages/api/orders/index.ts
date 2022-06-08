@@ -104,17 +104,17 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
           )
         }
 
-        // save the order
-        newOrder.stores_involved = all_involved_stores
         try {
+          // save the order
+          newOrder.stores_involved = all_involved_stores
           const order = await newOrder.save()
-          await disconnect()
           //editing the reports schema
           await Report.findOneAndUpdate(
             { store: the_store._id },
             { $push: { pending_orders: order._id } }
-          )
-          return res.status(201).send(order)
+            )
+          await disconnect()
+          return res.status(200).send({order, message: 'order created successfully'})
         } catch (error) {
           return res.status(500).send({ message: error })
         }

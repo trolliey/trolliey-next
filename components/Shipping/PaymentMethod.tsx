@@ -112,7 +112,7 @@ function PaymentMethod({
         isClosable: true,
       })
       // console.log(cart.cartItems)
-      router.push(`/order/${data._id}`)
+      router.push(`/order/${data?.order._id}`)
     } catch (error) {
       setLoading(false)
       // console.log(getError(error))
