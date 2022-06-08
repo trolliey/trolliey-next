@@ -1,7 +1,5 @@
 import React, { ReactFragment, useEffect, useContext, useState } from 'react'
 import GeneralLayout from '../layouts/GeneralLayout'
-import Products from '../models/Product'
-import { connect, convertDocToObj, disconnect } from '../utils/mongo'
 import Courosel from '../components/Carousel/Carousel'
 import CategoriesDropdown from '../components/Dropdowns/CategoriesDropdown'
 import samsung from '../public/img/samsung.svg'
@@ -19,29 +17,14 @@ import { data } from '../utils/data'
 import AllProducts from '../components/HomeSections/AllProducts'
 import axios from 'axios'
 import { Store } from '../Context/Store'
+import useSWR from "swr";
 
 function Home(): ReactFragment {
   const history = useRouter()
   const { state, dispatch } = useContext(Store)
-  const { search_query } = state
-  const [products, setProducts] = useState<any>()
-  const [loading, setLoading] = useState<boolean>(false)
-
-  useEffect(() => {
-    setLoading(true)
-    const getData = async () => {
-      try {
-        const { data } = await axios.post(`/api/products`, {
-          query: search_query,
-        })
-        setProducts(data)
-        setLoading(false)
-      } catch (error) {
-        setLoading(false)
-      }
-    }
-    getData()
-  }, [search_query])
+  const address = `/api/products?page=${1}`;
+  const fetcher = async (url:any) => await axios.post(url).then((res) => res.data);
+  const { data:products, error } = useSWR(address, fetcher);
 
   const search_by_category = (category: string) => {
     dispatch({ type: 'SET_SEARCH_QUERY', payload: category })
@@ -217,7 +200,7 @@ function Home(): ReactFragment {
 
         {/* // featured products */}
         <>
-          <AllProducts products={products} loading={loading} />
+          <AllProducts products={products} loading={!data} error={error} />
         </>
       </div>
     </GeneralLayout>

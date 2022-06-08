@@ -13,14 +13,20 @@ interface Props {
   cols?: string
   no_text?: any
   loading?: boolean
+  error?: any
 }
 
-function AllProducts({ products, query, cols, no_text, loading }: Props) {
+function AllProducts({
+  products,
+  query,
+  cols,
+  no_text,
+  loading,
+  error,
+}: Props) {
   const history = useRouter()
-  const { state, dispatch } = useContext(Store)
+  const { state } = useContext(Store)
   const { currency } = state
-
-  console.log(products)
 
   return (
     <div className="mb-8 flex w-full flex-col bg-white p-2">
@@ -38,55 +44,67 @@ function AllProducts({ products, query, cols, no_text, loading }: Props) {
           </div>
         </div>
       )}
-      {loading ? (
-        <div
-          className={`${
-            cols ? cols : 'grid-cols-2 md:grid-cols-4 lg:grid-cols-5'
-          } mx-auto grid w-full gap-4 rounded-lg  md:gap-8`}
-        >
-          {[1, 2, 3, 4, 5]?.map((product: any, index: number) => (
-            <div key={index} className="col-span-1 p-0">
-              <ProductLoading />
-            </div>
-          ))}
+      {error ? (
+        <div className="w-full grid items-center content-center justify-center py-4">
+          <p className='text-center bg-red-200 rounded text-gray-700 font-semibold p-2 text-sm'>There was an error loading products. Reload page</p>
         </div>
       ) : (
         <>
-          {products?.length < 1 ? (
-            <div className=" h-68 grid content-center items-center justify-center">
-              <div className="relative h-40">
-                <Image src={no_product} layout="fill" objectFit="contain" />
-              </div>
-              <p className="mt-4 text-center font-semibold capitalize text-gray-700">
-                no products found
-              </p>
+          {loading ? (
+            <div
+              className={`${
+                cols ? cols : 'grid-cols-2 md:grid-cols-4 lg:grid-cols-5'
+              } mx-auto grid w-full gap-4 rounded-lg  md:gap-8`}
+            >
+              {[1, 2, 3, 4, 5]?.map((product: any, index: number) => (
+                <div key={index} className="col-span-1 p-0">
+                  <ProductLoading />
+                </div>
+              ))}
             </div>
           ) : (
             <>
-              <div
-                className={`${
-                  cols ? cols : 'flex overflow-x-auto space-x-6'
-                } flex overflow-x-auto space-x-6`}
-              >
-                {products?.map((product: any, index: number) => (
-                  <div key={index} className="col-span-1 w-60 p-0">
-                      <ProductItem
-                        name={product.title}
-                        description={product.description}
-                        rating={product.rating}
-                        picture={product.pictures[0]}
-                        price={product.price}
-                        discount_price={product.discount_price}
-                        category={product.category}
-                        display={product.currency_type === currency ? 'relative ': 'hidden '}
-                        id={product._id}
-                        countInStock={product.countInStock}
-                        product={product}
-                        averageRating={product.averageRating}
-                      />
+              {products?.length < 1 ? (
+                <div className=" h-68 grid content-center items-center justify-center">
+                  <div className="relative h-40">
+                    <Image src={no_product} layout="fill" objectFit="contain" />
                   </div>
-                ))}
-              </div>
+                  <p className="mt-4 text-center font-semibold capitalize text-gray-700">
+                    no products found
+                  </p>
+                </div>
+              ) : (
+                <>
+                  <div
+                    className={`${
+                      cols ? cols : 'flex space-x-6 overflow-x-auto'
+                    } flex space-x-6 overflow-x-auto`}
+                  >
+                    {products?.map((product: any, index: number) => (
+                      <div key={index} className="col-span-1 w-60 p-0">
+                        <ProductItem
+                          name={product.title}
+                          description={product.description}
+                          rating={product.rating}
+                          picture={product.pictures[0]}
+                          price={product.price}
+                          discount_price={product.discount_price}
+                          category={product.category}
+                          display={
+                            product.currency_type === currency
+                              ? 'relative '
+                              : 'hidden '
+                          }
+                          id={product._id}
+                          countInStock={product.countInStock}
+                          product={product}
+                          averageRating={product.averageRating}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
             </>
           )}
         </>
