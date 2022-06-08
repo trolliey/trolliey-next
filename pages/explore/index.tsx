@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect, useRef } from 'react'
 import ExploreLayout from '../../layouts/ExploreLayout'
 import { connect, disconnect, convertDocToObj } from '../../utils/mongo'
 import Products from '../../models/Product'
@@ -12,25 +12,40 @@ import ProductLoading from '../../components/ProductItem/ProductLoading'
 export default function Explore() {
   const { state } = useContext(Store)
   const { search_query, currency } = state
+  const cache = useRef<any>({})
   const [products, setProducts] = useState<any>()
   const [loading, setLoading] = useState<boolean>(false)
   const [page, setPage] = useState<any>(1)
 
   // get all products
   useEffect(() => {
+    let cancelRequest = false
+    const url = `/api/products?page=${page}`
     setLoading(true)
     const getData = async () => {
-      try {
-        const { data } = await axios.post(`/api/products?page=${page}`, {
-          query: search_query,
-        })
+      if (cache.current[url]) {
+        const data = cache.current[url]
         setProducts(data)
         setLoading(false)
-      } catch (error) {
-        setLoading(false)
+      } else {
+        try {
+          const { data } = await axios.post(url, {
+            query: search_query,
+          })
+          cache.current[url] = data
+          if (cancelRequest) return
+          setProducts(data)
+          setLoading(false)
+        } catch (error) {
+          if (cancelRequest) return
+          setLoading(false)
+        }
       }
     }
     getData()
+    return function cleanup() {
+      cancelRequest = true
+    }
   }, [search_query, page])
 
   return (
@@ -99,7 +114,7 @@ export default function Explore() {
       )}
       <div className="flex flex-row items-center justify-between pt-8">
         {page === 1 ? (
-          <div className="flex cursor-pointer rounded bg-white p-2 text-sm text-blue-primary border border-blue-primary font-semibold hover:bg-blue-dark">
+          <div className="flex cursor-pointer rounded border border-blue-primary bg-white p-2 text-sm font-semibold text-blue-primary hover:bg-blue-dark">
             Prev Page
           </div>
         ) : (

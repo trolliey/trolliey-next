@@ -52,8 +52,6 @@ function MobileNavDrawers({ user }: Props): ReactElement {
     setCurrentCategory(tuna)
   }, [selected_category_name])
 
-  console.log(current_category)
-
   const search_using_category = (category: any) => {
     dispatch({ type: 'SET_SEARCH_QUERY', payload: category })
     history.push('/explore')
