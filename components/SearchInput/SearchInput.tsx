@@ -24,7 +24,7 @@ function SearchInput():ReactElement {
     return (
         <div className="flex flex-row items-center pb-4 ">
             <div className="flex flex-row search_and_dropdown space-x-2 items-center w-full rounded mr-2 bg-white">
-                <div className="flex">
+                <div className="md:flex hidden">
                 <Select
                     onChange={e => setSearchCategory(e.target.value)}
                     name="categories"

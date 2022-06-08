@@ -9,8 +9,7 @@ import Image from 'next/image'
 import ProductItem from '../../components/ProductItem/ProductItem'
 import ProductLoading from '../../components/ProductItem/ProductLoading'
 
-export default function Explore(props: any) {
-  // const { products } = props
+export default function Explore() {
   const { state } = useContext(Store)
   const { search_query, currency } = state
   const [products, setProducts] = useState<any>()
