@@ -224,18 +224,4 @@ function Home(): ReactFragment {
   )
 }
 
-export async function getServerSideProps(context: any) {
-  await connect()
-  const products = await Products.find({}).lean()
-  const latest_products = await Products.find({}).sort({ createdAt: -1 }).lean()
-  await disconnect()
-  return {
-    props: {
-      //@ts-ignore
-      products: products?.map(convertDocToObj),
-      latest_products: latest_products?.map(convertDocToObj),
-    },
-  }
-}
-
 export default Home
