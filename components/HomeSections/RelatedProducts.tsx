@@ -6,7 +6,6 @@ import axios from 'axios'
 import { getError } from '../../utils/error'
 import ProductLoading from '../ProductItem/ProductLoading'
 import ProductItem from '../ProductItem/ProductItem'
-import BlackButton from '../Buttons/BlackButton'
 
 interface Props {
     cols?: any,
@@ -17,8 +16,6 @@ interface Props {
 function RelatedProducts({ cols, no_text, category }: Props): ReactElement {
     const { dispatch } = useContext(Store)
     const history = useRouter()
-    const [page, setPage] = useState(1)
-    const [limit, setLimit] = useState(5)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
     const [products, setProducts] = useState<any>()
@@ -27,7 +24,7 @@ function RelatedProducts({ cols, no_text, category }: Props): ReactElement {
         setLoading(true)
         const get_related = async () => {
             try {
-                const { data } = await axios.post(`/api/products`, {
+                const { data } = await axios.post(`/api/products?page=${1}`, {
                     query: category
                 })
                 setLoading(false)
