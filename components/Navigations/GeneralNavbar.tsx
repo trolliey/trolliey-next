@@ -44,7 +44,7 @@ function GeneralNavbar() {
           />
         </div>
         {/* <div onClick={() => history.push('/help')} className='font-semibold text-gray-700 pr-4 border-r border-gray-300 capitalize cursor-pointer'>Help</div> */}
-        <CurrencyDropdown />
+        {/* <CurrencyDropdown /> */}
 
         {userInfo?.role === 'seller' ? (
           <div
