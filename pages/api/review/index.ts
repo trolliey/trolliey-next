@@ -15,7 +15,7 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     const _user = req.user
     const { review, rating, store_id } = req.body
 
-    if(!review || !rating){
+    if (!review || !rating) {
       return res.status(400).send('Enter all fields first!')
     }
 
@@ -26,9 +26,13 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
       review: review,
     })
 
-    newReview.save()
-    await disconnect()
-    res.status(200).send('Successfully added')
+    try {
+      await newReview.save()
+      await disconnect()
+      res.status(200).send('Successfully added')
+    } catch (error) {
+      res.status(500).send({ message: error })
+    }
   } catch (error) {
     res.status(500).send(error)
   }

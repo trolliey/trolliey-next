@@ -34,9 +34,6 @@ function DashboardNavbar({setSidebarOpen}:Props):ReactElement {
         window.location.reload()
     }
 
-    // console.log(userInfo)
-
-
     return (
         <>
             <div className="relative z-10 flex-shrink-0 flex h-16 bg-white border-b border-gray-200 lg:border-none">
