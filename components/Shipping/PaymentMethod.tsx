@@ -111,8 +111,8 @@ function PaymentMethod({
         duration: 9000,
         isClosable: true,
       })
-      // console.log(cart.cartItems)
-      router.push(`/order/${data?.order._id}`)
+      console.log(data)
+      router.push(`/order/${data?.order}`)
     } catch (error) {
       setLoading(false)
       // console.log(getError(error))

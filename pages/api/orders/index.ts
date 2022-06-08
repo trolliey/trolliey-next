@@ -114,7 +114,7 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
             { $push: { pending_orders: order._id } }
             )
           await disconnect()
-          return res.status(200).send({order, message: 'order created successfully'})
+          return res.status(200).send({order: order._id, message: 'order created successfully'})
         } catch (error) {
           return res.status(500).send({ message: error })
         }
