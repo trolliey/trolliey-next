@@ -15,14 +15,15 @@ export default function Explore(props: any) {
   const { search_query, currency } = state
   const [products, setProducts] = useState<any>()
   const [loading, setLoading] = useState<boolean>(false)
+  const [page, setPage] = useState<any>(1)
 
   // get all products
   useEffect(() => {
     setLoading(true)
     const getData = async () => {
       try {
-        const { data } = await axios.post(`/api/products`, {
-          query: search_query
+        const { data } = await axios.post(`/api/products?page=${page}`, {
+          query: search_query,
         })
         setProducts(data)
         setLoading(false)
@@ -31,76 +32,92 @@ export default function Explore(props: any) {
       }
     }
     getData()
-  }, [search_query])
-
+  }, [search_query, page])
 
   return (
     <ExploreLayout>
-      {
-        loading ? (
-          <div className="scrollbar-hide relative mx-auto grid grid-cols-2 gap-4 rounded-lg bg-white p-4 md:grid-cols-3 md:gap-8 lg:grid-cols-4">
-            {[1, 2, 3, 4, 5]?.map((product: any, index: number) => (
-              <div key={index} className="col-span-1 p-0">
-                <ProductLoading />
+      {loading ? (
+        <div className="scrollbar-hide relative mx-auto grid grid-cols-2 gap-4 rounded-lg bg-white p-4 md:grid-cols-3 md:gap-8 lg:grid-cols-4">
+          {[1, 2, 3, 4, 5]?.map((product: any, index: number) => (
+            <div key={index} className="col-span-1 p-0">
+              <ProductLoading />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <>
+          {products?.length < 1 ? (
+            <div className=" grid h-96 content-center items-center justify-center">
+              <div className="relative h-40">
+                <Image src={no_product} layout="fill" objectFit="contain" />
               </div>
-            ))}
+              <p className="mt-4 text-center font-semibold capitalize text-gray-700">
+                no products found
+              </p>
+            </div>
+          ) : (
+            <>
+              <div
+                className={`mx-auto grid w-full grid-cols-2 gap-4 rounded-lg md:grid-cols-4 md:gap-8  lg:grid-cols-4`}
+              >
+                {products?.map((product: any, index: number) => (
+                  <div key={index} className="col-span-1 p-0">
+                    {product.currency_type === currency ? (
+                      <ProductItem
+                        name={product.title}
+                        description={product.description}
+                        rating={product.rating}
+                        picture={product.pictures[0]}
+                        price={product.price}
+                        discount_price={product.discount_price}
+                        category={product.category}
+                        id={product._id}
+                        countInStock={product.countInStock}
+                        product={product}
+                        averageRating={product.averageRating}
+                      />
+                    ) : currency === 'ANY' ? (
+                      <ProductItem
+                        name={product.title}
+                        description={product.description}
+                        rating={product.rating}
+                        picture={product.pictures[0]}
+                        price={product.price}
+                        discount_price={product.discount_price}
+                        category={product.category}
+                        id={product._id}
+                        countInStock={product.countInStock}
+                        product={product}
+                        averageRating={product.averageRating}
+                      />
+                    ) : null}
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+        </>
+      )}
+      <div className="flex flex-row items-center justify-between pt-8">
+        {page === 1 ? (
+          <div className="flex cursor-pointer rounded bg-white p-2 text-sm text-blue-primary border border-blue-primary font-semibold hover:bg-blue-dark">
+            Prev Page
           </div>
         ) : (
-          <>
-            {
-              products?.length < 1 ? (
-                <div className=" h-96 grid items-center content-center justify-center">
-                  <div className="relative h-40">
-                    <Image src={no_product} layout="fill" objectFit="contain" />
-                  </div>
-                  <p className="text-center mt-4 capitalize font-semibold text-gray-700">no products found</p>
-                </div>
-              ) : (
-                <>
-                <div
-                  className={`grid-cols-2 md:grid-cols-4 lg:grid-cols-4 mx-auto grid w-full gap-4 rounded-lg  md:gap-8`}
-                >
-                  {products?.map((product: any, index: number) => (
-                    <div key={index} className="col-span-1 p-0">
-                      {product.currency_type === currency ? (
-                        <ProductItem
-                          name={product.title}
-                          description={product.description}
-                          rating={product.rating}
-                          picture={product.pictures[0]}
-                          price={product.price}
-                          discount_price={product.discount_price}
-                          category={product.category}
-                          id={product._id}
-                          countInStock={product.countInStock}
-                          product={product}
-                          averageRating={product.averageRating}
-                        />
-                      ) : currency === 'ANY' ? (
-                        <ProductItem
-                          name={product.title}
-                          description={product.description}
-                          rating={product.rating}
-                          picture={product.pictures[0]}
-                          price={product.price}
-                          discount_price={product.discount_price}
-                          category={product.category}
-                          id={product._id}
-                          countInStock={product.countInStock}
-                          product={product}
-                          averageRating={product.averageRating}
-                        />
-                      ) : null}
-                    </div>
-                  ))}
-                </div>
-              </>
-                )
-            }
-          </>
-        )
-        
-      }
+          <div
+            onClick={() => setPage(page - 1)}
+            className="flex cursor-pointer rounded bg-blue-primary p-2 text-sm font-semibold text-white hover:bg-blue-dark"
+          >
+            Prev Page
+          </div>
+        )}
+        <div
+          onClick={() => setPage(page + 1)}
+          className="flex cursor-pointer rounded bg-blue-primary p-2 text-sm font-semibold text-white hover:bg-blue-dark"
+        >
+          Next Page
+        </div>
+      </div>
     </ExploreLayout>
   )
 }
@@ -112,7 +129,7 @@ export async function getServerSideProps(context: any) {
   return {
     props: {
       //@ts-ignore
-      products: products?.map(convertDocToObj)
-    }
+      products: products?.map(convertDocToObj),
+    },
   }
 }
