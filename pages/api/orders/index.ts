@@ -106,13 +106,18 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 
         // save the order
         newOrder.stores_involved = all_involved_stores
-        const order = await newOrder.save()
-
-        //editing the reports schema
-        await Report.findOneAndUpdate(
-          { store: the_store._id },
-          { $push: { pending_orders: order._id } }
-        )
+        try {
+          const order = await newOrder.save()
+          await disconnect()
+          //editing the reports schema
+          await Report.findOneAndUpdate(
+            { store: the_store._id },
+            { $push: { pending_orders: order._id } }
+          )
+          return res.status(201).send(order)
+        } catch (error) {
+          return res.status(500).send({ message: error })
+        }
 
         // // @ts-ignore
         //   let payment = paynow.createPayment('Invoice from trolliey', req.user.email)
@@ -138,9 +143,6 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
         //         res.json({ error: "Why you no pay?" });
         //     }
         // }
-
-        await disconnect()
-        res.status(201).send(order)
       }
     }
   } catch (error) {
