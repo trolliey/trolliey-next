@@ -15,6 +15,7 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     //  do stuff
     await connect()
     try {
+      // check if user has a store
       const store = await Store.findOne({ user: _user._id })
       if (store.approved === true) {
         // do something

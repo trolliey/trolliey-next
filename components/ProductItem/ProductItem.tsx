@@ -20,8 +20,8 @@ interface Props {
   countInStock: number
   product?: any
   averageRating?: any
-  currency?: any,
-  display?:any
+  currency?: any
+  display?: any
 }
 
 function ProductItem({
@@ -36,7 +36,7 @@ function ProductItem({
   product,
   averageRating,
   currency,
-  display
+  display,
 }: Props): ReactElement {
   const history = useRouter()
   const { pathname } = useRouter()
@@ -55,19 +55,24 @@ function ProductItem({
         isClosable: true,
       })
       return
+    } else {
+      dispatch({ type: 'ADD_TO_CART', payload: { ...product, quantity: 1 } })
+      toast({
+        title: `${product?.title} added to cart.`,
+        position: 'top-right',
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      })
     }
-    dispatch({ type: 'ADD_TO_CART', payload: { ...product, quantity: 1 } })
-    toast({
-      title: `${product?.title} added to cart.`,
-      position: 'top-right',
-      status: 'success',
-      duration: 9000,
-      isClosable: true,
-    })
   }
 
   return (
-    <div className={`relative ${pathname === '/' ? "md:w-56 w-44 " : "w-full " } relative flex max-h-96 flex-1 transform cursor-pointer flex-col overflow-hidden rounded border border-gray-100 bg-white transition hover:-translate-y-1 hover:shadow-lg motion-reduce:transform-none  motion-reduce:transition-none`}>
+    <div
+      className={`relative ${
+        pathname === '/' ? 'w-44 md:w-56 ' : 'w-full '
+      } relative flex max-h-96 flex-1 transform cursor-pointer flex-col overflow-hidden rounded border border-gray-100 bg-white transition hover:-translate-y-1 hover:shadow-lg motion-reduce:transform-none  motion-reduce:transition-none`}
+    >
       <div
         onClick={() => history.push(`/product/description/${id}`)}
         className="relative flex h-32 flex-col items-center overflow-hidden rounded bg-white md:h-52"
@@ -128,7 +133,11 @@ function ProductItem({
               >
                 <div className="mr-2 font-bold text-gray-900">
                   <Amount
-                    amount={discount_price ? (price ? price : 0 ) - discount_price : price}
+                    amount={
+                      discount_price
+                        ? (price ? price : 0) - discount_price
+                        : price
+                    }
                   />
                 </div>
                 {discount_price && (
