@@ -20,6 +20,7 @@ auth_handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
         store: user.store,
         address: user.street,
         createdAt: user.createdAt,
+        picture: user.photoURL
 
     }
     await disconnect()
