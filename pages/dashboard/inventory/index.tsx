@@ -22,7 +22,8 @@ export default function Inventory() {
 
   useEffect(() => {
     let cancelRequest = false
-    const url = `/api/dashboard/products?page=${page}`
+    const prod_page = page ? page : 1
+    const url = `/api/dashboard/products?page=${prod_page}`
     const getData = async () => {
       if (cache.current[url]) {
         const data = cache.current[url]
