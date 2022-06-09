@@ -5,12 +5,10 @@ import no_product from '../../public/img/no_product.svg'
 import Image from 'next/image'
 import { Store } from '../../Context/Store'
 import axios from 'axios'
-import { useRouter } from 'next/router'
 import useSWR from 'swr'
 import Link from 'next/link'
 
 function FeaturedProducts(): ReactElement {
-  const router = useRouter()
 
   const address = `/api/products?page=${1}`
   const fetcher = async (url: any) =>
@@ -18,7 +16,6 @@ function FeaturedProducts(): ReactElement {
   const { data: all_products, error } = useSWR(address, fetcher)
 
   const { state } = useContext(Store)
-  const { currency } = state
 
   return (
     <>
