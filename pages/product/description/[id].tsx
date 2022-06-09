@@ -131,7 +131,7 @@ function ProductDescription(props: any) {
                         layout="responsive"
                         width={'100%'}
                         height={'100%'}
-                        objectFit="cover"
+                        objectFit="contain"
                         alt={'for the product'}
                         className="h-full w-full bg-gray-100 object-cover object-center sm:rounded-lg"
                       />

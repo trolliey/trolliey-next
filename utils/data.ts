@@ -35,6 +35,9 @@ export const data = {
     { body: '', image: promo_2 },
     { body: '', image: promo_1 },
   ],
+  current_rate: {
+    value: 400,
+  },
   users: [
     {
       name: 'tatenda',
@@ -126,7 +129,7 @@ export const data = {
     {
       name: 'Toys And Games',
       value: 'toys-and-games',
-      icon: office,
+      icon: gaming,
       sub_categories: [
         { name: 'Action Figures & Statues', description: '' },
         { name: 'Arts & Crafts', description: '' },
@@ -422,7 +425,6 @@ export const data = {
         { name: 'Safety & Security', description: '' },
         { name: 'Storage & Home Organization', description: '' },
         { name: 'Welding & Soldering', description: '' },
-
       ],
       id: 6765,
     },
@@ -438,7 +440,6 @@ export const data = {
         { name: 'Horses', description: '' },
         { name: 'Reptiles & Amphibians', description: '' },
         { name: 'Small Animals', description: '' },
-      
       ],
       id: 676765,
     },
@@ -463,7 +464,7 @@ export const data = {
         { name: 'Programming & Web Development', description: '' },
         { name: 'Tax Preparation', description: '' },
         { name: 'Utilities', description: '' },
-        { name: 'Video', description: '' }
+        { name: 'Video', description: '' },
       ],
       id: 676765,
     },
@@ -475,7 +476,7 @@ export const data = {
         { name: 'Baby & Child Care', description: '' },
         { name: 'Health Care', description: '' },
         { name: 'Household Supplies', description: '' },
-        { name: "Medical Supplies & Equipment", description: '' },
+        { name: 'Medical Supplies & Equipment', description: '' },
         { name: 'Oral Care', description: '' },
         { name: 'Personal Care', description: '' },
         { name: 'Sexual Wellness', description: '' },
@@ -483,7 +484,7 @@ export const data = {
         { name: 'Stationery & Gift Wrapping Supplies', description: '' },
         { name: 'Vision Care', description: '' },
         { name: 'Vitamins & Dietary Supplements', description: '' },
-        { name: 'Wellness & Relaxation', description: '' },      
+        { name: 'Wellness & Relaxation', description: '' },
       ],
       id: 6732765,
     },
@@ -497,7 +498,7 @@ export const data = {
         { name: 'Kindle Paperwhite', description: '' },
         { name: 'Kindle Oasis', description: '' },
         { name: 'Accessories', description: '' },
-        { name: 'See all Kindle E-Readers', description: '' },  
+        { name: 'See all Kindle E-Readers', description: '' },
       ],
       id: 676905,
     },
