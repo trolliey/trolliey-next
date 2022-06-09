@@ -56,7 +56,7 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
         try {
           const saved_product = await newProduct.save()
           await disconnect()
-          return res.status(200).send({message: 'Product saved successfully', product: saved_product})
+          return res.status(200).send({message: 'Product saved successfully', product_id: saved_product._id})
         } catch (error) {
           return res.status(500).send({message: 'error found here --- ', error})
         }

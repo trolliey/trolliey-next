@@ -205,7 +205,7 @@ export default function CreateProduct() {
             setCategory('')
             setStatus('')
             setSku('')
-            router.push('/dashboard/inventory/add_success')
+            router.push(`/dashboard/inventory/add_success/${res?.data.product_id}`)
           })
           .catch((error: any) => {
             setLoading(false)
@@ -548,7 +548,6 @@ export default function CreateProduct() {
                               onChange={(e) => setDiscountPrice(e.target.value)}
                               autoComplete="discount"
                               placeholder="Enter discount"
-                              defaultValue={0}
                               className="mt-1 block w-full rounded-md border border-gray-300 p-2 outline-none sm:text-sm"
                             />
                           </div>
