@@ -101,14 +101,17 @@ function MobileNavDrawers({ user }: Props): ReactElement {
                 <div
                   onClick={() => {
                     dispatch({ type: 'CHANGE_CURRENCY', payload: 'ZWL' })
+                    onClose()
                   }}
                   className="zwl py-2"
                 >
                   ZWL
                 </div>
+                <Divider />
                 <div
                   onClick={() => {
                     dispatch({ type: 'CHANGE_CURRENCY', payload: 'USD' })
+                    onClose()
                   }}
                   className="usd py-2 "
                 >
