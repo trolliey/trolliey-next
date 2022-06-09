@@ -261,9 +261,7 @@ function index(): ReactElement {
                       Profile Photo
                     </label>
                     <>
-                      { upload_image ? (
-                          <p>Picture selected</p>
-                      ) ? image : (
+                      {image ? (
                         <img
                           className="rounded-lg object-contain"
                           src={image.replace('upload/', 'upload/w_600/')}
@@ -274,6 +272,7 @@ function index(): ReactElement {
                           className="rounded-lg border-2 border-dashed border-gray-400 bg-gray-200"
                           style={{ height: 100, width: 300 }}
                         >
+                          {upload_image && <p className='text-center py-2 text-gray-700'>Picture has been selected</p>}
                           <form className="flex h-full items-center justify-center">
                             {progress === 0 ? (
                               <div className="text-center text-gray-700">

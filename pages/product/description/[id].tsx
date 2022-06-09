@@ -120,7 +120,7 @@ function ProductDescription(props: any) {
                   </Tab.List>
                 </div>
 
-                <Tab.Panels className="aspect-w-1 aspect-h-1 max-h-[650px] w-full flex-1 overflow-hidden rounded-lg">
+                <Tab.Panels className="aspect-w-1 aspect-h-1 max-h-[750px] w-full flex-1 overflow-hidden rounded-lg">
                   {product?.pictures.map((image: any, index: number) => (
                     <Tab.Panel key={index} className=" rounded">
                       {/* <>
@@ -133,7 +133,7 @@ function ProductDescription(props: any) {
                         height={'100%'}
                         objectFit="contain"
                         alt={'for the product'}
-                        className="h-full w-full bg-gray-100 object-cover object-center sm:rounded-lg"
+                        className="bg-gray-100 object-center sm:rounded-lg"
                       />
                     </Tab.Panel>
                   ))}
