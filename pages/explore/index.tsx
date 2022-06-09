@@ -8,6 +8,8 @@ import no_product from '../../public/img/no_product.svg'
 import Image from 'next/image'
 import ProductItem from '../../components/ProductItem/ProductItem'
 import ProductLoading from '../../components/ProductItem/ProductLoading'
+import MobileProductItem from '../../components/ProductItem/MobileProductItem'
+import { Spinner } from '@chakra-ui/react'
 
 export default function Explore() {
   const { state } = useContext(Store)
@@ -15,6 +17,7 @@ export default function Explore() {
   const cache = useRef<any>({})
   const [products, setProducts] = useState<any>()
   const [loading, setLoading] = useState<boolean>(false)
+  const [more_loading, setMoreLoading] = useState(false)
   const [page, setPage] = useState<any>(1)
 
   // get all products
@@ -48,89 +51,162 @@ export default function Explore() {
     }
   }, [search_query, page])
 
+  const load_more_Handler = async () => {
+    const url = `/api/products?page=${page + 1}`
+    try {
+      setMoreLoading(true)
+      const { data } = await axios.post(url, {
+        query: search_query,
+      })
+      setProducts((products: any) => [...products, ...data])
+      setMoreLoading(false)
+      console.log(data)
+    } catch (error) {
+      setMoreLoading(true)
+      console.log(error)
+    }
+  }
+
   return (
     <ExploreLayout>
-      {loading ? (
-        <div className="scrollbar-hide relative mx-auto grid grid-cols-2 gap-4 rounded-lg bg-white p-4 md:grid-cols-3 md:gap-8 lg:grid-cols-4">
-          {[1, 2, 3, 4, 5]?.map((product: any, index: number) => (
-            <div key={index} className="col-span-1 p-0">
-              <ProductLoading />
-            </div>
-          ))}
-        </div>
-      ) : (
-        <>
-          {products?.length < 1 ? (
-            <div className=" grid h-96 content-center items-center justify-center">
-              <div className="relative h-40">
-                <Image src={no_product} layout="fill" objectFit="contain" />
+      <div className="hidden md:flex">
+        {loading ? (
+          <div className="scrollbar-hide relative mx-auto grid grid-cols-2 gap-4 rounded-lg bg-white p-4 md:grid-cols-3 md:gap-8 lg:grid-cols-4">
+            {[1, 2, 3, 4, 5]?.map((product: any, index: number) => (
+              <div key={index} className="col-span-1 p-0">
+                <ProductLoading />
               </div>
-              <p className="mt-4 text-center font-semibold capitalize text-gray-700">
-                no products found
-              </p>
-            </div>
-          ) : (
-            <>
-              <div
-                className={`mx-auto grid w-full grid-cols-2 gap-4 rounded-lg md:grid-cols-4 md:gap-8  lg:grid-cols-4`}
-              >
-                {products?.map((product: any, index: number) => (
-                  <div key={index} className="col-span-1 p-0">
-                    {product.currency_type === currency ? (
-                      <ProductItem
-                        name={product.title}
-                        description={product.description}
-                        rating={product.rating}
-                        picture={product.pictures[0]}
-                        price={product.price}
-                        discount_price={product.discount_price}
-                        category={product.category}
-                        id={product._id}
-                        countInStock={product.countInStock}
-                        product={product}
-                        averageRating={product.averageRating}
-                      />
-                    ) : currency === 'ANY' ? (
-                      <ProductItem
-                        name={product.title}
-                        description={product.description}
-                        rating={product.rating}
-                        picture={product.pictures[0]}
-                        price={product.price}
-                        discount_price={product.discount_price}
-                        category={product.category}
-                        id={product._id}
-                        countInStock={product.countInStock}
-                        product={product}
-                        averageRating={product.averageRating}
-                      />
-                    ) : null}
-                  </div>
-                ))}
-              </div>
-            </>
-          )}
-        </>
-      )}
-      <div className="flex flex-row items-center justify-between pt-8">
-        {page === 1 ? (
-          <div className="flex cursor-pointer rounded border border-blue-primary bg-white p-2 text-sm font-semibold text-blue-primary hover:bg-blue-dark">
-            Prev Page
+            ))}
           </div>
         ) : (
+          <>
+            {products?.length < 1 ? (
+              <div className=" grid h-96 content-center items-center justify-center">
+                <div className="relative h-40">
+                  <Image src={no_product} layout="fill" objectFit="contain" />
+                </div>
+                <p className="mt-4 text-center font-semibold capitalize text-gray-700">
+                  no products found
+                </p>
+              </div>
+            ) : (
+              <>
+                <div
+                  className={`mx-auto grid w-full grid-cols-2 gap-4 rounded-lg md:grid-cols-4 md:gap-8  lg:grid-cols-4`}
+                >
+                  {products?.map((product: any, index: number) => (
+                    <div key={index} className="col-span-1 p-0">
+                      {product.currency_type === currency ? (
+                        <ProductItem
+                          name={product.title}
+                          description={product.description}
+                          rating={product.rating}
+                          picture={product.pictures[0]}
+                          price={product.price}
+                          discount_price={product.discount_price}
+                          category={product.category}
+                          id={product._id}
+                          countInStock={product.countInStock}
+                          product={product}
+                          averageRating={product.averageRating}
+                        />
+                      ) : currency === 'ANY' ? (
+                        <ProductItem
+                          name={product.title}
+                          description={product.description}
+                          rating={product.rating}
+                          picture={product.pictures[0]}
+                          price={product.price}
+                          discount_price={product.discount_price}
+                          category={product.category}
+                          id={product._id}
+                          countInStock={product.countInStock}
+                          product={product}
+                          averageRating={product.averageRating}
+                        />
+                      ) : null}
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+          </>
+        )}
+        <div className="flex flex-row items-center justify-between pt-8">
+          {page === 1 ? (
+            <div className="flex cursor-pointer rounded border border-blue-primary bg-white p-2 text-sm font-semibold text-blue-primary hover:bg-blue-dark">
+              Prev Page
+            </div>
+          ) : (
+            <div
+              onClick={() => setPage(page - 1)}
+              className="flex cursor-pointer rounded bg-blue-primary p-2 text-sm font-semibold text-white hover:bg-blue-dark"
+            >
+              Prev Page
+            </div>
+          )}
           <div
-            onClick={() => setPage(page - 1)}
+            onClick={() => setPage(page + 1)}
             className="flex cursor-pointer rounded bg-blue-primary p-2 text-sm font-semibold text-white hover:bg-blue-dark"
           >
-            Prev Page
+            Next Page
           </div>
-        )}
-        <div
-          onClick={() => setPage(page + 1)}
-          className="flex cursor-pointer rounded bg-blue-primary p-2 text-sm font-semibold text-white hover:bg-blue-dark"
-        >
-          Next Page
         </div>
+      </div>
+
+      {/* // mobile viewproducts */}
+      <div className="flex flex-col space-y-2 md:hidden">
+        {products?.map((product: any, index: number) => (
+          <div key={index} className="col-span-1 p-0">
+            {product.currency_type === currency ? (
+              <MobileProductItem
+                name={product.title}
+                description={product.description}
+                rating={product.rating}
+                picture={product.pictures[0]}
+                price={product.price}
+                discount_price={product.discount_price}
+                category={product.category}
+                id={product._id}
+                countInStock={product.countInStock}
+                product={product}
+                averageRating={product.averageRating}
+              />
+            ) : currency === 'ANY' ? (
+              <MobileProductItem
+                name={product.title}
+                description={product.description}
+                rating={product.rating}
+                picture={product.pictures[0]}
+                price={product.price}
+                discount_price={product.discount_price}
+                category={product.category}
+                id={product._id}
+                countInStock={product.countInStock}
+                product={product}
+                averageRating={product.averageRating}
+              />
+            ) : null}
+          </div>
+        ))}
+        {!loading && (
+          <>
+            {more_loading ? (
+              <div className="flex w-full flex-col items-center justify-between pt-4">
+                <Spinner />
+              </div>
+            ) : (
+              <div className="flex w-full flex-col items-center justify-between pt-4">
+                <div
+                  onClick={load_more_Handler}
+                  className="flex cursor-pointer rounded bg-blue-primary p-2 text-xs font-semibold text-white hover:bg-blue-dark"
+                >
+                  Load More
+                </div>
+              </div>
+            )}
+          </>
+        )}
       </div>
     </ExploreLayout>
   )
