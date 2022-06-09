@@ -1,11 +1,12 @@
 import { useRouter } from 'next/router'
 import React from 'react'
-import BlueButton from '../../../components/Buttons/BlueButton'
-import DashboardLayout from '../../../layouts/DashboardLayout'
+import BlueButton from '../../../../components/Buttons/BlueButton'
+import DashboardLayout from '../../../../layouts/DashboardLayout'
 import { Alert, AlertIcon } from '@chakra-ui/react'
 
 function AddSuccess() {
   const router = useRouter()
+  const { id } = router.query
   return (
     <DashboardLayout>
       <div className="grid min-h-screen w-full content-center items-center justify-center space-y-16">
@@ -28,6 +29,10 @@ function AddSuccess() {
           <BlueButton
             text={'Go To Shopping'}
             onClick={() => router.push('/explore')}
+          />
+          <BlueButton
+            text={'Show Product'}
+            onClick={() => router.push(`/product/description/${id}`)}
           />
         </div>
       </div>

@@ -44,22 +44,27 @@ export default function CreateProduct() {
   const { userInfo } = state
   const router = useRouter()
 
+  // setting selected pictures to upload
   const selectedPictures = (pictures: any) => {
     setPicturesForUpload(pictures)
   }
 
+  // setting sub categories after user selects a category
   useEffect(() => {
-    var tuna = data?.categories?.find(function (sandwich) {
+    var sub_cat = data?.categories?.find(function (sandwich) {
       return sandwich.name === category
     })
-    setCurrentCategory(tuna)
+    setCurrentCategory(sub_cat)
   }, [category])
 
+  // setting vaiants if user has set some
   const selectedTags = (tags: any) => {
     setVariations(tags)
   }
 
+  // function to create product and send api call
   const create_product = async () => {
+    // errors to show if fields are empty
     if (!pictures_for_upload) {
       toast({
         title: 'Error Adding.',
@@ -131,6 +136,7 @@ export default function CreateProduct() {
         const uploads: any = []
         const promises: any = []
 
+        // uploading pictures to cloudinary and returning an array of urls
         pictures_for_upload.forEach((file: any | Blob) => {
           formData.append('file', file)
           formData.append('upload_preset', 'g6ixv6cg')
