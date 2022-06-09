@@ -112,7 +112,7 @@ function PaymentMethod({
         isClosable: true,
       })
       console.log(data)
-      router.push(`/order/${data?.order}`)
+      router.push(`/success/order_success`)
     } catch (error) {
       setLoading(false)
       // console.log(getError(error))

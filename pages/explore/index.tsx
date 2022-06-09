@@ -132,28 +132,28 @@ export default function Explore() {
             )}
           </>
         )}
-        <div className="flex flex-row items-center justify-between pt-8">
-          {page === 1 ? (
-            <div className="flex cursor-pointer rounded border border-blue-primary bg-white p-2 text-sm font-semibold text-blue-primary hover:bg-blue-dark">
-              Prev Page
-            </div>
-          ) : (
+       <div className="md:flex hidden flex-row items-center justify-between pt-8">
+            {page === 1 ? (
+              <div className="flex cursor-pointer rounded border border-blue-primary bg-white p-2 text-sm font-semibold text-blue-primary hover:bg-blue-dark">
+                Prev Page
+              </div>
+            ) : (
+              <div
+                onClick={() => setPage(page - 1)}
+                className="flex cursor-pointer rounded bg-blue-primary p-2 text-sm font-semibold text-white hover:bg-blue-dark"
+              >
+                Prev Page
+              </div>
+            )}
             <div
-              onClick={() => setPage(page - 1)}
+              onClick={() => setPage(page + 1)}
               className="flex cursor-pointer rounded bg-blue-primary p-2 text-sm font-semibold text-white hover:bg-blue-dark"
             >
-              Prev Page
+              Next Page
             </div>
-          )}
-          <div
-            onClick={() => setPage(page + 1)}
-            className="flex cursor-pointer rounded bg-blue-primary p-2 text-sm font-semibold text-white hover:bg-blue-dark"
-          >
-            Next Page
           </div>
         </div>
-      </div>
-
+       
       {/* // mobile viewproducts */}
       <div className="flex flex-col space-y-2 md:hidden">
         {products?.map((product: any, index: number) => (
