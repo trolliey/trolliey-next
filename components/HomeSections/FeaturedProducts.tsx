@@ -7,6 +7,7 @@ import { Store } from '../../Context/Store'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import useSWR from 'swr'
+import Link from 'next/link'
 
 function FeaturedProducts(): ReactElement {
   const router = useRouter()
@@ -69,13 +70,14 @@ function FeaturedProducts(): ReactElement {
                     </div>
                   ))}
                   {all_products?.length > 10 && (
-                    <div
-                      onClick={() => router.push('/explore')}
-                      className="col-span-1 my-auto h-full w-full"
+                    <div className="col-span-1 my-auto h-full w-full">
+                    <Link
+                      href={'/explore'}
                     >
-                      <div className="items-centerlex my-auto grid h-40 w-40 cursor-pointer content-center justify-center rounded bg-gray-200 text-gray-700 hover:bg-gray-100">
+                      <a className="items-centerlex my-auto grid h-40 w-40 cursor-pointer content-center justify-center rounded bg-gray-200 text-gray-700 hover:bg-gray-100">
                         Show All
-                      </div>
+                      </a>
+                    </Link>
                     </div>
                   )}
                 </div>
