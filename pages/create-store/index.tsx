@@ -58,7 +58,7 @@ export default function CreateStore() {
             })
             toast({
                 title: 'Application sent.',
-                description: "We've sucessfully sent your application!. We will call you to veriy your details",
+                description: "We've sucessfully sent your application!. We will call you to verify your details",
                 status: 'success',
                 position: 'top-right',
                 duration: 9000,
