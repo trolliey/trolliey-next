@@ -79,7 +79,7 @@ export default function Explore() {
             ))}
           </div>
         ) : (
-          <>
+          <div className='flex flex-col'>
             {products?.length < 1 ? (
               <div className=" grid h-96 content-center items-center justify-center">
                 <div className="relative h-40">
@@ -96,64 +96,49 @@ export default function Explore() {
                 >
                   {products?.map((product: any, index: number) => (
                     <div key={index} className="col-span-1 p-0">
-                      {product.currency_type === currency ? (
-                        <ProductItem
-                          name={product.title}
-                          description={product.description}
-                          rating={product.rating}
-                          picture={product.pictures[0]}
-                          price={product.price}
-                          discount_price={product.discount_price}
-                          category={product.category}
-                          id={product._id}
-                          countInStock={product.countInStock}
-                          product={product}
-                          averageRating={product.averageRating}
-                        />
-                      ) : currency === 'ANY' ? (
-                        <ProductItem
-                          name={product.title}
-                          description={product.description}
-                          rating={product.rating}
-                          picture={product.pictures[0]}
-                          price={product.price}
-                          discount_price={product.discount_price}
-                          category={product.category}
-                          id={product._id}
-                          countInStock={product.countInStock}
-                          product={product}
-                          averageRating={product.averageRating}
-                        />
-                      ) : null}
+                      <ProductItem
+                        name={product.title}
+                        description={product.description}
+                        rating={product.rating}
+                        picture={product.pictures[0]}
+                        price={product.price}
+                        discount_price={product.discount_price}
+                        category={product.category}
+                        id={product._id}
+                        countInStock={product.countInStock}
+                        product={product}
+                        averageRating={product.averageRating}
+                      />
                     </div>
                   ))}
                 </div>
               </>
             )}
-          </>
-        )}
-       <div className="md:flex hidden flex-row items-center justify-between pt-8">
-            {page === 1 ? (
-              <div className="flex cursor-pointer rounded border border-blue-primary bg-white p-2 text-sm font-semibold text-blue-primary hover:bg-blue-dark">
-                Prev Page
-              </div>
-            ) : (
-              <div
-                onClick={() => setPage(page - 1)}
-                className="flex cursor-pointer rounded bg-blue-primary p-2 text-sm font-semibold text-white hover:bg-blue-dark"
-              >
-                Prev Page
-              </div>
-            )}
+             <div className="hidden flex-row items-center justify-between pt-8 md:flex">
+          {page === 1 ? (
+            <div className="flex cursor-pointer rounded border border-blue-primary bg-white p-2 text-sm font-semibold text-blue-primary hover:bg-blue-dark">
+              Prev Page
+            </div>
+          ) : (
             <div
-              onClick={() => setPage(page + 1)}
+              onClick={() => setPage(page - 1)}
               className="flex cursor-pointer rounded bg-blue-primary p-2 text-sm font-semibold text-white hover:bg-blue-dark"
             >
-              Next Page
+              Prev Page
             </div>
+          )}
+          <div
+            onClick={() => setPage(page + 1)}
+            className="flex cursor-pointer rounded bg-blue-primary p-2 text-sm font-semibold text-white hover:bg-blue-dark"
+          >
+            Next Page
           </div>
         </div>
+          </div>
+        )}
        
+      </div>
+
       {/* // mobile viewproducts */}
       <div className="flex flex-col space-y-2 md:hidden">
         {products?.map((product: any, index: number) => (

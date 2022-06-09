@@ -52,7 +52,6 @@ function FeaturedProducts(): ReactElement {
                 <div className="scrollbar-hide relative mx-auto flex space-x-6 overflow-x-auto rounded-lg bg-white p-4">
                   {all_products?.map((product: any, index: number) => (
                     <div key={index} className="col-span-1 p-0">
-                      {product.currency_type === currency && (
                         <ProductItem
                           name={product.title}
                           description={product.description}
@@ -67,7 +66,6 @@ function FeaturedProducts(): ReactElement {
                           averageRating={product.averageRating}
                           currency={product.currency_type}
                         />
-                      )}
                     </div>
                   ))}
                   {all_products?.length > 10 && (
