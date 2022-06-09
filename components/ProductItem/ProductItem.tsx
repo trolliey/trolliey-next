@@ -7,6 +7,7 @@ import axios from 'axios'
 import { Store } from '../../Context/Store'
 import { Text, useToast } from '@chakra-ui/react'
 import Amount from '../Amount/Amount'
+import Link from 'next/link'
 
 interface Props {
   picture?: string
@@ -73,21 +74,20 @@ function ProductItem({
         pathname === '/' ? 'w-44 md:w-56 ' : 'w-full '
       } relative flex max-h-96 flex-1 transform cursor-pointer flex-col overflow-hidden rounded border border-gray-100 bg-white transition hover:-translate-y-1 hover:shadow-lg motion-reduce:transform-none  motion-reduce:transition-none`}
     >
-      <div
-        onClick={() => history.push(`/product/description/${id}`)}
-        className="relative flex h-32 flex-col items-center overflow-hidden rounded bg-white md:h-52"
-      >
-        <Image
-          objectFit="cover"
-          src={picture ? picture : ''}
-          layout="fill"
-          quality={50}
-          placeholder="blur"
-          blurDataURL={picture}
-          alt="product"
-          className="h-full max-h-full w-auto flex-1 flex-shrink-0 rounded object-cover"
-        />
-      </div>
+      <Link href={`/product/description/${id}`} passHref>
+        <a className="relative flex h-32 flex-col items-center overflow-hidden rounded bg-white md:h-52">
+          <Image
+            objectFit="cover"
+            src={picture ? picture : ''}
+            layout="fill"
+            quality={50}
+            placeholder="blur"
+            blurDataURL={picture}
+            alt="product"
+            className="h-full max-h-full w-auto flex-1 flex-shrink-0 rounded object-cover"
+          />
+        </a>
+      </Link>
       <div className="px-2">
         <div
           onClick={() => history.push(`/product/description/${id}`)}

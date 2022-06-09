@@ -11,16 +11,13 @@ import logo from '../../public/img/full_logo.png'
 import CartSidebar from '../Sidebars/CartSidebar'
 import { Store } from '../../Context/Store'
 import CurrencyDropdown from '../Dropdowns/CurrencyDropdown'
+import Link from 'next/link'
 
 function GeneralNavbar() {
   const { state } = useContext(Store)
   const { cart, userInfo } = state
-
   const basket: any[] = []
   const notifications: any[] = []
-
-  const history = useRouter()
-
   const [open_cart, setOpenCart] = useState<boolean>(false)
   const [notifications_menu, setOpenNotificationMenu] = useState<boolean>(false)
 
@@ -31,35 +28,32 @@ function GeneralNavbar() {
   return (
     <div className="fixed top-0 z-50 w-full bg-white shadow">
       <div className="md:16 mx-auto hidden h-16  max-w-7xl flex-row items-center justify-between space-x-4 px-2 md:flex md:px-4 lg:px-0">
-        <div
-          onClick={() => history.push('/')}
-          className="flex cursor-pointer flex-row items-center text-sm font-bold uppercase text-gray-700"
-        >
-          <Image
-            width={100}
-            objectFit="contain"
-            src={logo}
-            alt="logo representing the website icon"
-            className="ml-2 h-8"
-          />
-        </div>
+        <Link href={'/'}>
+          <a className="flex cursor-pointer flex-row items-center text-sm font-bold uppercase text-gray-700">
+            <Image
+              width={100}
+              objectFit="contain"
+              src={logo}
+              alt="logo representing the website icon"
+              className="ml-2 h-8"
+            />
+          </a>
+        </Link>
         {/* <div onClick={() => history.push('/help')} className='font-semibold text-gray-700 pr-4 border-r border-gray-300 capitalize cursor-pointer'>Help</div> */}
         <CurrencyDropdown />
 
         {userInfo?.role === 'seller' ? (
-          <div
-            onClick={() => history.push('/dashboard')}
-            className="cursor-pointer font-semibold capitalize text-gray-700"
-          >
-            My Store Dashboard
-          </div>
+          <Link href={'/dashboard'}>
+            <a className="cursor-pointer font-semibold capitalize text-gray-700">
+              My Store Dashboard
+            </a>
+          </Link>
         ) : (
-          <div
-            onClick={() => history.push('/become-a-seller')}
-            className="cursor-pointer font-semibold capitalize text-gray-700"
-          >
-            Sell on trolliey
-          </div>
+          <Link href={'/become-a-seller'}>
+            <a className="cursor-pointer font-semibold capitalize text-gray-700">
+              Sell on trolliey
+            </a>
+          </Link>
         )}
         <div className="flex-1"></div>
         <>
@@ -134,18 +128,17 @@ function GeneralNavbar() {
           <div className="relative flex p-4"> </div>
         </div>
         <div className="flex">
-          <div
-            onClick={() => history.push('/')}
-            className="flex cursor-pointer flex-row items-center text-sm font-bold uppercase text-gray-700"
-          >
-            <Image
-              height={30}
-              objectFit="contain"
-              src={logo}
-              alt="logo representing the website icon"
-              className="h-8"
-            />
-          </div>
+          <Link href={'/'}>
+            <a className="flex cursor-pointer flex-row items-center text-sm font-bold uppercase text-gray-700">
+              <Image
+                height={30}
+                objectFit="contain"
+                src={logo}
+                alt="logo representing the website icon"
+                className="h-8"
+              />
+            </a>
+          </Link>
         </div>
 
         <div className="flex space-x-2 pr-2">
