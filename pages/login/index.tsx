@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { EyeIcon, EyeOffIcon, XIcon } from '@heroicons/react/outline'
+import { EyeIcon, EyeOffIcon } from '@heroicons/react/outline'
 import GeneralLayout from '../../layouts/GeneralLayout'
 import BlueButton from '../../components/Buttons/BlueButton'
 import { useRouter } from 'next/router'

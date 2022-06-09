@@ -1,4 +1,4 @@
-import React, { ReactFragment, useEffect, useContext, useState } from 'react'
+import React, { ReactFragment, useContext } from 'react'
 import GeneralLayout from '../layouts/GeneralLayout'
 import Courosel from '../components/Carousel/Carousel'
 import CategoriesDropdown from '../components/Dropdowns/CategoriesDropdown'

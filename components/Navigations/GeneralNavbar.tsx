@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { ShoppingCartIcon, BellIcon } from '@heroicons/react/outline'
 import { Tooltip } from '@chakra-ui/react'
-import { useRouter } from 'next/router'
 import NotificationMenu from '../Menus/NotificationMenu'
 import UserDropdown from '../Dropdowns/UserDropdown'
 import NavSearch from '../NavSearch/NavSearch'

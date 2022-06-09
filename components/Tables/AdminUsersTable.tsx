@@ -4,10 +4,8 @@ import {
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalHeader,
   ModalFooter,
   ModalBody,
-  ModalCloseButton,
   useDisclosure,
   Button,
 } from '@chakra-ui/react'

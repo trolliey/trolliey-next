@@ -11,7 +11,6 @@ import { UserIcon } from '@heroicons/react/outline'
 import { useRouter } from 'next/router'
 import Username from '../Username/Username'
 import { Store } from '../../Context/Store'
-import Cookies from 'js-cookie'
 import Link from 'next/link'
 
 const dropdown = {

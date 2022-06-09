@@ -3,7 +3,6 @@ import { Fragment } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import {
     CogIcon,
-    CreditCardIcon,
     XIcon,
     ClipboardListIcon,
     UserIcon,

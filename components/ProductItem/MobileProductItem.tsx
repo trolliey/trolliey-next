@@ -24,7 +24,6 @@ function MobileProductItem({
   picture,
   rating,
   name,
-  description,
   price,
   discount_price,
   id,

@@ -1,5 +1,4 @@
 import React, { ReactElement } from 'react';
-import { Step, StepLabel, Stepper } from '@mui/material';
 import { CreditCardIcon, HomeIcon, UserIcon } from '@heroicons/react/outline';
 
 interface Props {

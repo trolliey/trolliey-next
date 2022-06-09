@@ -1,8 +1,7 @@
 import React from 'react'
 import StoreLayout from '../../../layouts/StoreLayout'
 import Store from '../../../models/Store'
-import { connect, disconnect, convertDocToObj } from '../../../utils/mongo'
-import GeneralLayout from '../../../layouts/GeneralLayout'
+import { connect, disconnect } from '../../../utils/mongo'
 
 function StoreAbout(props: any) {
     console.log(props.store)

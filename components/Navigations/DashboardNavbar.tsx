@@ -7,7 +7,6 @@ import { useRouter } from 'next/router'
 import { Store } from '../../Context/Store'
 import { Avatar } from '@chakra-ui/react'
 import Username from '../Username/Username'
-import Cookies from 'js-cookie'
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')

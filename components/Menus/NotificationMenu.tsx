@@ -1,4 +1,4 @@
-import { ChatAltIcon, ChevronRightIcon, XIcon } from '@heroicons/react/outline'
+import { XIcon } from '@heroicons/react/outline'
 import { useRouter } from 'next/router'
 import React, { ReactElement, Fragment } from 'react'
 import { Transition } from '@headlessui/react'
