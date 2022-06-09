@@ -31,9 +31,11 @@ export const data = {
   site_url: 'www.trolliey.com',
   site_top_message: 'Free Shipping On All Order Over $100 Code',
   banner_images: [
-    { body: '', image: promo_1 },
-    { body: '', image: promo_2 },
-    { body: '', image: promo_1 },
+    // { body: 'First banner representantion', image: promo_1 },
+    { body: 'Second banner representantion', image: promo_2 },
+    { body: 'Second banner representantion', image: promo_2 },
+
+    // { body: 'Third banner representantion', image: promo_1 },
   ],
   current_rate: {
     value: 400,

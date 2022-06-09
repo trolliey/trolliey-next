@@ -81,6 +81,9 @@ function ProductItem({
           objectFit="cover"
           src={picture ? picture : ''}
           layout="fill"
+          quality={50}
+          placeholder="blur"
+          blurDataURL={picture}
           alt="product"
           className="h-full max-h-full w-auto flex-1 flex-shrink-0 rounded object-cover"
         />
