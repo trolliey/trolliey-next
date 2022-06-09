@@ -9,6 +9,7 @@ import axios from 'axios';
 import { getError } from '../../utils/error';
 import Tags from '../../components/Tags/Tags';
 import Error from '../../components/Alerts/Error';
+import { useRouter } from 'next/router';
 
 export default function CreateStore() {
     const [brands, setBrands] = useState<any>([])
@@ -16,6 +17,7 @@ export default function CreateStore() {
     const [agreed, setAgreed] = useState<any>(false)
     const { state: me } = useContext(Store)
     const { userInfo } = me
+    const router = useRouter()
 
     const toast = useToast()
     const selectedTags = (tags: any) => {
@@ -56,14 +58,7 @@ export default function CreateStore() {
                     authorization: userInfo.token
                 }
             })
-            toast({
-                title: 'Application sent.',
-                description: "We've sucessfully sent your application!. We will call you to verify your details",
-                status: 'success',
-                position: 'top-right',
-                duration: 9000,
-                isClosable: true,
-            })
+            
             setState({
                 first_name: '',
                 last_name: '',
@@ -90,6 +85,7 @@ export default function CreateStore() {
                 supplier_to_retailer: false,
                 registered_account: false
             })
+            router.push('/success/store')
         } catch (error) {
             toast({
                 title: getError(error),

@@ -32,6 +32,8 @@ function reducer(state, action) {
             const NewcartItems = state.cart.cartItems.filter(item => item._id !== action.payload._id)
             Cookies.set('cartItems', JSON.stringify(NewcartItems))
             return { ...state, cart: { ...state.cart, NewcartItems } }
+        case 'CLEAR_CART':
+            return {...state, cart: {cartItems: []}}
         case 'USER_LOGIN':
             return { ...state, userInfo: action.payload }
         case 'USER_LOGOUT':
