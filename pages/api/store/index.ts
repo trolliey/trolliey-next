@@ -42,20 +42,17 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(400).send({
       message: 'All applicants must agree to our terms and conditions',
     })
-  }
-
-  if (store_exists) {
+  } else if (store_exists) {
     return res
       .status(422)
       .send({ message: 'One account can only have one store' })
-  }
-  if (name_exists) {
+  } else if (name_exists) {
     return res.status(400).send({
       message:
         'Name already in use. If the name belongs to you contact our support team',
     })
   } else if (!company_name) {
-    return res.status(400).send({ message: 'Your copmany needs a name' })
+    return res.status(400).send({ message: 'Your company needs a name' })
   } else if (!phone_number) {
     return res.status(400).send({ message: 'Your phone number is needed!' })
   } else {
@@ -85,19 +82,21 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 
     const user = await Users.findOne({ _id: _user._id })
     user.store = _user._id
-    await user.save()
-    const saved_store = await newStore.save()
+    try {
+      await user.save()
+      const saved_store = await newStore.save()
 
-    //     User.findOneAndUpdate({ _id: _user._id }, { store: _store._id, role: 'seller' }).then(response => {
-    if (saved_store) {
-      return res.status(201).json({ message: 'Store Created!' })
+      await disconnect()
+      if (saved_store) {
+        return res.status(201).json({ message: 'Store Created!' })
+      }
+      return res
+        .status(500)
+        .json({ error: 'Error creating store, Try again later!' })
+    } catch (error) {
+      return res.status(500).json({ error: error })
     }
-    res.status(500).json({ error: 'Error creating store, Try again later!' })
-    // console.log(response)
-    // }).catch(err => {
-    //     return res.status(500).json({ error: 'Error when uploading' })
-    // })
-    await disconnect()
+
   }
 })
 

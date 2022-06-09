@@ -40,6 +40,7 @@
     "next-auth": "^4.2.1",
     "next-connect": "^0.12.2",
     "next-session": "^4.0.4",
+    "nodemailer": "^6.7.5",
     "notistack": "^2.0.3",
     "paynow": "^1.0.9",
     "paynow-react": "^0.1.7",

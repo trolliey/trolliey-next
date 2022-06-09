@@ -23,6 +23,7 @@ export default function CreateStore() {
     const selectedTags = (tags: any) => {
         setBrands(tags)
     };
+    
 
     const [state, setState] = useState<any>({
         first_name: '',
@@ -94,9 +95,8 @@ export default function CreateStore() {
                 duration: 9000,
                 isClosable: true,
             })
-            console.log(getError(error))
+            // console.log(getError(error))
         }
-        // console.log(state)
     }
 
     const {
@@ -236,7 +236,7 @@ export default function CreateStore() {
                                                     <input
                                                         type="text"
                                                         name="email"
-                                                        onChange={(e) => setState({ ...state, phone_number: e.target.value })}
+                                                        onChange={(e) => setState({ ...state, mobile_number: e.target.value })}
                                                         id="phone-number"
                                                         autoComplete="phone-number"
                                                         className="flex-1 block w-full outline-none p-3 min-w-0 rounded-none rounded-r-md sm:text-sm border border-gray-300"
@@ -253,7 +253,7 @@ export default function CreateStore() {
                                                     <input
                                                         type="text"
                                                         name="email"
-                                                        onChange={(e) => setState({ ...state, mobile_number: e.target.value })}
+                                                        onChange={(e) => setState({ ...state, phone_number: e.target.value })}
                                                         id="mobile-number"
                                                         autoComplete="mobile-number"
                                                         className="flex-1 block w-full outline-none p-3 min-w-0 rounded-none rounded-r-md sm:text-sm border border-gray-300"
