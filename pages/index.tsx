@@ -102,7 +102,7 @@ function Home(): ReactFragment {
             <div className="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:grid-rows-2 sm:gap-x-6 lg:gap-8 ">
               <div
                 onClick={() => search_by_category(randomItem.value)}
-                className="group aspect-w-2 aspect-h-1 sm:aspect-h-1 sm:aspect-w-1 relative h-40 transform overflow-hidden rounded-lg border transition hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none sm:row-span-2 md:h-96"
+                className="group aspect-w-2 aspect-h-1 sm:aspect-h-1 cursor-pointer sm:aspect-w-1 relative h-40 transform overflow-hidden rounded-lg border transition hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none sm:row-span-2 md:h-96"
               >
                 <Image
                   layout="fill"
@@ -131,7 +131,7 @@ function Home(): ReactFragment {
               </div>
               <div
                 onClick={() => search_by_category('tech')}
-                className="group aspect-w-2 aspect-h-1 sm:aspect-none transform overflow-hidden rounded-lg border transition hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none sm:relative sm:h-full"
+                className="group aspect-w-2 aspect-h-1 cursor-pointer sm:aspect-none transform overflow-hidden rounded-lg border transition hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none sm:relative sm:h-full"
               >
                 <Image
                   layout="fill"
@@ -159,7 +159,7 @@ function Home(): ReactFragment {
               </div>
               <div
                 onClick={() => search_by_category('Fashion-And-Luggage')}
-                className="group aspect-w-2 aspect-h-1 sm:aspect-none transform overflow-hidden rounded-lg border transition hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none sm:relative sm:h-full"
+                className="group aspect-w-2 aspect-h-1 cursor-pointer sm:aspect-none transform overflow-hidden rounded-lg border transition hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none sm:relative sm:h-full"
               >
                 <Image
                   layout="fill"

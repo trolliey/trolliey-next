@@ -132,7 +132,7 @@ function ProductItem({
                   />
                 </div>
                 {discount_price && (
-                  <div className="text-sm text-gray-400 line-through">
+                  <div className="text-xs text-gray-400 line-through">
                     <Amount amount={price} />
                   </div>
                 )}

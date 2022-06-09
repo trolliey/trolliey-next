@@ -19,7 +19,7 @@ interface Props{
 
 function DashboardNavbar({setSidebarOpen}:Props):ReactElement {
     const [query, setQuery] = useState<string>('')
-    const { state } = useContext(Store)
+    const { state, dispatch } = useContext(Store)
     const { userInfo } = state
     const history = useRouter()
 
@@ -29,9 +29,10 @@ function DashboardNavbar({setSidebarOpen}:Props):ReactElement {
     }
 
     const logout_user = () => {
+        dispatch({ type: 'USER_LOGOUT' })
         history.push('/')
-        Cookies.remove('userInfo')
-        window.location.reload()
+        // Cookies.remove('userInfo')
+        // window.location.reload()
     }
 
     return (
@@ -124,7 +125,7 @@ function DashboardNavbar({setSidebarOpen}:Props):ReactElement {
                                     <Menu.Item>
                                         {({ active }) => (
                                             <a
-                                                href="/dashboard/settings"
+                                                href="/"
                                                 className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                             >
                                                 Switch to buying
@@ -134,7 +135,7 @@ function DashboardNavbar({setSidebarOpen}:Props):ReactElement {
                                     <Menu.Item>
                                         {({ active }) => (
                                             <div onClick={logout_user}
-                                                className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                                className={classNames(active ? 'bg-gray-100' : '', 'cursor-pointer block px-4 py-2 text-sm text-gray-700')}
                                             >
                                                 Logout
                                             </div>

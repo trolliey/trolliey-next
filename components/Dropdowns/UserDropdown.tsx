@@ -32,8 +32,6 @@ function UserDropdown(): ReactElement {
 
     const logout_user = () => {
         dispatch({ type: 'USER_LOGOUT' })
-        Cookies.remove('userInfo')
-        Cookies.remove('cartItems')
         history.push('/')
     }
 
