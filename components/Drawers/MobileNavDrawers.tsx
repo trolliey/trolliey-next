@@ -283,7 +283,7 @@ function MobileNavDrawers({ user }: Props): ReactElement {
                     onClick={() => serShowCurrencies(true)}
                     className="flex flex-row items-center justify-between bg-white py-4 px-4 text-sm font-semibold capitalize text-gray-700"
                   >
-                    <p>Preferred Currecy</p>
+                    <p>Preferred Currency</p>
                     <ChevronRightIcon height={20} width={20} />
                   </div>
                   <Divider />
