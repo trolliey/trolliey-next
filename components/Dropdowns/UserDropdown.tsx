@@ -125,8 +125,8 @@ function UserDropdown(): ReactElement {
           ) : (
             <>
               {dropdown.un_authenticated.map((option, index) => (
-                <Link href={option.location} passHref>
-                  <MenuItem key={index}>
+                <Link key={index} href={option.location} passHref>
+                  <MenuItem >
                     <a className="capitalize">{option.label}</a>
                   </MenuItem>
                 </Link>

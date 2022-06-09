@@ -1,15 +1,21 @@
 import React, { useContext, useState } from 'react'
 import { ShoppingCartIcon, BellIcon } from '@heroicons/react/outline'
 import { Tooltip } from '@chakra-ui/react'
-import NotificationMenu from '../Menus/NotificationMenu'
-import UserDropdown from '../Dropdowns/UserDropdown'
+import dynamic from 'next/dynamic'
+const NotificationMenu = dynamic(() => import('../Menus/NotificationMenu'))
+const UserDropdown = dynamic(() => import('../Dropdowns/UserDropdown'))
+const MobileNavDrawers = dynamic(() => import('../Drawers/MobileNavDrawers'))
+const CurrencyDropdown = dynamic(() => import('../Dropdowns/CurrencyDropdown'))
+
+// import NotificationMenu from '../Menus/NotificationMenu'
+// import UserDropdown from '../Dropdowns/UserDropdown'
+// import MobileNavDrawers from '../Drawers/MobileNavDrawers'
+// import CurrencyDropdown from '../Dropdowns/CurrencyDropdown'
 import NavSearch from '../NavSearch/NavSearch'
-import MobileNavDrawers from '../Drawers/MobileNavDrawers'
 import Image from 'next/image'
 import logo from '../../public/img/full_logo.png'
 import CartSidebar from '../Sidebars/CartSidebar'
 import { Store } from '../../Context/Store'
-import CurrencyDropdown from '../Dropdowns/CurrencyDropdown'
 import Link from 'next/link'
 
 function GeneralNavbar() {

@@ -1,6 +1,9 @@
 import React, { ReactFragment, useContext } from 'react'
+// import dynamic from 'next/dynamic'
 import GeneralLayout from '../layouts/GeneralLayout'
 import Courosel from '../components/Carousel/Carousel'
+// const TastyLogo = dynamic(() => import('../public/img/samsung.svg'))
+
 import CategoriesDropdown from '../components/Dropdowns/CategoriesDropdown'
 import samsung from '../public/img/samsung.svg'
 import defy from '../public/img/defy.svg'
@@ -17,14 +20,15 @@ import { data } from '../utils/data'
 import AllProducts from '../components/HomeSections/AllProducts'
 import axios from 'axios'
 import { Store } from '../Context/Store'
-import useSWR from "swr";
+import useSWR from 'swr'
 
 function Home(): ReactFragment {
   const history = useRouter()
-  const { state, dispatch } = useContext(Store)
-  const address = `/api/products?page=${1}`;
-  const fetcher = async (url:any) => await axios.post(url).then((res) => res.data);
-  const { data:products, error } = useSWR(address, fetcher);
+  const { dispatch } = useContext(Store)
+  const address = `/api/products?page=${1}`
+  const fetcher = async (url: any) =>
+    await axios.post(url).then((res) => res.data)
+  const { data: products, error } = useSWR(address, fetcher)
 
   const search_by_category = (category: string) => {
     dispatch({ type: 'SET_SEARCH_QUERY', payload: category })
@@ -50,27 +54,63 @@ function Home(): ReactFragment {
                 </div>
               </div>
               <div className="my-auto flex flex-col">
-                <p className="mb-2 hidden text-xs font-semibold capitalize text-gray-900 md:mb-8 md:flex md:text-lg">
+                <h1 className="mb-2 hidden text-xs font-semibold capitalize text-gray-900 md:mb-8 md:flex md:text-lg">
                   Featured Brands
-                </p>
+                </h1>
                 <div className="brands flex flex-row items-center justify-between gap-4 overflow-auto px-2 py-2 md:px-8 md:py-0">
                   <div className="relative h-4 w-10 md:h-6 md:w-16">
-                    <Image src={samsung} alt="" layout="fill" />
+                    <Image
+                      quality={50}
+                      loading="eager"
+                      src={samsung}
+                      alt=""
+                      layout="fill"
+                    />
                   </div>
                   <div className="relative h-4 w-10 md:h-6 md:w-16">
-                    <Image src={defy} alt="" layout="fill" />
+                    <Image
+                      quality={50}
+                      loading="eager"
+                      src={defy}
+                      alt=""
+                      layout="fill"
+                    />
                   </div>
                   <div className="relative h-4 w-10 md:h-6 md:w-16">
-                    <Image src={kenwood} alt="" layout="fill" />
+                    <Image
+                      quality={50}
+                      loading="eager"
+                      src={kenwood}
+                      alt=""
+                      layout="fill"
+                    />
                   </div>
                   <div className="relative h-4 w-10 md:h-6 md:w-16">
-                    <Image src={dell} alt="" layout="fill" />
+                    <Image
+                      quality={50}
+                      loading="eager"
+                      src={dell}
+                      alt=""
+                      layout="fill"
+                    />
                   </div>
                   <div className="relative h-4 w-10 md:h-6 md:w-16">
-                    <Image src={oppo} alt="" layout="fill" />
+                    <Image
+                      quality={50}
+                      loading="eager"
+                      src={oppo}
+                      alt=""
+                      layout="fill"
+                    />
                   </div>
                   <div className="relative h-4 w-10 md:h-6 md:w-16">
-                    <Image src={oppo} alt="" layout="fill" />
+                    <Image
+                      quality={50}
+                      loading="eager"
+                      src={oppo}
+                      alt=""
+                      layout="fill"
+                    />
                   </div>
                 </div>
               </div>
@@ -80,7 +120,7 @@ function Home(): ReactFragment {
 
         {/* // featured products */}
         <>
-          <FeaturedProducts/>
+          <FeaturedProducts />
         </>
         <section aria-labelledby="category-heading" className="my-8">
           <div className="mx-auto max-w-7xl rounded bg-white p-4 md:p-8">
@@ -102,7 +142,7 @@ function Home(): ReactFragment {
             <div className="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:grid-rows-2 sm:gap-x-6 lg:gap-8 ">
               <div
                 onClick={() => search_by_category(randomItem.value)}
-                className="group aspect-w-2 aspect-h-1 sm:aspect-h-1 cursor-pointer sm:aspect-w-1 relative h-40 transform overflow-hidden rounded-lg border transition hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none sm:row-span-2 md:h-96"
+                className="group aspect-w-2 aspect-h-1 sm:aspect-h-1 sm:aspect-w-1 relative h-40 transform cursor-pointer overflow-hidden rounded-lg border transition hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none sm:row-span-2 md:h-96"
               >
                 <Image
                   layout="fill"
@@ -131,7 +171,7 @@ function Home(): ReactFragment {
               </div>
               <div
                 onClick={() => search_by_category('tech')}
-                className="group aspect-w-2 aspect-h-1 cursor-pointer sm:aspect-none transform overflow-hidden rounded-lg border transition hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none sm:relative sm:h-full"
+                className="group aspect-w-2 aspect-h-1 sm:aspect-none transform cursor-pointer overflow-hidden rounded-lg border transition hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none sm:relative sm:h-full"
               >
                 <Image
                   layout="fill"
@@ -159,7 +199,7 @@ function Home(): ReactFragment {
               </div>
               <div
                 onClick={() => search_by_category('Fashion-And-Luggage')}
-                className="group aspect-w-2 aspect-h-1 cursor-pointer sm:aspect-none transform overflow-hidden rounded-lg border transition hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none sm:relative sm:h-full"
+                className="group aspect-w-2 aspect-h-1 sm:aspect-none transform cursor-pointer overflow-hidden rounded-lg border transition hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none sm:relative sm:h-full"
               >
                 <Image
                   layout="fill"
