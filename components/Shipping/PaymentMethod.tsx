@@ -12,6 +12,7 @@ import ecocash from '../../public/img/eco_cash.svg'
 import telecash from '../../public/img/telecash.svg'
 import onemoney from '../../public/img/ONEMONEY.png'
 import visa_mastercard from '../../public/img/visamastercard.svg'
+import getStripe from '../../utils/getStripe'
 
 interface Props {
   method?: any
@@ -124,6 +125,59 @@ function PaymentMethod({
         duration: 9000,
         isClosable: true,
       })
+    }
+  }
+
+  const handle_usd_payment = async () => {
+    try {
+      const stripe = await getStripe()
+      const { data } = await axios.post(
+        `/api/payment/usd`,
+        {
+          orderItems: cart.cartItems,
+          address: values.address,
+          itemsPrice: cart?.cartItems.reduce(
+            (a: any, c: any) =>
+              parseInt(a) + parseInt(c.quantity) * parseInt(c.price),
+            0
+          ),
+          shippingPrice: 0,
+          totalPrice: cart?.cartItems.reduce(
+            (a: any, c: any) =>
+              parseInt(a) + parseInt(c.quantity) * parseInt(c.price),
+            0
+          ),
+          full_name: values.full_name,
+          province: values.province,
+          collect_my_order: collect_my_order,
+          method: selected_method,
+          isPaid: false,
+          pay_on_delivery: 'yes',
+          paying_number: values.paying_number,
+          contact_phone_number: values.contact_number,
+          city: values.city,
+          number_of_items_bought: cart?.cartItems.reduce(
+            (a: any, c: any) => parseInt(a) + parseInt(c.quantity),
+            0
+          ),
+        },
+        {
+          headers: {
+            authorization: `${userInfo.token}`,
+          },
+        }
+      )
+      toast({
+        title: 'Redirecting ... ',
+        status: 'success',
+        position: 'top-right',
+        duration: 9000,
+        isClosable: true,
+      })
+      stripe.redirectToCheckout({ sessionId: data.id })
+    } catch (error) {
+      console.log(getError(error))
+      return
     }
   }
 
@@ -298,7 +352,7 @@ function PaymentMethod({
             {values.method} Card Number
           </label>
           <div className="mt-4">
-            <input
+            {/* <input
               type="text"
               value={values.paying_number}
               onChange={handleChange('paying_number')}
@@ -326,7 +380,11 @@ function PaymentMethod({
                 placeholder="CVV"
                 className="block w-full rounded-md border border-gray-200 p-2 outline-none focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
               />
-            </div>
+            </div> */}
+            <BlueButton
+              text={'Proceed to payment'}
+              onClick={handle_usd_payment}
+            />
           </div>
         </div>
       )}
