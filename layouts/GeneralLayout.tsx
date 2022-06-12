@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import React, { ReactElement, useContext, useEffect } from 'react'
+import React, { ReactElement, useContext, useEffect, useState } from 'react'
 import GeneralNavbar from '../components/Navigations/GeneralNavbar'
 import { Container, useDisclosure } from '@chakra-ui/react'
 import Footer from '../components/Navigations/Footer'
@@ -17,9 +17,9 @@ interface Props {
   twitter_title?: string
   twitter_description?: string
   canonical_url?: string
-  og_image?: any,
-  bg_color?:string,
-  component_above_navbar?:any
+  og_image?: any
+  bg_color?: string
+  component_above_navbar?: any
 }
 
 function GeneralLayout({
@@ -32,13 +32,14 @@ function GeneralLayout({
   canonical_url,
   og_image,
   bg_color,
-  component_above_navbar
+  component_above_navbar,
 }: Props): ReactElement {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const { state, dispatch } = useContext(Store)
   const { currency } = state
   const { scrollX, scrollY } = useWindowScrollPositions()
+  const [close_message, setCloseMessage] = useState(false)
 
   useEffect(() => {
     if (!currency) {
@@ -49,7 +50,9 @@ function GeneralLayout({
 
   return (
     <div
-      className={`${bg_color ? bg_color : "bg-gray-100 "} overflow-scroll bg-gray-100`}
+      className={`${
+        bg_color ? bg_color : 'bg-gray-100 '
+      } overflow-scroll bg-gray-100`}
       style={{ backgroundColor: 'rgb(243 244 246)' }}
     >
       <Head>
@@ -100,9 +103,18 @@ function GeneralLayout({
         />
       </Head>
       <nav className="">
-        <GeneralNavbar scrollY={scrollY} component_above_navbar={component_above_navbar} />
+        <GeneralNavbar
+          setCloseMessage={setCloseMessage}
+          close_message={close_message}
+          scrollY={scrollY}
+          component_above_navbar={component_above_navbar}
+        />
       </nav>
-      <main className={`${component_above_navbar ? "pt-32 " : "pt-16 " } w-full pt-16`}>
+      <main
+        className={`${
+          !close_message && component_above_navbar ? 'pt-32 ' : 'pt-16 '
+        } w-full pt-16`}
+      >
         <Container maxW="container.xl" className="mx-auto">
           {!no_text && (
             <h1

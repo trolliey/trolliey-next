@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { ShoppingCartIcon, BellIcon } from '@heroicons/react/outline'
+import { ShoppingCartIcon, BellIcon, XIcon } from '@heroicons/react/outline'
 import { Container, Tooltip } from '@chakra-ui/react'
 import dynamic from 'next/dynamic'
 const NotificationMenu = dynamic(() => import('../Menus/NotificationMenu'))
@@ -16,16 +16,16 @@ import particles from '../../public/img/circle-scatter-haikei.svg'
 
 interface Props {
   component_above_navbar?: any
-  scrollY?: any
+  scrollY?: any,
+  close_message?:any,
+  setCloseMessage?:any
 }
 
-function GeneralNavbar({ component_above_navbar, scrollY }: Props) {
+function GeneralNavbar({ component_above_navbar, scrollY, setCloseMessage, close_message }: Props) {
   const { state } = useContext(Store)
   const { cart, userInfo } = state
   const basket: any[] = []
-  const notifications: any[] = []
   const [open_cart, setOpenCart] = useState<boolean>(false)
-  const [notifications_menu, setOpenNotificationMenu] = useState<boolean>(false)
 
   console.log(scrollY)
 
@@ -38,30 +38,46 @@ function GeneralNavbar({ component_above_navbar, scrollY }: Props) {
       {component_above_navbar && (
         <>
           {scrollY < 110 && (
-            <div
-              className="bg-blue-superlight"
-              style={{
-                backgroundImage: `url(${particles.src})`,
-                width: '100%',
-                height: '100%',
-              }}
-            >
-              <Container
-                maxW="container.xl"
-                className="mx-auto flex flex-row items-center justify-between py-4"
-              >
-                <p className="font-bold text-blue-dark md:text-md text-xs">
-                  Enjoy free delivery by buying items above $50
-                </p>
-                <Link href={'/explore'} passHref>
-                  <a>
-                    <div className="rounded-full md:text-md text-xs bg-blue-dark px-2 py-1 font-semibold text-white">
-                      View more
+            <>
+              {!close_message && (
+                <div
+                  className="bg-blue-superlight"
+                  style={{
+                    backgroundImage: `url(${particles.src})`,
+                    width: '100%',
+                    height: '100%',
+                  }}
+                >
+                  <Container
+                    maxW="container.xl"
+                    className="mx-auto flex flex-row items-center justify-between py-4"
+                  >
+                    <p className="font-bold text-blue-dark sm:text-xs md:text-base">
+                      Free delivery for total above $50
+                    </p>
+                    <div className="flex flex-row items-center space-x-2 md:space-x-4">
+                      <Link href={'/explore'} passHref>
+                        <a>
+                          <div className="rounded-full bg-blue-dark px-2 py-1 text-xs font-semibold text-white md:text-base">
+                            View more
+                          </div>
+                        </a>
+                      </Link>
+                      <div
+                        className="flex"
+                        onClick={() => setCloseMessage(true)}
+                      >
+                        <XIcon
+                          height={20}
+                          width={20}
+                          className="text-blue-dark"
+                        />
+                      </div>
                     </div>
-                  </a>
-                </Link>
-              </Container>
-            </div>
+                  </Container>
+                </div>
+              )}
+            </>
           )}
         </>
       )}
@@ -93,40 +109,9 @@ function GeneralNavbar({ component_above_navbar, scrollY }: Props) {
             </a>
           </Link>
         )}
-        <div className="flex-1"></div>
-        <>
+        {/* <div className="flex-1"></div> */}
+        <div className='flex flex-1 flex-col'>
           <NavSearch />
-        </>
-        <Tooltip
-          label={'Notifications'}
-          bg="gray.100"
-          color="gray.700"
-          rounded="lg"
-          size="xs"
-        >
-          <div
-            onClick={() =>
-              !notifications_menu
-                ? setOpenNotificationMenu(true)
-                : setOpenNotificationMenu(false)
-            }
-            className="relative flex cursor-pointer rounded-full p-2 hover:bg-gray-200"
-          >
-            <BellIcon height={20} width={20} className="text-gray-700" />
-            {notifications?.length >= 1 && (
-              <span className="top right absolute right-0 top-0 m-0 h-4 w-4 rounded-full bg-blue-primary p-0 text-center text-xs font-semibold text-white">
-                {0}
-              </span>
-            )}
-          </div>
-        </Tooltip>
-
-        <div className="hidden md:flex">
-          <NotificationMenu
-            show={notifications_menu}
-            setShow={setOpenNotificationMenu}
-            loading={false}
-          />
         </div>
 
         <div

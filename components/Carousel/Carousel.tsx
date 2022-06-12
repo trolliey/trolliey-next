@@ -54,7 +54,7 @@ function Carousel({ data }: Props): ReactElement {
         ref={slideRef}
         className="relative w-full cursor-pointer select-none"
       >
-        <div className="aspect-w-16 aspect-h-9">
+        <div className="aspect-w-16 aspect-h-9 rounded overflow-hidden">
           <Image
             src={data[currentIndex].image}
             placeholder="blur"
