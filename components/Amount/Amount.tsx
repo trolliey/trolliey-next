@@ -17,7 +17,7 @@ function Amount({ amount, className, currency_type }: Props) {
   const convertAmounts = (value: number) => {
     if (currency === 'USD') {
       const money =
-        currency_type === 'USD' ? value : value / data.current_rate.value
+        currency_type === 'USD' ? value / data.current_rate.value : value
       return money
     } else if (currency === 'ZWL') {
       const money =
