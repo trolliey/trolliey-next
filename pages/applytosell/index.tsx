@@ -49,7 +49,7 @@ function BecomeASeller() {
           }
         />
         <meta property="og:site_name" content={'Trolliey'} />
-        <meta property="og:url" content={data.site_url} />
+        <meta property="og:url" content={`${data.site_url}/applytosell`} />
         <meta
           property="og:image"
           content={'https://cdn.example.com/uploads/images/webpage_300x200.png'}
@@ -67,6 +67,8 @@ function BecomeASeller() {
         />
         <meta name="twitter:site" content="" />
         <meta name="twitter:creator" content="" />
+        {/* <link rel=”shortcut icon” href=”/icon.png" type=”image/x-icon” /> */}
+        <link rel="shortcut icon" href="/icon.png" type="image/x-icon" />
         <link rel="icon" type="image/png" href="/icon.png" />
         <link rel="apple-touch-icon" href="/icon.png" />
         <meta
