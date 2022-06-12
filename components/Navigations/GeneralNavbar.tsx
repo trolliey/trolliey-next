@@ -56,7 +56,7 @@ function GeneralNavbar({ component_above_navbar, scrollY, setCloseMessage, close
                     <div className="flex flex-row items-center space-x-2 md:space-x-4">
                       <Link href={'/explore'} passHref>
                         <a>
-                          <div className="rounded-full bg-blue-dark px-2 py-1 text-xs font-semibold text-white md:text-base">
+                          <div className="md:flex hidden rounded-full bg-blue-dark px-2 py-1 text-xs font-semibold text-white md:text-base">
                             View more
                           </div>
                         </a>
