@@ -197,7 +197,7 @@ function BecomeASeller() {
                           Pay,Grow, Rest
                         </p>
                         <div className="mt-4 flex items-center justify-center text-5xl font-extrabold text-gray-900">
-                          <span>$10/m</span>
+                          <span>$5/m</span>
                           <span className="ml-3 text-xl font-medium text-gray-500">
                             USD
                           </span>

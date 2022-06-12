@@ -519,6 +519,7 @@ export default function CreateStore() {
                                                         id="physical_store"
                                                         name="physical_store"
                                                         type="radio"
+                                                        value={'store_available'}
                                                         onChange={(e) => setState({ ...state, physical_store: e.target.value })}
                                                         className="focus:ring-blue-primary h-4 w-4 textblue-primary border-gray-300"
                                                         required
@@ -532,6 +533,7 @@ export default function CreateStore() {
                                                         id="stock"
                                                         name="physical_store"
                                                         type="radio"
+                                                        value={'store_not_available'}
                                                         onChange={(e) => setState({ ...state, physical_store: e.target.value })}
                                                         className="focus:ring-blue-primary h-4 w-4 textblue-primary border-gray-300"
                                                         required
@@ -575,6 +577,7 @@ export default function CreateStore() {
                                                         id="stock_handle"
                                                         name="stock_handle"
                                                         type="radio"
+                                                        value={'keep_my_stock'}
                                                         onChange={(e) => setState({ ...state, stock_handle: e.target.value })}
                                                         className="focus:ring-blue-primary h-4 w-4 textblue-primary border-gray-300"
                                                         required
@@ -588,6 +591,7 @@ export default function CreateStore() {
                                                         id="stock_handle"
                                                         name="stock_handle"
                                                         type="radio"
+                                                        value={'trolliey_keep_stock'}
                                                         onChange={(e) => setState({ ...state, stock_handle: e.target.value })}
                                                         className="focus:ring-blue-primary h-4 w-4 textblue-primary border-gray-300"
                                                         required
