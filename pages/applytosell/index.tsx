@@ -105,9 +105,7 @@ function BecomeASeller() {
                     </span>
                   </h1>
                   <p className="mx-auto mt-6 max-w-lg text-center text-xl text-indigo-200 sm:max-w-3xl">
-                    We can help you grow you business world wide and
-                    internationally by providing you with the necessary tools
-                    for online selling.
+                    We can help you grow your local business by providing you with the necessary tools for online shopping.
                   </p>
                   <div className="mx-auto mt-10 max-w-sm sm:flex sm:max-w-none sm:justify-center">
                     <div className="space-y-4 sm:mx-auto sm:inline-grid sm:grid-cols-2 sm:gap-5 sm:space-y-0">
@@ -118,13 +116,13 @@ function BecomeASeller() {
                             : () =>
                                 history.push('/login?redirect=/create-store')
                         }
-                        className="flex cursor-pointer items-center justify-center rounded-md border border-transparent bg-white px-4 py-3 text-base font-medium text-indigo-700 shadow-sm hover:bg-indigo-50 sm:px-8"
+                        className="flex cursor-pointer items-center justify-center rounded-md border border-transparent bg-white px-4 py-3 text-base font-medium text-blue-primary shadow-sm hover:bg-indigo-50 sm:px-8"
                       >
                         Apply Now
                       </div>
 
                       <Link href={'/explore'}>
-                        <a className="flex items-center justify-center rounded-md border border-transparent bg-indigo-500 bg-opacity-60 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-opacity-70 sm:px-8">
+                        <a className="flex items-center justify-center rounded-md border border-transparent bg-blue-dark bg-opacity-60 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-opacity-70 sm:px-8">
                           Back To Shopping
                         </a>
                       </Link>
@@ -145,7 +143,7 @@ function BecomeASeller() {
                       Pricing
                     </h2>
                     <p className="mt-4 text-xl text-gray-600">
-                      For every new shop you get 3 months free trial
+                      For every new shop you get 6 months free trial
                     </p>
                   </div>
                 </div>
