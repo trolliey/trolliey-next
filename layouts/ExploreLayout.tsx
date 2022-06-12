@@ -113,7 +113,7 @@ export default function ExploreLayout({children}:Props){
                         </>
                     </div>
                     <div className="flex-1">
-                        <SearchInput />
+                        {/* <SearchInput /> */}
                         {children}
                     </div>
                 </div>

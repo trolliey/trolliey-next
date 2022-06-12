@@ -6,9 +6,12 @@ import { Store } from '../../Context/Store'
 import axios from 'axios'
 import no_product from '../../public/img/no_product.svg'
 import Image from 'next/image'
-import ProductItem from '../../components/ProductItem/ProductItem'
+import dynamic from 'next/dynamic'
+const ProductItem = dynamic(() => import('../../components/ProductItem/ProductItem'))
+const MobileProductItem = dynamic(() => import('../../components/ProductItem/MobileProductItem'))
+// import ProductItem from '../../components/ProductItem/ProductItem'
 import ProductLoading from '../../components/ProductItem/ProductLoading'
-import MobileProductItem from '../../components/ProductItem/MobileProductItem'
+// import MobileProductItem from '../../components/ProductItem/MobileProductItem'
 import { Spinner } from '@chakra-ui/react'
 
 export default function Explore() {

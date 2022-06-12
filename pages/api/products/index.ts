@@ -44,6 +44,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       else{
+        res.setHeader('Cache-Control', 's-maxage=10'); 
         return res.status(200).send(products)
       }
     } catch (error) {
@@ -56,6 +57,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
       .limit(resultsPerPage)
       .skip(resultsPerPage * page)
     await disconnect()
+    res.setHeader('Cache-Control', 's-maxage=10'); 
     return res.status(200).send(products)
   } catch (error) {
     return res.status(500).send({ message: error })
