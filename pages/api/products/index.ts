@@ -1,12 +1,13 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import nc from 'next-connect'
 import Products from '../../../models/Product'
+import Store from '../../../models/Store'
 const handler = nc()
 import { connect, disconnect } from '../../../utils/mongo'
 
-// get all products
+// get all all_products
 // get request
-// /api/products
+// /api/all_products
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   // for pagination
   const resultsPerPage = 15
@@ -32,19 +33,42 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     })
 
     try {
-      const products = await Products.find({ $and: [{ $or: allQueries }] })
+      const all_products = await Products.find({ $and: [{ $or: allQueries }] })
         .sort({ createdAt: 'asc' })
         .limit(resultsPerPage)
         .skip(resultsPerPage * page)
 
       await disconnect()
 
-      if (!products) {
-        return res.status(400).json({ error: 'No Products found' })
-      }
+      const products = []
 
-      else{
-        res.setHeader('Cache-Control', 's-maxage=10'); 
+      if (!all_products) {
+        return res.status(400).json({ error: 'No all_Products found' })
+      } else {
+        res.setHeader('Cache-Control', 's-maxage=10')
+        for (let i = 0; i < all_products.length; i++) {
+          const store = await Store.findOne({ _id: all_products[i].store_id })
+          products.push({
+            title: all_products[i].title,
+            description: all_products[i].description,
+            rating: all_products[i].rating,
+            pictures: all_products[i].pictures,
+            price: all_products[i].price,
+            discount_price: all_products[i].discount_price,
+            category: all_products[i].category,
+            countInStock: all_products[i].countInStock,
+            averageRating: all_products[i].averageRating,
+            _id: all_products[i]._id,
+            store_id: all_products[i].store_id,
+            store_verified: store.verified,
+            store_approved: store.approved,
+            curency_type: all_products[i].currency_type,
+            brand: all_products[i].brand,
+            variants: all_products[i].variants,
+            times_bought: all_products[i].times_bought
+
+          })
+        }
         return res.status(200).send(products)
       }
     } catch (error) {
@@ -52,12 +76,35 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     }
   }
   try {
-    const products = await Products.find({})
+    const all_products = await Products.find({})
       .sort({ createdAt: 'asc' })
       .limit(resultsPerPage)
       .skip(resultsPerPage * page)
+    const products = []
     await disconnect()
-    res.setHeader('Cache-Control', 's-maxage=10'); 
+    res.setHeader('Cache-Control', 's-maxage=10')
+    for (let i = 0; i < all_products.length; i++) {
+      const store = await Store.findOne({ _id: all_products[i].store_id })
+      products.push({
+        title: all_products[i].title,
+        description: all_products[i].description,
+        rating: all_products[i].rating,
+        pictures: all_products[i].pictures,
+        price: all_products[i].price,
+        discount_price: all_products[i].discount_price,
+        category: all_products[i].category,
+        countInStock: all_products[i].countInStock,
+        averageRating: all_products[i].averageRating,
+        _id: all_products[i]._id,
+        store_id: all_products[i].store_id,
+        store_verified: store.verified,
+        store_approved: store.approved,
+        curency_type: all_products[i].currency_type,
+        brand: all_products[i].brand,
+        variants: all_products[i].variants,
+        times_bought: all_products[i].times_bought
+      })
+    }
     return res.status(200).send(products)
   } catch (error) {
     return res.status(500).send({ message: error })

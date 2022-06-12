@@ -6,7 +6,11 @@ import Image from 'next/image'
 import axios from 'axios'
 import useSWR from 'swr'
 import Link from 'next/link'
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/outline'
+import {
+  BadgeCheckIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+} from '@heroicons/react/outline'
 import { ArrowRightIcon } from '@heroicons/react/solid'
 
 function FeaturedProducts(): ReactElement {
@@ -15,6 +19,8 @@ function FeaturedProducts(): ReactElement {
     await axios.post(url).then((res) => res.data)
   const { data: all_products, error } = useSWR(address, fetcher)
   const [show_indicators, setShowIndicators] = useState(false)
+
+  console.log(all_products)
 
   return (
     <>
@@ -28,20 +34,26 @@ function FeaturedProducts(): ReactElement {
         <>
           {!all_products ? (
             <>
-            <div className="scrollbar-hide md:grid hidden relative mx-auto grid-cols-2 gap-4 md:grid-cols-4 md:gap-8 lg:grid-cols-5">
-              {[1, 2,3,4,5]?.map((product: any, index: number) => (
-                <div key={index} className="col-span-1 rounded-lg bg-white p-2">
-                  <ProductLoading />
-                </div>
-              ))}
-            </div>
-            <div className="scrollbar-hide relative mx-auto  md:hidden grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-8 lg:grid-cols-5">
-              {[1, 2]?.map((product: any, index: number) => (
-                <div key={index} className="col-span-1 rounded-lg bg-white p-2">
-                  <ProductLoading />
-                </div>
-              ))}
-            </div>
+              <div className="scrollbar-hide relative mx-auto hidden grid-cols-2 gap-4 md:grid md:grid-cols-4 md:gap-8 lg:grid-cols-5">
+                {[1, 2, 3, 4, 5]?.map((product: any, index: number) => (
+                  <div
+                    key={index}
+                    className="col-span-1 rounded-lg bg-white p-2"
+                  >
+                    <ProductLoading />
+                  </div>
+                ))}
+              </div>
+              <div className="scrollbar-hide relative mx-auto  grid grid-cols-2 gap-4 md:hidden md:grid-cols-4 md:gap-8 lg:grid-cols-5">
+                {[1, 2]?.map((product: any, index: number) => (
+                  <div
+                    key={index}
+                    className="col-span-1 rounded-lg bg-white p-2"
+                  >
+                    <ProductLoading />
+                  </div>
+                ))}
+              </div>
             </>
           ) : (
             <>
@@ -60,15 +72,29 @@ function FeaturedProducts(): ReactElement {
                   onMouseLeave={() => setShowIndicators(false)}
                   className="relative "
                 >
-                  <div className="flex flex-row w-full justify-between pb-4 items-center">
-                    <p className='text-gray-700 font-semibold'>Top-Ranking</p>
+                  <div className="flex w-full flex-row items-center justify-between pb-4">
+                    <p className="font-semibold text-gray-700">Top-Ranking</p>
                     <div className="flex">
-                      <ArrowRightIcon height={20} width={20} className={'text-gray-700'} />
+                      <ArrowRightIcon
+                        height={20}
+                        width={20}
+                        className={'text-gray-700'}
+                      />
                     </div>
                   </div>
                   <div className="scrollbar-hide relative mx-auto flex space-x-2 overflow-x-auto">
                     {all_products?.map((product: any, index: number) => (
-                      <div key={index} className="col-span-1 rounded-lg bg-white p-2 ">
+                      <div
+                        key={index}
+                        className="relative col-span-1 rounded-lg bg-white p-2 overflow-hidden "
+                      >
+                        <div className="absolute top-0 left-0 z-20 flex items-center space-x-1 bg-blue-700 pl-1 text-xs text-white">
+                          <BadgeCheckIcon height={12} width={12} />
+                          <p>Verified</p>
+                          <div className="inline-block w-4 overflow-hidden">
+                            <div className=" h-6  origin-top-right -rotate-45 transform bg-white"></div>
+                          </div>
+                        </div>
                         <ProductItem
                           name={product.title}
                           description={product.description}
@@ -94,6 +120,10 @@ function FeaturedProducts(): ReactElement {
                         </Link>
                       </div>
                     )} */}
+                  </div>
+
+                  <div className="inline-block  w-11 overflow-hidden">
+                    <div className=" h-16  origin-top-right rotate-45 transform bg-black"></div>
                   </div>
                   {show_indicators && (
                     <div className="absolute top-1/2 flex w-full -translate-y-1/2 transform items-start justify-between px-3">

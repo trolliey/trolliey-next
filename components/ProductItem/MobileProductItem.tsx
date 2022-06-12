@@ -36,21 +36,26 @@ function MobileProductItem({
   const history = useRouter()
   return (
     <div>
-      <div className="flex flex-row space-x-4 pb-2 border-b border-gray-100">
-        <div
-          onClick={() => history.push(`/product/description/${id}`)}
-          className="relative flex h-24 w-24 flex-col items-center overflow-hidden rounded-lg  bg-white"
-        >
-          <Image
-            objectFit="cover"
-            src={picture ? picture : ''}
-            layout="fill"
-            alt="product"
-            className="h-full max-h-full w-auto flex-1 flex-shrink-0 rounded object-cover"
-          />
+      <div className="flex flex-row space-x-4 border-b border-gray-100 pb-2">
+        <div className="flex">
+          <div
+            onClick={() => history.push(`/product/description/${id}`)}
+            className="relative flex h-24 w-24 flex-col items-center overflow-hidden rounded-lg  bg-white"
+          >
+            <Image
+              objectFit="cover"
+              src={picture ? picture : ''}
+              layout="fill"
+              height={24}
+              alt="product"
+              className="h-full max-h-full w-auto flex-1 flex-shrink-0 rounded object-cover"
+            />
+          </div>
         </div>
         <div className="flex flex-col">
-          <Text noOfLines={2} className="font-semibold text-gray-700">{name}</Text>
+          <Text noOfLines={2} className="font-semibold text-gray-700">
+            {name}
+          </Text>
           <Text className="text-xs font-semibold text-blue-dark">
             {category}
           </Text>

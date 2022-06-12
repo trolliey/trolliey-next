@@ -2,7 +2,6 @@ import React, { useContext, useState } from 'react'
 import { ShoppingCartIcon, BellIcon, XIcon } from '@heroicons/react/outline'
 import { Container, Tooltip } from '@chakra-ui/react'
 import dynamic from 'next/dynamic'
-const NotificationMenu = dynamic(() => import('../Menus/NotificationMenu'))
 const UserDropdown = dynamic(() => import('../Dropdowns/UserDropdown'))
 const MobileNavDrawers = dynamic(() => import('../Drawers/MobileNavDrawers'))
 const CurrencyDropdown = dynamic(() => import('../Dropdowns/CurrencyDropdown'))
