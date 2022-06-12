@@ -96,7 +96,6 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     } catch (error) {
       return res.status(500).json({ error: error })
     }
-
   }
 })
 
@@ -111,10 +110,14 @@ auth_handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   if (action === 'approve') {
-    await Store.findOneAndUpdate({ _id: store_id }, { approved: true })
-    return res
-      .status(200)
-      .send('Store has been approved and can start selling now!')
+    try {
+      await Store.findOneAndUpdate({ _id: store_id }, { approved: true })
+      return res
+        .status(200)
+        .send('Store has been approved and can start selling now!')
+    } catch (error) {
+      res.status(500).send({ message: error })
+    }
   }
 
   if (action === 'verify') {
