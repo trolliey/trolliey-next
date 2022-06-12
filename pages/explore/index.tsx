@@ -7,12 +7,17 @@ import axios from 'axios'
 import no_product from '../../public/img/no_product.svg'
 import Image from 'next/image'
 import dynamic from 'next/dynamic'
-const ProductItem = dynamic(() => import('../../components/ProductItem/ProductItem'))
-const MobileProductItem = dynamic(() => import('../../components/ProductItem/MobileProductItem'))
+const ProductItem = dynamic(
+  () => import('../../components/ProductItem/ProductItem')
+)
+const MobileProductItem = dynamic(
+  () => import('../../components/ProductItem/MobileProductItem')
+)
 // import ProductItem from '../../components/ProductItem/ProductItem'
 import ProductLoading from '../../components/ProductItem/ProductLoading'
 // import MobileProductItem from '../../components/ProductItem/MobileProductItem'
 import { Spinner } from '@chakra-ui/react'
+import { BadgeCheckIcon } from '@heroicons/react/outline'
 
 export default function Explore() {
   const { state } = useContext(Store)
@@ -98,7 +103,12 @@ export default function Explore() {
                   className={`mx-auto grid w-full grid-cols-2 gap-4 rounded-lg md:grid-cols-4 md:gap-8  lg:grid-cols-4`}
                 >
                   {products?.map((product: any, index: number) => (
-                    <div key={index} className="col-span-1 p-0">
+                    <div key={index} className="relative col-span-1 p-0">
+                      {product.store_verified && (
+                        <div className="absolute top-0 left-0 z-20 flex items-center space-x-1 rounded-tl-lg rounded-br-lg bg-blue-700 p-1 text-xs text-white">
+                          <BadgeCheckIcon height={16} width={16} />
+                        </div>
+                      )}
                       <ProductItem
                         name={product.title}
                         description={product.description}
@@ -144,7 +154,12 @@ export default function Explore() {
       {/* // mobile viewproducts */}
       <div className="flex flex-col space-y-2 md:hidden">
         {products?.map((product: any, index: number) => (
-          <div key={index} className="col-span-1 p-0">
+          <div key={index} className="relative col-span-1 p-0">
+            {product.store_verified && (
+              <div className="absolute top-0 left-0 z-20 flex items-center space-x-1 rounded-tl-lg rounded-br-lg bg-blue-700 p-1 text-xs text-white">
+                <BadgeCheckIcon height={16} width={16} />
+              </div>
+            )}
             <MobileProductItem
               name={product.title}
               description={product.description}

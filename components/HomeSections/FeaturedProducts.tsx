@@ -20,8 +20,6 @@ function FeaturedProducts(): ReactElement {
   const { data: all_products, error } = useSWR(address, fetcher)
   const [show_indicators, setShowIndicators] = useState(false)
 
-  console.log(all_products)
-
   return (
     <>
       {error ? (
@@ -86,15 +84,13 @@ function FeaturedProducts(): ReactElement {
                     {all_products?.map((product: any, index: number) => (
                       <div
                         key={index}
-                        className="relative col-span-1 rounded-lg bg-white p-2 overflow-hidden "
+                        className="relative col-span-1 rounded-lg bg-white p-2 "
                       >
-                        <div className="absolute top-0 left-0 z-20 flex items-center space-x-1 bg-blue-700 pl-1 text-xs text-white">
-                          <BadgeCheckIcon height={12} width={12} />
-                          <p>Verified</p>
-                          <div className="inline-block w-4 overflow-hidden">
-                            <div className=" h-6  origin-top-right -rotate-45 transform bg-white"></div>
+                        {product.store_verified && (
+                          <div className="absolute top-0 left-0 z-20 flex items-center space-x-1 rounded-tl-lg rounded-br-lg bg-blue-700 p-1 text-xs text-white">
+                            <BadgeCheckIcon height={20} width={20} />
                           </div>
-                        </div>
+                        )}
                         <ProductItem
                           name={product.title}
                           description={product.description}
@@ -120,10 +116,6 @@ function FeaturedProducts(): ReactElement {
                         </Link>
                       </div>
                     )} */}
-                  </div>
-
-                  <div className="inline-block  w-11 overflow-hidden">
-                    <div className=" h-16  origin-top-right rotate-45 transform bg-black"></div>
                   </div>
                   {show_indicators && (
                     <div className="absolute top-1/2 flex w-full -translate-y-1/2 transform items-start justify-between px-3">
