@@ -27,8 +27,6 @@ function GeneralNavbar({ component_above_navbar, scrollY, setCloseMessage, close
   const basket: any[] = []
   const [open_cart, setOpenCart] = useState<boolean>(false)
 
-  console.log(scrollY)
-
   const toggle_cart = () => {
     !open_cart ? setOpenCart(true) : setOpenCart(false)
   }
