@@ -88,13 +88,13 @@ function GeneralNavbar() {
           </div>
         </Tooltip>
 
-        <>
+        <div className='md:flex hidden'>
           <NotificationMenu
             show={notifications_menu}
             setShow={setOpenNotificationMenu}
             loading={false}
           />
-        </>
+        </div>
 
         <div
           onClick={toggle_cart}

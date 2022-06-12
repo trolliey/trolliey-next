@@ -38,6 +38,7 @@ function MobileNavDrawers({ user }: Props): ReactElement {
   const [current_category, setCurrentCategory] = useState<any>('')
   const history = useRouter()
   const { state, dispatch } = useContext(Store)
+  const {currency} = state
 
   const logout_user = () => {
     history.push('/')
@@ -103,9 +104,9 @@ function MobileNavDrawers({ user }: Props): ReactElement {
                     dispatch({ type: 'CHANGE_CURRENCY', payload: 'ZWL' })
                     onClose()
                   }}
-                  className="zwl py-2"
+                  className={`${currency === "ZWL" ? "bg-gray-100 w-full " : ""} "zwl py-2"`}
                 >
-                  ZWL
+                  <p className='py-2 text-center'>ZWL</p>
                 </div>
                 <Divider />
                 <div
@@ -113,9 +114,9 @@ function MobileNavDrawers({ user }: Props): ReactElement {
                     dispatch({ type: 'CHANGE_CURRENCY', payload: 'USD' })
                     onClose()
                   }}
-                  className="usd py-2 "
+                  className={`${currency === "USD" ? "bg-gray-100 w-full " : ""} "zwl py-2"`}
                 >
-                  USD
+                  <p className='py-2 text-center'>USD</p>
                 </div>
               </div>
             </DrawerBody>
