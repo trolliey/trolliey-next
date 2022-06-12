@@ -42,7 +42,7 @@ function CategoriesDropdown() {
           <p className="hidden pl-2 pr-8 md:flex lg:hidden">By Category</p>
           <ChevronDownIcon height={16} width={16} />
         </div>
-        <li className="rounded-b border border-gray-200">
+        <li className="rounded-b-0 border-b-0 border border-gray-200">
           <>
             {data.categories.slice(0, 10)?.map((category, index) => (
               <div
@@ -86,7 +86,7 @@ function CategoriesDropdown() {
         </li>
         <div
           onClick={() => history.push('/categories')}
-          className="border-gra-200 flex cursor-pointer flex-row items-center justify-between gap-2 rounded border py-2 px-4 text-sm hover:bg-gray-100"
+          className="border-gra-200 flex cursor-pointer flex-row items-center border-t-0 justify-between gap-2 rounded border py-2 px-4 text-sm hover:bg-gray-100"
         >
           <p className="capitalize">all categories</p>
           <ChevronRightIcon height={16} width={16} className="text-gray-400" />

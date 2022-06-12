@@ -1,4 +1,4 @@
-import React, { ReactElement, useContext } from 'react'
+import React, { ReactElement, useState } from 'react'
 import ProductItem from '../ProductItem/ProductItem'
 import ProductLoading from '../ProductItem/ProductLoading'
 import no_product from '../../public/img/no_product.svg'
@@ -7,15 +7,14 @@ import { Store } from '../../Context/Store'
 import axios from 'axios'
 import useSWR from 'swr'
 import Link from 'next/link'
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/outline'
 
 function FeaturedProducts(): ReactElement {
-
   const address = `/api/products?page=${1}`
   const fetcher = async (url: any) =>
     await axios.post(url).then((res) => res.data)
   const { data: all_products, error } = useSWR(address, fetcher)
-
-  const { state } = useContext(Store)
+  const [show_indicators, setShowIndicators] = useState(false)
 
   return (
     <>
@@ -47,9 +46,11 @@ function FeaturedProducts(): ReactElement {
                   </p>
                 </div>
               ) : (
-                <div className="scrollbar-hide relative mx-auto flex space-x-6 overflow-x-auto rounded-lg bg-white p-4">
-                  {all_products?.map((product: any, index: number) => (
-                    <div key={index} className="col-span-1 p-0">
+                <div className="relative ">
+                  <div onMouseEnter={() => setShowIndicators(true)}
+                      onMouseLeave={() => setShowIndicators(false)} className="scrollbar-hide relative mx-auto flex space-x-6 overflow-x-auto rounded-lg bg-white p-4">
+                    {all_products?.map((product: any, index: number) => (
+                      <div key={index} className="col-span-1 p-0">
                         <ProductItem
                           name={product.title}
                           description={product.description}
@@ -64,17 +65,37 @@ function FeaturedProducts(): ReactElement {
                           averageRating={product.averageRating}
                           currency={product.currency_type}
                         />
-                    </div>
-                  ))}
-                  {all_products?.length > 10 && (
-                    <div className="col-span-1 my-auto h-full w-full">
-                    <Link
-                      href={'/explore'}
+                      </div>
+                    ))}
+                    {all_products?.length > 10 && (
+                      <div className="col-span-1 my-auto h-full w-full">
+                        <Link href={'/explore'}>
+                          <a className="items-centerlex my-auto grid h-40 w-40 cursor-pointer content-center justify-center rounded bg-gray-200 text-gray-700 hover:bg-gray-100">
+                            Show All
+                          </a>
+                        </Link>
+                      </div>
+                    )}
+                  </div>
+                  {show_indicators && (
+                    <div
+                      
+                      className="absolute top-1/2 flex w-full -translate-y-1/2 transform items-start justify-between px-3"
                     >
-                      <a className="items-centerlex my-auto grid h-40 w-40 cursor-pointer content-center justify-center rounded bg-gray-200 text-gray-700 hover:bg-gray-100">
-                        Show All
-                      </a>
-                    </Link>
+                      <div className=" rounded-full bg-gray-100 p-2">
+                        <ChevronLeftIcon
+                          className="text-gray-700"
+                          height={20}
+                          width={20}
+                        />
+                      </div>
+                      <div className=" rounded-full bg-gray-100 p-2">
+                        <ChevronRightIcon
+                          className="text-gray-700"
+                          height={20}
+                          width={20}
+                        />
+                      </div>
                     </div>
                   )}
                 </div>
