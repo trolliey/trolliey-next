@@ -20,50 +20,34 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
     const _user = req.user
     const store = await Store.findOne({ user: _user._id })
 
-    if (req.body.query) {
-      // search query on seller inventory
-      const queryString = req.body.query
-      const queryStrings = queryString.split(' ')
-      let allQueries: any = []
+    // search query on seller inventory
+    const queryString = req.body.query
+    const queryStrings = queryString.split(' ')
+    let allQueries: any = []
 
-      queryStrings.forEach((element: any) => {
-        let regex = new RegExp(element, 'i')
-        allQueries.push(
-          { title: regex },
-          { description: regex },
-          { category: regex },
-          { category_slug: regex }
-        )
+    queryStrings.forEach((element: any) => {
+      let regex = new RegExp(element, 'i')
+      allQueries.push(
+        { title: regex },
+        { description: regex },
+        { category: regex },
+        { category_slug: regex }
+      )
+    })
+
+    try {
+      //@ts-ignore
+      const products = await Products.find({
+        store_id: store._id,
+        $and: [{ $or: allQueries }],
       })
-
-      try {
-        //@ts-ignore
-        const products = await Products.find({
-          store_id: store._id,
-          $and: [{ $or: allQueries }],
-        })
-          .sort({ createdAt: 'asc' })
-          .limit(resultsPerPage)
-          .skip(resultsPerPage * page)
-
-        await disconnect()
-        return res.status(200).send(products)
-      } catch (error) {
-        return res.status(500).send({ message: 'error ---', error })
-      }
-    } else {
-      try {
-        const products = await Products.find({
-          store_id: store._id,
-        })
-          .sort({ createdAt: 'asc' })
-          .limit(resultsPerPage)
-          .skip(resultsPerPage * page)
-        await disconnect()
-        return res.status(200).send(products)
-      } catch (error) {
-        return res.status(500).send({ message: 'error --- ', error })
-      }
+        .sort({ createdAt: 'asc' })
+        .limit(resultsPerPage)
+        .skip(resultsPerPage * page)
+      await disconnect()
+      return res.status(200).send(products)
+    } catch (error) {
+      return res.status(500).send({ message: 'error ---', error })
     }
   } catch (error) {
     return res.send(error)
