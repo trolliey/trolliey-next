@@ -102,7 +102,7 @@ function GeneralLayout({
           href={canonical_url ? canonical_url : data.site_url}
         />
       </Head>
-      <nav className="">
+      <nav className="z-50">
         <GeneralNavbar
           setCloseMessage={setCloseMessage}
           close_message={close_message}

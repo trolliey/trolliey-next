@@ -29,13 +29,22 @@ function FeaturedProducts(): ReactElement {
       ) : (
         <>
           {!all_products ? (
-            <div className="scrollbar-hide relative mx-auto grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-8 lg:grid-cols-5">
+            <>
+            <div className="scrollbar-hide md:grid hidden relative mx-auto grid-cols-2 gap-4 md:grid-cols-4 md:gap-8 lg:grid-cols-5">
+              {[1, 2,3,4,5]?.map((product: any, index: number) => (
+                <div key={index} className="col-span-1 rounded-lg bg-white p-2">
+                  <ProductLoading />
+                </div>
+              ))}
+            </div>
+            <div className="scrollbar-hide relative mx-auto  md:hidden grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-8 lg:grid-cols-5">
               {[1, 2]?.map((product: any, index: number) => (
                 <div key={index} className="col-span-1 rounded-lg bg-white p-2">
                   <ProductLoading />
                 </div>
               ))}
             </div>
+            </>
           ) : (
             <>
               {all_products?.length < 1 ? (
