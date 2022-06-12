@@ -81,7 +81,7 @@ function RelatedProducts({ cols, no_text, category }: Props): ReactElement {
                                         products?.length >= 1 ? (
                                             <>
                                                 {
-                                                    products?.map((product: any, index: number) => (
+                                                    products?.slice(0, 4)?.map((product: any, index: number) => (
                                                         <ProductItem
                                                             key={index}
                                                             picture={product.pictures[0]}
