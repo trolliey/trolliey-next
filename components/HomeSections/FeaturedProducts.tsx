@@ -8,6 +8,8 @@ import axios from 'axios'
 import useSWR from 'swr'
 import Link from 'next/link'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/outline'
+import { height } from '@mui/system'
+import { ArrowRightIcon } from '@heroicons/react/solid'
 
 function FeaturedProducts(): ReactElement {
   const address = `/api/products?page=${1}`
@@ -51,9 +53,15 @@ function FeaturedProducts(): ReactElement {
                   onMouseLeave={() => setShowIndicators(false)}
                   className="relative "
                 >
-                  <div className="scrollbar-hide relative mx-auto flex space-x-6 overflow-x-auto rounded-lg bg-white p-4">
+                  <div className="flex flex-row w-full justify-between pb-4 items-center">
+                    <p className='text-gray-700 font-semibold'>Top-Ranking</p>
+                    <div className="flex">
+                      <ArrowRightIcon height={20} width={20} className={'text-gray-700'} />
+                    </div>
+                  </div>
+                  <div className="scrollbar-hide relative mx-auto flex space-x-6 overflow-x-auto">
                     {all_products?.map((product: any, index: number) => (
-                      <div key={index} className="col-span-1 p-0">
+                      <div key={index} className="col-span-1 rounded-lg bg-white p-4">
                         <ProductItem
                           name={product.title}
                           description={product.description}
@@ -70,7 +78,7 @@ function FeaturedProducts(): ReactElement {
                         />
                       </div>
                     ))}
-                    {all_products?.length > 10 && (
+                    {/* {all_products?.length > 10 && (
                       <div className="col-span-1 my-auto h-full w-full">
                         <Link href={'/explore'}>
                           <a className="items-centerlex my-auto grid h-40 w-40 cursor-pointer content-center justify-center rounded bg-gray-200 text-gray-700 hover:bg-gray-100">
@@ -78,7 +86,7 @@ function FeaturedProducts(): ReactElement {
                           </a>
                         </Link>
                       </div>
-                    )}
+                    )} */}
                   </div>
                   {show_indicators && (
                     <div className="absolute top-1/2 flex w-full -translate-y-1/2 transform items-start justify-between px-3">

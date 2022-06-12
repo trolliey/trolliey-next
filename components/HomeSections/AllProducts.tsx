@@ -29,7 +29,7 @@ function AllProducts({
   const { currency } = state
 
   return (
-    <div className="mb-8 flex w-full flex-col bg-white p-2">
+    <div className="mb-8 flex w-full flex-col bg-white p-2 rounded">
       {!no_text && (
         <div className="flex flex-row items-center justify-between pb-4 text-sm md:text-lg">
           <p className="font-semibold capitalize text-gray-700 ">
