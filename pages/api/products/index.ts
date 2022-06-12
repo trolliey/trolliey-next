@@ -38,14 +38,12 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
         .limit(resultsPerPage)
         .skip(resultsPerPage * page)
 
-      await disconnect()
-
       const products = []
 
       if (!all_products) {
         return res.status(400).json({ error: 'No all_Products found' })
       } else {
-        res.setHeader('Cache-Control', 's-maxage=10')
+        
         for (let i = 0; i < all_products.length; i++) {
           const store = await Store.findOne({ _id: all_products[i].store_id })
           products.push({
@@ -69,6 +67,8 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 
           })
         }
+        await disconnect()
+        res.setHeader('Cache-Control', 's-maxage=10')
         return res.status(200).send(products)
       }
     } catch (error) {
@@ -81,8 +81,8 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
       .limit(resultsPerPage)
       .skip(resultsPerPage * page)
     const products = []
-    await disconnect()
-    res.setHeader('Cache-Control', 's-maxage=10')
+   
+    
     for (let i = 0; i < all_products.length; i++) {
       const store = await Store.findOne({ _id: all_products[i].store_id })
       products.push({
@@ -105,6 +105,8 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
         times_bought: all_products[i].times_bought
       })
     }
+    await disconnect()
+    res.setHeader('Cache-Control', 's-maxage=10')
     return res.status(200).send(products)
   } catch (error) {
     return res.status(500).send({ message: error })
