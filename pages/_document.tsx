@@ -5,7 +5,7 @@ export default class MyDocument extends Document {
     render() {
         return (
             <Html lang="en">
-                <Head>
+                <Head prefix="og:https://ogp.me/ns#">
                     <link rel="shortcut icon" href="/icon.png" />
                 </Head>
                 <body>
