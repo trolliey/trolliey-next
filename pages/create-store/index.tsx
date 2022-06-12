@@ -15,6 +15,7 @@ export default function CreateStore() {
     const [brands, setBrands] = useState<any>([])
     const [page_err, setPageErr] = useState<string>('')
     const [agreed, setAgreed] = useState<any>(false)
+    const [loading, setLoading] = useState(false)
     const { state: me } = useContext(Store)
     const { userInfo } = me
     const router = useRouter()
@@ -54,6 +55,7 @@ export default function CreateStore() {
 
     const create_store = async () => {
         try {
+            setLoading(true)
             await axios.post(`/api/store`, { values: state, brands: brands, agreed }, {
                 headers: {
                     authorization: userInfo.token
@@ -87,6 +89,7 @@ export default function CreateStore() {
                 registered_account: false
             })
             router.push('/success/store')
+            setLoading(false)
         } catch (error) {
             toast({
                 title: getError(error),
@@ -95,6 +98,7 @@ export default function CreateStore() {
                 duration: 9000,
                 isClosable: true,
             })
+            setLoading(false)
             // console.log(getError(error))
         }
     }
@@ -635,7 +639,7 @@ export default function CreateStore() {
                             {/* <BlueButton text={'Prev Step'} onClick={() => prevStep(values)} /> */}
                         </div>
 
-                        <BlueButton text={'Apply For Store'} onClick={create_store} />
+                        <BlueButton loading={loading} text={'Apply For Store'} onClick={create_store} />
 
                     </div>
                 </div>
