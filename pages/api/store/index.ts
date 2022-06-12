@@ -101,40 +101,46 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
 
 // verify - block - store
 auth_handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
-  const { action, store_id } = req.body
+  try {
+    await connect()
+    const { action, store_id } = req.body
 
-  console.log('action selected is ------- ', action)
+    console.log('action selected is ------- ', action)
 
-  if (!action) {
-    return res.status(500).send('Please specify an action!')
-  }
-
-  if (action === 'approve') {
-    try {
-      await Store.findOneAndUpdate({ _id: store_id }, { approved: true })
-      return res
-        .status(200)
-        .send('Store has been approved and can start selling now!')
-    } catch (error) {
-      res.status(500).send({ message: error })
+    if (!action) {
+      return res.status(500).send('Please specify an action!')
     }
-  }
 
-  if (action === 'verify') {
-    await Store.findOneAndUpdate({ _id: store_id }, { verified: true })
-    return res.status(200).send('Verification action complete')
-  }
-  if (action === 'un-verify') {
-    await Store.findOneAndUpdate({ _id: store_id }, { verified: false })
-    return res.status(200).send('Verification action complete')
-  }
-  if (action === 'block') {
-    await Store.findOneAndUpdate({ id: store_id }, { blocked: true })
-    return res.status(200).send('Blocking action complete')
-  }
-  if (action === 'un-block') {
-    await Store.findOneAndUpdate({ id: store_id }, { blocked: false })
-    return res.status(200).send('Blocking action complete')
+    if (action === 'approve') {
+      try {
+        await Store.findOneAndUpdate({ _id: store_id }, { approved: true })
+        return res
+          .status(200)
+          .send('Store has been approved and can start selling now!')
+      } catch (error) {
+        return res.status(500).send({ message: error })
+      }
+    }
+
+    if (action === 'verify') {
+      await Store.findOneAndUpdate({ _id: store_id }, { verified: true })
+      return res.status(200).send('Verification action complete')
+    }
+    if (action === 'un-verify') {
+      await Store.findOneAndUpdate({ _id: store_id }, { verified: false })
+      return res.status(200).send('Verification action complete')
+    }
+    if (action === 'block') {
+      await Store.findOneAndUpdate({ id: store_id }, { blocked: true })
+      return res.status(200).send('Blocking action complete')
+    }
+    if (action === 'un-block') {
+      await Store.findOneAndUpdate({ id: store_id }, { blocked: false })
+      return res.status(200).send('Blocking action complete')
+    }
+    await disconnect()
+  } catch (error) {
+    return res.status(500).send({ message: error })
   }
 })
 
