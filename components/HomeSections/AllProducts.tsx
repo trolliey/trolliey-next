@@ -51,10 +51,11 @@ function AllProducts({
       ) : (
         <>
           {loading ? (
-            <div
+            <>
+              <div
               className={`${
                 cols ? cols : 'grid-cols-2 md:grid-cols-4 lg:grid-cols-5'
-              } mx-auto grid w-full gap-4 rounded-lg  md:gap-8`}
+              } mx-auto md:grid hidden w-full gap-4 rounded-lg  md:gap-8`}
             >
               {[1, 2, 3, 4, 5]?.map((product: any, index: number) => (
                 <div key={index} className="col-span-1 p-0">
@@ -62,6 +63,18 @@ function AllProducts({
                 </div>
               ))}
             </div>
+            <div
+              className={`${
+                cols ? cols : 'grid-cols-2 md:grid-cols-4 lg:grid-cols-5'
+              } mx-auto md:hidden grid w-full gap-4 rounded-lg  md:gap-8`}
+            >
+              {[1, 2]?.map((product: any, index: number) => (
+                <div key={index} className="col-span-1 p-0">
+                  <ProductLoading />
+                </div>
+              ))}
+            </div>
+            </>
           ) : (
             <>
               {products?.length < 1 ? (

@@ -52,6 +52,7 @@ function PaymentMethod({
   const [selected_method, setSelectedMethod] = useState('')
   const [loading, setLoading] = useState<boolean>(false)
   const toast = useToast()
+  const [usd_loading, setUsdLoading] = useState(false)
 
   useEffect(() => {
     setSelectedMethod(payment_method)
@@ -130,6 +131,7 @@ function PaymentMethod({
 
   const handle_usd_payment = async () => {
     try {
+      setUsdLoading(true)
       const stripe = await getStripe()
       const { data } = await axios.post(
         `/api/payment/usd`,
@@ -176,12 +178,13 @@ function PaymentMethod({
       })
       stripe.redirectToCheckout({ sessionId: data.id })
     } catch (error) {
+      setUsdLoading(false)
       console.log(getError(error))
       return
     }
   }
 
-  console.log(payment_method)
+  // console.log(payment_method)
 
   if (payment_method === 'pay_on_delivery') {
     return (
@@ -205,7 +208,7 @@ function PaymentMethod({
           <BlueButton text="previous" onClick={() => prevStep(values)} />
           <BlueButton
             text="Place Order"
-            loading={loading}
+            loading={usd_loading}
             onClick={placeOrderHandler}
           />
         </div>
@@ -390,11 +393,16 @@ function PaymentMethod({
       )}
       <div className="mt-4 flex w-full space-x-4 border-t border-gray-200 px-4 pt-4 pb-4">
         <BlueButton text="previous" onClick={() => prevStep(values)} />
-        <BlueButton
-          text="Place Order"
-          loading={loading}
-          onClick={placeOrderHandler}
-        />
+        {
+          payment_method === 'pay_on_delivery' && (
+            <BlueButton
+            text="Place Order"
+            loading={loading}
+            onClick={placeOrderHandler}
+          />
+          )
+        }
+       
       </div>
     </ShipmentLayout>
   )

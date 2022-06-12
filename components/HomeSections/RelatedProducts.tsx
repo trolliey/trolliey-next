@@ -49,13 +49,30 @@ function RelatedProducts({ cols, no_text, category }: Props): ReactElement {
             <div className="w-full">
                 {
                     loading ? (
-                        <div className={`${cols ? cols : "lg:grid-cols-5 md:grid-cols-4 grid-cols-2 "} grid w-full md:gap-8 gap-4 mx-auto  rounded-lg`} >
-                            {[1, 2, 3, 4, 5]?.map((product: any, index: number) => (
-                                <div key={index} className="p-0 col-span-1">
-                                    <ProductLoading />
-                                </div>
-                            ))}
-                        </div>
+                        <>
+              <div
+              className={`${
+                cols ? cols : 'grid-cols-2 md:grid-cols-4 lg:grid-cols-5'
+              } mx-auto md:grid hidden w-full gap-4 rounded-lg  md:gap-8`}
+            >
+              {[1, 2, 3, 4, 5]?.map((product: any, index: number) => (
+                <div key={index} className="col-span-1 p-0">
+                  <ProductLoading />
+                </div>
+              ))}
+            </div>
+            <div
+              className={`${
+                cols ? cols : 'grid-cols-2 md:grid-cols-4 lg:grid-cols-5'
+              } mx-auto md:hidden grid w-full gap-4 rounded-lg  md:gap-8`}
+            >
+              {[1, 2]?.map((product: any, index: number) => (
+                <div key={index} className="col-span-1 p-0">
+                  <ProductLoading />
+                </div>
+              ))}
+            </div>
+            </>
                     ) : error ? (
                         <p className="text-gray-700 text-center py-8 w-full min-h-96">Could not load products, Try reloading the page! </p>
                     ) : (
