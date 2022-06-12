@@ -54,7 +54,7 @@ function GeneralNavbar() {
             </a>
           </Link>
         ) : (
-          <Link href={'/become-a-seller'}>
+          <Link href={'/applytosell'}>
             <a className="cursor-pointer font-semibold capitalize text-gray-700">
               Sell on trolliey
             </a>

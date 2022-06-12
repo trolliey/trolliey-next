@@ -255,7 +255,7 @@ function MobileNavDrawers({ user }: Props): ReactElement {
                     </div>
                   ) : (
                     <div
-                      onClick={() => history.push('/become-a-seller')}
+                      onClick={() => history.push('/applytosell')}
                       className="flex flex-row items-center justify-between bg-white py-4 px-4 text-sm font-semibold capitalize text-gray-700"
                     >
                       <p>Sell on trolliey</p>
