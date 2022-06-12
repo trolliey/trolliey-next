@@ -52,7 +52,7 @@ function Carousel({ data }: Props): ReactElement {
         onMouseEnter={() => setShowIndicators(true)}
         onMouseLeave={() => setShowIndicators(false)}
         ref={slideRef}
-        className="relative w-full cursor-pointer select-none"
+        className="relative w-full cursor-pointer select-none rounded"
       >
         <div className="aspect-w-16 aspect-h-9 rounded overflow-hidden">
           <Image
@@ -61,6 +61,7 @@ function Carousel({ data }: Props): ReactElement {
             quality={50}
             loading="eager"
             alt={data[0].body}
+            className="rounded"
           />
         </div>
 
