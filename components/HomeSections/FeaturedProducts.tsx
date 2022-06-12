@@ -46,9 +46,12 @@ function FeaturedProducts(): ReactElement {
                   </p>
                 </div>
               ) : (
-                <div className="relative ">
-                  <div onMouseEnter={() => setShowIndicators(true)}
-                      onMouseLeave={() => setShowIndicators(false)} className="scrollbar-hide relative mx-auto flex space-x-6 overflow-x-auto rounded-lg bg-white p-4">
+                <div
+                  onMouseEnter={() => setShowIndicators(true)}
+                  onMouseLeave={() => setShowIndicators(false)}
+                  className="relative "
+                >
+                  <div className="scrollbar-hide relative mx-auto flex space-x-6 overflow-x-auto rounded-lg bg-white p-4">
                     {all_products?.map((product: any, index: number) => (
                       <div key={index} className="col-span-1 p-0">
                         <ProductItem
@@ -78,10 +81,7 @@ function FeaturedProducts(): ReactElement {
                     )}
                   </div>
                   {show_indicators && (
-                    <div
-                      
-                      className="absolute top-1/2 flex w-full -translate-y-1/2 transform items-start justify-between px-3"
-                    >
+                    <div className="absolute top-1/2 flex w-full -translate-y-1/2 transform items-start justify-between px-3">
                       <div className=" rounded-full bg-gray-100 p-2">
                         <ChevronLeftIcon
                           className="text-gray-700"
