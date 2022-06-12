@@ -1,9 +1,6 @@
 import React, { ReactFragment, useContext } from 'react'
-// import dynamic from 'next/dynamic'
 import GeneralLayout from '../layouts/GeneralLayout'
 import Courosel from '../components/Carousel/Carousel'
-// const TastyLogo = dynamic(() => import('../public/img/samsung.svg'))
-
 import CategoriesDropdown from '../components/Dropdowns/CategoriesDropdown'
 import samsung from '../public/img/samsung.svg'
 import defy from '../public/img/defy.svg'
@@ -39,9 +36,40 @@ function Home(): ReactFragment {
     data.categories[Math.floor(Math.random() * data.categories.length)]
 
   return (
-    <GeneralLayout title="Home Page" description="Buy more. Spend Less">
+    <GeneralLayout
+      title="Home Page"
+      no_text
+      bg_color="bg-gradient-to-b from-blue-superlight via-gray-100 to-gray-100"
+      description="Buy more. Spend Less"
+      component_above_navbar 
+    >
+      <div className=" border-b-none border-gray-200 md:border-b">
+        <div className="mx-auto hidden w-full max-w-7xl grid-cols-1 items-center gap-4 py-4 md:grid md:grid-cols-2 md:py-4 lg:grid-cols-4 ">
+          {data.benefits.map((benefit, index) => (
+            <div
+              key={index}
+              className="col-span-1 mx-auto flex cursor-pointer flex-col items-center border-b border-blue-dark pb-4 text-blue-dark hover:text-new-primary md:flex-row md:border-none md:pb-0"
+            >
+              <div className="hidden md:block">
+                <benefit.icon height={32} width={32} className="mr-2" />
+              </div>
+              <div className="mb-1 block md:hidden">
+                <benefit.icon height={24} width={24} className="mr-2" />
+              </div>
+              <div className="flex flex-col items-center md:items-start">
+                <p className="font-semibold capitalize text-blue-dark">
+                  {benefit.heading}
+                </p>
+                <p className="text-sm capitalize text-gray-700">
+                  {benefit.details}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
       {/* <h1>Products</h1> */}
-      <div className="container min-h-screen max-w-7xl">
+      <div className="container min-h-screen md:pt-0 pt-4 max-w-7xl">
         <div className="top mb-8 flex w-full flex-row gap-2 rounded bg-white px-0 py-0 md:gap-8  md:p-8 md:px-4 md:py-4">
           <div className="hidden md:flex md:w-1/5">
             <CategoriesDropdown />

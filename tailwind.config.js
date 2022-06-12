@@ -23,7 +23,8 @@ module.exports = {
           primary: '#597bad',
           secondary: '#5469D0',
           dark: '#3e577d',
-          light: '#94aaca'
+          light: '#94aaca',
+          superlight: '#a6bee0'
         },
         new: {
           primary: '#ad596d',

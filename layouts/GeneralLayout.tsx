@@ -6,6 +6,7 @@ import Footer from '../components/Navigations/Footer'
 import { Store } from '../Context/Store'
 import { data } from '../utils/data'
 import CurrencyModal from '../components/Modals/CurrencyModal'
+import { useWindowScrollPositions } from '../hooks/useWindowScrollPosition'
 
 interface Props {
   title: string
@@ -16,7 +17,9 @@ interface Props {
   twitter_title?: string
   twitter_description?: string
   canonical_url?: string
-  og_image?: any
+  og_image?: any,
+  bg_color?:string,
+  component_above_navbar?:any
 }
 
 function GeneralLayout({
@@ -28,11 +31,14 @@ function GeneralLayout({
   twitter_description,
   canonical_url,
   og_image,
+  bg_color,
+  component_above_navbar
 }: Props): ReactElement {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const { state, dispatch } = useContext(Store)
   const { currency } = state
+  const { scrollX, scrollY } = useWindowScrollPositions()
 
   useEffect(() => {
     if (!currency) {
@@ -43,7 +49,7 @@ function GeneralLayout({
 
   return (
     <div
-      className="overflow-scroll bg-gray-100"
+      className={`${bg_color ? bg_color : "bg-gray-100 "} overflow-scroll bg-gray-100`}
       style={{ backgroundColor: 'rgb(243 244 246)' }}
     >
       <Head>
@@ -94,9 +100,9 @@ function GeneralLayout({
         />
       </Head>
       <nav className="">
-        <GeneralNavbar />
+        <GeneralNavbar scrollY={scrollY} component_above_navbar={component_above_navbar} />
       </nav>
-      <main className="w-full pt-16">
+      <main className={`${component_above_navbar ? "pt-32 " : "pt-16 " } w-full pt-16`}>
         <Container maxW="container.xl" className="mx-auto">
           {!no_text && (
             <h1

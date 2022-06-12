@@ -1,24 +1,25 @@
 import React, { useContext, useState } from 'react'
 import { ShoppingCartIcon, BellIcon } from '@heroicons/react/outline'
-import { Tooltip } from '@chakra-ui/react'
+import { Container, Tooltip } from '@chakra-ui/react'
 import dynamic from 'next/dynamic'
 const NotificationMenu = dynamic(() => import('../Menus/NotificationMenu'))
 const UserDropdown = dynamic(() => import('../Dropdowns/UserDropdown'))
 const MobileNavDrawers = dynamic(() => import('../Drawers/MobileNavDrawers'))
 const CurrencyDropdown = dynamic(() => import('../Dropdowns/CurrencyDropdown'))
-
-// import NotificationMenu from '../Menus/NotificationMenu'
-// import UserDropdown from '../Dropdowns/UserDropdown'
-// import MobileNavDrawers from '../Drawers/MobileNavDrawers'
-// import CurrencyDropdown from '../Dropdowns/CurrencyDropdown'
 import NavSearch from '../NavSearch/NavSearch'
 import Image from 'next/image'
 import logo from '../../public/img/full_logo.png'
 import CartSidebar from '../Sidebars/CartSidebar'
 import { Store } from '../../Context/Store'
 import Link from 'next/link'
+import particles from '../../public/img/circle-scatter-haikei.svg'
 
-function GeneralNavbar() {
+interface Props {
+  component_above_navbar?: any
+  scrollY?: any
+}
+
+function GeneralNavbar({ component_above_navbar, scrollY }: Props) {
   const { state } = useContext(Store)
   const { cart, userInfo } = state
   const basket: any[] = []
@@ -26,13 +27,45 @@ function GeneralNavbar() {
   const [open_cart, setOpenCart] = useState<boolean>(false)
   const [notifications_menu, setOpenNotificationMenu] = useState<boolean>(false)
 
+  console.log(scrollY)
+
   const toggle_cart = () => {
     !open_cart ? setOpenCart(true) : setOpenCart(false)
   }
 
   return (
     <div className="fixed top-0 z-50 w-full bg-white shadow">
-      <div className="md:16 mx-auto hidden h-16  max-w-7xl flex-row items-center justify-between space-x-4 px-2 md:flex md:px-4 lg:px-0">
+      {component_above_navbar && (
+        <>
+          {scrollY < 110 && (
+            <div
+              className="bg-blue-superlight"
+              style={{
+                backgroundImage: `url(${particles.src})`,
+                width: '100%',
+                height: '100%',
+              }}
+            >
+              <Container
+                maxW="container.xl"
+                className="mx-auto flex flex-row items-center justify-between py-4"
+              >
+                <p className="font-bold text-blue-dark md:text-md text-xs">
+                  Enjoy free delivery by buying items above $50
+                </p>
+                <Link href={'/explore'} passHref>
+                  <a>
+                    <div className="rounded-full md:text-md text-xs bg-blue-dark px-2 py-1 font-semibold text-white">
+                      View more
+                    </div>
+                  </a>
+                </Link>
+              </Container>
+            </div>
+          )}
+        </>
+      )}
+      <div className="md:16 mx-auto hidden h-16  max-w-7xl flex-row items-center justify-between space-x-4 py-4 px-2 md:flex md:px-4 lg:px-0">
         <Link href={'/'}>
           <a className="flex cursor-pointer flex-row items-center text-sm font-bold uppercase text-gray-700">
             <Image
@@ -88,7 +121,7 @@ function GeneralNavbar() {
           </div>
         </Tooltip>
 
-        <div className='md:flex hidden'>
+        <div className="hidden md:flex">
           <NotificationMenu
             show={notifications_menu}
             setShow={setOpenNotificationMenu}
