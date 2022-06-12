@@ -3,12 +3,10 @@ import ProductItem from '../ProductItem/ProductItem'
 import ProductLoading from '../ProductItem/ProductLoading'
 import no_product from '../../public/img/no_product.svg'
 import Image from 'next/image'
-import { Store } from '../../Context/Store'
 import axios from 'axios'
 import useSWR from 'swr'
 import Link from 'next/link'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/outline'
-import { height } from '@mui/system'
 import { ArrowRightIcon } from '@heroicons/react/solid'
 
 function FeaturedProducts(): ReactElement {
@@ -68,9 +66,9 @@ function FeaturedProducts(): ReactElement {
                       <ArrowRightIcon height={20} width={20} className={'text-gray-700'} />
                     </div>
                   </div>
-                  <div className="scrollbar-hide relative mx-auto flex space-x-6 overflow-x-auto">
+                  <div className="scrollbar-hide relative mx-auto flex space-x-2 overflow-x-auto">
                     {all_products?.map((product: any, index: number) => (
-                      <div key={index} className="col-span-1 rounded-lg bg-white p-4">
+                      <div key={index} className="col-span-1 rounded-lg bg-white p-2 ">
                         <ProductItem
                           name={product.title}
                           description={product.description}

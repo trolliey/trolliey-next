@@ -71,8 +71,8 @@ function ProductItem({
   return (
     <div
       className={`relative ${
-        pathname === '/' ? 'w-44 md:w-56 ' : 'w-full '
-      } relative flex max-h-96 flex-1 transform cursor-pointer flex-col overflow-hidden rounded border border-gray-100 bg-white transition hover:-translate-y-1 hover:shadow-lg motion-reduce:transform-none  motion-reduce:transition-none`}
+        pathname === '/' ? 'w-44 md:w-56 ' : 'w-full transition hover:-translate-y-1 hover:shadow-lg motion-reduce:transform-none  motion-reduce:transition-none '
+      } relative flex max-h-96 flex-1 transform cursor-pointer flex-col overflow-hidden rounded border border-gray-100 bg-white `}
     >
       <Link href={`/product/description/${id}`} passHref>
         <a className="relative flex h-32 flex-col items-center overflow-hidden rounded bg-white md:h-52">

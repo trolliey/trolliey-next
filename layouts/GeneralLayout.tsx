@@ -115,7 +115,7 @@ function GeneralLayout({
           !close_message && component_above_navbar ? 'pt-32 ' : 'pt-16 '
         } w-full pt-16`}
       >
-        <Container maxW="container.xl" className="mx-auto">
+        <div className="container max-w-7xl mx-auto px-2">
           {!no_text && (
             <h1
               className="flex text-sm font-semibold text-gray-700 "
@@ -128,7 +128,7 @@ function GeneralLayout({
           {!currency && (
             <CurrencyModal isOpen={isOpen} onClose={onClose} onOpen={onOpen} />
           )}
-        </Container>
+        </div>
       </main>
 
       <footer className="text-gray-700">
