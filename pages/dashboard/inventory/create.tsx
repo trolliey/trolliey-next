@@ -74,8 +74,7 @@ export default function CreateProduct() {
         duration: 9000,
         isClosable: true,
       })
-    }
-    else if (!description) {
+    } else if (!description) {
       setLoading(false)
       toast({
         title: 'Error Adding.',
@@ -85,8 +84,7 @@ export default function CreateProduct() {
         duration: 9000,
         isClosable: true,
       })
-    }
-    else if (!title) {
+    } else if (!title) {
       setLoading(false)
       toast({
         title: 'Error Adding.',
@@ -96,8 +94,7 @@ export default function CreateProduct() {
         duration: 9000,
         isClosable: true,
       })
-    }
-    else if (!price) {
+    } else if (!price) {
       setLoading(false)
       toast({
         title: 'Error Adding.',
@@ -107,8 +104,7 @@ export default function CreateProduct() {
         duration: 9000,
         isClosable: true,
       })
-    }
-    else if (!category) {
+    } else if (!category) {
       setLoading(false)
       toast({
         title: 'Error Adding.',
@@ -118,8 +114,7 @@ export default function CreateProduct() {
         duration: 9000,
         isClosable: true,
       })
-    }
-    else if (!currency) {
+    } else if (!currency) {
       setLoading(false)
       toast({
         title: 'Error Adding.',
@@ -162,7 +157,7 @@ export default function CreateProduct() {
                 isClosable: true,
               })
               setLoading(false)
-              return;
+              return
             })
           promises.push(uploadPromise)
         })
@@ -212,7 +207,9 @@ export default function CreateProduct() {
             setCategory('')
             setStatus('')
             setSku('')
-            router.push(`/dashboard/inventory/add_success/${res?.data.product_id}`)
+            router.push(
+              `/dashboard/inventory/add_success/${res?.data.product_id}`
+            )
           })
           .catch((error: any) => {
             setLoading(false)
@@ -534,7 +531,7 @@ export default function CreateProduct() {
                               id="price"
                               value={price}
                               //@ts-ignore
-                        onWheel={e => e.target.blur()}
+                              onWheel={(e) => e.target.blur()}
                               onChange={(e) => setPrice(e.target.value)}
                               autoComplete="price"
                               placeholder="Enter price"
@@ -555,7 +552,7 @@ export default function CreateProduct() {
                               id="discount"
                               value={discount_price}
                               //@ts-ignore
-                        onWheel={e => e.target.blur()}
+                              onWheel={(e) => e.target.blur()}
                               onChange={(e) => setDiscountPrice(e.target.value)}
                               autoComplete="discount"
                               placeholder="Enter discount"
@@ -594,7 +591,7 @@ export default function CreateProduct() {
                               name="quantity"
                               id="quantity"
                               //@ts-ignore
-                              onWheel={e => e.target.blur()}
+                              onWheel={(e) => e.target.blur()}
                               value={countInStock}
                               onChange={(e) => setCountInStock(e.target.value)}
                               autoComplete="quantity"
