@@ -1,4 +1,4 @@
-import React, { ReactElement, useState, useContext, useEffect } from 'react'
+import React, { ReactElement, useState, useContext } from 'react'
 import BlueButton from '../Buttons/BlueButton'
 import ShipmentLayout from '../../layouts/ShipmentLayout'
 import { Divider, useToast } from '@chakra-ui/react'
@@ -332,14 +332,9 @@ function PaymentMethod({
       )}
 
       {selected_method === 'visa/mastercard' && (
-        <div className="col-span-full mt-4">
-          <label
-            htmlFor="card-number"
-            className="block text-sm font-medium text-gray-700"
-          >
-            {values.method} Card Number
-          </label>
-          <div className="mt-4">
+        <div className="col-span-full mt-4 flex-col w-full items-center flex">
+          
+          <div className="my-4">
             <BlueButton
               text={'Proceed to payment'}
               onClick={handle_usd_payment}
