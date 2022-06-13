@@ -172,8 +172,8 @@ function ProductDescription(props: any) {
                         <Amount
                           className="text-2xl font-bold text-gray-700"
                           amount={
-                            selected_variant?.price -
-                            selected_variant?.discount_price
+                            parseFloat(selected_variant?.price) -
+                            parseFloat(selected_variant?.discount_price)
                           }
                         />
                       ) : (
@@ -185,7 +185,7 @@ function ProductDescription(props: any) {
                       {selected_variant ? (
                         <Amount
                           className="text-xl text-gray-300 line-through"
-                          amount={selected_variant?.price}
+                          amount={parseFloat(selected_variant?.price)}
                         />
                       ) : (
                         <Amount

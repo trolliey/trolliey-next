@@ -533,6 +533,8 @@ export default function CreateProduct() {
                               name="price"
                               id="price"
                               value={price}
+                              //@ts-ignore
+                        onWheel={e => e.target.blur()}
                               onChange={(e) => setPrice(e.target.value)}
                               autoComplete="price"
                               placeholder="Enter price"
@@ -552,6 +554,8 @@ export default function CreateProduct() {
                               name="discount"
                               id="discount"
                               value={discount_price}
+                              //@ts-ignore
+                        onWheel={e => e.target.blur()}
                               onChange={(e) => setDiscountPrice(e.target.value)}
                               autoComplete="discount"
                               placeholder="Enter discount"
@@ -589,6 +593,8 @@ export default function CreateProduct() {
                               type="number"
                               name="quantity"
                               id="quantity"
+                              //@ts-ignore
+                              onWheel={e => e.target.blur()}
                               value={countInStock}
                               onChange={(e) => setCountInStock(e.target.value)}
                               autoComplete="quantity"
