@@ -38,7 +38,7 @@ function MobileNavDrawers({ user }: Props): ReactElement {
   const [current_category, setCurrentCategory] = useState<any>('')
   const history = useRouter()
   const { state, dispatch } = useContext(Store)
-  const {currency} = state
+  const { currency } = state
 
   const logout_user = () => {
     history.push('/')
@@ -104,9 +104,11 @@ function MobileNavDrawers({ user }: Props): ReactElement {
                     dispatch({ type: 'CHANGE_CURRENCY', payload: 'ZWL' })
                     onClose()
                   }}
-                  className={`${currency === "ZWL" ? "bg-gray-100 w-full " : ""} "zwl py-2"`}
+                  className={`${
+                    currency === 'ZWL' ? 'w-full bg-gray-100 ' : ''
+                  } "zwl py-2"`}
                 >
-                  <p className='py-2 text-center'>ZWL</p>
+                  <p className="py-2 text-center">ZWL</p>
                 </div>
                 <Divider />
                 <div
@@ -114,9 +116,11 @@ function MobileNavDrawers({ user }: Props): ReactElement {
                     dispatch({ type: 'CHANGE_CURRENCY', payload: 'USD' })
                     onClose()
                   }}
-                  className={`${currency === "USD" ? "bg-gray-100 w-full " : ""} "zwl py-2"`}
+                  className={`${
+                    currency === 'USD' ? 'w-full bg-gray-100 ' : ''
+                  } "zwl py-2"`}
                 >
-                  <p className='py-2 text-center'>USD</p>
+                  <p className="py-2 text-center">USD</p>
                 </div>
               </div>
             </DrawerBody>
@@ -244,13 +248,56 @@ function MobileNavDrawers({ user }: Props): ReactElement {
                       <Username username={'Guest User'} />
                     )}
                   </div>
+
+                  {/* // for currency */}
+                  <Divider />
+                  <div
+                    onClick={() => serShowCurrencies(true)}
+                    className="mb-2 flex flex-row items-center justify-between bg-white py-4 px-4 text-sm font-semibold capitalize text-gray-700"
+                  >
+                    <p>Preferred Currency</p>
+                    <ChevronRightIcon height={20} width={20} />
+                  </div>
+
+                  <Divider />
+                  <div
+                    onClick={() => history.push('/explore')}
+                    className="flex flex-row items-center justify-between bg-white py-4 px-4 text-sm font-semibold capitalize text-gray-700"
+                  >
+                    <p>explore products</p>
+                    <ChevronRightIcon height={20} width={20} />
+                  </div>
+
+                  <Divider />
+                  <div
+                    onClick={() => {
+                      setShowCotegory(true)
+                      setShowSubCategories(false)
+                    }}
+                    className="mb-2 flex flex-row items-center justify-between bg-white py-4 px-4 text-sm font-semibold capitalize text-gray-700"
+                  >
+                    <p>shop by categories</p>
+                    <ChevronRightIcon height={20} width={20} />
+                  </div>
+
+                  {/* // for help */}
+                  <Divider />
+                  <div
+                    onClick={() => history.push('/orders')}
+                    className="flex flex-row items-center justify-between bg-white py-4 px-4 text-sm font-semibold capitalize text-gray-700"
+                  >
+                    <p>My Orders</p>
+                    <ChevronRightIcon height={20} width={20} />
+                  </div>
+
+                  {/* // for user  */}
                   <Divider />
                   {user?.role === 'seller' ? (
                     <div
                       onClick={() => history.push('/dashboard')}
                       className="flex flex-row items-center justify-between bg-white py-4 px-4 text-sm font-semibold capitalize text-gray-700"
                     >
-                      <p>Sell on trolliey</p>
+                      <p>My Store Dashboard</p>
                       <ChevronRightIcon height={20} width={20} />
                     </div>
                   ) : (
@@ -262,43 +309,24 @@ function MobileNavDrawers({ user }: Props): ReactElement {
                       <ChevronRightIcon height={20} width={20} />
                     </div>
                   )}
+                  {/* // for help */}
                   <Divider />
-                  <div
-                    onClick={() => history.push('/explore')}
-                    className="flex flex-row items-center justify-between bg-white py-4 px-4 text-sm font-semibold capitalize text-gray-700"
-                  >
-                    <p>explore products</p>
-                    <ChevronRightIcon height={20} width={20} />
-                  </div>
-                  <Divider />
-                  <div
-                    onClick={() => {
-                      setShowCotegory(true)
-                      setShowSubCategories(false)
-                    }}
-                    className="flex flex-row items-center justify-between bg-white py-4 px-4 text-sm font-semibold capitalize text-gray-700"
-                  >
-                    <p>shop by categories</p>
-                    <ChevronRightIcon height={20} width={20} />
-                  </div>
-                  <Divider />
-
-                  <div
-                    onClick={() => serShowCurrencies(true)}
-                    className="flex flex-row items-center justify-between bg-white py-4 px-4 text-sm font-semibold capitalize text-gray-700"
-                  >
-                    <p>Preferred Currency</p>
-                    <ChevronRightIcon height={20} width={20} />
-                  </div>
-                  <Divider />
-
                   <div
                     onClick={() => history.push('/help')}
-                    className="flex flex-row items-center justify-between bg-white py-4 px-4 text-sm font-semibold capitalize text-gray-700"
+                    className="mt-2 flex flex-row items-center justify-between bg-white py-4 px-4 text-sm font-semibold capitalize text-gray-700"
                   >
                     <p>Help</p>
                     <ChevronRightIcon height={20} width={20} />
                   </div>
+                  <Divider />
+                  <div
+                    onClick={() => history.push('/profile')}
+                    className="mb-2 flex flex-row items-center justify-between bg-white py-4 px-4 text-sm font-semibold capitalize text-gray-700"
+                  >
+                    <p>Settings</p>
+                    <ChevronRightIcon height={20} width={20} />
+                  </div>
+
                   <Divider />
 
                   <Divider />

@@ -5,19 +5,19 @@ import { data } from '../../utils/data'
 
 const navigation = {
   main: [
-    { name: 'About', href: '/about' },
-    { name: 'Contact', href: '/contact' },
-    { name: 'Jobs', href: '/jobs' },
-    { name: 'Explore', href: '/explore' },
-    { name: 'Join', href: '/register' },
+    { name: 'About Us', href: '/about' },
+    { name: 'Contact Us', href: '/contact' },
+    { name: 'Apply To Sell', href: '/jobs' },
+    { name: 'Suggest An Idea', href: '/explore' },
+    { name: 'Suggest A Product', href: '/register' },
     { name: 'Terms And Conditions', href: '/termsandconditions' },
   ],
   auth_main: [
-    { name: 'About', href: '/about' },
-    { name: 'Contact', href: '/contact' },
-    { name: 'Jobs', href: '/jobs' },
-    { name: 'Explore', href: '/explore' },
-    { name: 'Account', href: '/account' },
+    { name: 'About Us', href: '/about' },
+    { name: 'Contact Us', href: '/contact' },
+    { name: 'Apply To Sell', href: '/jobs' },
+    { name: 'Suggest An Idea', href: '/explore' },
+    { name: 'Suggest A Product', href: '/account' },
     { name: 'Terms And Conditions', href: '/termsandconditions' },
   ],
   social: [
@@ -69,7 +69,7 @@ export default function Footer() {
   return (
     <footer className="w-full flex-col bg-white">
       <div className=" border-b-none border-gray-200 md:border-b">
-        <div className="mx-auto hidden w-full max-w-7xl grid-cols-1 items-center gap-4 py-4 md:grid md:grid-cols-2 md:py-8 lg:grid-cols-4 ">
+        <div className="mx-auto hidden w-full max-w-7xl grid-cols-1 items-center gap-4 py-4 md:grid md:grid-cols-2 md:py-4 lg:grid-cols-4 ">
           {data.benefits.map((benefit, index) => (
             <div
               key={index}
@@ -93,9 +93,10 @@ export default function Footer() {
           ))}
         </div>
       </div>
-      <div className="mx-auto max-w-7xl overflow-hidden py-12 px-4 sm:px-6 lg:px-8">
+     
+      <div className="mx-auto max-w-7xl overflow-hidden py-4 px-4 sm:px-6 lg:px-8">
         <nav
-          className="-mx-5 -my-2 flex flex-wrap justify-center"
+          className="-mx-5 -my-2 flex md:flex-row flex-wrap flex-col justify-center"
           aria-label="Footer"
         >
           {navigation.main.map((item) => (
@@ -109,8 +110,7 @@ export default function Footer() {
             </div>
           ))}
         </nav>
-
-        <div className="mt-8 flex justify-center space-x-6">
+        <nav className="mt-4 flex justify-center space-x-6">
           {navigation.social.map((item) => (
             <Link href={item.href} passHref key={item.name}>
               <a
@@ -123,9 +123,11 @@ export default function Footer() {
               </a>
             </Link>
           ))}
-        </div>
-        <p className="mt-8 text-center text-sm text-gray-500">
-          &copy; {new Date().getFullYear()} Trolliey.{' '}
+        </nav>
+
+       
+        <p className="mt-4 text-center text-sm text-gray-500">
+          &copy; {new Date().getFullYear()} Trolliey Retail Enterprises Pvt. Ltd{' '}
         </p>
       </div>
     </footer>
