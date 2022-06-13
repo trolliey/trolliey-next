@@ -1,8 +1,9 @@
 import React, { useContext, FunctionComponent } from 'react'
 import GeneralLayout from './GeneralLayout'
-import { Divider, Avatar } from '@chakra-ui/react'
+import { Divider, Avatar, Select } from '@chakra-ui/react'
 import { Store } from '../Context/Store'
 import { LockClosedIcon } from '@heroicons/react/outline'
+import Cookies from 'js-cookie'
 
 interface Props {
   children: any
@@ -15,11 +16,8 @@ const ShipmentLayout: FunctionComponent<Props> = ({
   step,
   heading,
 }: Props) => {
-  const { state } = useContext(Store)
+  const { state, dispatch } = useContext(Store)
   const { cart } = state
-
-  //@ts-ignore
-  const percentage = (step / 4) * 100
 
   return (
     <GeneralLayout
@@ -28,9 +26,9 @@ const ShipmentLayout: FunctionComponent<Props> = ({
       description="describe how you want Trolliey to handle yout equipmwnt"
     >
       <div className="min-h-screen w-full items-center py-6">
-        <main className="grid-col-1 max-w-7xl gap-8 flex md:flex-row flex-col-reverse">
+        <main className="grid-col-1 flex max-w-7xl flex-col-reverse gap-8 md:flex-row">
           {/* Checkout form */}
-          <div className="col-span-1 md:w-3/4 w-full mb-8 flex flex-col rounded  bg-white p-4 shadow md:col-span-2 md:p-8 lg:col-span-3">
+          <div className="col-span-1 mb-8 flex w-full flex-col rounded bg-white  p-4 shadow md:col-span-2 md:w-3/4 md:p-8 lg:col-span-3">
             <div className="flex w-full flex-row items-start justify-between px-4 pt-4">
               <div className="flex flex-col">
                 <p className="text-sm font-semibold uppercase text-gray-400">
@@ -39,17 +37,28 @@ const ShipmentLayout: FunctionComponent<Props> = ({
                 <p className="font-semibold text-gray-700">{heading}</p>
               </div>
               <div className=" flex h-2.5 w-2/5 flex-row rounded-full bg-gray-300">
-                <div
-                  className="h-2.5 rounded-full bg-blue-primary"
-                  style={{ width: `${percentage}%` }}
-                ></div>
+                <Select
+                  placeholder="Currency"
+                  onChange={(e) => {
+                    Cookies.set('trolliey_currency', e.target.value)
+                    dispatch({
+                      type: 'CHANGE_CURRENCY',
+                      payload: e.target.value,
+                    })
+                  }}
+                  size={'sm'}
+                  variant="filled"
+                >
+                  <option value="USD">USD</option>
+                  <option value="ZWL">ZWL / RTGS</option>
+                </Select>
               </div>
             </div>
             <Divider className="text-gray-300" my={5} />
             {children}
           </div>
 
-          <div className="order-1 col-span-1 flex flex-col md:w-1/4 w-full md:order-2">
+          <div className="order-1 col-span-1 flex w-full flex-col md:order-2 md:w-1/4">
             <div className="w-full rounded bg-white p-4 shadow">
               <h3 className="font-semibold text-gray-800">Order Summary</h3>
               <div className="mt-4 flex w-full flex-row items-center justify-between text-sm font-semibold text-gray-400">
@@ -63,7 +72,7 @@ const ShipmentLayout: FunctionComponent<Props> = ({
                   </span>
                 </p>
                 <p>
-                  $ {' '}
+                  ${' '}
                   {cart?.cartItems.reduce(
                     (a: any, c: any) =>
                       parseInt(a) + parseInt(c.quantity) * parseInt(c.price),
