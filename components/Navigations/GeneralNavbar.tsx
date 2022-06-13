@@ -78,7 +78,7 @@ function GeneralNavbar({ component_above_navbar, scrollY, setCloseMessage, close
           )}
         </>
       )}
-      <div className="md:16 mx-auto hidden h-16  max-w-7xl flex-row items-center justify-between space-x-4 py-4 px-2 md:flex md:px-4 lg:px-0">
+      <div className="md:16 mx-auto hidden h-16  max-w-7xl flex-row items-center justify-between space-x-4 md:py-4 py-2 px-2 md:flex md:px-4 lg:px-0">
         <Link href={'/'}>
           <a className="flex cursor-pointer flex-row items-center text-sm font-bold uppercase text-gray-700">
             <Image
@@ -139,7 +139,7 @@ function GeneralNavbar({ component_above_navbar, scrollY, setCloseMessage, close
         </div>
       </div>
 
-      <div className="mx-auto flex h-16 max-w-7xl flex-row items-center justify-between md:hidden">
+      <div className="mx-auto flex h-12 max-w-7xl flex-row items-center justify-between md:hidden">
         <div className="flex flex-row items-center space-x-2">
           {/* //drawer when on moblie view */}
           <div className="flex pl-4 md:hidden">
