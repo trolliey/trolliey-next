@@ -83,29 +83,12 @@ const Address: FunctionComponent<Props> = ({
                 Collect at our pickup point.
               </Radio>
               <Radio value="bring_to_doorstep">Bring to my doorstep</Radio>
-              {collect_my_order === 'bring_to_doorstep' && (
-                <div className="rounded bg-gray-100 p-4 ">
-                  <RadioGroup
-                    onChange={setPaymentMethod}
-                    value={payment_method}
-                  >
-                    <Stack direction="column">
-                      <Radio colorScheme="green" value="pay_on_delivery">
-                        Pay On Delivery
-                      </Radio>
-                      <Radio colorScheme="green" value="pay_online">
-                        Pay Online
-                      </Radio>
-                    </Stack>
-                  </RadioGroup>
-                </div>
-              )}
             </Stack>
           </RadioGroup>
         </div>
       </div>
 
-      <form className="flex w-full flex-col md:p-4 p-2">
+      <form className="flex w-full flex-col p-2 md:p-4">
         <p className="mt-8 mb-4 text-center font-semibold text-gray-700">
           Contact Info
         </p>

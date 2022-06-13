@@ -1,7 +1,6 @@
 import React, { ReactElement, useState, useContext, useEffect } from 'react'
 import BlueButton from '../Buttons/BlueButton'
 import ShipmentLayout from '../../layouts/ShipmentLayout'
-import Image from 'next/image'
 import { Divider, useToast } from '@chakra-ui/react'
 import { getError } from '../../utils/error'
 import axios from 'axios'
@@ -26,10 +25,21 @@ interface Props {
 }
 
 const payment_methods = [
+  {
+    id: 'on_delivery',
+    title: 'Pay On Delivery',
+    icon: onemoney,
+    currency: 'ZWL',
+  },
+  {
+    id: 'on_delivery',
+    title: 'Pay On Delivery',
+    icon: onemoney,
+    currency: 'USD',
+  },
   { id: 'ecocash', title: 'Ecocash', icon: ecocash, currency: 'ZWL' },
   { id: 'telecash', title: 'Telecash', icon: telecash, currency: 'ZWL' },
   { id: 'onemoney', title: 'One  Money', icon: onemoney, currency: 'ZWL' },
-  // { id: 'paypal', title: 'PayPal', icon: paypal_logo, currency: 'USD' },
   {
     id: 'visa/mastercard',
     title: 'Visa/Mastercard',
@@ -53,10 +63,6 @@ function PaymentMethod({
   const [loading, setLoading] = useState<boolean>(false)
   const toast = useToast()
   const [usd_loading, setUsdLoading] = useState(false)
-
-  useEffect(() => {
-    setSelectedMethod(payment_method)
-  }, [payment_method])
 
   const placeOrderHandler = async () => {
     if (payment_method === 'pay_on_delivery') {
@@ -184,8 +190,6 @@ function PaymentMethod({
     }
   }
 
-  // console.log(payment_method)
-
   if (payment_method === 'pay_on_delivery') {
     return (
       <ShipmentLayout step={step} heading="Payment Info">
@@ -247,6 +251,42 @@ function PaymentMethod({
     )
   }
 
+  const returnOrderInput = () => {
+    if (
+      selected_method === 'ecocash' ||
+      selected_method === 'telecash' ||
+      selected_method === 'onemoney'
+    ) {
+      return (
+        <div className="col-span-full mt-4 flex flex-col items-center">
+          <label
+            htmlFor="card-number"
+            className="block text-sm font-semibold capitalize text-gray-700"
+          >
+            {values.method} {selected_method} Number
+          </label>
+          <div className="mt-4 flex flex-col items-center">
+            <input
+              type="text"
+              value={values.paying_number}
+              onChange={handleChange('paying_number')}
+              id="paying_number"
+              name="paying_number"
+              placeholder="phonenumber making the payment"
+              className="block w-full rounded-md border border-gray-200 p-2 outline-none focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+            />
+            <div className="my-4 flex flex-col items-center">
+              <BlueButton
+                text={'Make Payment'}
+                onClick={() => console.log('Confirm My Order')}
+              />
+            </div>
+          </div>
+        </div>
+      )
+    }
+  }
+
   return (
     <ShipmentLayout step={step} heading="Payment Info">
       <div>
@@ -259,7 +299,7 @@ function PaymentMethod({
 
         <div className="mt-4 bg-gray-200 p-4">
           <legend className="sr-only">Payment Method</legend>
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-8">
             {payment_methods.map((method: any, index: number) => (
               <>
                 {method.currency === currency && (
@@ -283,69 +323,14 @@ function PaymentMethod({
         </div>
       </div>
       <Divider className="mt-4 text-gray-200" />
-      {selected_method === 'ecocash' && (
-        <div className="col-span-full mt-4">
-          <label
-            htmlFor="card-number"
-            className="block text-sm font-medium text-gray-700"
-          >
-            {values.method} Ecocash Number
-          </label>
-          <div className="mt-4">
-            <input
-              type="text"
-              value={values.paying_number}
-              onChange={handleChange('paying_number')}
-              id="paying_number"
-              name="paying_number"
-              placeholder="phonenumber making the payment"
-              className="block w-full rounded-md border border-gray-200 p-2 outline-none focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-            />
-          </div>
-        </div>
+      {returnOrderInput()}
+
+      {!selected_method && (
+        <p className="pb-2 pt-4 text-center font-semibold">
+          Please select how you want to pay from options above
+        </p>
       )}
-      {selected_method === 'telecash' && (
-        <div className="col-span-full mt-4">
-          <label
-            htmlFor="card-number"
-            className="block text-sm font-medium text-gray-700"
-          >
-            {values.method} Telecash Number
-          </label>
-          <div className="mt-4">
-            <input
-              type="text"
-              value={values.paying_number}
-              onChange={handleChange('paying_number')}
-              id="paying_number"
-              name="paying_number"
-              placeholder="phonenumber making the payment"
-              className="block w-full rounded-md border border-gray-200 p-2 outline-none focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-            />
-          </div>
-        </div>
-      )}
-      {selected_method === 'onemoney' && (
-        <div className="col-span-full mt-4">
-          <label
-            htmlFor="card-number"
-            className="block text-sm font-medium text-gray-700"
-          >
-            {values.method} OneMoney Number
-          </label>
-          <div className="mt-4">
-            <input
-              type="text"
-              value={values.paying_number}
-              onChange={handleChange('paying_number')}
-              id="paying_number"
-              name="paying_number"
-              placeholder="phonenumber making the payment"
-              className="block w-full rounded-md border border-gray-200 p-2 outline-none focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-            />
-          </div>
-        </div>
-      )}
+
       {selected_method === 'visa/mastercard' && (
         <div className="col-span-full mt-4">
           <label
@@ -355,35 +340,6 @@ function PaymentMethod({
             {values.method} Card Number
           </label>
           <div className="mt-4">
-            {/* <input
-              type="text"
-              value={values.paying_number}
-              onChange={handleChange('paying_number')}
-              id="paying_number"
-              name="paying_number"
-              placeholder="Enter card number"
-              className="block w-full rounded-md border border-gray-200 p-2 outline-none focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-            />
-            <div className="mt-4 flex flex-row items-center gap-4">
-              <input
-                type="text"
-                value={values.paying_number}
-                onChange={handleChange('paying_number')}
-                id="paying_number"
-                name="paying_number"
-                placeholder="Expiry Date"
-                className="block w-full rounded-md border border-gray-200 p-2 outline-none focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-              />
-              <input
-                type="text"
-                value={values.paying_number}
-                onChange={handleChange('paying_number')}
-                id="paying_number"
-                name="paying_number"
-                placeholder="CVV"
-                className="block w-full rounded-md border border-gray-200 p-2 outline-none focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-              />
-            </div> */}
             <BlueButton
               text={'Proceed to payment'}
               onClick={handle_usd_payment}
@@ -391,18 +347,25 @@ function PaymentMethod({
           </div>
         </div>
       )}
+      {selected_method === 'on_delivery' && (
+        <div className="col-span-full mt-4 flex flex-col items-center">
+          <div className="mt-4 mb-8">
+            <BlueButton
+              text={'Create Order'}
+              onClick={() => console.log('Confirm My Order')}
+            />
+          </div>
+        </div>
+      )}
       <div className="mt-4 flex w-full space-x-4 border-t border-gray-200 px-4 pt-4 pb-4">
         <BlueButton text="previous" onClick={() => prevStep(values)} />
-        {
-          payment_method === 'pay_on_delivery' && (
-            <BlueButton
+        {payment_method === 'pay_on_delivery' && (
+          <BlueButton
             text="Place Order"
             loading={loading}
             onClick={placeOrderHandler}
           />
-          )
-        }
-       
+        )}
       </div>
     </ShipmentLayout>
   )
@@ -426,9 +389,9 @@ const PaymentCard = ({ title, method, selected_method, icon }: IProps) => {
       } col-span-1 flex cursor-pointer flex-row items-center justify-between rounded bg-white p-2 shadow `}
     >
       <p className={`text-lg font-semibold text-blue-dark`}>{title}</p>
-      <div className="relative h-12 w-12">
+      {/* <div className="relative h-12 w-12">
         <Image layout="fill" objectFit="contain" src={icon} />
-      </div>
+      </div> */}
     </div>
   )
 }

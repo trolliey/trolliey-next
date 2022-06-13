@@ -185,6 +185,7 @@ function Home(): ReactFragment {
                     layout="fill"
                     objectFit="cover"
                     placeholder="blur"
+                    quality={50}
                     loading='eager'
                     src={surprise}
                     alt="suprised user."
@@ -216,6 +217,7 @@ function Home(): ReactFragment {
                     layout="fill"
                     src={tech_stuff}
                     placeholder="blur"
+                    quality={50}
                     loading='eager'
                     alt="tech category."
                     className="object-cover object-center group-hover:opacity-75 sm:absolute sm:inset-0 sm:h-full sm:w-full"
@@ -246,6 +248,7 @@ function Home(): ReactFragment {
                     layout="fill"
                     src={clothes}
                     alt="Clothes and fashion"
+                    quality={50}
                     placeholder="blur"
                     loading='eager'
                     className="object-cover object-center group-hover:opacity-75 sm:absolute sm:inset-0 sm:h-full sm:w-full"

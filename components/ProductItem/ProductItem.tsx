@@ -8,6 +8,7 @@ import { Store } from '../../Context/Store'
 import { Text, useToast } from '@chakra-ui/react'
 import Amount from '../Amount/Amount'
 import Link from 'next/link'
+import image from '../../public/img/logo.png'
 
 interface Props {
   picture?: string
@@ -78,7 +79,7 @@ function ProductItem({
         <a className="relative flex h-32 flex-col items-center overflow-hidden rounded bg-white md:h-52">
           <Image
             objectFit="cover"
-            src={picture ? picture : ''}
+            src={image}
             layout="fill"
             quality={50}
             placeholder="blur"
