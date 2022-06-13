@@ -21,7 +21,6 @@ interface Props {
   countInStock: number
   product?: any
   averageRating?: any
-  currency?: any
   display?: any
 }
 
@@ -36,12 +35,13 @@ function ProductItem({
   category,
   product,
   averageRating,
-  currency,
   display,
 }: Props): ReactElement {
   const history = useRouter()
   const { pathname } = useRouter()
-  const { dispatch } = useContext(Store)
+  const { state, dispatch } = useContext(Store)
+  // currency from the browser
+  const { currency } = state
 
   // for toasy
   const toast = useToast()
@@ -132,7 +132,7 @@ function ProductItem({
             {discount_price ? (
               <div
                 onClick={() => history.push(`/product/description/${id}`)}
-                className="flex flex-row items-center"
+                className={`${currency === 'USD' ? "flex flex-row items-center " : "flex flex-col items-start "}`}
               >
                 <div className="mr-2 font-bold text-gray-900">
                   <Amount
