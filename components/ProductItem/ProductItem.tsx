@@ -79,7 +79,7 @@ function ProductItem({
         <a className="relative flex h-32 flex-col items-center overflow-hidden rounded bg-white md:h-52">
           <Image
             objectFit="cover"
-            src={image}
+            src={picture ? picture : ''}
             layout="fill"
             quality={50}
             placeholder="blur"
