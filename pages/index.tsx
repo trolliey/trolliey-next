@@ -20,6 +20,7 @@ import { Store } from '../Context/Store'
 import useSWR from 'swr'
 import GeneralNavbar from '../components/Navigations/GeneralNavbar'
 import { useWindowScrollPositions } from '../hooks/useWindowScrollPosition'
+import Footer from '../components/Navigations/Footer'
 
 function Home(): ReactFragment {
   const history = useRouter()
@@ -281,6 +282,7 @@ function Home(): ReactFragment {
           </div>
         </div>
       </div>
+      <Footer/>
     </div>
   )
 }
