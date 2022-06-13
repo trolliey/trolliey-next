@@ -24,6 +24,7 @@ export default function Variations(props: { selectedTags: (arg0: any[]) => void;
         }])
         setVariantPrice(0);
         setVariantQuantity(0);
+        setVariantDiscount(0)
         setVarinatName('');
     };
 
@@ -91,6 +92,8 @@ export default function Variations(props: { selectedTags: (arg0: any[]) => void;
                         type="number"
                         name="price"
                         value={variant_price}
+                        //@ts-ignore
+                        onWheel={e => e.target.blur()}
                         onChange={e => setVariantPrice(e.target.value)}
                         id="price"
                         autoComplete="price"
@@ -106,6 +109,8 @@ export default function Variations(props: { selectedTags: (arg0: any[]) => void;
                         type="number"
                         name="quantity"
                         value={variant_quantity}
+                        //@ts-ignore
+                        onWheel={e => e.target.blur()}
                         onChange={e => setVariantQuantity(e.target.value)}
                         id="quantity"
                         autoComplete="quantity"
@@ -121,6 +126,8 @@ export default function Variations(props: { selectedTags: (arg0: any[]) => void;
                         type="number"
                         name="quantity"
                         value={discount}
+                        //@ts-ignore
+                        onWheel={e => e.target.blur()}
                         onChange={e => setVariantDiscount(e.target.value)}
                         id="quantity"
                         autoComplete="quantity"
