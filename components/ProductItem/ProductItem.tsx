@@ -21,7 +21,7 @@ interface Props {
   countInStock: number
   product?: any
   averageRating?: any
-  display?: any
+  display?: any,
 }
 
 function ProductItem({

@@ -103,7 +103,6 @@ function FeaturedProducts(): ReactElement {
                           countInStock={product.countInStock}
                           product={product}
                           averageRating={product.averageRating}
-                          currency={product.currency_type}
                         />
                       </div>
                     ))}
