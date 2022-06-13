@@ -23,7 +23,7 @@ function FeaturedProducts(): ReactElement {
   return (
     <>
       {error ? (
-        <div className="grid w-full content-center items-center justify-center py-4">
+        <div className="grid w-full content-center items-center justify-center py-2">
           <p className="rounded bg-red-200 p-2 text-center text-sm font-semibold text-gray-700">
             There was an error loading products. Reload page
           </p>

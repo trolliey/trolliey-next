@@ -77,7 +77,7 @@ function Home(): ReactFragment {
         </div>
         {/* <h1>Products</h1> */}
         <div className="container min-h-screen max-w-7xl pt-4 md:pt-0 mx-auto">
-          <div className="top mb-8 flex w-full flex-row gap-2 rounded bg-white px-0 py-0 md:gap-8  md:p-8 md:px-4 md:py-4">
+          <div className="top mb-8 flex w-full flex-row gap-2 rounded-lg bg-white px-0 py-0 md:gap-8  md:p-8 md:px-4 md:py-4">
             <div className="hidden md:flex md:w-1/5">
               <CategoriesDropdown />
             </div>
