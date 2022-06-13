@@ -134,7 +134,7 @@ function ProductItem({
                 onClick={() => history.push(`/product/description/${id}`)}
                 className={`${currency === 'USD' ? "flex flex-row items-center " : "flex flex-col-reverse items-start "}`}
               >
-                <div className="mr-2 font-bold text-gray-900">
+                <Text noOfLines={1} className="mr-2 font-bold text-gray-900">
                   <Amount
                     amount={
                       discount_price
@@ -142,11 +142,11 @@ function ProductItem({
                         : price
                     }
                   />
-                </div>
+                </Text>
                 {discount_price && (
-                  <div className="text-xs text-gray-400 line-through">
+                  <Text noOfLines={1} className="text-xs text-gray-400 line-through">
                     <Amount amount={price} />
-                  </div>
+                  </Text>
                 )}
               </div>
             ) : (
@@ -154,9 +154,9 @@ function ProductItem({
                 onClick={() => history.push(`/product/description/${id}`)}
                 className="flex flex-row items-center"
               >
-                <p className="mr-2 font-bold text-gray-900">
+                <Text noOfLines={1} className="mr-2 font-bold text-gray-900">
                   <Amount amount={price} />
-                </p>
+                </Text>
               </div>
             )}
 
@@ -169,14 +169,15 @@ function ProductItem({
                 <ShoppingCartIcon height={16} width={16} />
               </div>
             ) : (
-              <div className=" mb-2 mr-4 flex flex-row items-center text-center text-xs font-semibold capitalize">
-                <StarIcon
-                  className="font-semibold text-yellow-400"
-                  height={20}
-                  width={20}
-                />
-                <p>{Math.floor(rating ? rating : 0)}(5)</p>
-              </div>
+              // <div className=" mb-2 mr-4 flex flex-row items-center text-center text-xs font-semibold capitalize">
+              //   <StarIcon
+              //     className="font-semibold text-yellow-400"
+              //     height={20}
+              //     width={20}
+              //   />
+              //   <p>{Math.floor(rating ? rating : 0)}(5)</p>
+              // </div>
+              <></>
             )}
           </div>
         </div>
