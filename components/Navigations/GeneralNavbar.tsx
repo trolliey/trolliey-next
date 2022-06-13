@@ -47,7 +47,7 @@ function GeneralNavbar({ component_above_navbar, scrollY, setCloseMessage, close
                 >
                   <Container
                     maxW="container.xl"
-                    className="mx-auto flex flex-row items-center justify-between py-4"
+                    className="mx-auto flex flex-row items-center justify-between md:py-4 py-2"
                   >
                     <p className="font-bold text-blue-dark sm:text-xs md:text-base">
                       Free delivery for total above $50

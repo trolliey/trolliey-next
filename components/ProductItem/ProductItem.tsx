@@ -132,7 +132,7 @@ function ProductItem({
             {discount_price ? (
               <div
                 onClick={() => history.push(`/product/description/${id}`)}
-                className={`${currency === 'USD' ? "flex flex-row items-center " : "flex flex-col items-start "}`}
+                className={`${currency === 'USD' ? "flex flex-row items-center " : "flex flex-col-reverse items-start "}`}
               >
                 <div className="mr-2 font-bold text-gray-900">
                   <Amount
