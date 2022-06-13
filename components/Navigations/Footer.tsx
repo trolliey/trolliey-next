@@ -94,7 +94,7 @@ export default function Footer() {
         </div>
       </div>
      
-      <div className="mx-auto max-w-7xl overflow-hidden py-4 px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl overflow-hidden md:py-8 py-4 px-4 sm:px-6 lg:px-8">
         <nav
           className="-mx-5 -my-2 flex md:flex-row flex-wrap flex-col justify-center"
           aria-label="Footer"
@@ -110,7 +110,7 @@ export default function Footer() {
             </div>
           ))}
         </nav>
-        <nav className="mt-4 flex justify-center space-x-6">
+        <nav className="md:mt-8 mt-4 flex justify-center space-x-6">
           {navigation.social.map((item) => (
             <Link href={item.href} passHref key={item.name}>
               <a
@@ -126,7 +126,7 @@ export default function Footer() {
         </nav>
 
        
-        <p className="mt-4 text-center text-sm text-gray-500">
+        <p className="md:mt-8 mt-4 text-center text-sm text-gray-500">
           &copy; {new Date().getFullYear()} Trolliey Retail Enterprises Pvt. Ltd{' '}
         </p>
       </div>
