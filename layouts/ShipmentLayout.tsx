@@ -17,7 +17,7 @@ const ShipmentLayout: FunctionComponent<Props> = ({
   heading,
 }: Props) => {
   const { state, dispatch } = useContext(Store)
-  const { cart } = state
+  const { cart, currency } = state
 
   return (
     <GeneralLayout
@@ -39,6 +39,7 @@ const ShipmentLayout: FunctionComponent<Props> = ({
               <div className=" flex h-2.5 w-2/5 flex-row rounded-full bg-gray-300">
                 <Select
                   placeholder="Currency"
+                  defaultValue={currency}
                   onChange={(e) => {
                     Cookies.set('trolliey_currency', e.target.value)
                     dispatch({
