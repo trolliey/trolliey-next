@@ -44,7 +44,7 @@ interface CatProps {
 const CategoryItem = ({ text, image }: CatProps) => {
   return (
     <div className="m-1 grid w-full content-center items-center justify-center rounded bg-white p-2 shadow">
-      <div className="relative h-48 w-48 content-center items-center justify-center p-4">
+      <div className="relative md:h-36 h-36 md:w-48 w-40 content-center items-center justify-center p-4">
         <Image
           layout="fill"
           objectFit="contain"

@@ -23,7 +23,7 @@ const navigation = {
   social: [
     {
       name: 'Facebook',
-      href: 'https://www.facebook.com/perkskickgroup',
+      href: 'https://www.facebook.com/TrollieyRetail',
       icon: (
         props: JSX.IntrinsicAttributes & React.SVGProps<SVGSVGElement>
       ) => (
@@ -38,7 +38,7 @@ const navigation = {
     },
     {
       name: 'Instagram',
-      href: 'https://www.instagram.com/daypitch/',
+      href: 'https://www.instagram.com/TrollieyRetail/',
       icon: (
         props: JSX.IntrinsicAttributes & React.SVGProps<SVGSVGElement>
       ) => (
@@ -53,7 +53,7 @@ const navigation = {
     },
     {
       name: 'Twitter',
-      href: 'https://twitter.com/trollieyS',
+      href: 'https://twitter.com/TrollieyRetail',
       icon: (
         props: JSX.IntrinsicAttributes & React.SVGProps<SVGSVGElement>
       ) => (
