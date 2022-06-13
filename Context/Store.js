@@ -8,7 +8,7 @@ const initialState = {
     },
     userInfo: Cookies.get('userInfo') ? JSON.parse(Cookies.get('userInfo')) : null,
     search_query: '',
-    currency: Cookies.get('trolliey_currency') ? Cookies.get('trolliey_currency') : null
+    currency: Cookies.get('trolliey_currency') ? Cookies.get('trolliey_currency') : 'USD'
 }
 
 export const Store = createContext();
