@@ -24,6 +24,8 @@ import sport from '../public/img/sports_and_outdoor-min.png'
 import tools from '../public/img/tools_and_home_improvement-min.png'
 import pet_supplues from '../public/img/pet_supplies-min.png'
 import software from '../public/img/software-min.png'
+import health_house from '../public/img/health_and_household-min.png'
+import kindle from '../public/img/kindle_and_ereaders-min.png'
 
 import gaming from '../public/img/gaming.svg'
 import fashion from '../public/img/fashion.svg'
@@ -480,7 +482,7 @@ export const data = {
     {
       name: 'Health And Household',
       value: 'health-and-household',
-      icon: beauty,
+      icon: health_house,
       sub_categories: [
         { name: 'Baby & Child Care', description: '' },
         { name: 'Health Care', description: '' },
@@ -500,7 +502,7 @@ export const data = {
     {
       name: 'Kindle E-Readers',
       value: 'pet-supplies',
-      icon: beauty,
+      icon: kindle,
       sub_categories: [
         { name: 'Kindle Kids', description: '' },
         { name: 'Kindle', description: '' },
