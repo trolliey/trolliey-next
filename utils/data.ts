@@ -9,12 +9,13 @@ import boys_fashion from "../public/img/boy's_fashion-min.png"
 import grls_dashion from "../public/img/girl's_fashion-min.png"
 import mens_fashion from "../public/img/men's_fashion-min.png"
 import womans_ashion from "../public/img/Women's_Fashion-min.png"
+import computers from '../public/img/Computers-min.png'
+import electronics from '../public/img/Electronics_and_Wearables-min.png'
 
 import sport from '../public/img/sports.svg'
 import books from '../public/img/books.svg'
 import groceries from '../public/img/groceries.svg'
 import gaming from '../public/img/gaming.svg'
-import computers from '../public/img/copmuters.svg'
 import camping from '../public/img/camping.svg'
 import fashion from '../public/img/fashion.svg'
 import homeware from '../public/img/homeware.svg'
@@ -70,7 +71,7 @@ export const data = {
     {
       name: 'Electronics & Wearable',
       value: 'electronics-and-wearable',
-      icon: cellphone,
+      icon: electronics,
       sub_categories: [
         { name: 'Accessories and supply', description: '' },
         { name: 'Camera and photo', description: '' },
