@@ -4,7 +4,6 @@ import {
   ShoppingBagIcon,
   CurrencyDollarIcon,
 } from '@heroicons/react/outline'
-
 import boys_fashion from "../public/img/boy's_fashion-min.png"
 import grls_dashion from "../public/img/girl's_fashion-min.png"
 import mens_fashion from "../public/img/men's_fashion-min.png"
@@ -26,10 +25,7 @@ import pet_supplues from '../public/img/pet_supplies-min.png'
 import software from '../public/img/software-min.png'
 import health_house from '../public/img/health_and_household-min.png'
 import kindle from '../public/img/kindle_and_ereaders-min.png'
-
-import gaming from '../public/img/gaming.svg'
 import fashion from '../public/img/fashion.svg'
-
 import bcrypt from 'bcryptjs'
 import promo_2 from '../public/img/fregrance_sale.png'
 
