@@ -13,13 +13,15 @@ import computers from '../public/img/Computers-min.png'
 import electronics from '../public/img/Electronics_and_Wearables-min.png'
 import agric from '../public/img/Agriculture-min.png'
 import automotive from '../public/img/automotive-min.png'
+import baby from '../public/img/baby-min.png'
+import toys_and_games from '../public/img/toys_and_games-min.png'
 
 import sport from '../public/img/sports.svg'
 import books from '../public/img/books.svg'
 import gaming from '../public/img/gaming.svg'
 import fashion from '../public/img/fashion.svg'
 import kitchen from '../public/img/kitchen.svg'
-import baby from '../public/img/baby.svg'
+
 import beauty from '../public/img/beauty.svg'
 import bcrypt from 'bcryptjs'
 import promo_2 from '../public/img/fregrance_sale.png'
@@ -131,7 +133,7 @@ export const data = {
     {
       name: 'Toys And Games',
       value: 'toys-and-games',
-      icon: gaming,
+      icon: toys_and_games,
       sub_categories: [
         { name: 'Action Figures & Statues', description: '' },
         { name: 'Arts & Crafts', description: '' },
@@ -178,7 +180,7 @@ export const data = {
     },
     {
       name: 'Baby',
-      value: 'automotive',
+      value: 'baby',
       icon: baby,
       sub_categories: [
         { name: 'Activity & Entertainment', description: '' },
