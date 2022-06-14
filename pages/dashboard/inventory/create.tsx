@@ -221,6 +221,7 @@ export default function CreateProduct() {
               duration: 9000,
               isClosable: true,
             })
+            return;
           })
       } catch (error) {
         setLoading(false)
@@ -232,6 +233,7 @@ export default function CreateProduct() {
           duration: 9000,
           isClosable: true,
         })
+        return;
       }
     }
   }

@@ -16,6 +16,7 @@ import kitchen from '../public/img/kitchen.svg'
 import baby from '../public/img/baby.svg'
 import office from '../public/img/office.svg'
 import outdoor from '../public/img/outdoor.svg'
+import agric from '../public/img/Agriculture-min.png'
 import tv from '../public/img/tv.svg'
 import cellphone from '../public/img/cellphone.svg'
 import automotive from '../public/img/automotive.svg'
@@ -111,7 +112,7 @@ export const data = {
     {
       name: 'Agriculture',
       value: 'agriculture',
-      icon: homeware,
+      icon: agric,
       id: 6,
       sub_categories: [
         { name: 'Seeds and Seedlings', description: '' },
