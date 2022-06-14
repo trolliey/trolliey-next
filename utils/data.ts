@@ -7,6 +7,8 @@ import {
 
 import boys_fashion from "../public/img/boy's_fashion-min.png"
 import grls_dashion from "../public/img/girl's_fashion-min.png"
+import mens_fashion from "../public/img/men's_fashion-min.png"
+import womans_ashion from "../public/img/Women's_Fashion-min.png"
 
 import sport from '../public/img/sports.svg'
 import books from '../public/img/books.svg'
