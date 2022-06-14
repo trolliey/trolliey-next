@@ -129,64 +129,29 @@ export default function CreateProduct() {
         setLoading(true)
         const formData = new FormData()
         const uploads: any = []
-        const promises: any = []
 
         // uploading pictures to cloudinary and returning an array of urls
         pictures_for_upload.forEach((file: any | Blob) => {
-          formData.append('file', file)
-          formData.append('upload_preset', 'g6ixv6cg')
-          //@ts-ignore
-          formData.append('api_key', process.env.CLOUDNARY_API_KEY)
-
-          const uploadPromise = axios
-            .post(
-              'https://api.cloudinary.com/v1_1/trolliey/image/upload',
-              formData,
-              { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
-            )
-            .then((response) => {
-              uploads.push(response.data.url)
-            })
-            .catch(() => {
-              toast({
-                title: 'Error Adding.',
-                description: 'Error Uploading the picture. Try again',
-                status: 'error',
-                position: 'top-right',
-                duration: 9000,
-                isClosable: true,
-              })
-              setLoading(false)
-              return
-            })
-          promises.push(uploadPromise)
+          formData.append('theFiles', file)
         })
-        await Promise.all(promises)
+        formData.append('description', description)
+        formData.append('title', title)
+        formData.append('category', category)
+        formData.append('price', price)
+        formData.append('discount_price', discount_price)
+        formData.append('countInStock', countInStock)
+        formData.append('status', status)
+        formData.append('sku', sku)
+        formData.append('currency', currency)
+        formData.append('variants', variations)
+        formData.append('sub_category', sub_category)
 
         //upload the product to database from here
         axios
-          .post(
-            '/api/products/create',
-            {
-              pictures: uploads,
-              // pictures: [''],
-              description: description,
-              title: title,
-              category: category,
-              price: price,
-              discount_price: discount_price,
-              brand: brand,
-              countInStock: countInStock,
-              status: status,
-              sku: sku,
-              variants: variations,
-              currency: currency,
-              sub_category: sub_category,
-            },
-            { headers: { authorization: userInfo?.token } }
-          )
+          .post('/api/products/create', formData, {
+            headers: { authorization: userInfo?.token },
+          })
           .then((res: any) => {
-            console.log(res)
             toast({
               title: 'Product Added.',
               description: 'Product Added successfully!.',
@@ -221,7 +186,7 @@ export default function CreateProduct() {
               duration: 9000,
               isClosable: true,
             })
-            return;
+            return
           })
       } catch (error) {
         setLoading(false)
@@ -233,7 +198,7 @@ export default function CreateProduct() {
           duration: 9000,
           isClosable: true,
         })
-        return;
+        return
       }
     }
   }
@@ -664,6 +629,13 @@ export default function CreateProduct() {
                 </div>
               </div>
             </div>
+            {loading && (
+              <div className="mb-4 flex w-full rounded bg-green-200 p-2 text-center text-sm font-semibold capitalize text-gray-700">
+                <p className="mx-auto text-center">
+                  Please wait while we upload your pictures.
+                </p>
+              </div>
+            )}
             <BlueButton
               text="Add Product"
               loading={loading}

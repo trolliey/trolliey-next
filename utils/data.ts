@@ -45,26 +45,6 @@ export const data = {
   current_rate: {
     value: 400,
   },
-  users: [
-    {
-      name: 'tatenda',
-      email: 'admin@example.com',
-      password: bcrypt.hashSync('123456'),
-      role: 'admin',
-    },
-    {
-      name: 'seller',
-      email: 'seller@example.com',
-      password: bcrypt.hashSync('123456'),
-      role: 'seller',
-    },
-    {
-      name: 'user',
-      email: 'user@example.com',
-      password: bcrypt.hashSync('123456'),
-      role: 'user',
-    },
-  ],
   categories: [
     {
       name: 'Electronics & Wearable',
@@ -89,8 +69,6 @@ export const data = {
       ],
       id: 1,
     },
-    // { name: 'Books & courses', value: 'sooks-&-courses', icon: books },
-    // { name: 'Groceries', value: 'groceries', icon: groceries, id: 2 },
     {
       name: 'Computers',
       value: 'computers',

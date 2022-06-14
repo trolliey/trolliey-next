@@ -1,77 +1,133 @@
-import next, { NextApiRequest, NextApiResponse } from 'next'
-import Products from '../../../models/Product'
+import { NextApiRequest, NextApiResponse } from 'next'
+import nextConnect from 'next-connect'
+import upload from '../helpers/multer'
+import jwt from 'jsonwebtoken'
 import { connect, disconnect } from '../../../utils/mongo'
-import auth_handler from '../../../utils/auth_handler'
-import slugify from '../../../utils/slugify'
 import Store from '../../../models/Store'
+import cloudinary from '../helpers/cloudinary'
+import fs from 'fs'
+import slugify from '../../../utils/slugify'
+import Products from '../../../models/Product'
 
-// get all products
-// get request
-// /api/products
-auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
-  // @ts-ignore
-  const _user = req.user
-  if (_user) {
-    //  do stuff
-    await connect()
-    try {
-      // check if user has a store
-      const store = await Store.findOne({ user: _user._id })
-      if (store.approved === true) {
-        // do something
-        const {
-          pictures,
-          description,
-          title,
-          category,
-          price,
-          discount_price,
-          brand,
-          countInStock,
-          status,
-          sku,
-          variants,
-          currency,
-          sub_category,
-        } = req.body
+const apiRoute = nextConnect({
+  // Handle any other HTTP method
+  onNoMatch(req: NextApiRequest, res: NextApiResponse) {
+    res.status(405).json({ error: `Method '${req.method}' Not Allowed` })
+  },
+})
 
-        const newProduct = new Products({
-          title: title,
-          slug: slugify(title),
-          description: description,
-          price: price,
-          discount_price: discount_price,
-          pictures: pictures,
-          brand: brand,
-          countInStock: countInStock,
-          category: category,
-          category_slug: slugify(category),
-          variants: variants,
-          store_id: store._id,
-          sku: sku,
-          status: status,
-          currency_type: currency,
-          sub_category: sub_category,
-        })
-       
-        try {
-          const saved_product = await newProduct.save()
-          await disconnect()
-          return res.status(200).send({message: 'Product saved successfully', product_id: saved_product._id})
-        } catch (error) {
-          return res.status(500).send({message: 'error found here --- ', error})
+// Returns middleware that processes multiple files sharing the same field name.
+const uploadMiddleware = upload.array('theFiles')
+
+// Adds the middleware to Next-Connect
+apiRoute.use(uploadMiddleware)
+
+// Process a POST request
+apiRoute.post(async (req: NextApiRequest, res: NextApiResponse) => {
+  if (req.method === 'POST') {
+    // check if user if logged in
+    const { authorization } = req.headers
+    if (authorization) {
+      const token = authorization
+      //@ts-ignore
+      jwt.verify(token, process.env.JWT_SECRET, async (err, decode) => {
+        if (err) {
+          return res.status(401).send({ message: 'Login is required!' })
+        } else {
+          //connect database
+          await connect()
+          //@ts-ignore
+          const store = await Store.findOne({ user: decode._id })
+          if (store.approved) {
+            // get items from request body
+            const {
+              description,
+              title,
+              category,
+              price,
+              discount_price,
+              brand,
+              countInStock,
+              status,
+              sku,
+              variants,
+              currency,
+              sub_category,
+            } = req.body
+
+            // upload images to cloudinary
+            const uploader = async (path: any) =>
+              cloudinary.upload(path, 'Images')
+            const urls: any = []
+            //@ts-ignore
+            const files = req.files
+
+            for (const file of files) {
+              const { path } = file
+              try {
+                const newPath = await uploader(path)
+                urls.push(newPath)
+                fs.unlinkSync(path)
+              } catch (error) {
+                res.status(500).send({ message: error })
+              }
+            }
+
+            const newProduct = new Products({
+              title: title,
+              slug: slugify(title),
+              description: description,
+              price: price,
+              discount_price: discount_price,
+              pictures: urls,
+              brand: brand,
+              countInStock: countInStock,
+              category: category,
+              category_slug: slugify(category),
+              variants: variants,
+              store_id: store._id,
+              sku: sku,
+              status: status,
+              currency_type: currency,
+              sub_category: sub_category,
+            })
+
+            try {
+              const saved_product = await newProduct.save()
+              await disconnect()
+              return res
+                .status(200)
+                .send({
+                  message: 'Product saved successfully',
+                  product_id: saved_product._id,
+                })
+            } catch (error) {
+              await disconnect()
+              return res
+                .status(500)
+                .send({ message: 'error found here --- ', error })
+            }
+          } else {
+            return res
+              .status(500)
+              .send({ message: 'Your store has not been approved yet' })
+          }
         }
-      } else {
-        return res
-          .status(500)
-          .send({ message: 'Store has not been approved yet' })
-      }
-    } catch (error) {
-      return res.status(500).send({ message: error })
+      })
+    } else {
+      return res
+        .status(401)
+        .send({ message: 'Token not supplied, Try loggin in' })
     }
   } else {
-    return res.status(400).send({ message: 'Please login first' })
+    return res.status(500).send({ message: 'Method not allowed' })
   }
 })
 
-export default auth_handler
+export default apiRoute
+
+export const config = {
+  api: {
+    bodyParser: false, // Disallow body parsing, consume as stream
+  },
+}
