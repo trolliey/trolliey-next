@@ -18,6 +18,8 @@ import toys_and_games from '../public/img/toys_and_games-min.png'
 import kitchen from '../public/img/home_and_kitchen-min.png'
 import books from '../public//img/boooks_and_courses-min.png'
 import beauty from '../public/img/beaty_and_personal_care-min.png'
+import art from '../public/img/arts_and_craft-min.png'
+import smart_home from '../public/img/smart_home-min.png'
 
 import sport from '../public/img/sports.svg'
 import gaming from '../public/img/gaming.svg'
@@ -346,7 +348,7 @@ export const data = {
     {
       name: 'Arts & Crafts  ',
       value: 'arts-and-rafts',
-      icon: automotive,
+      icon: art,
       sub_categories: [
         { name: 'Painting, Drawing & Art Supplies', description: '' },
         { name: 'Beading & Jewelry Making', description: '' },
@@ -368,7 +370,7 @@ export const data = {
     {
       name: 'Smart Home',
       value: 'smart-home',
-      icon: beauty,
+      icon: smart_home,
       sub_categories: [
         { name: 'Smart Home Lightings', description: '' },
         { name: 'Smart Locks and Entry', description: '' },
