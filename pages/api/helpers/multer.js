@@ -3,13 +3,14 @@ import multer from 'multer'
 // where and how the file will be stored
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './uploads')
+    const path = `./public/uploads`
+    fs.mkdirSync(path, { recursive: true })
+    cb(null, './public/uploads')
   },
   filename: function (req, file, cb) {
     cb(null, new Date().toISOString() + '-' + file.originalname)
   },
 })
-
 
 // reject unsupported images
 const fileFilter = (req, file, cb) => {
