@@ -7,6 +7,7 @@ import {
 import sport from '../public/img/sports.svg'
 import books from '../public/img/books.svg'
 import groceries from '../public/img/groceries.svg'
+import art from '../public/img/arts_and_craft-min.png'
 import gaming from '../public/img/gaming.svg'
 import computers from '../public/img/copmuters.svg'
 import camping from '../public/img/camping.svg'
@@ -19,7 +20,7 @@ import outdoor from '../public/img/outdoor.svg'
 import agric from '../public/img/Agriculture-min.png'
 import tv from '../public/img/tv.svg'
 import cellphone from '../public/img/cellphone.svg'
-import automotive from '../public/img/automotive.svg'
+import automotive from '../public/img/automotive-min.png'
 import beauty from '../public/img/beauty.svg'
 import bcrypt from 'bcryptjs'
 import promo_1 from '../public/img/promo_1.png'
@@ -345,7 +346,7 @@ export const data = {
     {
       name: 'Arts & Crafts  ',
       value: 'arts-and-rafts',
-      icon: automotive,
+      icon: art,
       sub_categories: [
         { name: 'Painting, Drawing & Art Supplies', description: '' },
         { name: 'Beading & Jewelry Making', description: '' },
