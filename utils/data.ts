@@ -4,6 +4,10 @@ import {
   ShoppingBagIcon,
   CurrencyDollarIcon,
 } from '@heroicons/react/outline'
+
+import boys_fashion from "../public/img/boy's_fashion-min.png"
+import grls_dashion from "../public/img/girl's_fashion-min.png"
+
 import sport from '../public/img/sports.svg'
 import books from '../public/img/books.svg'
 import groceries from '../public/img/groceries.svg'
