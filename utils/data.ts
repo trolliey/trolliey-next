@@ -17,12 +17,12 @@ import baby from '../public/img/baby-min.png'
 import toys_and_games from '../public/img/toys_and_games-min.png'
 import kitchen from '../public/img/home_and_kitchen-min.png'
 import books from '../public//img/boooks_and_courses-min.png'
+import beauty from '../public/img/beaty_and_personal_care-min.png'
 
 import sport from '../public/img/sports.svg'
 import gaming from '../public/img/gaming.svg'
 import fashion from '../public/img/fashion.svg'
 
-import beauty from '../public/img/beauty.svg'
 import bcrypt from 'bcryptjs'
 import promo_2 from '../public/img/fregrance_sale.png'
 
