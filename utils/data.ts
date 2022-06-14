@@ -20,8 +20,9 @@ import books from '../public//img/boooks_and_courses-min.png'
 import beauty from '../public/img/beaty_and_personal_care-min.png'
 import art from '../public/img/arts_and_craft-min.png'
 import smart_home from '../public/img/smart_home-min.png'
+import sport from '../public/img/sports_and_outdoor-min.png'
+import tools from '../public/img/tools_and_home_improvement-min.png'
 
-import sport from '../public/img/sports.svg'
 import gaming from '../public/img/gaming.svg'
 import fashion from '../public/img/fashion.svg'
 
@@ -416,7 +417,7 @@ export const data = {
     {
       name: 'Tools & Home Improvement',
       value: 'tools-and-home-improvement',
-      icon: beauty,
+      icon: tools,
       sub_categories: [
         { name: 'Appliances', description: '' },
         { name: 'Building Supplies', description: '' },
