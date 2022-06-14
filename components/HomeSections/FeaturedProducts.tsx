@@ -86,7 +86,7 @@ function FeaturedProducts(): ReactElement {
                         key={index}
                         className="relative col-span-1 rounded-lg bg-white p-2 "
                       >
-                        <div className="z-0 flex">
+                        <div className="z-10 flex">
                           {product.store_verified && (
                             <div className="absolute top-0 left-0 flex items-center space-x-1 rounded-tl-lg rounded-br-lg bg-blue-700 p-1 text-xs text-white">
                               <BadgeCheckIcon height={20} width={20} />
