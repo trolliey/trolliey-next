@@ -22,6 +22,8 @@ import art from '../public/img/arts_and_craft-min.png'
 import smart_home from '../public/img/smart_home-min.png'
 import sport from '../public/img/sports_and_outdoor-min.png'
 import tools from '../public/img/tools_and_home_improvement-min.png'
+import pet_supplues from '../public/img/pet_supplies-min.png'
+import software from '../public/img/software-min.png'
 
 import gaming from '../public/img/gaming.svg'
 import fashion from '../public/img/fashion.svg'
@@ -438,7 +440,7 @@ export const data = {
     {
       name: 'Pet Supplies',
       value: 'pet-supplies',
-      icon: beauty,
+      icon: pet_supplues,
       sub_categories: [
         { name: 'Dogs', description: '' },
         { name: 'Cats', description: '' },
@@ -453,7 +455,7 @@ export const data = {
     {
       name: 'Software',
       value: 'software',
-      icon: beauty,
+      icon: software,
       sub_categories: [
         { name: 'Accounting & Finance', description: '' },
         { name: 'Antivirus & Security', description: '' },
