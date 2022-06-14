@@ -8,6 +8,7 @@ import BlueButton from '../Buttons/BlueButton'
 import RedButtons from '../Buttons/RedButtons'
 import dynamic from 'next/dynamic'
 import axios from 'axios'
+import Amount from '../Amount/Amount'
 
 interface Props {
     open?: any,
@@ -142,7 +143,7 @@ function CartSidebar({ open, setOpen }: Props): ReactElement {
                                     <div className="border-t border-gray-200 bg-white shadow py-2 px-4 sm:px-6">
                                         <div className="flex justify-between text-base font-medium text-gray-900">
                                             <p>Subtotal for <span>{cart?.cartItems.reduce((a: any, c: any) => parseInt(a) + parseInt(c.quantity), 0)} items</span></p>
-                                            <p>${cart?.cartItems.reduce((a: any, c: any) =>  parseInt(a) + parseInt(c.quantity) * parseInt(c.price), 0)}</p>
+                                            <p>$ <Amount amount={cart?.cartItems.reduce((a: any, c: any) =>  parseInt(a) + parseInt(c.quantity) * parseInt(c.price), 0)} /></p>
                                         </div>
                                         <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes included on grand total.</p>
                                         <div className="mt-6">
