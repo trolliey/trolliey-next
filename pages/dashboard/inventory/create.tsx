@@ -630,7 +630,7 @@ export default function CreateProduct() {
               </div>
             </div>
             {loading && (
-              <div className="mb-4 flex w-full rounded bg-green-200 p-2 text-center text-sm font-semibold capitalize text-gray-700">
+              <div className="mb-4 flex w-full rounded bg-orange-200 p-2 text-center text-sm font-semibold capitalize text-gray-700">
                 <p className="mx-auto text-center">
                   Please wait while we upload your pictures.
                 </p>
