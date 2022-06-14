@@ -268,7 +268,7 @@ export const data = {
     {
       name: "Women's Fashion",
       value: 'womens-fashion',
-      icon: fashion,
+      icon: womans_ashion,
       sub_categories: [
         { name: 'Clothing', description: '' },
         { name: 'Shoes', description: '' },
@@ -284,7 +284,7 @@ export const data = {
     {
       name: "Men's Fashion",
       value: 'mens-fashion',
-      icon: fashion,
+      icon: mens_fashion,
       sub_categories: [
         { name: 'Clothing', description: '' },
         { name: 'Shoes', description: '' },
@@ -300,7 +300,7 @@ export const data = {
     {
       name: "Girls' Fashion",
       value: 'smart-home',
-      icon: beauty,
+      icon: grls_dashion,
       sub_categories: [
         { name: 'Clothing', description: '' },
         { name: 'Shoes', description: '' },
@@ -317,7 +317,7 @@ export const data = {
     {
       name: "Boys' Fashion",
       value: 'boys-fashion',
-      icon: beauty,
+      icon: boys_fashion,
       sub_categories: [
         { name: 'Clothing', description: '' },
         { name: 'Shoes', description: '' },
