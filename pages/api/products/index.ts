@@ -15,7 +15,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   let page = parseInt(req.query.page) >= 1 ? parseInt(req.query.page) : 1
   page = page - 1
 
-  await connect()
+  // await connect()
   if (req.body.query) {
     const queryString = req.body.query
     const queryStrings = queryString.split(' ')
