@@ -146,7 +146,7 @@ function ProductDescription(props: any) {
                   <h2 className=" text-sm font-semibold tracking-tight text-gray-400">
                     {product?.category}
                   </h2>
-                  <h1 className="md:text-3xl text-xl font-bold uppercase tracking-tight text-gray-900">
+                  <h1 className="text-xl font-bold uppercase tracking-tight text-gray-900 md:text-3xl">
                     {product?.title}
                   </h1>
 
@@ -203,7 +203,13 @@ function ProductDescription(props: any) {
                     <h6 className="mb-1 text-sm font-semibold text-gray-700">
                       Variants:
                     </h6>
-                    {product?.variants.length > 0 ? (
+                    {product?.variants.length < 1 ? (
+                      <div className="flex flex-col">
+                        <p className="text-center text-sm text-gray-500">
+                          This product has no variants
+                        </p>
+                      </div>
+                    ) : (
                       <div className="grid grid-cols-4 gap-2 p-1 md:gap-4">
                         {product?.variants.map((item: any, index: number) => (
                           <span
@@ -218,12 +224,6 @@ function ProductDescription(props: any) {
                             <p className="text-center">{item.variant}</p>
                           </span>
                         ))}
-                      </div>
-                    ) : (
-                      <div className="flex flex-col">
-                        <p className="text-center text-sm text-gray-500">
-                          This product has no variants
-                        </p>
                       </div>
                     )}
                   </div>
