@@ -66,8 +66,7 @@ function FeaturedProducts(): ReactElement {
                 </div>
               ) : (
                 <div
-                  onMouseEnter={() => setShowIndicators(true)}
-                  onMouseLeave={() => setShowIndicators(false)}
+                  
                   className="relative "
                 >
                   <div className="flex w-full flex-row items-center justify-between pb-4">
@@ -118,7 +117,7 @@ function FeaturedProducts(): ReactElement {
                       </div>
                     )} */}
                   </div>
-                  {show_indicators && (
+                  {/* {show_indicators && (
                     <div className="absolute top-1/2 flex w-full -translate-y-1/2 transform items-start justify-between px-3">
                       <div className=" rounded-full bg-gray-100 p-2">
                         <ChevronLeftIcon
@@ -135,7 +134,7 @@ function FeaturedProducts(): ReactElement {
                         />
                       </div>
                     </div>
-                  )}
+                  )} */}
                 </div>
               )}
             </>
