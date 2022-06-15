@@ -312,7 +312,7 @@ function MobileNavDrawers({ user }: Props): ReactElement {
                   {/* // for help */}
                   <Divider />
                   <div
-                    onClick={() => history.push('/help')}
+                    onClick={() => history.push('/about')}
                     className="mt-2 flex flex-row items-center justify-between bg-white py-4 px-4 text-sm font-semibold capitalize text-gray-700"
                   >
                     <p>Help</p>
