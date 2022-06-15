@@ -48,6 +48,7 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
         await disconnect()
         return res.status(200).send(products)
       } catch (error) {
+        await disconnect()
         return res.status(500).send({ message: 'error ---', error })
       }
     } else {
