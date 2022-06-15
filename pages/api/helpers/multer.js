@@ -1,5 +1,6 @@
 import multer from 'multer'
 import path from 'path'
+import fs from 'fs'
 
 // where and how the file will be stored
 const storage = multer.diskStorage({

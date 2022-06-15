@@ -51,7 +51,7 @@ function Home(): ReactFragment {
         />
       </div>
       <div className='flex flex-col w-full'>
-        <div className={`${!close_message ? "md:pt-32 pt-20 " : "md:pt-16 pt-10 "}`}>
+        <div className={`${!close_message ? "md:pt-32 pt-22 " : "md:pt-16 pt-12 "}`}>
           <div className="mx-auto hidden w-full max-w-7xl grid-cols-1 items-center gap-4 py-4 md:grid md:grid-cols-2 md:py-4 lg:grid-cols-4 ">
             {data.benefits.map((benefit, index) => (
               <div

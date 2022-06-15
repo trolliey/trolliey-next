@@ -139,7 +139,7 @@ function GeneralNavbar({ component_above_navbar, scrollY, setCloseMessage, close
         </div>
       </div>
 
-      <div className="mx-auto flex h-12 max-w-7xl flex-row items-center justify-between md:hidden">
+      <div className="mx-auto flex h-14 max-w-7xl flex-row items-center justify-between md:hidden">
         <div className="flex flex-row items-center space-x-2">
           {/* //drawer when on moblie view */}
           <div className="flex pl-4 md:hidden">
