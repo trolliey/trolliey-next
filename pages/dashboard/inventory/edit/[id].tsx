@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import DashboardLayout from '../../../../layouts/DashboardLayout'
 import { Divider, Select } from '@chakra-ui/react'
 import FileUploadComponent from '../../../../components/FileUploadComponent/FileUploadComponent'
@@ -31,6 +31,7 @@ export default function EditProduct(props: any) {
   const [price, setPrice] = useState<any>(0)
   const [discount_price, setDiscountPrice] = useState<any>(0)
   const [brand, setBrand] = useState<string>('')
+  const [sub_category, setSubCategory] = useState('')
   const [countInStock, setCountInStock] = useState<any>(0)
   const [category, setCategory] = useState<any>(0)
   const [status, setStatus] = useState<any>()
@@ -42,7 +43,15 @@ export default function EditProduct(props: any) {
   const [showMore, setShowMore] = useState<any>()
   const [currency, setCurrency] = useState('')
 
-  // console.log(product)
+  useEffect(() => {
+    let mounted = true
+    setPicturesForUpload(product?.pictures)
+    return function cleanup() {
+      mounted = false
+    }
+  }, [product?.pictures])
+
+  // console.log(product?._id)
 
   const selectedPictures = (pictures: any) => {
     setPicturesForUpload(pictures)
@@ -56,48 +65,29 @@ export default function EditProduct(props: any) {
     try {
       setLoading(true)
       const formData = new FormData()
-      const uploads: any = []
-      const promises: any = []
 
-      // pictures_for_upload.forEach((file: string | Blob) => {
-      //   formData.append('file', file)
-      //   formData.append('upload_preset', 'g6ixv6cg')
-      //   //@ts-ignore
-      //   formData.append('api_key', process.env.CLOUDNARY_API_KEY)
+      // uploading pictures to cloudinary and returning an array of urls
+      pictures_for_upload.forEach((file: any | Blob) => {
+        formData.append('theFiles', file)
+      })
+      for (const value of variations) {
+        formData.append('variants', value)
+      }
+      formData.append('description', description ? description : product?.description)
+      formData.append('title', title)
+      formData.append('category', category)
+      formData.append('price', price)
+      formData.append('discount_price', discount_price)
+      formData.append('countInStock', countInStock)
+      formData.append('status', status)
+      formData.append('sku', sku)
+      formData.append('currency', currency)
+      formData.append('sub_category', sub_category)
+      formData.append('product_id', product._id)
 
-      //   const uploadPromise = axios
-      //     .post(
-      //       'https://api.cloudinary.com/v1_1/trolliey/image/upload',
-      //       formData,
-      //       { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
-      //     )
-      //     .then((response) => {
-      //       uploads.push(response.data.url)
-      //     })
-      //   promises.push(uploadPromise)
-      // })
-      // await Promise.all(promises)
-
-      //upload the product to database from here
-      const { data } = await axios.post(
-        '/api/products/edit',
-        {
-          pictures: product?.pictures,
-          description: description ? description : product?.description,
-          title: title ? title : product?.title,
-          category: category ? category : product?.category,
-          price: price ? price : product?.price,
-          discount_price: discount_price ? discount_price : product?.discount_price,
-          brand: brand,
-          countInStock: countInStock,
-          status: status,
-          sku: sku,
-          variants: variations,
-          currency: currency,
-          product_id: product?._id,
-        },
-        { headers: { authorization: userInfo?.token } }
-      )
+      const { data } = await axios.put(`/api/products/edit?product_id=${product?._id}`, formData, {
+        headers: { authorization: userInfo?.token },
+      })
       setLoading(false)
       console.log(data)
       toast({
@@ -108,16 +98,17 @@ export default function EditProduct(props: any) {
         duration: 9000,
         isClosable: true,
       })
+    
     } catch (error) {
       setLoading(false)
-      toast({
-        title: 'Error Editing.',
-        description: getError(error),
-        status: 'error',
-        position: 'top-right',
-        duration: 9000,
-        isClosable: true,
-      })
+      // toast({
+      //   title: 'Error Editing.',
+      //   description: getError(error),
+      //   status: 'error',
+      //   position: 'top-right',
+      //   duration: 9000,
+      //   isClosable: true,
+      // })
     }
   }
 
@@ -127,7 +118,13 @@ export default function EditProduct(props: any) {
         <div className="flex flex-col p-4">
           <p className="text-lg font-semibold text-gray-800">Edit Product</p>
           <Divider className="my-4 text-gray-400" />
-          <>
+        {
+          loading ? (
+            <div className="flex w-full flex-col items-center">
+              <Divider />
+            </div>
+          ):(
+            <>
             <div className="hidden sm:block" aria-hidden="true">
               <div className="py-5">
                 <div className="border-t border-gray-200" />
@@ -152,7 +149,7 @@ export default function EditProduct(props: any) {
                     <p className="pb-1 font-semibold text-gray-700">
                       Old Pictures
                     </p>
-                    {(product?.pictures).map(
+                    {(pictures_for_upload)?.map(
                       (url: string | undefined, index: number) => (
                         <div
                           key={index}
@@ -166,11 +163,10 @@ export default function EditProduct(props: any) {
                       )
                     )}
                   </div>
-                  {pictures_for_upload?.length >= 1 && (
-                    <p className="pb-1 pt-4 font-semibold text-gray-700">
+                  
+                    <p className="pb-1 pt-2 font-semibold text-gray-700">
                       New Pictures
                     </p>
-                  )}
                   <FileUploadComponent
                     selectedPictures={selectedPictures}
                     multiple
@@ -238,6 +234,8 @@ export default function EditProduct(props: any) {
                               id="country"
                               name="country"
                               autoComplete="country-name"
+                              defaultValue={product?.sub_category}
+                              onChange={(e) => setSubCategory(e.target.value)}
                               className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                             >
                               {data.categories.map(
@@ -595,6 +593,8 @@ export default function EditProduct(props: any) {
               onClick={edit_product}
             />
           </>
+          )
+        }
         </div>
       </DashboardLayout>
     </NoSSR>
