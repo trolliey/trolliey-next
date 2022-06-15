@@ -31,10 +31,16 @@ function Carousel({ data }: Props): ReactElement {
   }
 
   useEffect(() => {
+    let cancelRequest = false
     startSlider()
     slideRef.current?.addEventListener('animationend', removeAnimation)
     slideRef.current?.addEventListener('mouseenter', pauseSlider)
     slideRef.current?.addEventListener('mouseleave', startSlider)
+    if (cancelRequest) return
+
+    return function cleanup() {
+      cancelRequest = true
+    }
   }, [])
 
   const startSlider = () => {
@@ -54,7 +60,7 @@ function Carousel({ data }: Props): ReactElement {
         ref={slideRef}
         className="relative w-full cursor-pointer select-none rounded"
       >
-        <div className="aspect-w-16 aspect-h-9 rounded overflow-hidden">
+        <div className="aspect-w-16 aspect-h-9 overflow-hidden rounded">
           <Image
             src={data[currentIndex].image}
             placeholder="blur"
