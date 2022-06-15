@@ -56,7 +56,7 @@ function MobileProductItem({
           <Text noOfLines={2} className="font-semibold text-gray-700">
             {name}
           </Text>
-          <Text className="text-xs font-semibold text-blue-dark">
+          <Text className="text-xs font-base text-blue-dark">
             {category}
           </Text>
           <div className="flex-1"></div>

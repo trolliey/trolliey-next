@@ -150,7 +150,7 @@ export default function CreateProduct() {
         formData.append('title', title)
         formData.append('category', category)
         formData.append('price', price)
-        formData.append('discount_price', discount_price)
+        formData.append('discount_price', discount_price ? discount_price : 0)
         formData.append('countInStock', countInStock)
         formData.append('status', status)
         formData.append('sku', sku)

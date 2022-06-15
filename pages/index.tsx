@@ -182,102 +182,6 @@ function Home(): ReactFragment {
                   </a>
                 </div>
 
-                {/* <div className="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:grid-rows-2 sm:gap-x-6 lg:gap-8 ">
-                <div
-                  onClick={() => search_by_category(randomItem.value)}
-                  className="group aspect-w-2 aspect-h-1 sm:aspect-h-1 sm:aspect-w-1 relative h-40 transform cursor-pointer overflow-hidden rounded-lg border transition hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none sm:row-span-2 md:h-96"
-                >
-                  <Image
-                    layout="fill"
-                    objectFit="cover"
-                    placeholder="blur"
-                    quality={50}
-                    loading='eager'
-                    src={surprise}
-                    alt="suprised user."
-                    className="object-cover object-center group-hover:opacity-75"
-                  />
-                  <div
-                    aria-hidden="true"
-                    className="bg-gradient-to-b from-transparent to-black opacity-50"
-                  />
-                  <div className="flex items-end p-6">
-                    <div>
-                      <h3 className="font-semibold text-white">
-                        <span>
-                          <span className="absolute inset-0" />
-                          Suprise Me
-                        </span>
-                      </h3>
-                      <p aria-hidden="true" className="mt-1 text-sm text-white">
-                        Shop now
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  onClick={() => search_by_category('tech')}
-                  className="group aspect-w-2 aspect-h-1 sm:aspect-none transform cursor-pointer overflow-hidden rounded-lg border transition hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none sm:relative sm:h-full"
-                >
-                  <Image
-                    layout="fill"
-                    src={tech_stuff}
-                    placeholder="blur"
-                    quality={50}
-                    loading='eager'
-                    alt="tech category."
-                    className="object-cover object-center group-hover:opacity-75 sm:absolute sm:inset-0 sm:h-full sm:w-full"
-                  />
-                  <div
-                    aria-hidden="true"
-                    className="bg-gradient-to-b from-transparent to-black opacity-50 sm:absolute sm:inset-0"
-                  />
-                  <div className="flex items-end p-6 sm:absolute sm:inset-0">
-                    <div>
-                      <h3 className="font-semibold text-white">
-                        <span>
-                          <span className="absolute inset-0" />
-                          Tech Stuff
-                        </span>
-                      </h3>
-                      <p aria-hidden="true" className="mt-1 text-sm text-white">
-                        Shop now
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  onClick={() => search_by_category('Fashion-And-Luggage')}
-                  className="group aspect-w-2 aspect-h-1 sm:aspect-none transform cursor-pointer overflow-hidden rounded-lg border transition hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none sm:relative sm:h-full"
-                >
-                  <Image
-                    layout="fill"
-                    src={clothes}
-                    alt="Clothes and fashion"
-                    quality={50}
-                    placeholder="blur"
-                    loading='eager'
-                    className="object-cover object-center group-hover:opacity-75 sm:absolute sm:inset-0 sm:h-full sm:w-full"
-                  />
-                  <div
-                    aria-hidden="true"
-                    className="bg-gradient-to-b from-transparent to-black opacity-50 sm:absolute sm:inset-0"
-                  />
-                  <div className="flex items-end p-6 sm:absolute sm:inset-0">
-                    <div>
-                      <h3 className="font-semibold text-white">
-                        <div>
-                          <span className="absolute inset-0" />
-                          Clothes and fashion
-                        </div>
-                      </h3>
-                      <p aria-hidden="true" className="mt-1 text-sm text-white">
-                        Shop now
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div> */}
                 <div className="scrollbar-hide relative mx-auto flex md:space-x-4 space-x-2 overflow-x-auto">
                   {data.categories.map((category, index) => (
                     <div
@@ -289,6 +193,7 @@ function Home(): ReactFragment {
                           objectFit="cover"
                           src={category.icon ? category.icon : ''}
                           layout="fill"
+                          loading="eager"
                           quality={50}
                           placeholder="blur"
                           blurDataURL={category.icon}
