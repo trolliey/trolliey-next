@@ -27,6 +27,7 @@ const productSchema = new mongoose.Schema(
     },
     discount_price: {
       type: Number,
+      default:0
     },
     pictures: {
       type: Array,
