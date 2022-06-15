@@ -124,16 +124,28 @@ export default function CreateProduct() {
         duration: 9000,
         isClosable: true,
       })
+    }else if(!countInStock){
+      setLoading(false)
+      toast({
+        title: 'Error Adding.',
+        description: 'You should provide quantity of the item',
+        status: 'error',
+        position: 'top-right',
+        duration: 9000,
+        isClosable: true,
+      })
     } else {
       try {
         setLoading(true)
         const formData = new FormData()
-        const uploads: any = []
 
         // uploading pictures to cloudinary and returning an array of urls
         pictures_for_upload.forEach((file: any | Blob) => {
           formData.append('theFiles', file)
         })
+        for(const value of variations){
+          formData.append('variants', value)
+        }
         formData.append('description', description)
         formData.append('title', title)
         formData.append('category', category)
@@ -143,12 +155,11 @@ export default function CreateProduct() {
         formData.append('status', status)
         formData.append('sku', sku)
         formData.append('currency', currency)
-        formData.append('variants', variations)
         formData.append('sub_category', sub_category)
 
         //upload the product to database from here
         axios
-          .post('/api/products/create', formData, {
+          .post('/api/products/create',formData, {
             headers: { authorization: userInfo?.token },
           })
           .then((res: any) => {

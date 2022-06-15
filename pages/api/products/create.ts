@@ -73,7 +73,7 @@ apiRoute.post(async (req: NextApiRequest, res: NextApiResponse) => {
                 urls.push(newPath)
                 fs.unlinkSync(path)
               } catch (error) {
-                res.status(500).send({ message: error })
+                res.status(500).send({ message: `Error uploading images ${error}` })
               }
             }
 
@@ -82,13 +82,13 @@ apiRoute.post(async (req: NextApiRequest, res: NextApiResponse) => {
               slug: slugify(title),
               description: description,
               price: price,
-              discount_price: discount_price,
+              discount_price: discount_price ? discount_price : 0,
               pictures: urls,
               brand: brand,
               countInStock: countInStock,
               category: category,
               category_slug: slugify(category),
-              variants: variants,
+              variants: variants ? variants : [],
               store_id: store._id,
               sku: sku,
               status: status,
@@ -108,12 +108,12 @@ apiRoute.post(async (req: NextApiRequest, res: NextApiResponse) => {
             } catch (error) {
               await disconnect()
               return res
-                .status(500)
+                .status(404)
                 .send({ message: 'error found here --- ', error })
             }
           } else {
             return res
-              .status(500)
+              .status(403)
               .send({ message: 'Your store has not been approved yet' })
           }
         }

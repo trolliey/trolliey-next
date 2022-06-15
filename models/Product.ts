@@ -55,6 +55,7 @@ const productSchema = new mongoose.Schema(
     },
     variants: {
       type: Array,
+      default: []
     },
     store_id: {
       type: String,
