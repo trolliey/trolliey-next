@@ -55,6 +55,10 @@ apiRoute.post(async (req: NextApiRequest, res: NextApiResponse) => {
               sub_category,
             } = req.body
 
+            if(!discount_price || !description || !title || !price ||status ){
+              return res.status(500).send({message: 'Please enter required fields'})
+            }
+
             // upload images to cloudinary
             const uploader = async (path: any) =>
               cloudinary.upload(path, 'Images')
