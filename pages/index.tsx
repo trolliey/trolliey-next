@@ -21,6 +21,8 @@ import useSWR from 'swr'
 import GeneralNavbar from '../components/Navigations/GeneralNavbar'
 import { useWindowScrollPositions } from '../hooks/useWindowScrollPosition'
 import Footer from '../components/Navigations/Footer'
+import { Text } from '@chakra-ui/react'
+import Link from 'next/link'
 
 function Home(): ReactFragment {
   const history = useRouter()
@@ -41,7 +43,7 @@ function Home(): ReactFragment {
     data.categories[Math.floor(Math.random() * data.categories.length)]
 
   return (
-    <div className="flex flex-col w-full  bg-gradient-to-b from-blue-superlight via-gray-100 to-gray-100 overflow-scroll">
+    <div className="flex w-full flex-col  overflow-scroll bg-gradient-to-b from-blue-superlight via-gray-100 to-gray-100">
       <div className="nav">
         <GeneralNavbar
           setCloseMessage={setCloseMessage}
@@ -50,8 +52,12 @@ function Home(): ReactFragment {
           component_above_navbar
         />
       </div>
-      <div className='flex flex-col w-full'>
-        <div className={`${!close_message ? "md:pt-32 pt-24 " : "md:pt-16 pt-12 "}`}>
+      <div className="flex w-full flex-col">
+        <div
+          className={`${
+            !close_message ? 'pt-24 md:pt-32 ' : 'pt-12 md:pt-16 '
+          }`}
+        >
           <div className="mx-auto hidden w-full max-w-7xl grid-cols-1 items-center gap-4 py-4 md:grid md:grid-cols-2 md:py-4 lg:grid-cols-4 ">
             {data.benefits.map((benefit, index) => (
               <div
@@ -77,7 +83,7 @@ function Home(): ReactFragment {
           </div>
         </div>
         {/* <h1>Products</h1> */}
-        <div className="container min-h-screen max-w-7xl pt-4 md:pt-0 mx-auto">
+        <div className="container mx-auto min-h-screen max-w-7xl pt-4 md:pt-0">
           <div className="top mb-8 flex w-full flex-row gap-2 rounded-lg bg-white px-0 py-0 md:gap-8  md:p-8 md:px-4 md:py-4">
             <div className="hidden md:flex md:w-1/5">
               <CategoriesDropdown />
@@ -154,29 +160,29 @@ function Home(): ReactFragment {
             </div>
           </div>
 
-          <div className="section md:px-0 px-2">
+          <div className="section px-2 md:px-0">
             {/* // featured products */}
-          <>
-            <FeaturedProducts />
-          </>
-          <section aria-labelledby="category-heading" className="my-8">
-            <div className="mx-auto max-w-7xl rounded bg-white p-4 md:p-8">
-              <div className="sm:flex sm:items-baseline sm:justify-between">
-                <h2
-                  id="category-heading"
-                  className="text-base font-bold tracking-tight text-gray-700 md:text-xl"
-                >
-                  Shop by Category
-                </h2>
-                <a
-                  href="/categories"
-                  className="hidden font-semibold text-blue-primary hover:text-blue-primary sm:block"
-                >
-                  Browse all categories<span aria-hidden="true"> &rarr;</span>
-                </a>
-              </div>
+            <>
+              <FeaturedProducts />
+            </>
+            <section aria-labelledby="category-heading" className="my-8">
+              <div className="mx-auto max-w-7xl rounded bg-white p-4 md:p-8">
+                <div className="sm:flex sm:items-baseline sm:justify-between pb-4">
+                  <h2
+                    id="category-heading"
+                    className="text-base font-bold tracking-tight text-gray-700 md:text-xl"
+                  >
+                    Shop by Category
+                  </h2>
+                  <a
+                    href="/categories"
+                    className="hidden font-semibold text-blue-primary hover:text-blue-primary sm:block"
+                  >
+                    Browse all categories<span aria-hidden="true"> &rarr;</span>
+                  </a>
+                </div>
 
-              <div className="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:grid-rows-2 sm:gap-x-6 lg:gap-8 ">
+                {/* <div className="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:grid-rows-2 sm:gap-x-6 lg:gap-8 ">
                 <div
                   onClick={() => search_by_category(randomItem.value)}
                   className="group aspect-w-2 aspect-h-1 sm:aspect-h-1 sm:aspect-w-1 relative h-40 transform cursor-pointer overflow-hidden rounded-lg border transition hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none sm:row-span-2 md:h-96"
@@ -271,27 +277,65 @@ function Home(): ReactFragment {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
+                <div className="scrollbar-hide relative mx-auto flex md:space-x-4 space-x-2 overflow-x-auto">
+                  {data.categories.map((category, index) => (
+                    <div
+                    className={`relative w-full transition hover:-translate-y-1 hover:shadow-lg motion-reduce:transform-none  motion-reduce:transition-none`}
+                  >
+                    <div onClick={() => search_by_category(category.name)}>
+                      <div className="relative flex h-36 w-36 flex-col items-center overflow-hidden rounded bg-white md:h-52 md:w-52">
+                        <Image
+                          objectFit="cover"
+                          src={category.icon ? category.icon : ''}
+                          layout="fill"
+                          quality={50}
+                          placeholder="blur"
+                          blurDataURL={category.icon}
+                          alt="product"
+                          className="h-full max-h-full w-auto flex-1 flex-shrink-0 rounded object-cover"
+                        />
+                      </div>
+                    </div>
+                    <div className="px-4">
+                     
+                      <div
+                        className="flex-1 overflow-hidden"
+                      >
+                       
+                        <Text
+                          noOfLines={2}
+                          className="my-1 text-sm font-semibold text-gray-700"
+                        >
+                          {category.name}
+                        </Text>
+                      </div>
+              
+                      
+                    </div>
+                  </div>
+                  ))}
+                </div>
 
-              <div className="mt-6 sm:hidden">
-                <a
-                  href="/categories"
-                  className="block font-semibold text-blue-primary hover:text-blue-primary"
-                >
-                  Browse all categories<span aria-hidden="true"> &rarr;</span>
-                </a>
+                <div className="mt-6 sm:hidden">
+                  <a
+                    href="/categories"
+                    className="block font-semibold text-blue-primary hover:text-blue-primary"
+                  >
+                    Browse all categories<span aria-hidden="true"> &rarr;</span>
+                  </a>
+                </div>
               </div>
-            </div>
-          </section>
+            </section>
 
-          {/* // featured products */}
-          <>
-            <AllProducts products={products} loading={!data} error={error} />
-          </>
+            {/* // featured products */}
+            <>
+              <AllProducts products={products} loading={!data} error={error} />
+            </>
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   )
 }
