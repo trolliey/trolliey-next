@@ -4,6 +4,7 @@ import { Divider, Avatar, Select } from '@chakra-ui/react'
 import { Store } from '../Context/Store'
 import { LockClosedIcon } from '@heroicons/react/outline'
 import Cookies from 'js-cookie'
+import Amount from '../components/Amount/Amount'
 
 interface Props {
   children: any
@@ -73,12 +74,11 @@ const ShipmentLayout: FunctionComponent<Props> = ({
                   </span>
                 </p>
                 <p>
-                  ${' '}
-                  {cart?.cartItems.reduce(
+                  <Amount amount={cart?.cartItems.reduce(
                     (a: any, c: any) =>
                       parseInt(a) + parseInt(c.quantity) * parseInt(c.price),
                     0
-                  )}
+                  )} />
                 </p>
               </div>
               <Divider className="my-4" color={'gray.400'} />
@@ -101,12 +101,11 @@ const ShipmentLayout: FunctionComponent<Props> = ({
                 <div className="flex-1"></div>
                 <p className="font-bold text-blue-primary">
                   {' '}
-                  $
-                  {cart?.cartItems.reduce(
+                  <Amount amount={cart?.cartItems.reduce(
                     (a: any, c: any) =>
                       parseInt(a) + parseInt(c.quantity) * parseInt(c.price),
                     0
-                  )}
+                  )} />
                 </p>
               </div>
               <Divider className="mt-4 mb-2" color={'gray.300'} />
