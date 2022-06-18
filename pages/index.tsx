@@ -210,7 +210,7 @@ function Home(): ReactFragment {
                        
                         <Text
                           noOfLines={2}
-                          className="my-1 text-sm font-semibold text-gray-700"
+                          className="my-1 text-sm font-semibold text-gray-700 text-center"
                         >
                           {category.name}
                         </Text>

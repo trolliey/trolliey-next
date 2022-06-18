@@ -34,7 +34,7 @@ export const data = {
   site_description:
     'Trolliey is a modern ecommerce platform. You can become a seller or become a buyer and trade your items from anywhere you like. You can manage you inventory and customers using our intuitive dashboard, Buy and sell goods and items online',
   site_url: 'www.trolliey.com',
-  site_top_message: 'Free Shipping On All Order Over $100 Code',
+  site_top_message: 'Free delivery on first order',
   banner_images: [
     // { body: 'First banner representantion', image: promo_1 },
     { body: 'Second banner representantion', image: promo_2 },

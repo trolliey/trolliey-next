@@ -38,7 +38,7 @@ function MobileNavDrawers({ user }: Props): ReactElement {
   const [current_category, setCurrentCategory] = useState<any>('')
   const history = useRouter()
   const { state, dispatch } = useContext(Store)
-  const { currency } = state
+  const { currency, userInfo } = state
 
   const logout_user = () => {
     history.push('/')
@@ -283,7 +283,7 @@ function MobileNavDrawers({ user }: Props): ReactElement {
                   {/* // for help */}
                   <Divider />
                   <div
-                    onClick={() => history.push('/orders')}
+                    onClick={() => history.push(userInfo ? '/orders' : '/login?redirect=/orders')}
                     className="flex flex-row items-center justify-between bg-white py-4 px-4 text-sm font-semibold capitalize text-gray-700"
                   >
                     <p>My Orders</p>
@@ -312,7 +312,7 @@ function MobileNavDrawers({ user }: Props): ReactElement {
                   {/* // for help */}
                   <Divider />
                   <div
-                    onClick={() => history.push('/about')}
+                    onClick={() => history.push('/contact')}
                     className="mt-2 flex flex-row items-center justify-between bg-white py-4 px-4 text-sm font-semibold capitalize text-gray-700"
                   >
                     <p>Help</p>
@@ -320,7 +320,7 @@ function MobileNavDrawers({ user }: Props): ReactElement {
                   </div>
                   <Divider />
                   <div
-                    onClick={() => history.push('/profile')}
+                    onClick={() => history.push(userInfo ? '/profile' : '/login?redirect=/profile')}
                     className="mb-2 flex flex-row items-center justify-between bg-white py-4 px-4 text-sm font-semibold capitalize text-gray-700"
                   >
                     <p>Settings</p>

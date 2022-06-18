@@ -50,7 +50,7 @@ function GeneralNavbar({ component_above_navbar, scrollY, setCloseMessage, close
                     className="mx-auto flex flex-row items-center justify-between md:py-4 py-2"
                   >
                     <p className="font-bold text-blue-dark sm:text-xs md:text-base">
-                      Free delivery for total above $50
+                      Free delivery on first order
                     </p>
                     <div className="flex flex-row items-center space-x-2 md:space-x-4">
                       <Link href={'/explore'} passHref>
