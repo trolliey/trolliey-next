@@ -167,19 +167,19 @@ function Home(): ReactFragment {
             </>
             <section aria-labelledby="category-heading" className="my-8">
               <div className="mx-auto max-w-7xl rounded bg-white p-4 md:p-8">
-                <div className="items-centerjustify-between flex flex-row pb-4">
+                <div className="items-center justify-between flex flex-row pb-4">
                   <h2
                     id="category-heading"
                     className="text-base font-bold tracking-tight text-gray-700 md:text-xl"
                   >
                     Shop by Category
                   </h2>
-                  <div className="mt-6 sm:hidden">
+                  <div className="">
                     <a
                       href="/categories"
                       className="block font-semibold text-blue-primary hover:text-blue-primary"
                     >
-                      Browse all<span aria-hidden="true"> &rarr;</span>
+                      Browse all<span aria-hidden="true"></span>
                     </a>
                   </div>
                 </div>
