@@ -167,68 +167,55 @@ function Home(): ReactFragment {
             </>
             <section aria-labelledby="category-heading" className="my-8">
               <div className="mx-auto max-w-7xl rounded bg-white p-4 md:p-8">
-                <div className="sm:flex sm:items-baseline sm:justify-between pb-4">
+                <div className="items-centerjustify-between flex flex-row pb-4">
                   <h2
                     id="category-heading"
                     className="text-base font-bold tracking-tight text-gray-700 md:text-xl"
                   >
                     Shop by Category
                   </h2>
-                  <a
-                    href="/categories"
-                    className="hidden font-semibold text-blue-primary hover:text-blue-primary sm:block"
-                  >
-                    Browse all categories<span aria-hidden="true"> &rarr;</span>
-                  </a>
+                  <div className="mt-6 sm:hidden">
+                    <a
+                      href="/categories"
+                      className="block font-semibold text-blue-primary hover:text-blue-primary"
+                    >
+                      Browse all<span aria-hidden="true"> &rarr;</span>
+                    </a>
+                  </div>
                 </div>
 
-                <div className="scrollbar-hide relative mx-auto flex md:space-x-4 space-x-2 overflow-x-auto">
+                <div className="scrollbar-hide relative mx-auto flex space-x-2 overflow-x-auto md:space-x-4">
                   {data.categories.map((category, index) => (
                     <div
-                    className={`relative w-full transition hover:-translate-y-1 hover:shadow-lg motion-reduce:transform-none  motion-reduce:transition-none`}
-                  >
-                    <div onClick={() => search_by_category(category.name)}>
-                      <div className="relative flex h-36 w-36 flex-col items-center overflow-hidden rounded bg-white md:h-52 md:w-52">
-                        <Image
-                          objectFit="cover"
-                          src={category.icon ? category.icon : ''}
-                          layout="fill"
-                          loading="eager"
-                          quality={50}
-                          placeholder="blur"
-                          blurDataURL={category.icon}
-                          alt="product"
-                          className="h-full max-h-full w-auto flex-1 flex-shrink-0 rounded object-cover"
-                        />
+                      className={`relative w-full transition hover:-translate-y-1 hover:shadow-lg motion-reduce:transform-none  motion-reduce:transition-none`}
+                    >
+                      <div onClick={() => search_by_category(category.name)}>
+                        <div className="relative flex h-36 w-36 flex-col items-center overflow-hidden rounded bg-white md:h-52 md:w-52">
+                          <Image
+                            objectFit="cover"
+                            src={category.icon ? category.icon : ''}
+                            layout="fill"
+                            loading="eager"
+                            quality={50}
+                            placeholder="blur"
+                            blurDataURL={category.icon}
+                            alt="product"
+                            className="h-full max-h-full w-auto flex-1 flex-shrink-0 rounded object-cover"
+                          />
+                        </div>
+                      </div>
+                      <div className="px-4">
+                        <div className="flex-1 overflow-hidden">
+                          <Text
+                            noOfLines={2}
+                            className="my-1 text-center text-sm font-semibold text-gray-700"
+                          >
+                            {category.name}
+                          </Text>
+                        </div>
                       </div>
                     </div>
-                    <div className="px-4">
-                     
-                      <div
-                        className="flex-1 overflow-hidden"
-                      >
-                       
-                        <Text
-                          noOfLines={2}
-                          className="my-1 text-sm font-semibold text-gray-700 text-center"
-                        >
-                          {category.name}
-                        </Text>
-                      </div>
-              
-                      
-                    </div>
-                  </div>
                   ))}
-                </div>
-
-                <div className="mt-6 sm:hidden">
-                  <a
-                    href="/categories"
-                    className="block font-semibold text-blue-primary hover:text-blue-primary"
-                  >
-                    Browse all categories<span aria-hidden="true"> &rarr;</span>
-                  </a>
                 </div>
               </div>
             </section>
