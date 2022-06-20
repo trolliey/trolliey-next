@@ -30,6 +30,7 @@ function reducer(state, action) {
             return {...state, currency: action.payload}
         case 'REMOVE_FROM_CART':
             const NewcartItems = state.cart.cartItems.filter(item => item._id !== action.payload._id)
+            console.log(NewcartItems)
             Cookies.set('cartItems', JSON.stringify(NewcartItems))
             return { ...state, cart: { ...state.cart, NewcartItems } }
         case 'CLEAR_CART':

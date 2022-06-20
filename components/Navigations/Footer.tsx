@@ -7,17 +7,17 @@ const navigation = {
   main: [
     { name: 'About Us', href: '/about' },
     { name: 'Contact Us', href: '/contact' },
-    { name: 'Apply To Sell', href: '/jobs' },
-    { name: 'Suggest An Idea', href: '/explore' },
-    { name: 'Suggest A Product', href: '/register' },
+    { name: 'Apply To Sell', href: '/contact' },
+    { name: 'Suggest An Idea', href: '/contact' },
+    { name: 'Suggest A Product', href: '/contact' },
     { name: 'Terms And Conditions', href: '/termsandconditions' },
   ],
   auth_main: [
     { name: 'About Us', href: '/about' },
     { name: 'Contact Us', href: '/contact' },
-    { name: 'Apply To Sell', href: '/jobs' },
-    { name: 'Suggest An Idea', href: '/explore' },
-    { name: 'Suggest A Product', href: '/account' },
+    { name: 'Apply To Sell', href: '/contact' },
+    { name: 'Suggest An Idea', href: '/contact' },
+    { name: 'Suggest A Product', href: '/contact' },
     { name: 'Terms And Conditions', href: '/termsandconditions' },
   ],
   social: [
