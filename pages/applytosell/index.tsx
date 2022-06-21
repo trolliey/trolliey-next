@@ -158,7 +158,7 @@ function BecomeASeller() {
                           Weekly Payouts
                         </h3>
                         <p className="mt-6 text-base text-gray-500">
-                           Weekly payouts are sent to your account. We charge 10% tax inclusive service fee on every successfull transaction. 
+                           Weekly payouts are sent to your account. We charge 5% tax inclusive service fee on every successfull transaction. 
                         </p>
                         <div className="mt-8">
                           <div className="flex items-center">

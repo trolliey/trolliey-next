@@ -5,9 +5,14 @@ import GeneralLayout from '../../layouts/GeneralLayout'
 
 const faqs = [
   {
-    question: "What's the best thing about Switzerland?",
+    question: "How much does trolliey charge us to sell on Trolliey?",
     answer:
-      "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+      "Managing your inventory and customers is totally from on Trolliey. However for every sucessfully purchase done we  deduct 10% including tax from the total amount",
+  },
+  {
+    question: "How long does it take to receive a package after purchasing?",
+    answer:
+      "It takes not more than 10 working days for you to receive your product after you have purchased. Every buyer gets a free delivery on their first purchase",
   },
   // More questions...
 ]
