@@ -18,7 +18,7 @@ function classNames(...classes: any) {
 
 function Faq() {
   return (
-  <GeneralLayout no_text title='Help $ FAQ' description='Our help page and frequently asked questions about our platform'>
+  <GeneralLayout no_text title='Help and FAQ' description='Our help page and frequently asked questions about our platform'>
         <div className="min-h-screen">
       <div className="mx-auto max-w-7xl py-12 px-4 sm:py-16 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl divide-y-2 divide-gray-200">
