@@ -2,4 +2,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://trolliey.com/api/my-sitemap
+Sitemap: https://www.trolliey.com/api/my-sitemap
