@@ -190,6 +190,61 @@ function PaymentMethod({
     }
   }
 
+  const handle_rtgs_payment = async () => {
+    try {
+      setUsdLoading(true)
+      const { data } = await axios.post(
+        `/api/payment/rtgs`,
+        {
+          orderItems: cart.cartItems,
+          address: values.address,
+          itemsPrice: cart?.cartItems.reduce(
+            (a: any, c: any) =>
+              parseInt(a) + parseInt(c.quantity) * parseInt(c.price),
+            0
+          ),
+          shippingPrice: 0,
+          totalPrice: cart?.cartItems.reduce(
+            (a: any, c: any) =>
+              parseInt(a) + parseInt(c.quantity) * parseInt(c.price),
+            0
+          ),
+          full_name: values.full_name,
+          province: values.province,
+          collect_my_order: collect_my_order,
+          method: selected_method,
+          isPaid: false,
+          pay_on_delivery: 'yes',
+          paying_number: values.paying_number,
+          contact_phone_number: values.contact_number,
+          city: values.city,
+          number_of_items_bought: cart?.cartItems.reduce(
+            (a: any, c: any) => parseInt(a) + parseInt(c.quantity),
+            0
+          ),
+        },
+        {
+          headers: {
+            authorization: `${userInfo.token}`,
+          },
+        }
+      )
+      setUsdLoading(false)
+      console.log(data)
+      toast({
+        title: 'Check your phone for messages. ',
+        status: 'success',
+        position: 'top-right',
+        duration: 9000,
+        isClosable: true,
+      })
+    } catch (error) {
+      setUsdLoading(false)
+      console.log(getError(error))
+      return
+    }
+  }
+
   if (payment_method === 'pay_on_delivery') {
     return (
       <ShipmentLayout step={step} heading="Payment Info">
@@ -278,7 +333,8 @@ function PaymentMethod({
             <div className="my-4 flex flex-col items-center">
               <BlueButton
                 text={'Make Payment'}
-                onClick={() => console.log('Confirm My Order')}
+                onClick={handle_rtgs_payment}
+                loading={usd_loading}
               />
             </div>
           </div>
@@ -332,8 +388,7 @@ function PaymentMethod({
       )}
 
       {selected_method === 'visa/mastercard' && (
-        <div className="col-span-full mt-4 flex-col w-full items-center flex">
-          
+        <div className="col-span-full mt-4 flex w-full flex-col items-center">
           <div className="my-4">
             <BlueButton
               text={'Proceed to payment'}

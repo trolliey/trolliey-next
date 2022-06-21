@@ -94,8 +94,9 @@ function GeneralLayout({
         <meta name="twitter:description" content={twitter_description} />
         <meta name="twitter:site" content="" />
         <meta name="twitter:creator" content="" />
-        <link rel="icon" type="image/png" href="/icon.png" />
-        <link rel="apple-touch-icon" href="/icon.png" />
+        <link rel="icon" type="image/png" href="/images/icon.png" />
+        <link rel="shortcut icon" type="image/png" href="/images/icon.png" />
+        <link rel="apple-touch-icon" href="/images/icon.png" />
         <meta name="twitter:image" content={og_image} />
         <link
           rel="canonical"

@@ -6,7 +6,7 @@ export default class MyDocument extends Document {
         return (
             <Html lang="en">
                 <Head prefix="og:https://ogp.me/ns#">
-                    <link rel="shortcut icon" href="/icon.png" />
+                    <link rel="shortcut icon" href="/images/icon.png" />
                 </Head>
                 <body>
                     <Main />
