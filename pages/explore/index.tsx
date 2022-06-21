@@ -30,7 +30,7 @@ export default function Explore() {
   // get all products
   useEffect(() => {
     let cancelRequest = false
-    const url = `/api/products?page=${page}`
+    const url = `/api/products?page=${1}`
     setLoading(true)
     const getData = async () => {
       if (cache.current[url]) {
@@ -59,7 +59,8 @@ export default function Explore() {
   }, [search_query, page])
 
   const load_more_Handler = async () => {
-    const url = `/api/products?page=${page + 1}`
+    setPage((page:any) => page+1)
+    const url = `/api/products?page=${page}`
     try {
       setMoreLoading(true)
       const { data } = await axios.post(url, {

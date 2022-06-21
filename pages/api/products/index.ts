@@ -10,7 +10,7 @@ import { connect, disconnect } from '../../../utils/mongo'
 // /api/all_products
 handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   // for pagination
-  const resultsPerPage = 15
+  const resultsPerPage = 16
   //@ts-ignore
   let page = parseInt(req.query.page) >= 1 ? parseInt(req.query.page) : 1
   page = page - 1

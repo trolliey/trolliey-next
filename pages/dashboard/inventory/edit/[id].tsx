@@ -149,6 +149,7 @@ export default function EditProduct(props: any) {
                     <p className="pb-1 font-semibold text-gray-700">
                       Old Pictures
                     </p>
+                    <div className="grid md:grid-cols-4 grid-cols-3 items-center gap-8 my-2 mx-4 w-full">
                     {(pictures_for_upload)?.map(
                       (url: string | undefined, index: number) => (
                         <div
@@ -162,6 +163,7 @@ export default function EditProduct(props: any) {
                         </div>
                       )
                     )}
+                    </div>
                   </div>
                   
                     <p className="pb-1 pt-2 font-semibold text-gray-700">

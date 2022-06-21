@@ -8,7 +8,6 @@ import { Store } from '../../Context/Store'
 import { Text, useToast } from '@chakra-ui/react'
 import Amount from '../Amount/Amount'
 import Link from 'next/link'
-import image from '../../public/img/logo.png'
 
 interface Props {
   picture?: string
