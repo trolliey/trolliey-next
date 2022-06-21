@@ -32,7 +32,7 @@ function BecomeASeller() {
         <meta
           name="description"
           content={
-            'Earn money online. Apply to become a seller on Trolliey, and get access to a seller dashboard.'
+            'Apply to sell your products online to more that a thousand daily customers who visit ourwebsite. Apply and sell for free Ts and Cs Apply.'
           }
         />
         <meta property="og:type" content="website" />
@@ -45,7 +45,7 @@ function BecomeASeller() {
           name="og:description"
           property="og:description"
           content={
-            'Earn money online. Apply to become a seller on Trolliey, and get access to a seller dashboard.'
+            'List your products online. Apply to become a seller on Trolliey, and get access to a seller dashboard with a lotof features to boost and track your sales.'
           }
         />
         <meta property="og:site_name" content={'Trolliey'} />
@@ -98,10 +98,10 @@ function BecomeASeller() {
                 <div className="relative px-4 py-16 sm:px-6 sm:py-24 lg:py-32 lg:px-8">
                   <h1 className="text-center text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
                     <span className="block text-white">
-                      Take control of your
+                      Put your business online and enjoy
                     </span>
                     <span className="block text-indigo-200">
-                      business online
+                      a significant growth in sales
                     </span>
                   </h1>
                   <p className="mx-auto mt-6 max-w-lg text-center text-xl text-indigo-200 sm:max-w-3xl">
@@ -143,7 +143,7 @@ function BecomeASeller() {
                       Pricing
                     </h2>
                     <p className="mt-4 text-xl text-gray-600">
-                      For every new shop you get 6 months free trial
+                      Apply and Register for an online store for free. We handle delivery of your products to customers. 
                     </p>
                   </div>
                 </div>
@@ -155,12 +155,10 @@ function BecomeASeller() {
                     <div className="mx-auto max-w-lg overflow-hidden rounded-lg shadow-lg lg:flex lg:max-w-none">
                       <div className="flex-1 bg-white px-6 py-8 lg:p-12">
                         <h3 className="text-2xl font-extrabold text-gray-900 sm:text-3xl">
-                          Monthly Subscription
+                          Weekly Payouts
                         </h3>
                         <p className="mt-6 text-base text-gray-500">
-                          You pay a subscription Fee of $10 per seller account
-                          per month and you can un subscribe or cancel at any
-                          time you want
+                           Weekly payouts are sent to your account. We charge 10% tax inclusive service fee on every successfull transaction. 
                         </p>
                         <div className="mt-8">
                           <div className="flex items-center">
@@ -197,7 +195,7 @@ function BecomeASeller() {
                           Pay,Grow, Rest
                         </p>
                         <div className="mt-4 flex items-center justify-center text-5xl font-extrabold text-gray-900">
-                          <span>$5/m</span>
+                          <span>$0/m</span>
                           <span className="ml-3 text-xl font-medium text-gray-500">
                             USD
                           </span>
@@ -207,7 +205,7 @@ function BecomeASeller() {
                             href="#"
                             className="font-medium text-gray-500 underline"
                           >
-                            Learn about our membership policy
+                            Proceed to Application
                           </a>
                         </p>
                         <div className="mt-6">
@@ -244,7 +242,7 @@ function BecomeASeller() {
                     </div>
                     <div className="mt-6">
                       <h2 className="text-3xl font-extrabold tracking-tight text-gray-900">
-                        We are customer oriented
+                        Multi Vendor platform
                       </h2>
                       <p className="mt-4 text-lg text-gray-500">
                         More than half of the products sold in our stores are
