@@ -23,11 +23,11 @@ export default function Inventory() {
   useEffect(() => {
     let cancelRequest = false
     const prod_page = page ? page : 1
-    const url = `/api/dashboard/products/?page=${prod_page}`
+    const url = `/api/dashboard/store_products/?page=${prod_page}&keyword=${search_query}`
     const getData = async () => {
       if (cache.current[url]) {
         const data = cache.current[url]
-        setProducts(data)
+        setProducts(data?.products)
         setLoading(false)
       } else {
         try {
@@ -45,7 +45,7 @@ export default function Inventory() {
           )
           cache.current[url] = data
           if (cancelRequest) return
-          setProducts(data)
+          setProducts(data?.products)
           setLoading(false)
         } catch (error) {
           if (cancelRequest) return
