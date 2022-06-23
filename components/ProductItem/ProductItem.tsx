@@ -21,7 +21,8 @@ interface Props {
   countInStock: number
   product?: any
   averageRating?: any
-  display?: any,
+  display?: any
+  remove_add_to_cart_botton?: boolean
 }
 
 function ProductItem({
@@ -35,6 +36,7 @@ function ProductItem({
   category,
   product,
   averageRating,
+  remove_add_to_cart_botton,
   display,
 }: Props): ReactElement {
   const history = useRouter()
@@ -71,7 +73,9 @@ function ProductItem({
   return (
     <div
       className={`relative ${
-        pathname === '/' ? 'w-44 md:w-56 ' : 'w-full transition hover:-translate-y-1 hover:shadow-lg motion-reduce:transform-none  motion-reduce:transition-none '
+        pathname === '/'
+          ? 'w-44 md:w-56 '
+          : 'w-full transition hover:-translate-y-1 hover:shadow-lg motion-reduce:transform-none  motion-reduce:transition-none '
       } relative flex max-h-96 flex-1 transform cursor-pointer flex-col overflow-hidden rounded border border-gray-100 bg-white `}
     >
       <Link href={`/product/description/${id}`} passHref>
@@ -132,7 +136,11 @@ function ProductItem({
             {discount_price ? (
               <div
                 onClick={() => history.push(`/product/description/${id}`)}
-                className={`${currency === 'USD' ? "flex flex-row items-center " : "flex flex-col-reverse items-start "}`}
+                className={`${
+                  currency === 'USD'
+                    ? 'flex flex-row items-center '
+                    : 'flex flex-col-reverse items-start '
+                }`}
               >
                 <Text noOfLines={1} className="mr-2 font-bold text-gray-900">
                   <Amount
@@ -144,7 +152,10 @@ function ProductItem({
                   />
                 </Text>
                 {discount_price && (
-                  <Text noOfLines={1} className="text-xs text-gray-400 line-through">
+                  <Text
+                    noOfLines={1}
+                    className="text-xs text-gray-400 line-through"
+                  >
                     <Amount amount={price} />
                   </Text>
                 )}
@@ -159,25 +170,28 @@ function ProductItem({
                 </Text>
               </div>
             )}
-
-            {pathname !== '/' ? (
-              <div
-                onClick={add_to_cart}
-                className=" mb-2 mr-4 rounded-full bg-blue-primary p-2 text-center text-xs font-semibold capitalize text-white hover:bg-blue-dark"
-              >
-                {/* <BlueButton text="add to cart" onClick={add_to_cart} /> */}
-                <ShoppingCartIcon height={16} width={16} />
-              </div>
-            ) : (
-              // <div className=" mb-2 mr-4 flex flex-row items-center text-center text-xs font-semibold capitalize">
-              //   <StarIcon
-              //     className="font-semibold text-yellow-400"
-              //     height={20}
-              //     width={20}
-              //   />
-              //   <p>{Math.floor(rating ? rating : 0)}(5)</p>
-              // </div>
-              <></>
+            {!remove_add_to_cart_botton && (
+              <>
+                {pathname !== '/' ? (
+                  <div
+                    onClick={add_to_cart}
+                    className=" mb-2 mr-4 rounded-full bg-blue-primary p-2 text-center text-xs font-semibold capitalize text-white hover:bg-blue-dark"
+                  >
+                    {/* <BlueButton text="add to cart" onClick={add_to_cart} /> */}
+                    <ShoppingCartIcon height={16} width={16} />
+                  </div>
+                ) : (
+                  // <div className=" mb-2 mr-4 flex flex-row items-center text-center text-xs font-semibold capitalize">
+                  //   <StarIcon
+                  //     className="font-semibold text-yellow-400"
+                  //     height={20}
+                  //     width={20}
+                  //   />
+                  //   <p>{Math.floor(rating ? rating : 0)}(5)</p>
+                  // </div>
+                  <></>
+                )}
+              </>
             )}
           </div>
         </div>

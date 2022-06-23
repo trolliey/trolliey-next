@@ -33,7 +33,7 @@ function login() {
         try {
             const { data } = await axios.post(`/api/auth/login`, { email, password })
             dispatch({ type: 'USER_LOGIN', payload: data })
-            Cookies.set('userInfo', JSON.stringify(data))
+            Cookies.set('userInfo', JSON.stringify(data), { expires: 7 })
             setTimeout(() => {
                 //@ts-ignore
                 history.push(redirect || '/')

@@ -17,6 +17,7 @@ import { useWindowScrollPositions } from '../hooks/useWindowScrollPosition'
 import Footer from '../components/Navigations/Footer'
 import { Text } from '@chakra-ui/react'
 import HomeBrandItem from '../components/HomeBrandItem/HomeBrandItem'
+import slugify from '../utils/slugify'
 
 function Home(): ReactFragment {
   const history = useRouter()
@@ -24,9 +25,10 @@ function Home(): ReactFragment {
   const [close_message, setCloseMessage] = useState(false)
 
   const search_by_category = (category: string) => {
-    dispatch({ type: 'SET_SEARCH_QUERY', payload: category })
+    dispatch({ type: 'SET_SEARCH_CATEGORY', payload: slugify(category) })
     history.push('/explore')
   }
+  
   const { scrollY } = useWindowScrollPositions()
 
   const home_brands = [

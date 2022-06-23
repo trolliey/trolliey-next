@@ -179,7 +179,7 @@ function ProductDescription(props: any) {
                       ) : (
                         <Amount
                           className="text-2xl font-bold text-gray-700"
-                          amount={product?.price - product?.discount_price}
+                          amount={parseFloat(product?.price) - parseFloat(product?.discount_price)}
                         />
                       )}
                       {selected_variant ? (

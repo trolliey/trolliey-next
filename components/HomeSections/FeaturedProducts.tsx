@@ -14,6 +14,8 @@ function FeaturedProducts(): ReactElement {
   const fetcher = async (url: any) =>
     await axios.post(url).then((res) => res.data)
   const { data: all_products, error } = useSWR(address, fetcher)
+
+  console.log(all_products)
   return (
     <>
       {error ? (
@@ -100,34 +102,9 @@ function FeaturedProducts(): ReactElement {
                         </div>
                       </div>
                     ))}
-                    {/* {all_products?.length > 10 && (
-                      <div className="col-span-1 my-auto h-full w-full">
-                        <Link href={'/explore'}>
-                          <a className="items-centerlex my-auto grid h-40 w-40 cursor-pointer content-center justify-center rounded bg-gray-200 text-gray-700 hover:bg-gray-100">
-                            Show All
-                          </a>
-                        </Link>
-                      </div>
-                    )} */}
+                
                   </div>
-                  {/* {show_indicators && (
-                    <div className="absolute top-1/2 flex w-full -translate-y-1/2 transform items-start justify-between px-3">
-                      <div className=" rounded-full bg-gray-100 p-2">
-                        <ChevronLeftIcon
-                          className="text-gray-700"
-                          height={20}
-                          width={20}
-                        />
-                      </div>
-                      <div className=" rounded-full bg-gray-100 p-2">
-                        <ChevronRightIcon
-                          className="text-gray-700"
-                          height={20}
-                          width={20}
-                        />
-                      </div>
-                    </div>
-                  )} */}
+                 
                 </div>
               )}
             </>

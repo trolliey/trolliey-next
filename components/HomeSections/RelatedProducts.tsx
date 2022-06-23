@@ -38,6 +38,8 @@ function RelatedProducts({ cols, no_text, category }: Props): ReactElement {
         get_related()
     }, [category, dispatch])
 
+    console.log(products)
+
     return (
         <div className="items flex-col bg-white rounded md:px-8 px-4 w-full pb-8">
             <div className="md:text-lg text-sm md:py-8 py-4 flex flex-row items-center justify-between">
@@ -84,6 +86,7 @@ function RelatedProducts({ cols, no_text, category }: Props): ReactElement {
                                                 {
                                                     products?.slice(0, 4)?.map((product: any, index: number) => (
                                                         <ProductItem
+                                                            remove_add_to_cart_botton={true}
                                                             key={index}
                                                             picture={product.pictures[0]}
                                                             price={product.price}
