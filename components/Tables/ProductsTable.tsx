@@ -17,16 +17,18 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid'
 
 interface Props {
   products?: any
-  delete_item_from_table?: any,
-  setPage?:any
-  page?:any
+  delete_item_from_table?: any
+  setPage?: any
+  page?: any
+  data_info: any
 }
 
 export default function ProductsTable({
   products,
   delete_item_from_table,
   setPage,
-  page
+  page,
+  data_info,
 }: Props): ReactElement {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [product_name, setProductName] = useState('')
@@ -77,6 +79,8 @@ export default function ProductsTable({
     }
   }
 
+  console.log(data_info)
+
   const set_delete_item = (id: string, name: string) => {
     onOpen()
     setProductId(id)
@@ -87,7 +91,7 @@ export default function ProductsTable({
     <div className="flex flex-col">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-          <div className="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg w-full">
+          <div className="w-full overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
@@ -255,15 +259,23 @@ export default function ProductsTable({
               </ModalContent>
             </Modal>
           </div>
-          <div className="ml-auto flex w-full items-end flex-col">
+          <div className="ml-auto flex w-full flex-col items-end">
             <div className="ml-auto flex w-full flex-row items-center gap-4 self-end py-4">
               <div className="flex-1"></div>
-              <div onClick={() => setPage(page-1)} className="flex cursor-pointer rounded bg-white p-1 shadow hover:bg-gray-50">
+              <div
+                onClick={() => setPage(page - 1)}
+                className="flex cursor-pointer rounded bg-white p-1 shadow hover:bg-gray-50"
+              >
                 <ChevronLeftIcon height={28} width={28} />
               </div>
-              <div onClick={() => setPage(page+1)} className="flex cursor-pointer rounded bg-white p-1 shadow hover:bg-gray-50">
-                <ChevronRightIcon height={28} width={28} />
-              </div>
+              {!data_info?.totalPages >= page && (
+                <div
+                  onClick={() => setPage(page + 1)}
+                  className="flex cursor-pointer rounded bg-white p-1 shadow hover:bg-gray-50"
+                >
+                  <ChevronRightIcon height={28} width={28} />
+                </div>
+              )}
             </div>
           </div>
         </div>

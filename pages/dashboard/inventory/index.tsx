@@ -15,6 +15,7 @@ export default function Inventory() {
   const [loading, setLoading] = useState<boolean>(false)
   const [search_query, setSearchQuery] = useState<string>('')
   const [products, setProducts] = useState<any>([])
+  const [data_info, setDAtaInfo] = useState()
   const { state } = useContext(Store)
   const [page, setPage] = useState(1)
   const { userInfo } = state
@@ -28,6 +29,7 @@ export default function Inventory() {
       if (cache.current[url]) {
         const data = cache.current[url]
         setProducts(data?.products)
+        
         setLoading(false)
       } else {
         try {
@@ -46,6 +48,7 @@ export default function Inventory() {
           cache.current[url] = data
           if (cancelRequest) return
           setProducts(data?.products)
+          setDAtaInfo(data?.meta)
           setLoading(false)
         } catch (error) {
           if (cancelRequest) return
@@ -110,6 +113,7 @@ export default function Inventory() {
                 <ProductsTable
                   products={products}
                   delete_item_from_table={delete_item_from_table}
+                  data_info={data_info}
                   setPage={setPage}
                   page={page}
                 />

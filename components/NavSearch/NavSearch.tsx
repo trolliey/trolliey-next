@@ -9,6 +9,7 @@ import {
 import { SearchIcon } from '@heroicons/react/outline'
 import axios from 'axios'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { ReactElement, useState, useContext, useEffect } from 'react'
 import { Store } from '../../Context/Store'
@@ -28,10 +29,10 @@ function NavSearch(): ReactElement {
 
   useEffect(() => {
     const getData = async () => {
-      const { data } = await axios.post('/api/products', {
+      const { data } = await axios.post(`/api/products?page=${1}&keyword=${search_query}`, {
         query: search_query,
       })
-      setSearchedProducts(data)
+      setSearchedProducts(data?.products)
     }
     getData()
   }, [search_query])
@@ -124,9 +125,9 @@ function NavSearch(): ReactElement {
                       ))}
                       <div className="my-1"></div>
                       {searched_products?.length > 8 && (
-                        <div className="flex cursor-pointer flex-col border-t border-gray-300 pt-2 text-center capitalize text-gray-500">
-                          <p className="text-center">View all results</p>
-                        </div>
+                        <Link href={'/eplore'}>
+                          <a className="flex cursor-pointer flex-col border-t border-gray-300 pt-2capitalize text-gray-500 text-center">View all results</a>
+                        </Link>
                       )}
                     </>
                   )}
