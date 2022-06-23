@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react'
+import React, { ReactElement } from 'react'
 import ProductItem from '../ProductItem/ProductItem'
 import ProductLoading from '../ProductItem/ProductLoading'
 import no_product from '../../public/img/no_product.svg'
@@ -6,20 +6,14 @@ import Image from 'next/image'
 import axios from 'axios'
 import useSWR from 'swr'
 import Link from 'next/link'
-import {
-  BadgeCheckIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-} from '@heroicons/react/outline'
+import {  BadgeCheckIcon }  from '@heroicons/react/outline'
 import { ArrowRightIcon } from '@heroicons/react/solid'
 
 function FeaturedProducts(): ReactElement {
-  const address = `/api/products?page=${1}`
+  const address = `/api/products?page=${1}&perPage=${16}&sortBy=times_bought&sortOrder=desc`
   const fetcher = async (url: any) =>
     await axios.post(url).then((res) => res.data)
   const { data: all_products, error } = useSWR(address, fetcher)
-  const [show_indicators, setShowIndicators] = useState(false)
-
   return (
     <>
       {error ? (
@@ -55,7 +49,7 @@ function FeaturedProducts(): ReactElement {
             </>
           ) : (
             <>
-              {all_products?.length < 1 ? (
+              {all_products?.products?.length < 1 ? (
                 <div className=" h-68 grid content-center items-center justify-center rounded bg-white py-2">
                   <div className="relative h-40">
                     <Image src={no_product} layout="fill" objectFit="contain" />
@@ -65,22 +59,21 @@ function FeaturedProducts(): ReactElement {
                   </p>
                 </div>
               ) : (
-                <div
-                  
-                  className="relative "
-                >
+                <div className="relative ">
                   <div className="flex w-full flex-row items-center justify-between pb-4">
                     <p className="font-semibold text-gray-700">Top-Ranking</p>
-                    <div className="flex">
-                      <ArrowRightIcon
-                        height={20}
-                        width={20}
-                        className={'text-gray-700'}
-                      />
-                    </div>
+                    <Link href={'/explore'} passHref>
+                      <a className="flex">
+                        <ArrowRightIcon
+                          height={20}
+                          width={20}
+                          className={'text-gray-700'}
+                        />
+                      </a>
+                    </Link>
                   </div>
                   <div className="scrollbar-hide relative mx-auto flex space-x-2 overflow-x-auto">
-                    {all_products?.map((product: any, index: number) => (
+                    {all_products?.products?.map((product: any, index: number) => (
                       <div
                         key={index}
                         className="relative col-span-1 rounded-lg bg-white p-2 "

@@ -13,7 +13,7 @@ const initialState = {
 
 export const Store = createContext();
 
-function reducer(state, action) {
+function reducer(state={search_category:''}, action) {
     switch (action.type) {
         case 'DARK_MODE_ON':
             return { ...state, darkMode: true }
@@ -41,6 +41,12 @@ function reducer(state, action) {
             return { ...state, userInfo: null, cart: { cartItems: [] } }
         case 'SET_SEARCH_QUERY':
             return { ...state, search_query: action.payload }
+        case 'SET_SEARCH_CATEGORY':
+            return { ...state, search_category: action.payload }
+        case 'SET_SORT_VALUE':
+            return { ...state, sort_value: action.payload }
+        case 'SET_SORT_ORDER':
+            return { ...state, sort_order: action.payload }
         default:
             return state
     }

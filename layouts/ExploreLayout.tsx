@@ -4,25 +4,25 @@ import { StarIcon } from '@heroicons/react/outline'
 import { StarIcon as SolidStarIcon } from '@heroicons/react/solid'
 import { data } from '../utils/data'
 import slugify from '../utils/slugify'
-import SearchInput from '../components/SearchInput/SearchInput'
 import { Store } from '../Context/Store'
+import { Select } from '@chakra-ui/react'
 
 interface Props{
     children: any | null
 }
 
 export default function ExploreLayout({children}:Props){
-    const [min_price, setMinPrice] = useState<any>(0)
-    const [max_price, setMaxPrice] = useState<any>(0)
+    const [sort_value, sortValue] = useState<any>(0)
+    const [sort_order, sortOrder] = useState<any>(0)
     const [slice_number, setSliceNumber] = useState<any>(5)
     const { dispatch } = useContext(Store)
 
     const filter_by_price = () => {
-        console.log(min_price, max_price)
+        console.log(sort_value, sort_order)
     }
 
     const filter_by_category = (category:string) => {
-        dispatch({ type: 'SET_SEARCH_QUERY', payload: category })
+        dispatch({ type: 'SET_SEARCH_CATEGORY', payload: category })
     }
 
     return(
@@ -94,20 +94,19 @@ export default function ExploreLayout({children}:Props){
 
                         {/* filter by price */}
                         <>
-                            <p className="text-gray-700 font-bold">Price</p>
-                            <div className="p-2 flex flex-col">
-                                <input
-                                    type="number"
-                                    placeholder="min"
-                                    onChange={e => setMinPrice(e.target.value)}
-                                    className="my-2 outline-none border border-gray-200 rounded p-2 text-sm text-gray-700" />
-                                <input
-                                    type="number"
-                                    placeholder="max"
-                                    onChange={e => setMaxPrice(e.target.value)}
-                                    className="my-2 outline-none border border-gray-200 rounded p-2 text-sm text-gray-700" />
+                            <p className="text-gray-700 font-bold">Sort By</p>
+                            <div className="p-2 flex flex-col space-y-4">
+                                <Select onChange={(e) => sortValue(e.target.value)} placeholder='sort'>
+                                    <option value="price">Price</option>
+                                    <option value="title">Title</option>
+                                </Select>
+                                <Select onChange={(e) => sortValue(e.target.value)} placeholder='Sort By'>
+                                    <option value="asc">Ascending</option>
+                                    <option value="desc">Descending</option>
+                                </Select>
+                              
                                 <div className="flex flex-col items-end">
-                                    <button onClick={filter_by_price} className="text-sm border bg-white hover:bg-blue-primary hover:text-white border-blue-primary rounded text-blue-primary font-semibold px-2 py-1 uppercase">go</button>
+                                    <button onClick={filter_by_price} className="text-sm border bg-white hover:bg-blue-primary hover:text-white border-blue-primary rounded text-blue-primary font-semibold px-2 py-1 uppercase">Set Filters</button>
                                 </div>
                             </div>
                         </>

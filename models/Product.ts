@@ -27,7 +27,7 @@ const productSchema = new mongoose.Schema(
     },
     discount_price: {
       type: Number,
-      default:0
+      default: 0,
     },
     pictures: {
       type: Array,
@@ -55,11 +55,11 @@ const productSchema = new mongoose.Schema(
     },
     variants: {
       type: Array,
-      default: []
+      default: [],
     },
     store_id: {
-      type: String,
-      default: '',
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Store',
     },
     ratings: {
       type: Array,

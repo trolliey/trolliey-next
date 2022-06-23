@@ -15,21 +15,17 @@ interface Props {
   no_text?: any
 }
 
-function AllProducts({
-  query,
-  cols,
-  no_text,
-}: Props) {
+function AllProducts({ query, cols, no_text }: Props) {
   const history = useRouter()
   const { state } = useContext(Store)
   const { currency } = state
-  const address = `/api/products?page=${1}`
+  const address = `/api/products?page=${1}&perPage=${16}`
   const fetcher = async (url: any) =>
     await axios.post(url).then((res) => res.data)
-    const { data: products, error } = useSWR(address, fetcher)
+  const { data: products, error } = useSWR(address, fetcher)
 
   return (
-    <div className="mb-8 flex w-full flex-col bg-white p-2 rounded">
+    <div className="mb-8 flex w-full flex-col rounded bg-white p-2">
       {!no_text && (
         <div className="flex flex-row items-center justify-between pb-4 text-sm md:text-lg">
           <p className="font-semibold capitalize text-gray-700 ">
@@ -45,39 +41,41 @@ function AllProducts({
         </div>
       )}
       {error ? (
-        <div className="w-full grid items-center content-center justify-center py-4">
-          <p className='text-center bg-red-200 rounded text-gray-700 font-semibold p-2 text-sm'>There was an error loading products. Reload page</p>
+        <div className="grid w-full content-center items-center justify-center py-4">
+          <p className="rounded bg-red-200 p-2 text-center text-sm font-semibold text-gray-700">
+            There was an error loading products. Reload page
+          </p>
         </div>
       ) : (
         <>
           {!products ? (
             <>
               <div
-              className={`${
-                cols ? cols : 'grid-cols-2 md:grid-cols-4 lg:grid-cols-5'
-              } mx-auto md:grid hidden w-full gap-4 rounded-lg  md:gap-8`}
-            >
-              {[1, 2, 3, 4, 5]?.map((product: any, index: number) => (
-                <div key={index} className="col-span-1 p-0">
-                  <ProductLoading />
-                </div>
-              ))}
-            </div>
-            <div
-              className={`${
-                cols ? cols : 'grid-cols-2 md:grid-cols-4 lg:grid-cols-5'
-              } mx-auto md:hidden grid w-full gap-4 rounded-lg  md:gap-8`}
-            >
-              {[1, 2]?.map((product: any, index: number) => (
-                <div key={index} className="col-span-1 p-0">
-                  <ProductLoading />
-                </div>
-              ))}
-            </div>
+                className={`${
+                  cols ? cols : 'grid-cols-2 md:grid-cols-4 lg:grid-cols-5'
+                } mx-auto hidden w-full gap-4 rounded-lg md:grid  md:gap-8`}
+              >
+                {[1, 2, 3, 4, 5]?.map((product: any, index: number) => (
+                  <div key={index} className="col-span-1 p-0">
+                    <ProductLoading />
+                  </div>
+                ))}
+              </div>
+              <div
+                className={`${
+                  cols ? cols : 'grid-cols-2 md:grid-cols-4 lg:grid-cols-5'
+                } mx-auto grid w-full gap-4 rounded-lg md:hidden  md:gap-8`}
+              >
+                {[1, 2]?.map((product: any, index: number) => (
+                  <div key={index} className="col-span-1 p-0">
+                    <ProductLoading />
+                  </div>
+                ))}
+              </div>
             </>
           ) : (
             <>
-              {products?.length < 1 ? (
+              {products?.products?.length < 1 ? (
                 <div className=" h-68 grid content-center items-center justify-center">
                   <div className="relative h-40">
                     <Image src={no_product} layout="fill" objectFit="contain" />
@@ -93,7 +91,7 @@ function AllProducts({
                       cols ? cols : 'flex space-x-6 overflow-x-auto'
                     } flex space-x-6 overflow-x-auto`}
                   >
-                    {products?.map((product: any, index: number) => (
+                    {products?.products?.map((product: any, index: number) => (
                       <div key={index} className="col-span-1 w-60 p-0">
                         <ProductItem
                           name={product.title}

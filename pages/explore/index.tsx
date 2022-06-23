@@ -20,7 +20,7 @@ import MobileProductItemLoading from '../../components/ProductItem/MobileProduct
 
 export default function Explore() {
   const { state } = useContext(Store)
-  const { search_query, currency } = state
+  const { search_query, search_category } = state
   const cache = useRef<any>({})
   const [products, setProducts] = useState<any>()
   const [loading, setLoading] = useState<boolean>(false)
@@ -30,12 +30,14 @@ export default function Explore() {
   // get all products
   useEffect(() => {
     let cancelRequest = false
-    const url = `/api/products?page=${1}`
+    const url = `/api/products?page=${1}&category=${
+      search_category ? search_category : ''
+    }`
     setLoading(true)
     const getData = async () => {
       if (cache.current[url]) {
         const data = cache.current[url]
-        setProducts(data)
+        setProducts(data?.products)
         setLoading(false)
       } else {
         try {
@@ -44,7 +46,7 @@ export default function Explore() {
           })
           cache.current[url] = data
           if (cancelRequest) return
-          setProducts(data)
+          setProducts(data?.products)
           setLoading(false)
         } catch (error) {
           if (cancelRequest) return
@@ -56,17 +58,19 @@ export default function Explore() {
     return function cleanup() {
       cancelRequest = true
     }
-  }, [search_query, page])
+  }, [search_query, page, search_category])
 
   const load_more_Handler = async () => {
-    setPage((page:any) => page+1)
-    const url = `/api/products?page=${page}`
+    setPage((page: any) => page + 1)
+    const url = `/api/products?page=${page}&category=${
+      search_category ? search_category : ''
+    }`
     try {
       setMoreLoading(true)
       const { data } = await axios.post(url, {
         query: search_query,
       })
-      setProducts((products: any) => [...products, ...data])
+      setProducts((products: any) => [...products, ...data?.products])
       setMoreLoading(false)
       console.log(data)
     } catch (error) {
@@ -87,9 +91,9 @@ export default function Explore() {
             ))}
           </div>
         ) : (
-          <div className="flex flex-col">
+          <div className="flex w-full flex-col">
             {products?.length < 1 ? (
-              <div className=" grid h-96 content-center items-center justify-center">
+              <div className=" grid h-96 w-full content-center items-center justify-center">
                 <div className="relative h-40">
                   <Image src={no_product} layout="fill" objectFit="contain" />
                 </div>
@@ -127,26 +131,28 @@ export default function Explore() {
                 </div>
               </>
             )}
-            <div className="hidden flex-row items-center justify-between pt-8 md:flex">
-              {!loading && (
-                <>
-                  {more_loading ? (
-                    <div className="flex w-full flex-col items-center justify-between pt-4">
-                      <Spinner />
-                    </div>
-                  ) : (
-                    <div className="flex w-full flex-col items-center justify-between pt-4">
-                      <div
-                        onClick={load_more_Handler}
-                        className="flex cursor-pointer rounded bg-blue-primary p-2 text-xs font-semibold text-white hover:bg-blue-dark"
-                      >
-                        Load More
+            {products?.length > 1 && (
+              <div className="hidden flex-row items-center justify-between pt-8 md:flex">
+                {!loading && (
+                  <>
+                    {more_loading ? (
+                      <div className="flex w-full flex-col items-center justify-between pt-4">
+                        <Spinner />
                       </div>
-                    </div>
-                  )}
-                </>
-              )}
-            </div>
+                    ) : (
+                      <div className="flex w-full flex-col items-center justify-between pt-4">
+                        <div
+                          onClick={load_more_Handler}
+                          className="flex cursor-pointer rounded bg-blue-primary p-2 text-xs font-semibold text-white hover:bg-blue-dark"
+                        >
+                          Load More
+                        </div>
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -154,13 +160,13 @@ export default function Explore() {
       {/* // mobile viewproducts */}
       <div className="flex flex-col space-y-2 md:hidden">
         {loading ? (
-         <>
-           {[1, 2, 3, 4, 5]?.map((product: any, index: number) => (
-            <div key={index} className="p-0">
-              <MobileProductItemLoading />
-            </div>
-          ))}
-         </>
+          <>
+            {[1, 2, 3, 4, 5]?.map((product: any, index: number) => (
+              <div key={index} className="p-0">
+                <MobileProductItemLoading />
+              </div>
+            ))}
+          </>
         ) : (
           <>
             {products?.map((product: any, index: number) => (
@@ -187,21 +193,25 @@ export default function Explore() {
             ))}
           </>
         )}
-        {!loading && (
+        {products?.length>1 && (
           <>
-            {more_loading ? (
-              <div className="flex w-full flex-col items-center justify-between pt-4">
-                <Spinner />
-              </div>
-            ) : (
-              <div className="flex w-full flex-col items-center justify-between pt-4">
-                <div
-                  onClick={load_more_Handler}
-                  className="flex cursor-pointer rounded bg-blue-primary p-2 text-xs font-semibold text-white hover:bg-blue-dark"
-                >
-                  Load More
-                </div>
-              </div>
+            {!loading && (
+              <>
+                {more_loading ? (
+                  <div className="flex w-full flex-col items-center justify-between pt-4">
+                    <Spinner />
+                  </div>
+                ) : (
+                  <div className="flex w-full flex-col items-center justify-between pt-4">
+                    <div
+                      onClick={load_more_Handler}
+                      className="flex cursor-pointer rounded bg-blue-primary p-2 text-xs font-semibold text-white hover:bg-blue-dark"
+                    >
+                      Load More
+                    </div>
+                  </div>
+                )}
+              </>
             )}
           </>
         )}
