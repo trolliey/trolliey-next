@@ -6,10 +6,8 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 import ProductLoading from '../../../components/ProductItem/ProductLoading'
 import ProductItem from '../../../components/ProductItem/ProductItem'
-import { Spinner } from '@chakra-ui/react'
 import Image from 'next/image'
 import no_data from '../../../public/img/not_data.svg'
-import { getError } from '../../../utils/error'
 import { SearchIcon } from '@heroicons/react/outline'
 
 function StoreProducts(props: any) {
