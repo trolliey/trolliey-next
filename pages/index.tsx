@@ -1,5 +1,4 @@
 import React, { ReactFragment, useContext, useState } from 'react'
-import GeneralLayout from '../layouts/GeneralLayout'
 import Courosel from '../components/Carousel/Carousel'
 import CategoriesDropdown from '../components/Dropdowns/CategoriesDropdown'
 import samsung from '../public/img/samsung.svg'
@@ -8,39 +7,36 @@ import kenwood from '../public/img/kenwood-logo.svg'
 import dell from '../public/img/dell-logo.svg'
 import oppo from '../public/img/oppo-logo.svg'
 import Image from 'next/image'
-import surprise from '../public/img/surprise.jpg'
-import tech_stuff from '../public/img/tech_stuff.jpg'
-import clothes from '../public/img/clothes.jpg'
 import FeaturedProducts from '../components/HomeSections/FeaturedProducts'
 import { useRouter } from 'next/router'
 import { data } from '../utils/data'
 import AllProducts from '../components/HomeSections/AllProducts'
-import axios from 'axios'
 import { Store } from '../Context/Store'
-import useSWR from 'swr'
 import GeneralNavbar from '../components/Navigations/GeneralNavbar'
 import { useWindowScrollPositions } from '../hooks/useWindowScrollPosition'
 import Footer from '../components/Navigations/Footer'
 import { Text } from '@chakra-ui/react'
-import Link from 'next/link'
+import HomeBrandItem from '../components/HomeBrandItem/HomeBrandItem'
 
 function Home(): ReactFragment {
   const history = useRouter()
   const { dispatch } = useContext(Store)
-  const address = `/api/products?page=${1}`
-  const fetcher = async (url: any) =>
-    await axios.post(url).then((res) => res.data)
-  const { data: products, error } = useSWR(address, fetcher)
   const [close_message, setCloseMessage] = useState(false)
 
   const search_by_category = (category: string) => {
     dispatch({ type: 'SET_SEARCH_QUERY', payload: category })
     history.push('/explore')
   }
-  const { scrollX, scrollY } = useWindowScrollPositions()
+  const { scrollY } = useWindowScrollPositions()
 
-  var randomItem =
-    data.categories[Math.floor(Math.random() * data.categories.length)]
+  const home_brands = [
+    { image: samsung, alt_text: 'sumsung brand' },
+    { image: defy, alt_text: 'defy brand' },
+    { image: kenwood, alt_text: 'kenwood brand' },
+    { image: dell, alt_text: 'dell brand' },
+    { image: oppo, alt_text: 'oppo brand' },
+    { image: oppo, alt_text: 'oppo brand' },
+  ]
 
   return (
     <div className="flex w-full flex-col  overflow-scroll bg-gradient-to-b from-blue-superlight via-gray-100 to-gray-100">
@@ -100,60 +96,9 @@ function Home(): ReactFragment {
                     Featured Brands
                   </h1>
                   <div className="brands flex flex-row items-center justify-between gap-4 overflow-auto px-2 py-2 md:px-8 md:py-0">
-                    <div className="relative h-4 w-10 md:h-6 md:w-16">
-                      <Image
-                        quality={50}
-                        loading="eager"
-                        src={samsung}
-                        alt=""
-                        layout="fill"
-                      />
-                    </div>
-                    <div className="relative h-4 w-10 md:h-6 md:w-16">
-                      <Image
-                        quality={50}
-                        loading="eager"
-                        src={defy}
-                        alt=""
-                        layout="fill"
-                      />
-                    </div>
-                    <div className="relative h-4 w-10 md:h-6 md:w-16">
-                      <Image
-                        quality={50}
-                        loading="eager"
-                        src={kenwood}
-                        alt=""
-                        layout="fill"
-                      />
-                    </div>
-                    <div className="relative h-4 w-10 md:h-6 md:w-16">
-                      <Image
-                        quality={50}
-                        loading="eager"
-                        src={dell}
-                        alt=""
-                        layout="fill"
-                      />
-                    </div>
-                    <div className="relative h-4 w-10 md:h-6 md:w-16">
-                      <Image
-                        quality={50}
-                        loading="eager"
-                        src={oppo}
-                        alt=""
-                        layout="fill"
-                      />
-                    </div>
-                    <div className="relative h-4 w-10 md:h-6 md:w-16">
-                      <Image
-                        quality={50}
-                        loading="eager"
-                        src={oppo}
-                        alt=""
-                        layout="fill"
-                      />
-                    </div>
+                    {home_brands?.map((brand: any, index: number) => (
+                      <HomeBrandItem key={brand.alt_text+index} image={brand.image} alt_text={brand.alt_text} />
+                    ))}
                   </div>
                 </div>
               </div>
@@ -167,7 +112,7 @@ function Home(): ReactFragment {
             </>
             <section aria-labelledby="category-heading" className="my-8">
               <div className="mx-auto max-w-7xl rounded bg-white p-4 md:p-8">
-                <div className="items-center justify-between flex flex-row pb-4">
+                <div className="flex flex-row items-center justify-between pb-4">
                   <h2
                     id="category-heading"
                     className="text-base font-bold tracking-tight text-gray-700 md:text-xl"
@@ -222,7 +167,7 @@ function Home(): ReactFragment {
 
             {/* // featured products */}
             <>
-              <AllProducts products={products} loading={!data} error={error} />
+              <AllProducts />
             </>
           </div>
         </div>

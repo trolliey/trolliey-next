@@ -6,27 +6,27 @@ import ProductLoading from '../ProductItem/ProductLoading'
 import no_product from '../../public/img/no_product.svg'
 import Image from 'next/image'
 import { Store } from '../../Context/Store'
+import axios from 'axios'
+import useSWR from 'swr'
 
 interface Props {
-  products?: any | null
   query?: any | null
   cols?: string
   no_text?: any
-  loading?: boolean
-  error?: any
 }
 
 function AllProducts({
-  products,
   query,
   cols,
   no_text,
-  loading,
-  error,
 }: Props) {
   const history = useRouter()
   const { state } = useContext(Store)
   const { currency } = state
+  const address = `/api/products?page=${1}`
+  const fetcher = async (url: any) =>
+    await axios.post(url).then((res) => res.data)
+    const { data: products, error } = useSWR(address, fetcher)
 
   return (
     <div className="mb-8 flex w-full flex-col bg-white p-2 rounded">
@@ -50,7 +50,7 @@ function AllProducts({
         </div>
       ) : (
         <>
-          {loading ? (
+          {!products ? (
             <>
               <div
               className={`${
