@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import StoreLayout from '../../../layouts/StoreLayout'
 import Store from '../../../models/Store'
 import { connect, disconnect } from '../../../utils/mongo'
@@ -10,43 +10,44 @@ import { Spinner } from '@chakra-ui/react'
 import Image from 'next/image'
 import no_data from '../../../public/img/not_data.svg'
 import { getError } from '../../../utils/error'
+import { SearchIcon } from '@heroicons/react/outline'
 
 function StoreProducts(props: any) {
   const [products, setProducts] = useState<any>()
   const [loading, setLoading] = useState<boolean>(false)
+  const [search_query, setSearchQuery] = useState('') 
+  const cache = useRef<any>({})
 
   const history = useRouter()
   const { id } = history.query
 
   useEffect(() => {
-    const getProducts = async () => {
-      setLoading(true)
-      try {
-        const { data } = await axios.get(`/api/store/${id}`)
+    let cancelRequest = false
+    const url = `/api/store/${id}?keyword=${search_query}`
+    setLoading(true)
+    const getData = async () => {
+      if (cache.current[url]) {
+        const data = cache.current[url]
         setProducts(data?.products)
         setLoading(false)
-      } catch (error) {
-        setLoading(false)
-        console.log(getError(error))
+      } else {
+        try {
+          const { data } = await axios.get(url)
+          cache.current[url] = data
+          if (cancelRequest) return
+          setProducts(data?.products)
+          setLoading(false)
+        } catch (error) {
+          if (cancelRequest) return
+          setLoading(false)
+        }
       }
     }
-    getProducts()
-  }, [])
-
-  if (loading) {
-    return (
-      <StoreLayout store_info={props.store}>
-        <div className="w-full bg-white">
-          <h1 className="my-4 text-center font-semibold text-gray-700">
-            All products sold by {props.store?.company_name}
-          </h1>
-          <div className="grid h-96 w-full content-center items-center justify-center ">
-            <Spinner />
-          </div>
-        </div>
-      </StoreLayout>
-    )
-  }
+    getData()
+    return function cleanup() {
+      cancelRequest = true
+    }
+  }, [search_query])
 
   if (products?.length === 0) {
     return (
@@ -66,6 +67,14 @@ function StoreProducts(props: any) {
   return (
     <StoreLayout store_info={props.store}>
       <div className="flex w-full flex-col rounded bg-white p-4 shadow">
+        <div className="flex w-full flex-row items-center px-4  border border-gray-200 rounded">
+          <SearchIcon height={20} width={20} className="text-gray-400" />
+          <input 
+            type="text" 
+            onChange={(e:any)=> setSearchQuery(e.target.value)}
+            placeholder='Search in store' 
+            className='p-2 w-full outline-none border-none' />
+        </div>
         <h1 className="my-4 text-center font-semibold text-gray-700">
           All products sold by {props.store?.company_name}
         </h1>

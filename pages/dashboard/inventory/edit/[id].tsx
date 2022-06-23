@@ -85,7 +85,7 @@ export default function EditProduct(props: any) {
       formData.append('sub_category', sub_category)
       formData.append('product_id', product._id)
 
-      const { data } = await axios.put(`/api/products/edit?product_id=${product?._id}`, formData, {
+      const { data } = await axios.post(`/api/products/edit?product_id=${product?._id}`, formData, {
         headers: { authorization: userInfo?.token },
       })
       setLoading(false)

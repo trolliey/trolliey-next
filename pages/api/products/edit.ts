@@ -26,8 +26,8 @@ apiRoute.use(uploadMiddleware)
 // get all products
 // get request
 // /api/products
-apiRoute.put(async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === 'PUT') {
+apiRoute.post(async (req: NextApiRequest, res: NextApiResponse) => {
+  if (req.method === 'POST') {
     // check if user if logged in
     const { authorization } = req.headers
     if (authorization) {

@@ -6,6 +6,7 @@ import axios from 'axios'
 import { getError } from '../../utils/error'
 import ProductLoading from '../ProductItem/ProductLoading'
 import ProductItem from '../ProductItem/ProductItem'
+import slugify from '../../utils/slugify'
 
 interface Props {
     cols?: any,
@@ -24,11 +25,11 @@ function RelatedProducts({ cols, no_text, category }: Props): ReactElement {
         setLoading(true)
         const get_related = async () => {
             try {
-                const { data } = await axios.post(`/api/products?page=${1}`, {
+                const { data } = await axios.post(`/api/products?page=${1}&category=${slugify(category)}&page=${1}`, {
                     query: category
                 })
                 setLoading(false)
-                setProducts(data)
+                setProducts(data?.products)
             } catch (error) {
                 setLoading(false)
                 setError(getError(error))
