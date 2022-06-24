@@ -50,12 +50,12 @@ function GeneralNavbar({ component_above_navbar, scrollY, setCloseMessage, close
                     className="mx-auto flex flex-row items-center justify-between md:py-4 py-2"
                   >
                     <p className="font-bold text-blue-dark sm:text-xs md:text-base">
-                      Free delivery on first order
+                      Free delivery on your first order
                     </p>
                     <div className="flex flex-row items-center space-x-2 md:space-x-4">
                       <Link href={'/explore'} passHref>
                         <a>
-                          <div className="md:flex hidden rounded-full bg-blue-dark px-2 py-1 text-xs font-semibold text-white md:text-base">
+                          <div className="md:flex hidden rounded-full bg-blue-dark px-2 py-1 text-xs font-semibold text-white md:text-sm">
                             View more
                           </div>
                         </a>
@@ -90,7 +90,6 @@ function GeneralNavbar({ component_above_navbar, scrollY, setCloseMessage, close
             />
           </a>
         </Link>
-        {/* <div onClick={() => history.push('/help')} className='font-semibold text-gray-700 pr-4 border-r border-gray-300 capitalize cursor-pointer'>Help</div> */}
         <CurrencyDropdown />
 
         {userInfo?.role === 'seller' ? (

@@ -2,8 +2,6 @@ import axios from 'axios'
 import React, { useEffect, useRef, useState } from 'react'
 import ProductsTable from '../../../components/Tables/ProductsTable'
 import AdminDashboard from '../../../layouts/AdminDashboard'
-import Products from '../../../models/Product'
-import { connect, disconnect } from '../../../utils/mongo'
 
 function ManageProducts() {
 
