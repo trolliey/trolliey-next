@@ -17,7 +17,7 @@ export default async (req, res) => {
     })
 
     // crawling static pages
-    const pages = ['/applytosell', '/about', '/contact', '/faq']
+    const pages = ['/','/applytosell', '/about', '/contact', '/faq']
 
     pages.map((url) => {
       links.push({

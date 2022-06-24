@@ -26,11 +26,10 @@ import software from '../public/img/software-min.png'
 import health_house from '../public/img/health_and_household-min.png'
 import kindle from '../public/img/kindle_and_ereaders-min.png'
 import fashion from '../public/img/fashion.svg'
-import bcrypt from 'bcryptjs'
 import promo_2 from '../public/img/fregrance_sale.png'
 
 export const data = {
-  original_title: 'Trolliey',
+  original_title: 'Trolliey Retail',
   site_description:
     'Trolliey is a modern ecommerce platform. You can become a seller or become a buyer and trade your items from anywhere you like. You can manage you inventory and customers using our intuitive dashboard, Buy and sell goods and items online',
   site_url: 'www.trolliey.com',
@@ -43,7 +42,7 @@ export const data = {
     // { body: 'Third banner representantion', image: promo_1 },
   ],
   current_rate: {
-    value: 400,
+    value: 600,
   },
   categories: [
     {
