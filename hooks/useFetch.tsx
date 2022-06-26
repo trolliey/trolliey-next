@@ -56,7 +56,7 @@ export const useFetch = (url: any) => {
     return function cleanup() {
       cancelRequest = true
     }
-  }, [url, search_query, currency])
+  }, [url, currency])
 
   return state
 }
