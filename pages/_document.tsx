@@ -7,9 +7,13 @@ export default class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head prefix="og:https://ogp.me/ns#">
-          <title>{`${data.original_title} - Buy and sell items online from Zimbabwe`}</title>
-          <meta name="description" content={data.site_description} />
           <link rel="icon" type="image/png" href="/images/icon.png" />
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;700;800&family=Roboto:wght@100;300;400;500;700&display=swap"
+            rel="stylesheet"
+          />
           <link rel="shortcut icon" type="image/png" href="/images/icon.png" />
           <link rel="apple-touch-icon" href="/images/icon.png" />
         </Head>

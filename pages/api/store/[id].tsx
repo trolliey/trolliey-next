@@ -10,7 +10,7 @@ const handler = nc()
 // get all store products
 // get request
 // /api/store/:id
-handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
+handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await connect()
     // handling store schema
@@ -26,6 +26,7 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
       { $unwind: '$creator' },
     ]
 
+    // get only products for specific store
     query.push({
       //@ts-ignore
       $match: {
