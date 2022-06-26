@@ -40,7 +40,7 @@ function MobileProductItem({
         <div className="flex">
           <div
             onClick={() => history.push(`/product/description/${id}`)}
-            className="relative flex h-24 w-24 flex-col items-center overflow-hidden rounded-lg  bg-white"
+            className="relative flex h-28 w-28 flex-col items-center overflow-hidden rounded-lg  bg-white"
           >
             <Image
               objectFit="cover"
