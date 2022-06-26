@@ -124,7 +124,7 @@ export default function CreateProduct() {
         duration: 9000,
         isClosable: true,
       })
-    }else if(!countInStock){
+    } else if (!countInStock) {
       setLoading(false)
       toast({
         title: 'Error Adding.',
@@ -143,7 +143,7 @@ export default function CreateProduct() {
         pictures_for_upload.forEach((file: any | Blob) => {
           formData.append('theFiles', file)
         })
-        for(const value of variations){
+        for (const value of variations) {
           formData.append('variants', value)
         }
         formData.append('description', description)
@@ -159,7 +159,7 @@ export default function CreateProduct() {
 
         //upload the product to database from here
         axios
-          .post('/api/products/create',formData, {
+          .post('/api/products/create', formData, {
             headers: { authorization: userInfo?.token },
           })
           .then((res: any) => {
@@ -388,6 +388,26 @@ export default function CreateProduct() {
                               id="title"
                               autoComplete="title"
                               placeholder="Enter product name or title"
+                              className="mt-1 block w-full rounded-md border border-gray-300 p-2 outline-none sm:text-sm"
+                            />
+                          </div>
+
+                          <div className="col-span-6 ">
+                            <label
+                              htmlFor="city"
+                              className="block text-sm font-medium text-gray-700"
+                            >
+                              How long to deliver to warehouse? (we deliver for
+                              you for free)
+                            </label>
+                            <input
+                              type="number"
+                              name="delivery_time"
+                              value={title}
+                              onChange={(e) => setTitle(e.target.value)}
+                              id="delivery_time"
+                              autoComplete="delivery_time"
+                              placeholder="Time it takes you to deliver item (days)"
                               className="mt-1 block w-full rounded-md border border-gray-300 p-2 outline-none sm:text-sm"
                             />
                           </div>
