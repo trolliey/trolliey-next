@@ -39,7 +39,7 @@ export const useFetch = (url: any) => {
       } else {
         try {
           const { data } = await axios.post(url, {
-            query: search_query,
+            query: '',
           })
           cache.current[url] = data
           if (cancelRequest) return

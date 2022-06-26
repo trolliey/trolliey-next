@@ -27,15 +27,15 @@ function NavSearch(): ReactElement {
     onClose()
   }
 
-  useEffect(() => {
-    const getData = async () => {
-      const { data } = await axios.post(`/api/products?page=${1}&keyword=${search_query}`, {
-        query: search_query,
-      })
-      setSearchedProducts(data?.products)
-    }
-    getData()
-  }, [search_query])
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     const { data } = await axios.post(`/api/products?page=${1}&keyword=${search_query}`, {
+  //       query: search_query,
+  //     })
+  //     setSearchedProducts(data?.products)
+  //   }
+  //   getData()
+  // }, [search_query])
 
   return (
     <>
