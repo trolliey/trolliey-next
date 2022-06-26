@@ -21,13 +21,14 @@ interface LoadMoreProps {
 function Explore() {
   const [page, setPage] = useState<number>(1)
   const { state: store_state } = useContext(Store)
-  const { search_category } = store_state
+  const { search_category, search_query } = store_state
+
   const url = `/api/products?page=${page}&category=${
     search_category ? search_category : ''
-  }`
-  const state = useFetch(url)
+  }&keyword=${search_query ? search_query : ''}`
 
-  console.log(state)
+  // start the fetching using the useFetch hook
+  const state = useFetch(url)
 
   if (state.error) {
     return (
@@ -53,6 +54,7 @@ function Explore() {
     )
   }
 
+  // handle if there are no products found
   if (state?.data.products?.length < 1) {
     return (
       <ExploreLayout>
@@ -74,6 +76,7 @@ function Explore() {
     )
   }
 
+  // display products on both mobile and pc
   return (
     <ExploreLayout>
       {/* desktop mobile items and loading components
@@ -167,6 +170,10 @@ function Explore() {
   )
 }
 
+// pagination component
+// @param {state} - result from api call
+// @notice {setPage} - hook to set the function
+// @param {page} - the number of page being viewed
 const LoadMoreComponent = ({ state, setPage, page }: LoadMoreProps) => {
   return (
     <div className="flex self-center pt-8">

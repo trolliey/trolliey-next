@@ -27,23 +27,31 @@ function NavSearch(): ReactElement {
     onClose()
   }
 
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     const { data } = await axios.post(`/api/products?page=${1}&keyword=${search_query}`, {
-  //       query: search_query,
-  //     })
-  //     setSearchedProducts(data?.products)
-  //   }
-  //   getData()
-  // }, [search_query])
+  useEffect(() => {
+    const getData = async () => {
+      const { data } = await axios.post(
+        `/api/products?page=${1}&keyword=${search_query ? search_query : ''}`,
+        {
+          query: search_query,
+        }
+      )
+      setSearchedProducts(data?.products)
+    }
+    const delayDebounceFn = setTimeout(() => {
+      // Send Axios request here
+      getData()
+    }, 3000)
+
+    return () => clearTimeout(delayDebounceFn)
+  }, [search_query])
 
   return (
     <>
       <div
         onClick={onOpen}
-        className="flex cursor-pointer flex-row items-center md:p-0 p-2 "
+        className="flex cursor-pointer flex-row items-center p-2 md:p-0 "
       >
-        <div className="hidden md:flex flex-row items-center border border-gray-300 rounded-full py-2 px-4 hover:bg-gray-200 flex-1 w-full">
+        <div className="hidden w-full flex-1 flex-row items-center rounded-full border border-gray-300 py-2 px-4 hover:bg-gray-200 md:flex">
           <div className="w-full"></div>
           <SearchIcon height={20} width={20} className="text-gray-500" />
         </div>
@@ -126,7 +134,9 @@ function NavSearch(): ReactElement {
                       <div className="my-1"></div>
                       {searched_products?.length > 8 && (
                         <Link href={'/eplore'}>
-                          <a className="flex cursor-pointer flex-col border-t border-gray-300 pt-2capitalize text-gray-500 text-center">View all results</a>
+                          <a className="pt-2capitalize flex cursor-pointer flex-col border-t border-gray-300 text-center text-gray-500">
+                            View all results
+                          </a>
                         </Link>
                       )}
                     </>
