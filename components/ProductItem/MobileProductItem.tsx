@@ -46,7 +46,6 @@ function MobileProductItem({
               objectFit="cover"
               src={picture ? picture : ''}
               layout="fill"
-              height={24}
               alt="product"
               className="h-full max-h-full w-auto flex-1 flex-shrink-0 rounded object-cover"
             />

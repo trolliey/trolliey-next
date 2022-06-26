@@ -1,19 +1,12 @@
 import React, { useContext, useState, useEffect, useRef } from 'react'
 import ExploreLayout from '../../layouts/ExploreLayout'
-import { connect, disconnect, convertDocToObj } from '../../utils/mongo'
-import Products from '../../models/Product'
 import { Store } from '../../Context/Store'
 import axios from 'axios'
 import no_product from '../../public/img/no_product.svg'
 import Image from 'next/image'
-import dynamic from 'next/dynamic'
-const ProductItem = dynamic(
-  () => import('../../components/ProductItem/ProductItem')
-)
+import ProductItem from '../../components/ProductItem/ProductItem'
 import MobileProductItem from '../../components/ProductItem/MobileProductItem'
-// import ProductItem from '../../components/ProductItem/ProductItem'
 import ProductLoading from '../../components/ProductItem/ProductLoading'
-// import MobileProductItem from '../../components/ProductItem/MobileProductItem'
 import { Spinner } from '@chakra-ui/react'
 import { BadgeCheckIcon } from '@heroicons/react/outline'
 import MobileProductItemLoading from '../../components/ProductItem/MobileProductItemLoading'
@@ -27,41 +20,8 @@ export default function Explore() {
   const [more_loading, setMoreLoading] = useState(false)
   const [page, setPage] = useState<any>(1)
 
-  // get all products
-  useEffect(() => {
-    let cancelRequest = false
-    const url = `/api/products?page=${1}&category=${
-      search_category ? search_category : ''
-    }`
-    setLoading(true)
-    const getData = async () => {
-      if (cache.current[url]) {
-        const data = cache.current[url]
-        setProducts(data?.products)
-        setLoading(false)
-      } else {
-        try {
-          const { data } = await axios.post(url, {
-            query: search_query,
-          })
-          cache.current[url] = data
-          if (cancelRequest) return
-          setProducts(data?.products)
-          setLoading(false)
-        } catch (error) {
-          if (cancelRequest) return
-          setLoading(false)
-        }
-      }
-    }
-    getData()
-    return function cleanup() {
-      cancelRequest = true
-    }
-  }, [search_query, page, search_category])
-
   const load_more_Handler = async () => {
-    setPage((page: any) => page + 1)
+    setPage(page + 1)
     const url = `/api/products?page=${page}&category=${
       search_category ? search_category : ''
     }`
@@ -78,6 +38,39 @@ export default function Explore() {
       console.log(error)
     }
   }
+
+    // get all products
+    useEffect(() => {
+      let cancelRequest = false
+      const url = `/api/products?page=${1}&category=${
+        search_category ? search_category : ''
+      }`
+      setLoading(true)
+      const getData = async () => {
+        if (cache.current[url]) {
+          const data = cache.current[url]
+          setProducts(data?.products)
+          setLoading(false)
+        } else {
+          try {
+            const { data } = await axios.post(url, {
+              query: search_query,
+            })
+            cache.current[url] = data
+            if (cancelRequest) return
+            setProducts(data?.products)
+            setLoading(false)
+          } catch (error) {
+            if (cancelRequest) return
+            setLoading(false)
+          }
+        }
+      }
+      getData()
+      return function cleanup() {
+        cancelRequest = true
+      }
+    }, [search_query, page, search_category])
 
   return (
     <ExploreLayout>
@@ -218,16 +211,4 @@ export default function Explore() {
       </div>
     </ExploreLayout>
   )
-}
-
-export async function getServerSideProps(context: any) {
-  await connect()
-  const products = await Products.find({}).lean()
-  await disconnect()
-  return {
-    props: {
-      //@ts-ignore
-      products: products?.map(convertDocToObj),
-    },
-  }
 }
