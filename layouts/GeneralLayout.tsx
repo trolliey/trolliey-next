@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import React, { ReactElement, useContext, useEffect, useState } from 'react'
 import GeneralNavbar from '../components/Navigations/GeneralNavbar'
-import { Container, useDisclosure } from '@chakra-ui/react'
+import { useDisclosure } from '@chakra-ui/react'
 import Footer from '../components/Navigations/Footer'
 import { Store } from '../Context/Store'
 import { data } from '../utils/data'
@@ -38,7 +38,7 @@ function GeneralLayout({
 
   const { state, dispatch } = useContext(Store)
   const { currency } = state
-  const { scrollX, scrollY } = useWindowScrollPositions()
+  const { scrollY } = useWindowScrollPositions()
   const [close_message, setCloseMessage] = useState(false)
 
   useEffect(() => {

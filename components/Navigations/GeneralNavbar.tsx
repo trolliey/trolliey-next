@@ -1,10 +1,9 @@
 import React, { useContext, useState } from 'react'
-import { ShoppingCartIcon, BellIcon, XIcon } from '@heroicons/react/outline'
-import { Container, Tooltip } from '@chakra-ui/react'
-import dynamic from 'next/dynamic'
-const UserDropdown = dynamic(() => import('../Dropdowns/UserDropdown'))
-const MobileNavDrawers = dynamic(() => import('../Drawers/MobileNavDrawers'))
-const CurrencyDropdown = dynamic(() => import('../Dropdowns/CurrencyDropdown'))
+import { ShoppingCartIcon, XIcon } from '@heroicons/react/outline'
+import { Container } from '@chakra-ui/react'
+import UserDropdown from '../Dropdowns/UserDropdown'
+import MobileNavDrawers from '../Drawers/MobileNavDrawers'
+import CurrencyDropdown from '../Dropdowns/CurrencyDropdown'
 import NavSearch from '../NavSearch/NavSearch'
 import Image from 'next/image'
 import logo from '../../public/img/full_logo.png'
@@ -92,16 +91,10 @@ function GeneralNavbar({ component_above_navbar, scrollY, setCloseMessage, close
         </Link>
         <CurrencyDropdown />
 
-        {userInfo?.role === 'seller' ? (
-          <Link href={'/dashboard'}>
-            <a className="cursor-pointer font-semibold capitalize text-gray-700">
-              My Store Dashboard
-            </a>
-          </Link>
-        ) : (
+        {userInfo?.role != 'seller' && (
           <Link href={'/applytosell'}>
             <a className="cursor-pointer font-semibold capitalize text-gray-700">
-              Sell on trolliey
+              Become a seller
             </a>
           </Link>
         )}

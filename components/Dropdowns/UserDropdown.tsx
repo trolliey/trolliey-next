@@ -69,7 +69,7 @@ function UserDropdown(): ReactElement {
                     </a>
                   </Link>
                 ) : (
-                  <Link href={'/dashboard'}>
+                  <Link href={'/dashboard'} passHref>
                     <a className="flex flex-row space-x-2 ">
                       <Avatar
                         size="sm"
@@ -93,43 +93,43 @@ function UserDropdown(): ReactElement {
 
           {user && (
             <>
-              <Link href={'/orders'} passHref>
-                <MenuItem>
+              <MenuItem>
+                <Link href={'/orders'}>
                   <a className="font-semibold capitalize text-gray-700">
                     My Orders
                   </a>
-                </MenuItem>
-              </Link>
+                </Link>
+              </MenuItem>
               <MenuDivider />
             </>
           )}
 
           {user && (
             <>
-              <Link href={'/password'} passHref>
-                <MenuItem>
+              <MenuItem>
+                <Link href={'/password'} passHref>
                   <a className="font-semibold capitalize text-gray-700">
                     Change Password
                   </a>
-                </MenuItem>
-              </Link>
+                </Link>
+              </MenuItem>
               <MenuDivider />
             </>
           )}
           {user ? (
             <MenuItem onClick={logout_user}>
-              <span className="font-semibold capitalize text-gray-700">
+              <div className="font-semibold capitalize text-gray-700">
                 Logout
-              </span>
+              </div>
             </MenuItem>
           ) : (
             <>
               {dropdown.un_authenticated.map((option, index) => (
-                <Link key={index} href={option.location} passHref>
-                  <MenuItem >
+                <MenuItem key={index}>
+                  <Link href={option.location} passHref>
                     <a className="capitalize">{option.label}</a>
-                  </MenuItem>
-                </Link>
+                  </Link>
+                </MenuItem>
               ))}
             </>
           )}
