@@ -96,7 +96,7 @@ export default function ExploreLayout({children}:Props){
                         <>
                             <p className="text-gray-700 font-bold">Sort By</p>
                             <div className="p-2 flex flex-col space-y-4">
-                                <Select onChange={(e) => sortValue(e.target.value)} placeholder='sort'>
+                                <Select onChange={(e) => sortValue(e.target.value)} placeholder='Sort'>
                                     <option value="price">Price</option>
                                     <option value="title">Title</option>
                                 </Select>
