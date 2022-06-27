@@ -2,16 +2,16 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid'
 import React from 'react'
 
 interface LoadMoreProps {
-    state: any
     setPage: any
-    page: number
+    page: number,
+    totalPages:number
   }
   
 // pagination component
 // @param {state} - result from api call
 // @notice {setPage} - hook to set the function
 // @param {page} - the number of page being viewed
-const LoadMoreComponent = ({ state, setPage, page }: LoadMoreProps) => {
+const LoadMoreComponent = ({ setPage, page, totalPages }: LoadMoreProps) => {
     return (
       <div className="flex self-center pt-8">
         <div className="flex flex-row items-center">
@@ -23,7 +23,7 @@ const LoadMoreComponent = ({ state, setPage, page }: LoadMoreProps) => {
           >
             <ChevronLeftIcon height={32} width={32} />
           </div>
-          {Array.from(Array(state?.data.meta.totalPages).keys())?.map(
+          {Array.from(Array(totalPages).keys())?.map(
             (item: number, index: number) => (
               <div
                 key={index}
@@ -41,7 +41,7 @@ const LoadMoreComponent = ({ state, setPage, page }: LoadMoreProps) => {
           <div
             onClick={() => setPage(page + 1)}
             className={`${
-              page === state?.data.meta.totalPages ? 'hidden ' : 'flex '
+              page === totalPages ? 'hidden ' : 'flex '
             } cursor-pointer text-blue-primary hover:text-gray-700`}
           >
             <ChevronRightIcon height={32} width={32} />

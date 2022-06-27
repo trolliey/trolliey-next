@@ -1,8 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { connect, disconnect } from '../../../utils/mongo'
 import nc from 'next-connect'
-import Store from '../../../models/Store'
-import auth_handler from '../../../utils/auth_handler'
 import Products from '../../../models/Product'
 
 const handler = nc()

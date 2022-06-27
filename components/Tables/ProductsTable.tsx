@@ -13,7 +13,7 @@ import { useRouter } from 'next/router'
 import { useToast } from '@chakra-ui/react'
 import axios from 'axios'
 import { Store } from '../../Context/Store'
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid'
+import LoadMoreComponent from '../LoadMore/LoadMoreComponent'
 
 interface Props {
   products?: any
@@ -79,7 +79,7 @@ export default function ProductsTable({
     }
   }
 
-  console.log(data_info)
+  // console.log(data_info)
 
   const set_delete_item = (id: string, name: string) => {
     onOpen()
@@ -88,7 +88,7 @@ export default function ProductsTable({
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col w-full">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
           <div className="w-full overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
@@ -259,27 +259,13 @@ export default function ProductsTable({
               </ModalContent>
             </Modal>
           </div>
-          <div className="ml-auto flex w-full flex-col items-end">
-            <div className="ml-auto flex w-full flex-row items-center gap-4 self-end py-4">
-              <div className="flex-1"></div>
-              <div
-                onClick={() => setPage(page - 1)}
-                className="flex cursor-pointer rounded bg-white p-1 shadow hover:bg-gray-50"
-              >
-                <ChevronLeftIcon height={28} width={28} />
-              </div>
-              {!data_info?.totalPages >= page && (
-                <div
-                  onClick={() => setPage(page + 1)}
-                  className="flex cursor-pointer rounded bg-white p-1 shadow hover:bg-gray-50"
-                >
-                  <ChevronRightIcon height={28} width={28} />
-                </div>
-              )}
-            </div>
-          </div>
         </div>
       </div>
+        <LoadMoreComponent
+          setPage={setPage}
+          page={page}
+          totalPages={data_info?.totalPages}
+        />
     </div>
   )
 }

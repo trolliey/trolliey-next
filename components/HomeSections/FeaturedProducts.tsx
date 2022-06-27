@@ -14,8 +14,6 @@ function FeaturedProducts(): ReactElement {
   const fetcher = async (url: any) =>
     await axios.post(url).then((res) => res.data)
   const { data: all_products, error } = useSWR(address, fetcher)
-
-  console.log(all_products)
   return (
     <>
       {error ? (

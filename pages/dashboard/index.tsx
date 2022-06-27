@@ -16,15 +16,22 @@ import { Avatar } from '@chakra-ui/react'
 import BlueButton from '../../components/Buttons/BlueButton'
 import axios from 'axios'
 import { getError } from '../../utils/error'
+import { useAuthFetch } from '../../hooks/useAuthFetch'
 
 export default function Dashboard() {
-  const { state } = useContext(Store)
-  const { userInfo } = state
+  const { state:store_state } = useContext(Store)
+  const { userInfo } = store_state
   const [loading, setLoading] = useState<boolean>(false)
   const [store_data, setStore_Data] = useState<any>()
   const history = useRouter()
   var today = new Date()
   var curHr = today.getHours()
+
+  const url = `/api/store/dashboard`
+
+  const state = useAuthFetch(url, userInfo?.token)
+
+  console.log(state)
 
   useEffect(() => {
     setLoading(true)
@@ -45,7 +52,7 @@ export default function Dashboard() {
     getStoreDAta()
   }, [])
 
-  console.log(store_data)
+  // console.log(store_data)
 
   return (
     <DashboardLayout>

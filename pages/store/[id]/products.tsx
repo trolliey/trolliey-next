@@ -108,7 +108,7 @@ function StoreProducts(props: any) {
               <>
                 <LoadMoreComponent
                   setPage={setPage}
-                  state={state}
+                  totalPages={state?.data.meta.totalPages}
                   page={page}
                 />
               </>
@@ -155,7 +155,7 @@ function StoreProducts(props: any) {
               <>
                 <LoadMoreComponent
                   setPage={setPage}
-                  state={state}
+                  totalPages={state?.data.meta.totalPages}
                   page={page}
                 />
               </>

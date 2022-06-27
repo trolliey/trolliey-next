@@ -24,7 +24,7 @@ export default function Inventory() {
   useEffect(() => {
     let cancelRequest = false
     const prod_page = page ? page : 1
-    const url = `/api/dashboard/store_products/?page=${prod_page}&keyword=${search_query}`
+    const url = `/api/dashboard/store_products/?page=${prod_page}&keyword=${search_query ? search_query : ''}`
     const getData = async () => {
       if (cache.current[url]) {
         const data = cache.current[url]

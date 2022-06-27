@@ -106,7 +106,7 @@ function Explore() {
               ))}
             </div>
             <>
-              <LoadMoreComponent setPage={setPage} state={state} page={page} />
+              <LoadMoreComponent setPage={setPage} totalPages={state?.data.meta.totalPages} page={page} />
             </>
           </div>
         ) : (
@@ -149,7 +149,7 @@ function Explore() {
               ))}
             </div>
             <>
-              <LoadMoreComponent setPage={setPage} state={state} page={page} />
+              <LoadMoreComponent setPage={setPage} totalPages={state?.data.meta.totalPages} page={page} />
             </>
           </div>
         ) : (
