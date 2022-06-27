@@ -1,7 +1,6 @@
 import { BadgeCheckIcon } from '@heroicons/react/outline'
 import Image from 'next/image'
 import React, { useContext, useState } from 'react'
-import LoadMoreComponent from '../../components/LoadMore/LoadMoreComponent'
 import MobileProductItem from '../../components/ProductItem/MobileProductItem'
 import MobileProductItemLoading from '../../components/ProductItem/MobileProductItemLoading'
 import ProductItem from '../../components/ProductItem/ProductItem'
@@ -11,6 +10,9 @@ import { useFetch } from '../../hooks/useFetch'
 import ExploreLayout from '../../layouts/ExploreLayout'
 import loading_error_svg from '../../public/images/loading_error.svg'
 import no_data_svg from '../../public/images/not_data.svg'
+import Pagination from '../../components/Pagination/Pagination'
+
+const PER_PAGE = 16;
 
 function Explore() {
   const [page, setPage] = useState<number>(1)
@@ -19,7 +21,7 @@ function Explore() {
 
   const url = `/api/products?page=${page}&category=${
     search_category ? search_category : ''
-  }&keyword=${search_query ? search_query : ''}`
+  }&keyword=${search_query ? search_query : ''}&perPage=${PER_PAGE}`
 
   // start the fetching using the useFetch hook
   const state = useFetch(url)
@@ -105,8 +107,15 @@ function Explore() {
                 </div>
               ))}
             </div>
+          
             <>
-              <LoadMoreComponent setPage={setPage} totalPages={state?.data.meta.totalPages} page={page} />
+              <Pagination 
+                className='flex flex-1 py-8 mx-auto'
+                currentPage={page}
+                totalCount={state?.data.meta?.total}
+                pageSize={PER_PAGE}
+                onPageChange={(page:number) => setPage(page)}
+              />
             </>
           </div>
         ) : (
@@ -149,8 +158,15 @@ function Explore() {
               ))}
             </div>
             <>
-              <LoadMoreComponent setPage={setPage} totalPages={state?.data.meta.totalPages} page={page} />
+              <Pagination 
+                className='flex flex-1 py-8 mx-auto'
+                currentPage={page}
+                totalCount={state?.data.meta?.total}
+                pageSize={PER_PAGE}
+                onPageChange={(page:number) => setPage(page)}
+              />
             </>
+            
           </div>
         ) : (
           <div className="`mx-auto hidden w-full grid-cols-2 gap-4 rounded-lg md:grid md:grid-cols-3 md:gap-8  lg:grid-cols-4">
