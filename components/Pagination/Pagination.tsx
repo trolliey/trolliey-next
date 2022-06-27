@@ -51,7 +51,7 @@ function Pagination({
 
   return (
     <ul
-      className={`${className} flex list-none flex-row items-center text-sm font-semibold`}
+      className={`${className} flex  flex-row items-center text-sm font-semibold`}
     >
       <li
         onClick={onPrevious}

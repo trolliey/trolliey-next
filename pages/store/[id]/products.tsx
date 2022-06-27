@@ -12,6 +12,9 @@ import { useFetch } from '../../../hooks/useFetch'
 import MobileProductItem from '../../../components/ProductItem/MobileProductItem'
 import MobileProductItemLoading from '../../../components/ProductItem/MobileProductItemLoading'
 import LoadMoreComponent from '../../../components/LoadMore/LoadMoreComponent'
+import Pagination from '../../../components/Pagination/Pagination'
+
+const PER_PAGE = 16
 
 function StoreProducts(props: any) {
   const [page, setPage] = useState<number>(1)
@@ -20,7 +23,9 @@ function StoreProducts(props: any) {
   const history = useRouter()
   const { id } = history.query
 
-  const url = `/api/store/${id}?keyword=${api_search ? api_search : ''}`
+  const url = `/api/store/${id}?keyword=${
+    api_search ? api_search : ''
+  }&perPage=${PER_PAGE}`
   // start the fetching using the useFetch hook
   const state = useFetch(url)
 
@@ -36,7 +41,10 @@ function StoreProducts(props: any) {
                 onChange={(e: any) => setSearchQuery(e.target.value)}
                 className="flex-1 border-none p-2 outline-none"
               />
-              <div onClick={() => setApiSearch(search_query)} className="flex cursor-pointer flex-col items-center bg-blue-primary p-2 text-white hover:bg-blue-dark">
+              <div
+                onClick={() => setApiSearch(search_query)}
+                className="flex cursor-pointer flex-col items-center bg-blue-primary p-2 text-white hover:bg-blue-dark"
+              >
                 <SearchIcon height={20} width={20} />
               </div>
             </div>
@@ -70,12 +78,19 @@ function StoreProducts(props: any) {
               onChange={(e: any) => setSearchQuery(e.target.value)}
               className="flex-1 border-none p-2 outline-none"
             />
-            <div onClick={() => setApiSearch(search_query)} className="flex cursor-pointer flex-col items-center bg-blue-primary p-2 text-white hover:bg-blue-dark">
+            <div
+              onClick={() => setApiSearch(search_query)}
+              className="flex cursor-pointer flex-col items-center bg-blue-primary p-2 text-white hover:bg-blue-dark"
+            >
               <SearchIcon height={20} width={20} />
             </div>
           </div>
         </div>
-        <p className='text-gray-700 font-semibold text-center pb-4 capitalize'>Store has <span className='text-blue-primary'>{state?.data.meta?.total}</span> products</p>
+        <p className="pb-4 text-center font-semibold capitalize text-gray-700">
+          Store has{' '}
+          <span className="text-blue-primary">{state?.data.meta?.total}</span>{' '}
+          products
+        </p>
         <div className="hidden md:flex">
           {state.status === 'fetched' ? (
             <div className="flex w-full flex-col">
@@ -105,13 +120,20 @@ function StoreProducts(props: any) {
                   </div>
                 ))}
               </div>
-              <>
+              {/* <>
                 <LoadMoreComponent
                   setPage={setPage}
                   totalPages={state?.data.meta.totalPages}
                   page={page}
                 />
-              </>
+              </> */}
+              <Pagination
+                className="relative z-30 flex self-center pt-8"
+                onPageChange={(page: number) => setPage(page)}
+                pageSize={PER_PAGE}
+                totalCount={state?.data.meta.total}
+                currentPage={page}
+              />
             </div>
           ) : (
             <div className="`mx-auto hidden w-full grid-cols-2 gap-4 rounded-lg md:grid md:grid-cols-3 md:gap-8  lg:grid-cols-4">
@@ -152,13 +174,20 @@ function StoreProducts(props: any) {
                   </div>
                 ))}
               </div>
-              <>
+              <Pagination
+                className="relative z-30 flex self-center pt-8"
+                onPageChange={(page: number) => setPage(page)}
+                pageSize={PER_PAGE}
+                totalCount={state?.data.meta.total}
+                currentPage={page}
+              />
+              {/* <>
                 <LoadMoreComponent
                   setPage={setPage}
                   totalPages={state?.data.meta.totalPages}
                   page={page}
                 />
-              </>
+              </> */}
             </div>
           ) : (
             <div className="`mx-auto hidden w-full grid-cols-2 gap-4 rounded-lg md:grid md:grid-cols-3 md:gap-8  lg:grid-cols-4">

@@ -13,7 +13,7 @@ import { useRouter } from 'next/router'
 import { useToast } from '@chakra-ui/react'
 import axios from 'axios'
 import { Store } from '../../Context/Store'
-import LoadMoreComponent from '../LoadMore/LoadMoreComponent'
+import Pagination from '../../components/Pagination/Pagination'
 
 interface Props {
   products?: any
@@ -21,6 +21,7 @@ interface Props {
   setPage?: any
   page?: any
   data_info: any
+  PER_PAGE: number
 }
 
 export default function ProductsTable({
@@ -29,6 +30,7 @@ export default function ProductsTable({
   setPage,
   page,
   data_info,
+  PER_PAGE,
 }: Props): ReactElement {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [product_name, setProductName] = useState('')
@@ -88,7 +90,7 @@ export default function ProductsTable({
   }
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex w-full flex-col">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
           <div className="w-full overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
@@ -261,11 +263,15 @@ export default function ProductsTable({
           </div>
         </div>
       </div>
-        <LoadMoreComponent
-          setPage={setPage}
-          page={page}
-          totalPages={data_info?.totalPages}
+      <>
+        <Pagination
+          className="flex self-center pt-8"
+          onPageChange={(page: number) => setPage(page)}
+          pageSize={PER_PAGE}
+          totalCount={data_info?.total}
+          currentPage={page}
         />
+      </>
     </div>
   )
 }

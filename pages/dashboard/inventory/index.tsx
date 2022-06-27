@@ -10,6 +10,8 @@ import { Spinner } from '@chakra-ui/react'
 import Image from 'next/image'
 import no_product from '../../../public/img/no_product.svg'
 
+const PER_PAGE = 8
+
 export default function Inventory() {
   const history = useRouter()
   const [loading, setLoading] = useState<boolean>(false)
@@ -24,7 +26,7 @@ export default function Inventory() {
   useEffect(() => {
     let cancelRequest = false
     const prod_page = page ? page : 1
-    const url = `/api/dashboard/store_products/?page=${prod_page}&keyword=${search_query ? search_query : ''}`
+    const url = `/api/dashboard/store_products/?page=${prod_page}&keyword=${search_query ? search_query : ''}&perPage=${PER_PAGE}`
     const getData = async () => {
       if (cache.current[url]) {
         const data = cache.current[url]
@@ -112,6 +114,7 @@ export default function Inventory() {
               <>
                 <ProductsTable
                   products={products}
+                  PER_PAGE={PER_PAGE}
                   delete_item_from_table={delete_item_from_table}
                   data_info={data_info}
                   setPage={setPage}
