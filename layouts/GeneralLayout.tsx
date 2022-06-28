@@ -76,14 +76,9 @@ function GeneralLayout({
         />
         <meta property="og:site_name" content={data.site_url} />
         <meta property="og:url" content="https://www.trolliey.com" />
-        <meta
-          property="og:image"
-          content={
-            og_image
-              ? og_image
-              : '//cdn.example.com/uploads/images/webpage_300x200.png'
-          }
-        />
+        <meta property="og:image" content={og_image} />
+        <meta property="og:image:width" content="2500"/>
+        <meta property="og:image:height" content="1330"/>
         <meta name="twitter:card" content="summary" />
         <meta
           name="twitter:title"
