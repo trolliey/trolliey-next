@@ -56,7 +56,7 @@ function ManageProducts() {
           Manage all products
         </p>
         <div className="flex flex-col">
-          <ProductsTable PER_PAGE={PER_PAGE} data_info={data_info} products={products} />
+          {/* <ProductsTable PER_PAGE={PER_PAGE} data_info={data_info} products={products} /> */}
         </div>
       </div>
     </AdminDashboard>
