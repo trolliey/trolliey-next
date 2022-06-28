@@ -20,7 +20,6 @@ interface Props {
   og_image?: any
   bg_color?: string
   component_above_navbar?: any
-  item_id?:string
   og_url?:string
 }
 
@@ -36,7 +35,6 @@ function GeneralLayout({
   og_url,
   bg_color,
   component_above_navbar,
-  item_id
 }: Props): ReactElement {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -52,6 +50,8 @@ function GeneralLayout({
     dispatch({ type: 'CHANGE_CURRENCY', payload: currency })
   }, [])
 
+  console.log(description.replace(/<[^>]*>?/gm, ''))
+
   return (
     <div
       className={`${
@@ -63,7 +63,7 @@ function GeneralLayout({
         <title>{title ? `${title} | Trolliey ` : data.original_title}</title>
         <meta
           name="description"
-          content={description ? description : data.site_description}
+          content={description ? description.replace(/<[^>]*>?/gm, '') : data.site_description}
         />
         <meta property="og:type" content="website" />
         <meta
@@ -74,7 +74,7 @@ function GeneralLayout({
         <meta
           name="og:description"
           property="og:description"
-          content={description ? description : data.site_description}
+          content={description ? description.replace(/<[^>]*>?/gm, '') : data.site_description}
         />
         <meta property="og:site_name" content={data.site_url} />
         <meta property="og:url" content={`${data.site_url}/${og_url}`} />
@@ -90,7 +90,7 @@ function GeneralLayout({
               : 'Trolliey | Buy and sell items online'
           }
         />
-        <meta name="twitter:description" content={twitter_description} />
+        <meta name="twitter:description" content={twitter_description?.replace(/<[^>]*>?/gm, '')} />
         <meta name="twitter:site" content="" />
         <meta name="twitter:creator" content="" />
         <meta name="twitter:image" content={og_image} />
