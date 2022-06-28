@@ -20,7 +20,7 @@ interface Props {
   og_image?: any
   bg_color?: string
   component_above_navbar?: any
-  og_url?:string
+  og_url?: string
 }
 
 function GeneralLayout({
@@ -50,8 +50,6 @@ function GeneralLayout({
     dispatch({ type: 'CHANGE_CURRENCY', payload: currency })
   }, [])
 
-  console.log(description.replace(/<[^>]*>?/gm, ''))
-
   return (
     <div
       className={`${
@@ -63,8 +61,14 @@ function GeneralLayout({
         <title>{title ? `${title} | Trolliey ` : data.original_title}</title>
         <meta
           name="description"
-          content={description ? description.replace(/<[^>]*>?/gm, '') : data.site_description}
+          content={
+            description
+              ? description.replace(/<[^>]*>?/gm, '')
+              : data.site_description
+          }
         />
+
+        {/* // facebook and whatapp meta tags */}
         <meta property="og:type" content="website" />
         <meta
           name="og:title"
@@ -74,13 +78,26 @@ function GeneralLayout({
         <meta
           name="og:description"
           property="og:description"
-          content={description ? description.replace(/<[^>]*>?/gm, '') : data.site_description}
+          content={
+            description
+              ? description.replace(/<[^>]*>?/gm, '')
+              : data.site_description
+          }
         />
         <meta property="og:site_name" content={data.site_url} />
         <meta property="og:url" content={`${data.site_url}/${og_url}`} />
-        <meta property="og:image" content={og_image} />
-        <meta property="og:image:width" content="2500"/>
-        <meta property="og:image:height" content="1330"/>
+        <meta
+          property="og:image"
+          content={og_image ? og_image : '/images/icon.png'}
+        />
+        <meta
+          property="og:image:alt"
+          content="Add your alternative text here"
+        />
+        <meta property="og:image:width" content="2500" />
+        <meta property="og:image:height" content="1330" />
+
+        {/* // twitter tags */}
         <meta name="twitter:card" content="summary" />
         <meta
           name="twitter:title"
@@ -90,21 +107,24 @@ function GeneralLayout({
               : 'Trolliey | Buy and sell items online'
           }
         />
-        <meta name="twitter:description" content={twitter_description?.replace(/<[^>]*>?/gm, '')} />
+        <meta
+          name="twitter:description"
+          content={twitter_description?.replace(/<[^>]*>?/gm, '')}
+        />
         <meta name="twitter:site" content="" />
         <meta name="twitter:creator" content="" />
-        <meta name="twitter:image" content={og_image} />
+        <meta
+          name="twitter:image"
+          content={og_image ? og_image : '/images/icon.png'}
+        />
         <meta property="og:locale" content="en_US" />
-      <meta property="og:locale:alternate" content="en_GB" />
-      <meta property="og:locale:alternate" content="cn_CN" />
+        <meta property="og:locale:alternate" content="en_GB" />
+        <meta property="og:locale:alternate" content="cn_CN" />
 
         <link rel="icon" type="image/png" href="/images/icon.png" />
         <link rel="shortcut icon" type="image/png" href="/images/icon.png" />
         <link rel="apple-touch-icon" href="/images/icon.png" />
-        <link
-          rel="canonical"
-          href={`${data.site_url}/${og_url}`}
-        />
+        <link rel="canonical" href={`${data.site_url}/${og_url}`} />
       </Head>
       <nav className="z-50">
         <GeneralNavbar
@@ -119,7 +139,7 @@ function GeneralLayout({
           !close_message && component_above_navbar ? 'pt-32 ' : 'pt-16 '
         } w-full pt-16`}
       >
-        <div className="container max-w-7xl mx-auto px-2">
+        <div className="container mx-auto max-w-7xl px-2">
           {!no_text && (
             <h1
               className="flex text-sm font-semibold text-gray-700 "
