@@ -74,7 +74,7 @@ function ProductDescription(props: any) {
       og_image={product.pictures[0]}
       twitter_title={product?.title}
       twitter_description={product?.description}
-      canonical_url={`/${product?._id}`}
+      og_url={`/product/description/${product._id}`}
     >
       <div className="flex max-w-7xl flex-col bg-gray-100">
         <div className="mx-auto w-full flex-1 rounded ">
