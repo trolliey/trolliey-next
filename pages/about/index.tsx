@@ -1,12 +1,17 @@
 import React from 'react'
 import GeneralLayout from '../../layouts/GeneralLayout'
 
+const OG_IMAGE = 'https://res.cloudinary.com/trolliey/image/upload/v1656413342/trolliey%20static%20images/applytosell_aytff9.png'
+
+
 function About() {
   return (
     <GeneralLayout
       title="About Trolliey"
       description="What is trolliey and what is it about"
       no_text
+      og_image={OG_IMAGE}
+      og_url='about'
     >
       <div className="relative overflow-hidden bg-white py-16 min-h-screen">
         <div className="hidden lg:absolute lg:inset-y-0 lg:block lg:h-full lg:w-full">
@@ -119,7 +124,7 @@ function About() {
                 About Us
               </span>
               <span className="mt-2 block text-center text-3xl font-extrabold leading-8 tracking-tight text-gray-900 sm:text-4xl">
-                Trolliy Retail
+                Trolliey Retail
               </span>
             </h1>
             <p className="mt-8 text-xl leading-8 text-gray-500">
