@@ -20,6 +20,7 @@ interface Props {
   og_image?: any
   bg_color?: string
   component_above_navbar?: any
+  item_id?:string
 }
 
 function GeneralLayout({
@@ -33,6 +34,7 @@ function GeneralLayout({
   og_image,
   bg_color,
   component_above_navbar,
+  item_id
 }: Props): ReactElement {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -73,7 +75,7 @@ function GeneralLayout({
           content={description ? description : data.site_description}
         />
         <meta property="og:site_name" content={data.site_url} />
-        <meta property="og:url" content="" />
+        <meta property="og:url" content="https://www.trolliey.com" />
         <meta
           property="og:image"
           content={
@@ -94,13 +96,17 @@ function GeneralLayout({
         <meta name="twitter:description" content={twitter_description} />
         <meta name="twitter:site" content="" />
         <meta name="twitter:creator" content="" />
+        <meta name="twitter:image" content={og_image} />
+        <meta property="og:locale" content="en_US" />
+      <meta property="og:locale:alternate" content="en_GB" />
+      <meta property="og:locale:alternate" content="cn_CN" />
+
         <link rel="icon" type="image/png" href="/images/icon.png" />
         <link rel="shortcut icon" type="image/png" href="/images/icon.png" />
         <link rel="apple-touch-icon" href="/images/icon.png" />
-        <meta name="twitter:image" content={og_image} />
         <link
           rel="canonical"
-          href={canonical_url ? canonical_url : data.site_url}
+          href={canonical_url ? canonical_url : '/'}
         />
       </Head>
       <nav className="z-50">
