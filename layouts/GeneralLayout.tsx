@@ -43,6 +43,9 @@ function GeneralLayout({
   const { scrollY } = useWindowScrollPositions()
   const [close_message, setCloseMessage] = useState(false)
 
+const OG_IMAGE = 'https://res.cloudinary.com/trolliey/image/upload/v1656413519/trolliey%20static%20images/home_og_image_rwubje.jpg'
+
+
   useEffect(() => {
     if (!currency) {
       onOpen()
@@ -92,7 +95,7 @@ function GeneralLayout({
         />
         <meta
           property="og:image:alt"
-          content="Add your alternative text here"
+          content="Product and site representation on link"
         />
         <meta property="og:image:width" content="2500" />
         <meta property="og:image:height" content="1330" />
@@ -115,7 +118,7 @@ function GeneralLayout({
         <meta name="twitter:creator" content="" />
         <meta
           name="twitter:image"
-          content={og_image ? og_image : '/images/icon.png'}
+          content={og_image ? og_image : OG_IMAGE}
         />
         <meta property="og:locale" content="en_US" />
         <meta property="og:locale:alternate" content="en_GB" />

@@ -2,6 +2,9 @@ import React from 'react'
 import GeneralLayout from '../../layouts/GeneralLayout'
 import { MailIcon, PhoneIcon } from '@heroicons/react/outline'
 
+const OG_IMAGE = 'https://res.cloudinary.com/trolliey/image/upload/v1656413519/trolliey%20static%20images/home_og_image_rwubje.jpg'
+
+
 const offices = [
   { id: 1, city: 'Harare', address: ['Not yet assigned'] },
   // { id: 2, city: 'New York', address: ['886 Walter Streets', 'New York, NY 12345'] },

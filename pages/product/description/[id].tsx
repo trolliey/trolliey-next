@@ -124,9 +124,6 @@ function ProductDescription(props: any) {
                 <Tab.Panels className="aspect-w-1 aspect-h-1 max-h-[750px] w-full flex-1 overflow-hidden rounded-lg">
                   {product?.pictures.map((image: any, index: number) => (
                     <Tab.Panel key={index} className=" rounded">
-                      {/* <>
-                                                <ImageMagnifier src={image} height={'100%'} width={"100%"} />
-                                            </> */}
                       <Image
                         src={image}
                         layout="responsive"
@@ -269,7 +266,7 @@ function ProductDescription(props: any) {
                       </div>
                       {product?.price > 50 ? (
                         <p className="text-sm font-semibold text-gray-700">
-                          Free delivery around Zimbabwe
+                          Free delivery around Harare
                         </p>
                       ) : (
                         <p className="text-sm font-semibold text-gray-700">
@@ -297,7 +294,7 @@ function ProductDescription(props: any) {
 
                       <div className="mt-2 flex flex-row items-center gap-2">
                         <p className="text-xs text-gray-700">
-                          Eligible in cash on delivery
+                          are you eligible in cash on delivery?
                         </p>
                         <div className="flex flex-col rounded-full">
                           <InformationCircleIcon

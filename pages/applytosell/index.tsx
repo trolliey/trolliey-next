@@ -14,6 +14,8 @@ import Link from 'next/link'
 import Head from 'next/head'
 import { data } from '../../utils/data'
 
+const OG_IMAGE = 'https://res.cloudinary.com/trolliey/image/upload/v1656413342/trolliey%20static%20images/applytosell_aytff9.png'
+
 const includedFeatures = [
   'Unlimited products',
   'Free delivery service',
@@ -52,7 +54,7 @@ function BecomeASeller() {
         <meta property="og:url" content={`${data.site_url}/applytosell`} />
         <meta
           property="og:image"
-          content={'https://cdn.example.com/uploads/images/webpage_300x200.png'}
+          content={OG_IMAGE}
         />
         <meta name="twitter:card" content="summary" />
         <meta

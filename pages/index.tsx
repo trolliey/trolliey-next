@@ -18,6 +18,9 @@ import Footer from '../components/Navigations/Footer'
 import { Text } from '@chakra-ui/react'
 import HomeBrandItem from '../components/HomeBrandItem/HomeBrandItem'
 import slugify from '../utils/slugify'
+import Head from 'next/head'
+
+const OG_IMAGE = 'https://res.cloudinary.com/trolliey/image/upload/v1656413519/trolliey%20static%20images/home_og_image_rwubje.jpg'
 
 function Home(): ReactFragment {
   const history = useRouter()
@@ -41,7 +44,49 @@ function Home(): ReactFragment {
   ]
 
   return (
-    <div className="flex w-full flex-col  overflow-scroll bg-gradient-to-b from-blue-superlight via-gray-100 to-gray-100">
+    <>
+    <Head>
+        <title>{`Trolliey Online Retail`}</title>
+        <meta
+          name="description"
+          content={data.site_description}
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          name="og:title"
+          property="og:title"
+          content={`Trolliey Online Retail`}
+        />
+        <meta
+          name="og:description"
+          property="og:description"
+          content={data.site_description}
+        />
+        <meta property="og:site_name" content={'Trolliey Retail'} />
+        <meta property="og:url" content={`${data.site_url}/`} />
+        <meta
+          property="og:image"
+          content={OG_IMAGE}
+        />
+        <meta name="twitter:card" content="summary" />
+        <meta
+          name="twitter:title"
+          content={`Trolliey | Buy and Sell Items Online`}
+        />
+        <meta
+          name="twitter:description"
+          content={data.site_description}
+        />
+        <meta name="twitter:site" content="" />
+        <meta name="twitter:creator" content="" />
+        {/* <link rel=”shortcut icon” href=”/icon.png" type=”image/x-icon” /> */}
+        <link rel="shortcut icon" href="/icon.png" type="image/x-icon" />
+        <link rel="icon" type="image/png" href="/icon.png" />
+        <link rel="apple-touch-icon" href="/icon.png" />
+        <meta name="twitter:image" content={OG_IMAGE} />
+        <link rel="canonical" href={`${data.site_url}/`} />
+      </Head>
+      <div className="flex w-full flex-col  overflow-scroll bg-gradient-to-b from-blue-superlight via-gray-100 to-gray-100">
       <div className="nav">
         <GeneralNavbar
           setCloseMessage={setCloseMessage}
@@ -176,6 +221,7 @@ function Home(): ReactFragment {
       </div>
       <Footer />
     </div>
+    </>
   )
 }
 
