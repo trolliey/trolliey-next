@@ -80,9 +80,9 @@ function Home(): ReactFragment {
         <meta name="twitter:site" content="" />
         <meta name="twitter:creator" content="" />
         {/* <link rel=”shortcut icon” href=”/icon.png" type=”image/x-icon” /> */}
-        <link rel="shortcut icon" href="/icon.png" type="image/x-icon" />
-        <link rel="icon" type="image/png" href="/icon.png" />
-        <link rel="apple-touch-icon" href="/icon.png" />
+        <link rel="shortcut icon" href="/images/icon.png" type="image/x-icon" />
+        <link rel="icon" type="image/png" href="/images/icon.png" />
+        <link rel="apple-touch-icon" href="/images/icon.png" />
         <meta name="twitter:image" content={OG_IMAGE} />
         <link rel="canonical" href={`${data.site_url}/`} />
       </Head>

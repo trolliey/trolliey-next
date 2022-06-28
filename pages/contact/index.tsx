@@ -7,9 +7,6 @@ const OG_IMAGE = 'https://res.cloudinary.com/trolliey/image/upload/v1656413519/t
 
 const offices = [
   { id: 1, city: 'Harare', address: ['Not yet assigned'] },
-  // { id: 2, city: 'New York', address: ['886 Walter Streets', 'New York, NY 12345'] },
-  // { id: 3, city: 'Toronto', address: ['7363 Cynthia Pass', 'Toronto, ON N3Y 4H8'] },
-  // { id: 4, city: 'London', address: ['114 Cobble Lane', 'London N1 2EF'] },
 ]
 
 function Contact() {
@@ -19,6 +16,7 @@ function Contact() {
       description="Find out how you can communicate with trolliey and its supporters"
       no_text
       og_url='contact'
+      og_image={OG_IMAGE}
     >
       <main className="overflow-hidden">
         {/* Header */}
