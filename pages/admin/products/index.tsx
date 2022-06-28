@@ -12,10 +12,12 @@ function ManageProducts() {
   const [page, setPage] = useState(1)
   const cache = useRef<any>({})
 
+  const PER_PAGE = 16
+
   useEffect(() => {
     let cancelRequest = false
     const prod_page = page ? page : 1
-    const url = `/api/products?page=${prod_page}&perPage=${16}`
+    const url = `/api/products?page=${prod_page}&perPage=${PER_PAGE}`
     const getData = async () => {
       if (cache.current[url]) {
         const data = cache.current[url]
@@ -54,7 +56,7 @@ function ManageProducts() {
           Manage all products
         </p>
         <div className="flex flex-col">
-          <ProductsTable data_info={data_info} products={products} />
+          <ProductsTable PER_PAGE={PER_PAGE} data_info={data_info} products={products} />
         </div>
       </div>
     </AdminDashboard>
