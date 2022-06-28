@@ -159,7 +159,7 @@ export default function CreateStore() {
 
 
     return (
-        <GeneralLayout title="Create A Store" description="Apply to sell stuff on Trolliey" >
+        <GeneralLayout og_url='create-store' title="Create A Store" description="Apply to sell stuff on Trolliey" >
             <div className="py-8 max-w-7xl">
                 <div className="bg-white rounded md:p-8 p-4 mx-auto">
                     <p className='text-gray-700 text-lg font-semibold text-center'>How do we get in touch?</p>

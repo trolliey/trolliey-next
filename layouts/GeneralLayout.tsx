@@ -77,7 +77,7 @@ function GeneralLayout({
           content={description ? description : data.site_description}
         />
         <meta property="og:site_name" content={data.site_url} />
-        <meta property="og:url" content={og_url} />
+        <meta property="og:url" content={`${data.site_url}/${og_url}`} />
         <meta property="og:image" content={og_image} />
         <meta property="og:image:width" content="2500"/>
         <meta property="og:image:height" content="1330"/>
@@ -103,7 +103,7 @@ function GeneralLayout({
         <link rel="apple-touch-icon" href="/images/icon.png" />
         <link
           rel="canonical"
-          href={'https://www.trolliey.com/'}
+          href={`${data.site_url}/${og_url}`}
         />
       </Head>
       <nav className="z-50">

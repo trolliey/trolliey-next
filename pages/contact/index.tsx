@@ -15,6 +15,7 @@ function Contact() {
       title="Contact Trolliey"
       description="Find out how you can communicate with trolliey and its supporters"
       no_text
+      og_url='contact'
     >
       <main className="overflow-hidden">
         {/* Header */}

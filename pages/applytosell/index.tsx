@@ -75,7 +75,10 @@ function BecomeASeller() {
           name="twitter:image"
           content={'https://cdn.example.com/uploads/images/webpage_300x200.png'}
         />
-        <link rel="canonical" href={data.site_url} />
+        <link
+          rel="canonical"
+          href={`${data.site_url}/applytosell`}
+        />
       </Head>
       <div className="bg-white">
         <header>

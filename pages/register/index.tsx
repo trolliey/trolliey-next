@@ -56,6 +56,7 @@ function Register() {
   return (
     <GeneralLayout
       no_text
+      og_url='register'
       title="Register on Trolliey"
       description="Create an account and join the evergrowing comminuty of Trolliey"
     >

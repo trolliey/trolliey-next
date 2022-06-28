@@ -18,6 +18,7 @@ function Categories() {
     no_text
       title="Explore Products"
       description="Explore all all products offered by Trolliey marketplace"
+      og_url='categories'
     >
       <div className="mb-8 flex md:my-16 my-8 max-w-7xl flex-col flex-wrap items-center">
         <div className="mx-auto grid max-w-7xl grid-cols-2 gap-4 lg:grid-cols-5 md:grid-cols-4 md:gap-8">

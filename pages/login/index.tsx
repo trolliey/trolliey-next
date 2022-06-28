@@ -61,7 +61,7 @@ function login() {
 
 
     return (
-        <GeneralLayout no_text title='Login to you Trolliey account' description='Welcome back to Trolliey, login and enjoy shopping'>
+        <GeneralLayout og_url='login' no_text title='Login to you Trolliey account' description='Welcome back to Trolliey, login and enjoy shopping'>
             <div className="min-h-screen bg-gray-100 flex flex-col sm:px-6 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-md pt-32">
                     <h1 className="mt-2 text-center md:text-3xl text-lg font-extrabold text-gray-900">Login to your account</h1>
