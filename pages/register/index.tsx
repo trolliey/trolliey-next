@@ -30,7 +30,7 @@ function Register() {
         agreed,
       })
       //@ts-ignore
-      history.push(redirect || '/login')
+      history.push(redirect || '/success/register-success')
       console.log(data)
       toast({
         title: 'Account created sucessfully!.',
