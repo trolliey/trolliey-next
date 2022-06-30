@@ -53,6 +53,7 @@ apiRoute.post(async (req: NextApiRequest, res: NextApiResponse) => {
               variants,
               currency,
               sub_category,
+              time_to_delivery
             } = req.body
 
             // if(!discount_price || !description || !title || !price || !status ){
@@ -94,6 +95,7 @@ apiRoute.post(async (req: NextApiRequest, res: NextApiResponse) => {
               status: status,
               currency_type: currency,
               sub_category: sub_category,
+              time_to_deliver: time_to_delivery,
             })
 
             try {

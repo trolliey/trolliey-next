@@ -34,6 +34,7 @@ export default function CreateProduct() {
   const [status, setStatus] = useState<any>()
   const [sku, setSku] = useState<string>('')
   const [currency, setCurrency] = useState('')
+  const [time_to_delivery, setTimeToDelivery] = useState<any>(0)
   const [loading, setLoading] = useState(false)
 
   //for selecting sub category
@@ -156,6 +157,7 @@ export default function CreateProduct() {
         formData.append('sku', sku)
         formData.append('currency', currency)
         formData.append('sub_category', sub_category)
+        formData.append('time_to_deliver', time_to_delivery)
 
         //upload the product to database from here
         axios
@@ -404,7 +406,7 @@ export default function CreateProduct() {
                               type="number"
                               name="delivery_time"
                               value={title}
-                              onChange={(e) => setTitle(e.target.value)}
+                              onChange={(e) => setTimeToDelivery(e.target.value)}
                               id="delivery_time"
                               autoComplete="delivery_time"
                               placeholder="Time it takes you to deliver item (days)"

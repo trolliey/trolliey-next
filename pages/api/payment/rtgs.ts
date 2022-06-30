@@ -1,10 +1,8 @@
-import auth_handler from '../cards'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { connect, disconnect } from '../../../utils/mongo'
+import auth_handler from '../../../utils/auth_handler'
 import Orders from '../../../models/Order'
 import Store from '../../../models/Store'
-import Products from '../../../models/Product'
-import Report from '../../../models/Reports'
 //@ts-ignore
 import { Paynow } from 'paynow'
 
@@ -15,33 +13,28 @@ let paynow = new Paynow(
 )
 
 // Set return and result urls
-paynow.resultUrl = 'http://localhost:3000/api/webhooks/paynow'
-paynow.returnUrl = 'http://localhost:3000/payment/return'
+paynow.resultUrl = 'http://locahost:3000/api/payment/rtgs'
+paynow.returnUrl = 'http://locahost:3000/api/payment/rtgs'
+
+// regex for phone numbers
+const phone_number_regex = /^(\\d{4}[- .]?)(\\d{3}[- .]?)(\\d{3})$/
+const phone_number_regex_2 =
+  /^(\\+?\\d{3}[- .]?)(\\d{3}[- .]?)(\\d{3}[- .]?)(\\d{3})$/
 
 // create an order
 // post request
-// /api/orders
+// /api/payment/rgs
+// validate phone numbers
 auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    await connect()
     const { collect_my_order, method, paying_number } = req.body
-
-    // steps to follow
-    // - process payment .. if available
-    // - descrement quantity of product
-    // - increment number of times the product was bought
-    // - create an array of all stores involved
-    // - edit reports if order has been payed
-    // - save new order
-    // - edit store orders
-
+    await connect()
     if (!method) {
       return res
         .status(500)
         .send({ message: 'Please select a required method' })
     } else {
-      const all_involved_stores = []
-
+      // create a new order from items put into the order
       const newOrder = new Orders({
         ...req.body,
         // @ts-ignore
@@ -58,125 +51,82 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
             'Store cannot receive orders at the moment. We Apologise for any inconviniences',
         })
       } else {
-        // // decrement quantity of product
-        // for (let i = 0; i < newOrder.orderItems.length; i++) {
-        //   await Products.findOneAndUpdate(
-        //     { _id: newOrder.orderItems[i]._id },
-        //     { $inc: { countInStock: -1 } }
-        //   )
+        //validate phone numbers if they gave the correct format
+        // if(!phone_number_regex.test(paying_number) || !phone_number_regex_2.test(paying_number)){
+        //   return res.status(500).send({message: 'Please enter a valid phone number'})
         // }
 
-        // // create an array of all involved stores
-        // for (let i = 0; i < newOrder.orderItems.length; i++) {
-        //   if (
-        //     all_involved_stores.indexOf(newOrder.orderItems[i].store_id) == -1
-        //   ) {
-        //     all_involved_stores.push(newOrder.orderItems[i].store_id)
-        //   }
-        // }
-
-        // // increment number of times product was bought
-        // for (let i = 0; i < newOrder.orderItems.length; i++) {
-        //   await Products.findOneAndUpdate(
-        //     { _id: newOrder.orderItems[i]._id },
-        //     { $inc: { times_bought: 1 } }
-        //   )
-        // }
-
-        // // editing the store schema to increse its orders
-        // for (let i = 0; i < newOrder.orderItems.length; i++) {
-        //   await Store.findOneAndUpdate(
-        //     { _id: newOrder.orderItems[i].store_id },
-        //     {
-        //       $push: {
-        //         orders: {
-        //           order_id: newOrder._id,
-        //           items: newOrder.orderItems.filter(
-        //             (item: any) =>
-        //               item.store_id === newOrder.orderItems[i].store_id
-        //           ),
-        //           status: 'pending',
-        //           createdAt: Date.now(),
-        //         },
-        //       },
-        //     }
-        //   )
-        // }
-
-        // try {
-        //   // save the order
-        //   newOrder.stores_involved = all_involved_stores
-        //   const order = await newOrder.save()
-        //   //editing the reports schema
-        //   for (let i = 0; i < all_involved_stores.length; i++) {
-        //     await Report.findOneAndUpdate(
-        //       { store: all_involved_stores[i] },
-        //       { $push: { pending_orders: order._id } }
-        //     )
-        //   }
-
-        //   await disconnect()
-        //   return res
-        //     .status(200)
-        //     .send({ order: order._id, message: 'order created successfully' })
-        // } catch (error) {
-        //   return res.status(500).send({ message: error })
-        // }
-
+        // create a payment with the name of trolliet
         let payment = paynow.createPayment(
-          'Invoice from trolliey',
+          'Invoice from Trolliey Retail',
           // @ts-ignore
           req.user.email
         )
-        newOrder.orderItems.forEach((item: any) => {
-          payment.add(item.title, item.price)
-        })
+        // add items to payment
+        // newOrder.orderItems.forEach((item: any) => {
+        //   payment.add(item.title, item.price)
+        // })
+        payment.add('item name', 1)
 
-        // const response = await paynow.sendMobile(payment, paying_number, method)
-
-        // if (response && response.success) {
-        //   let instructions = response.instructions
-        //   let pollUrl = response.pollUrl
-
-        //   console.log('PollUrl', pollUrl)
-        //   console.log('Instructions', instructions)
-        //   let status = await paynow.pollTransaction(pollUrl)
-        //   console.log('Status ---- ', status)
-
-        //   switch(status.status){
-        //       case 'sent':
-        //           return res.send({message: 'Transaction in process. Check your phone'})
-        //       case 'paid':
-        //           return res.send({message: 'Transaction done. Payed in full'})
-        //       case 'cancelled':
-        //           return res.status(500).send({message: 'Transaction was pain in full'})
-        //       default:
-        //           return res.status(500).send({message: 'Error making payment. You can try paying on delivery'})
-
-        //   }
-        // }
-        paynow.send(payment)
-          .then(function (response: any) {
+        // initialise the payment
+        paynow
+          .sendMobile(payment, paying_number, method)
+          .then(async function (response: any) {
             if (response.success) {
               // These are the instructions to show the user.
               // Instruction for how the user can make payment
-              let instructions = response.instructions // Get Payment instructions for the selected mobile money method
-
-              // Get poll url for the transaction. This is the url used to check the status of the transaction.
-              // You might want to save this, we recommend you do it
+              // let instructions = response.instructions // Get Payment instructions for the selected mobile money method
               let pollUrl = response.pollUrl
-              return res.status(200).send({message: 'Transaction in process ', url: response.redirectUrl})
+
+              // return instunction to user
+              // res.status(200).send({
+              //   message: 'Transaction in process ',
+              //   response: response,
+              // })
+
+              var keepCalling = true
+              setTimeout(function () {
+                keepCalling = false
+              }, 15000)
+
+              while (keepCalling) {
+                let status = await paynow.pollTransaction(pollUrl)
+                console.log(status)
+                // if (status.status) {
+                //   console.log('we are here')
+                //   return res.json({ message: 'Yay! Transaction was paid for' })
+                // } else {
+                //   console.log('error is here')
+                //   return res.json({ error: 'Why you no pay?' })
+                // }
+              }
+
+              // console.log(instructions)
             } else {
+              // could not inititalise transaction
               console.log(response.error)
+              return res.status(500).send({ message: response.error })
             }
           })
-          .catch((ex:any) => {
-            // Ahhhhhhhhhhhhhhh
-            // *freak out*
+          .catch((ex: any) => {
+            // send error message to client
             console.log('Your application has broken an axle', ex)
+            return res
+              .status(500)
+              .send({ message: 'Could not instantiate transation.Try again' })
           })
       }
     }
+    await disconnect()
+  } catch (error) {
+    return res.status(500).send({ message: error })
+  }
+})
+
+auth_handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
+  try {
+    console.log('wwe are here now')
+    return res.status(200).send({ message: 'the transaction has gone here' })
   } catch (error) {
     return res.status(500).send({ message: error })
   }

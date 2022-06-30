@@ -1,20 +1,35 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useEffect, useContext, useState } from 'react'
 import { BriefcaseIcon } from '@heroicons/react/solid'
 import { useRouter } from 'next/router'
 import { Store } from '../../Context/Store'
 import GeneralLayout from '../../layouts/GeneralLayout'
 import BlueButton from '../../components/Buttons/BlueButton'
 import { runFireWorks } from '../../utils/utils'
+import axios from 'axios'
 
 function OrderSucess() {
+  const router = useRouter()
+  console.log(router.query);
+
   const { dispatch } = useContext(Store)
+  const [response, setResponse] = useState<any>()
+
+  useEffect(()=>{
+    const getResponse = async (url: any) =>{
+      const {data} = await axios.post(url)
+      setResponse(data)
+    }
+
+    getResponse(router.query.pollUrl)
+
+  }, [router.query.pollUrl, response])
+  
+  console.log(response)
 
   useEffect(() => {
     dispatch({ type: 'CLEAR_CART' })
     runFireWorks()
   }, [])
-
-  const router = useRouter()
 
   return (
     <GeneralLayout

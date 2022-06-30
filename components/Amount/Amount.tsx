@@ -9,24 +9,24 @@ interface Props {
   currency_type?: any
 }
 
+export  const convertAmounts = (value: number, currency:string, currency_type:string) => {
+  if (currency === 'USD') {
+    const money =
+      currency_type === 'USD' ? value / data.current_rate.value : value
+    return money
+  } else if (currency === 'ZWL') {
+    const money =
+      currency_type === 'ZWL' ? value : value * data.current_rate.value
+    return money
+  } else {
+    return value
+  }
+}
+
 function Amount({ amount, className, currency_type }: Props) {
   const { state } = useContext(Store)
   // currency from the browser
   const { currency } = state
-
-  const convertAmounts = (value: number) => {
-    if (currency === 'USD') {
-      const money =
-        currency_type === 'USD' ? value / data.current_rate.value : value
-      return money
-    } else if (currency === 'ZWL') {
-      const money =
-        currency_type === 'ZWL' ? value : value * data.current_rate.value
-      return money
-    } else {
-      return value
-    }
-  }
 
   function currencyFormat(num: number) {
     if (currency === 'USD') {
@@ -48,11 +48,11 @@ function Amount({ amount, className, currency_type }: Props) {
     <>
       {currency_type ? (
         <div className={`${className} flex flex-row items-center`}>
-          {anotherCurrencyFormatter(convertAmounts(amount))}
+          {anotherCurrencyFormatter(convertAmounts(amount, currency, currency_type))}
         </div>
       ) : (
         <div className={`${className} flex flex-row items-center`}>
-          {currencyFormat(convertAmounts(amount))}
+          {currencyFormat(convertAmounts(amount, currency, currency_type))}
         </div>
       )}
     </>

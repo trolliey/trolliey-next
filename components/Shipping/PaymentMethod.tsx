@@ -6,7 +6,7 @@ import { getError } from '../../utils/error'
 import axios from 'axios'
 import { Store } from '../../Context/Store'
 import Cookies from 'js-cookie'
-import { useRouter } from 'next/router'
+import Router, { useRouter } from 'next/router'
 import ecocash from '../../public/img/eco_cash.svg'
 import telecash from '../../public/img/telecash.svg'
 import onemoney from '../../public/img/ONEMONEY.png'
@@ -230,7 +230,11 @@ function PaymentMethod({
         }
       )
       setUsdLoading(false)
-      console.log(data)
+      Router.push({
+        pathname: '/success/order_success',
+        query: { pollUrl: data.response.pollUrl },
+      })
+      dispatch({ type: 'SET_POLL_URL', payload: data.respose })
       toast({
         title: 'Check your phone for messages. ',
         status: 'success',

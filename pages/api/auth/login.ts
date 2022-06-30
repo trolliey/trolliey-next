@@ -19,9 +19,9 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(404).send({message: 'Account does not exist!'})
     }
 
-    if(!_user.emailVerified ){
-        return res.status(403).send({message: 'Please verify your email first!'})
-    }
+    // if(!_user.emailVerified ){
+    //     return res.status(403).send({message: 'Please verify your email first!'})
+    // }
 
     // checking if user has a store
     const is_store = await Store.findOne({ user: _user.store, approved: true })

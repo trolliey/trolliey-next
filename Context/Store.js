@@ -47,6 +47,8 @@ function reducer(state={search_category:''}, action) {
             return { ...state, sort_value: action.payload }
         case 'SET_SORT_ORDER':
             return { ...state, sort_order: action.payload }
+        case 'SET_POLL_URL':
+            return {...state, poll_url: action.payload}
         default:
             return state
     }
