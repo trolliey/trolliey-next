@@ -14,6 +14,14 @@ exports.createAProduct = async (req, res) => {
     // url to hold the image
     const urls = [];
 
+    if(!user_id){
+      return res.status(403).send({message: 'Please login!'})
+    }
+
+    if(!store){
+      return res.status(403).send({message: 'We are having troubles verifying your store. Please contact support!'})
+    }
+
     if (store.approved) {
       const {
         description,
@@ -93,7 +101,7 @@ exports.createAProduct = async (req, res) => {
 exports.editAProduct = async (req, res) => {
   try {
     const { id } = req.params; // the id of the product
-    const product = await Product.findOne({ _id: id });
+    let product = await Product.findOne({ _id: id });
     // url to hold the image
     const urls = [];
 

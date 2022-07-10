@@ -53,7 +53,7 @@ exports.requireStoreSignIn = (req, res, next) => {
                 next()
             }
             else{
-                return res.status(500).send({ message: 'Only bus store owners perform that task' })
+                return res.status(500).send({ message: 'Only store owners perform that task' })
             }
         })
 
