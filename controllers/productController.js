@@ -3,6 +3,7 @@ const fs = require("fs");
 const cloudinary = require("../helpers/cloudinary");
 const Product = require("../models/Product");
 const slugify = require("../utils/slugify");
+const User = require("../models/User");
 
 // create a product
 // post request
@@ -10,7 +11,8 @@ const slugify = require("../utils/slugify");
 exports.createAProduct = async (req, res) => {
   try {
     const user_id = req.user._id;
-    const store = await Store.findOne({ user: user_id });
+    const user = await User.findOne({_id: user_id})
+    const store = await Store.findOne({ _id: user.store });
     // url to hold the image
     const urls = [];
 
