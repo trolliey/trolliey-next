@@ -58,8 +58,10 @@ const productShema = new mongoose.Schema(
       default: [],
     },
     store_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Store",
+      // type: mongoose.Schema.Types.ObjectId,
+      // ref: "Store",
+      type: String,
+      required: [true, 'please enter a store id']
     },
     ratings: {
       type: Array,
