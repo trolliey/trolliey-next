@@ -38,9 +38,7 @@ export const useFetch = (url: any) => {
         dispatch({ type: 'FETCHED', payload: data })
       } else {
         try {
-          const { data } = await axios.post(url, {
-            query: '',
-          })
+          const { data } = await axios.get(url)
           cache.current[url] = data
           if (cancelRequest) return
           dispatch({ type: 'FETCHED', payload: data })

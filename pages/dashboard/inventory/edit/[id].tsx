@@ -15,6 +15,7 @@ import { useToast } from '@chakra-ui/react'
 import { getError } from '../../../../utils/error'
 import { connect, convertDocToObj, disconnect } from '../../../../utils/mongo'
 import Products from '../../../../models/Product'
+import {apiUrl} from '../../../../utils/apiUrl'
 
 const product_options = [
   { id: 'private', title: 'Private' },
@@ -51,8 +52,6 @@ export default function EditProduct(props: any) {
     }
   }, [product?.pictures])
 
-  // console.log(product?._id)
-
   const selectedPictures = (pictures: any) => {
     setPicturesForUpload(pictures)
   }
@@ -68,7 +67,7 @@ export default function EditProduct(props: any) {
 
       // uploading pictures to cloudinary and returning an array of urls
       pictures_for_upload.forEach((file: any | Blob) => {
-        formData.append('theFiles', file)
+        formData.append('product_pictures', file)
       })
       for (const value of variations) {
         formData.append('variants', value)
@@ -81,11 +80,13 @@ export default function EditProduct(props: any) {
       formData.append('countInStock', countInStock)
       formData.append('status', status)
       formData.append('sku', sku)
+      formData.append('brand', brand)
       formData.append('currency', currency)
       formData.append('sub_category', sub_category)
       formData.append('product_id', product._id)
+      formData.append('currency_type', currency)
 
-      const { data } = await axios.post(`/api/products/edit?product_id=${product?._id}`, formData, {
+      const { data } = await axios.put(`${apiUrl}/api/product/edit/${product?._id}`, formData, {
         headers: { authorization: userInfo?.token },
       })
       setLoading(false)
@@ -101,14 +102,14 @@ export default function EditProduct(props: any) {
     
     } catch (error) {
       setLoading(false)
-      // toast({
-      //   title: 'Error Editing.',
-      //   description: getError(error),
-      //   status: 'error',
-      //   position: 'top-right',
-      //   duration: 9000,
-      //   isClosable: true,
-      // })
+      toast({
+        title: 'Error Editing.',
+        description: getError(error),
+        status: 'error',
+        position: 'top-right',
+        duration: 9000,
+        isClosable: true,
+      })
     }
   }
 
