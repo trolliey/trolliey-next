@@ -14,6 +14,7 @@ import { Store } from '../../../Context/Store'
 import { useToast } from '@chakra-ui/react'
 import { getError } from '../../../utils/error'
 import { useRouter } from 'next/router'
+import { apiUrl } from '../../../utils/apiUrl'
 
 const product_options = [
   { id: 'private', title: 'Private' },
@@ -142,7 +143,7 @@ export default function CreateProduct() {
 
         // uploading pictures to cloudinary and returning an array of urls
         pictures_for_upload.forEach((file: any | Blob) => {
-          formData.append('theFiles', file)
+          formData.append('product_pictures', file)
         })
         for (const value of variations) {
           formData.append('variants', value)
@@ -153,15 +154,16 @@ export default function CreateProduct() {
         formData.append('price', price)
         formData.append('discount_price', discount_price ? discount_price : 0)
         formData.append('countInStock', countInStock)
+        formData.append('brand', brand)
         formData.append('status', status)
         formData.append('sku', sku)
         formData.append('currency', currency)
         formData.append('sub_category', sub_category)
-        formData.append('time_to_deliver', time_to_delivery)
+        formData.append('time_to_delivery', time_to_delivery)
 
         //upload the product to database from here
         axios
-          .post('/api/products/create', formData, {
+          .post(`${apiUrl}/api/product/create`, formData, {
             headers: { authorization: userInfo?.token },
           })
           .then((res: any) => {
@@ -405,7 +407,7 @@ export default function CreateProduct() {
                             <input
                               type="number"
                               name="delivery_time"
-                              value={title}
+                              value={time_to_delivery}
                               onChange={(e) => setTimeToDelivery(e.target.value)}
                               id="delivery_time"
                               autoComplete="delivery_time"
