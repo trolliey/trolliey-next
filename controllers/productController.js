@@ -124,26 +124,27 @@ exports.editAProduct = async (req, res) => {
         time_to_delivery,
         currency_type
       } = req.body;
+      
       if(!description){
-        return res.status(200).send({message: 'Enter a description'})
+        return res.status(400).send({message: 'Enter a description'})
       }
       if(!title){
-        return res.status(200).send({message: 'Enter a title'})
+        return res.status(400).send({message: 'Enter a title'})
       }
       if(!category){
-        return res.status(200).send({message: 'Select a category'})
+        return res.status(400).send({message: 'Select a category'})
       }
       if(!discount_price){
-        return res.status(200).send({message: 'Enter a discount price'})
+        return res.status(400).send({message: 'Enter a discount price'})
       }
       if(!brand){
-        return res.status(200).send({message: 'Enter a brand'})
+        return res.status(400).send({message: 'Enter a brand'})
       }
       if(!status){
-        return res.status(200).send({message: 'Please select a status'})
+        return res.status(400).send({message: 'Please select a status'})
       }
       if(!currency_type){
-        return res.status(200).send({message: 'Please select a currency'})
+        return res.status(400).send({message: 'Please select a currency'})
       }
 
       // check if picture has been changed
