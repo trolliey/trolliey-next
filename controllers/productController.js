@@ -11,17 +11,22 @@ const User = require("../models/User");
 exports.createAProduct = async (req, res) => {
   try {
     const user_id = req.user._id;
-    const user = await User.findOne({_id: user_id})
+    const user = await User.findOne({ _id: user_id });
     const store = await Store.findOne({ _id: user.store });
     // url to hold the image
     const urls = [];
 
-    if(!user_id){
-      return res.status(403).send({message: 'Please login!'})
+    if (!user_id) {
+      return res.status(403).send({ message: "Please login!" });
     }
 
-    if(!store){
-      return res.status(403).send({message: 'We are having troubles verifying your store. Please contact support!'})
+    if (!store) {
+      return res
+        .status(403)
+        .send({
+          message:
+            "We are having troubles verifying your store. Please contact support!",
+        });
     }
 
     if (store.approved) {
@@ -53,13 +58,13 @@ exports.createAProduct = async (req, res) => {
             const newPath = await uploader(path);
             urls.push(newPath);
             fs.unlinkSync(path);
+            console.log("image uploaded");
           } catch (error) {
             res
               .status(500)
               .send({ message: `Error uploading images ${error}` });
           }
         }
-        console.log("image uploaded");
       }
 
       const newProduct = new Product({
@@ -82,18 +87,22 @@ exports.createAProduct = async (req, res) => {
         time_to_deliver: time_to_delivery,
       });
 
-      const saved_product = await newProduct.save();
-      return res.status(200).send({
-        message: "Product saved successfully",
-        product_id: saved_product._id,
-      });
+      try {
+        const saved_product = await newProduct.save();
+        return res.status(200).send({
+          message: "Product saved successfully",
+          product_id: saved_product._id,
+        });
+      } catch (error) {
+        return res.status(400).send({ message: "could not create product" });
+      }
     } else {
       return res
         .status(403)
         .send({ message: "Your store is not approved yet" });
     }
   } catch (error) {
-    return res.status(500).send({ message: `${error}` });
+    return res.status(500).send({ message: `error: - ${error}` });
   }
 };
 
@@ -107,87 +116,83 @@ exports.editAProduct = async (req, res) => {
     // url to hold the image
     const urls = [];
 
+    const {
+      description,
+      title,
+      category,
+      price,
+      discount_price,
+      brand,
+      countInStock,
+      status,
+      sku,
+      variants,
+      currency,
+      sub_category,
+      time_to_delivery,
+      currency_type,
+    } = req.body;
 
-      const {
-        description,
-        title,
-        category,
-        price,
-        discount_price,
-        brand,
-        countInStock,
-        status,
-        sku,
-        variants,
-        currency,
-        sub_category,
-        time_to_delivery,
-        currency_type
-      } = req.body;
-      
-      if(!description){
-        return res.status(400).send({message: 'Enter a description'})
-      }
-      if(!title){
-        return res.status(400).send({message: 'Enter a title'})
-      }
-      if(!category){
-        return res.status(400).send({message: 'Select a category'})
-      }
-      if(!discount_price){
-        return res.status(400).send({message: 'Enter a discount price'})
-      }
-      if(!brand){
-        return res.status(400).send({message: 'Enter a brand'})
-      }
-      if(!status){
-        return res.status(400).send({message: 'Please select a status'})
-      }
-      if(!currency_type){
-        return res.status(400).send({message: 'Please select a currency'})
-      }
+    if (!description) {
+      return res.status(400).send({ message: "Enter a description" });
+    }
+    if (!title) {
+      return res.status(400).send({ message: "Enter a title" });
+    }
+    if (!category) {
+      return res.status(400).send({ message: "Select a category" });
+    }
+    if (!discount_price) {
+      return res.status(400).send({ message: "Enter a discount price" });
+    }
+    if (!brand) {
+      return res.status(400).send({ message: "Enter a brand" });
+    }
+    if (!status) {
+      return res.status(400).send({ message: "Please select a status" });
+    }
+    if (!currency_type) {
+      return res.status(400).send({ message: "Please select a currency" });
+    }
 
-      // check if picture has been changed
-      if (req.files.length > 0) {
-        // upload images to cloudinary
-        const uploader = async (path) =>
-          cloudinary.upload(path, "Product-Images");
-        const files = req.files;
-        for (const file of files) {
-          const { path } = file;
-          try {
-            const newPath = await uploader(path);
-            urls.push(newPath);
-            fs.unlinkSync(path);
-          } catch (error) {
-            res
-              .status(500)
-              .send({ message: `Error uploading images ${error}` });
-          }
+    // check if picture has been changed
+    if (req.files.length > 0) {
+      // upload images to cloudinary
+      const uploader = async (path) =>
+        cloudinary.upload(path, "Product-Images");
+      const files = req.files;
+      for (const file of files) {
+        const { path } = file;
+        try {
+          const newPath = await uploader(path);
+          urls.push(newPath);
+          fs.unlinkSync(path);
+        } catch (error) {
+          res.status(500).send({ message: `Error uploading images ${error}` });
         }
-        console.log("image uploaded");
       }
+      console.log("image uploaded");
+    }
 
-      product.title = title;
-      product.description = description;
-      product.slug = slugify(title)
-      product.category = category;
-      product.price = price;
-      product.discount_price = discount_price;
-      product.brand = brand;
-      product.countInStock = countInStock;
-      product.status = status;
-      product.sku = sku;
-      product.variants = variants;
-      product.currency = currency;
-      product.currency_type= currency_type
-      product.sub_category = sub_category;
-      product.time_to_deliver = time_to_delivery;
-      product.pictures = urls.length > 0 ? urls[0] : product.pictures;
+    product.title = title;
+    product.description = description;
+    product.slug = slugify(title);
+    product.category = category;
+    product.price = price;
+    product.discount_price = discount_price;
+    product.brand = brand;
+    product.countInStock = countInStock;
+    product.status = status;
+    product.sku = sku;
+    product.variants = variants;
+    product.currency = currency;
+    product.currency_type = currency_type;
+    product.sub_category = sub_category;
+    product.time_to_deliver = time_to_delivery;
+    product.pictures = urls.length > 0 ? urls[0] : product.pictures;
 
-      await product.save();
-      return res.status(200).send({ message: "Product has been updated" });
-  
+    await product.save();
+    return res.status(200).send({ message: "Product has been updated" });
   } catch (error) {
     return res.status(500).send({ message: `${error}` });
   }
@@ -196,14 +201,14 @@ exports.editAProduct = async (req, res) => {
 // get single product
 // get request
 // /api/product/single/{productId}
-exports.getSingleProduct = async (req, res)=>{
+exports.getSingleProduct = async (req, res) => {
   try {
-    const product = await Product.findById(req.query.id)
-    await res.send(product)
+    const product = await Product.findById(req.query.id);
+    await res.send(product);
   } catch (error) {
     return res.status(500).send({ message: `${error}` });
   }
-}
+};
 
 // get all products
 // get request
