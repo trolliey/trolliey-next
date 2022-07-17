@@ -88,11 +88,12 @@ exports.createAProduct = async (req, res) => {
       });
 
       try {
-        const saved_product = await newProduct.save();
-        return res.status(200).send({
-          message: "Product saved successfully",
-          product_id: saved_product._id,
-        });
+        // const saved_product = await newProduct.save();
+        // return res.status(200).send({
+        //   message: "Product saved successfully",
+        //   product_id: saved_product._id,
+        // });
+        return res.status(200).send({message: 'product has been saved'})
       } catch (error) {
         return res.status(400).send({ message: "could not create product" });
       }
