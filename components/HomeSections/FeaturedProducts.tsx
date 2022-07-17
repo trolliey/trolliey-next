@@ -8,11 +8,12 @@ import useSWR from 'swr'
 import Link from 'next/link'
 import {  BadgeCheckIcon }  from '@heroicons/react/outline'
 import { ArrowRightIcon } from '@heroicons/react/solid'
+import { apiUrl } from '../../utils/apiUrl'
 
 function FeaturedProducts(): ReactElement {
-  const address = `/api/products?page=${1}&perPage=${16}&sortBy=times_bought&sortOrder=desc`
+  const address = `${apiUrl}/api/product/all?page=${1}&perPage=${16}&sortBy=times_bought&sortOrder=desc`
   const fetcher = async (url: any) =>
-    await axios.post(url).then((res) => res.data)
+    await axios.get(url).then((res) => res.data)
   const { data: all_products, error } = useSWR(address, fetcher)
   return (
     <>

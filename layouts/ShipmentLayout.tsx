@@ -27,7 +27,7 @@ const ShipmentLayout: FunctionComponent<Props> = ({
       description="describe how you want Trolliey to handle yout equipmwnt"
     >
       <div className="min-h-screen w-full items-center py-6">
-        <main className="grid-col-1 flex max-w-7xl flex-col-reverse gap-8 md:flex-row">
+        <main className="grid-col-4 flex max-w-7xl flex-col-reverse gap-8 md:flex-row">
           {/* Checkout form */}
           <div className="col-span-1 mb-8 flex w-full flex-col rounded bg-white  p-4 shadow md:col-span-2 md:w-3/4 md:p-8 lg:col-span-3">
             <div className="flex w-full flex-row items-start justify-between px-4 pt-4">

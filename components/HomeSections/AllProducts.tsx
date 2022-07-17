@@ -8,6 +8,7 @@ import Image from 'next/image'
 import { Store } from '../../Context/Store'
 import axios from 'axios'
 import useSWR from 'swr'
+import { apiUrl } from '../../utils/apiUrl'
 
 interface Props {
   query?: any | null
@@ -19,9 +20,9 @@ function AllProducts({ query, cols, no_text }: Props) {
   const history = useRouter()
   const { state } = useContext(Store)
   const { currency } = state
-  const address = `/api/products?page=${1}&perPage=${16}`
+  const address = `${apiUrl}/api/product/all?page=${1}&perPage=${16}`
   const fetcher = async (url: any) =>
-    await axios.post(url).then((res) => res.data)
+    await axios.get(url).then((res) => res.data)
   const { data: products, error } = useSWR(address, fetcher)
 
   return (
