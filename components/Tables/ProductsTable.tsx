@@ -148,7 +148,7 @@ export default function ProductsTable({
                     {products?.map((product: any, index: number) => (
                       <>
                         <tr key={index}>
-                          <td className="whitespace-nowrap px-6 py-4">
+                          <td className="whitespace-nowrap px-6 py-4" onClick={()=> router.push(`/product/description/${product?._id}`)}>
                             <div className="flex items-center">
                               <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gray-100">
                                 <img
