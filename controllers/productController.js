@@ -19,14 +19,17 @@ exports.createAProduct = async (req, res) => {
     if (!user_id) {
       return res.status(403).send({ message: "Please login!" });
     }
-
-    if (!store) {
+    if (!user) {
       return res
         .status(403)
-        .send({
-          message:
-            "We are having troubles verifying your store. Please contact support!",
-        });
+        .send({ message: "We could not find your account" });
+    }
+
+    if (!store) {
+      return res.status(403).send({
+        message:
+          "We are having troubles verifying your store. Please contact support!",
+      });
     }
 
     if (store.approved) {
@@ -93,7 +96,7 @@ exports.createAProduct = async (req, res) => {
         //   message: "Product saved successfully",
         //   product_id: saved_product._id,
         // });
-        return res.status(200).send({message: 'product has been saved'})
+        return res.status(200).send({ message: "product has been saved" });
       } catch (error) {
         return res.status(400).send({ message: "could not create product" });
       }

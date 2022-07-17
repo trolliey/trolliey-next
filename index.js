@@ -17,7 +17,6 @@ app.use(morgan("common"));
 app.use(cors({ origin: "*" }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json({ extended: false }));
 
 //confogiring swagger
 const swaggerOPtions = {
