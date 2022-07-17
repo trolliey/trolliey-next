@@ -11,6 +11,7 @@ import ExploreLayout from '../../layouts/ExploreLayout'
 import loading_error_svg from '../../public/images/loading_error.svg'
 import no_data_svg from '../../public/images/not_data.svg'
 import Pagination from '../../components/Pagination/Pagination'
+import { apiUrl } from '../../utils/apiUrl'
 
 const PER_PAGE = 16;
 
@@ -19,7 +20,7 @@ function Explore() {
   const { state: store_state } = useContext(Store)
   const { search_category, search_query } = store_state
 
-  const url = `/api/products?page=${page}&category=${
+  const url = `${apiUrl}/api/product/all?page=${page}&category=${
     search_category ? search_category : ''
   }&keyword=${search_query ? search_query : ''}&perPage=${PER_PAGE}`
 
