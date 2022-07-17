@@ -48,7 +48,7 @@ connectDB();
 
 app.get("/", (req, res) => {
   res.send({
-    message: "Api for cut hub project 1",
+    message: "Api for multivender ecommerce app called trolliey",
   });
 });
 
