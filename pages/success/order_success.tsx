@@ -14,15 +14,15 @@ function OrderSucess() {
   const { dispatch } = useContext(Store)
   const [response, setResponse] = useState<any>()
 
-  useEffect(()=>{
-    const getResponse = async (url: any) =>{
-      const {data} = await axios.post(url)
-      setResponse(data)
-    }
+  // useEffect(()=>{
+  //   const getResponse = async (url: any) =>{
+  //     const {data} = await axios.post(url)
+  //     setResponse(data)
+  //   }
 
-    getResponse(router.query.pollUrl)
+  //   getResponse(router.query.pollUrl)
 
-  }, [router.query.pollUrl, response])
+  // }, [router.query.pollUrl, response])
   
   console.log(response)
 
