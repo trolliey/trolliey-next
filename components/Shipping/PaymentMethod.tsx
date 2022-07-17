@@ -406,7 +406,7 @@ function PaymentMethod({
           <div className="mt-4 mb-8">
             <BlueButton
               text={'Create Order'}
-              onClick={() => console.log('Confirm My Order')}
+              onClick={placeOrderHandler}
             />
           </div>
         </div>

@@ -201,7 +201,7 @@ function ProductDescription(props: any) {
                     <h6 className="mb-1 text-sm font-semibold text-gray-700">
                       Variants:
                     </h6>
-                    {product?.variants.length < 1 ? (
+                    {product?.variants?.length < 1 ? (
                       <div className="flex flex-col">
                         <p className="text-center text-sm text-gray-500">
                           This product has no variants
@@ -209,7 +209,7 @@ function ProductDescription(props: any) {
                       </div>
                     ) : (
                       <div className="grid grid-cols-4 gap-2 p-1 md:gap-4">
-                        {product?.variants.map((item: any, index: number) => (
+                        {product?.variants?.map((item: any, index: number) => (
                           <span
                             onClick={() => setSelectedVariant(item)}
                             key={index}
