@@ -93,6 +93,15 @@ function UserDropdown(): ReactElement {
 
           {user && (
             <>
+              
+              <MenuItem>
+                <Link href={'/profile'}>
+                  <a className="font-semibold capitalize text-gray-700">
+                    My Profile
+                  </a>
+                </Link>
+              </MenuItem>
+              <MenuDivider />
               <MenuItem>
                 <Link href={'/orders'}>
                   <a className="font-semibold capitalize text-gray-700">

@@ -3,9 +3,17 @@ import { Spinner } from '@chakra-ui/spinner'
 import axios from 'axios'
 import React, { useContext, useEffect, useState } from 'react'
 import BlueButton from '../../../components/Buttons/BlueButton'
+import UploadLoading from '../../../components/UploadingLoading/UploadLoading'
 import { Store } from '../../../Context/Store'
 import DashboardLayout from '../../../layouts/DashboardLayout'
 import { getError } from '../../../utils/error'
+import { firebaseApp } from '../../../utils/firebase-config'
+
+// prettier-ignore
+import {getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject} from 'firebase/storage'
+import { TrashIcon } from '@heroicons/react/outline'
+import { useAuthFetch } from '../../../hooks/useAuthFetch'
+import { apiUrl } from '../../../utils/apiUrl'
 
 function Settings() {
   const [first_name, setFirstName] = useState('')
@@ -24,6 +32,30 @@ function Settings() {
   const [loading, setLoading] = useState<boolean>(false)
   const [store_data, setStore_Data] = useState<any>()
   const toast = useToast()
+
+  //upload image
+  const storage = getStorage(firebaseApp)
+  const [picture_loading, setPictureLoading] = useState(false)
+  const [picture_url, setPictureUrl] = useState<any>(null)
+  const [alert, setAlert] = useState(false)
+  const [alertStatus, setAlertStatus] = useState<any>('')
+  const [alertMsg, setAlertMsg] = useState('')
+  const [progress, setProgress] = useState(1)
+
+  const url = `${apiUrl}/api/store/details`
+
+  const {data} = useAuthFetch(url, userInfo?.token)
+
+  useEffect(()=>{
+    setFirstName(data?.store_info.first_name)
+    setLastName(data?.store_info.last_name)
+    setCompanyName(data?.store_info.company_name)
+    setAbout(data?.store_info.about)
+    setAddress(data?.store_info.store_address)
+    setEmail(data?.store_info.email)
+    setRtgsAccount(data?.store_info.rtgsAccount)
+    setUsdAccount(data?.store_info.usdAccount)
+  },[])
 
   useEffect(() => {
     setLoading(true)
@@ -55,6 +87,52 @@ function Settings() {
       isClosable: true,
     })
     setLoading(false)
+  }
+
+  const upload_picture = (e: any) => {
+    e.preventDefault()
+    setPictureLoading(true)
+    const pictureFile = e.target.files[0]
+    const storageRef = ref(storage, `Profile/${Date.now()}-${pictureFile.name}`)
+    try {
+      const uploadTask = uploadBytesResumable(storageRef, pictureFile)
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+          const uploadProgress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          setProgress(uploadProgress)
+        },
+        (error) => {
+          console.log(error)
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setPictureUrl(downloadURL)
+            setPictureLoading(false)
+            setAlert(true)
+            setAlertStatus('success')
+            setAlertMsg('Your video is uploaded to our server')
+            setTimeout(() => {
+              setAlert(false)
+            }, 4000)
+          })
+        }
+      )
+    } catch (error) {
+      setPictureLoading(false)
+    }
+  }
+
+  const deletePicture = () => {
+    const deleteRef = ref(storage, picture_url)
+    deleteObject(deleteRef)
+      .then(() => {
+        setPictureUrl(null)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   }
 
   // console.log(store_data)
@@ -132,30 +210,70 @@ function Settings() {
                 </div>
 
                 <div className="sm:col-span-6">
-                  <label
-                    htmlFor="photo"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Logo
-                  </label>
-                  <div className="mt-1 flex items-center">
-                    <span className="h-12 w-12 overflow-hidden rounded-full bg-gray-100">
-                      <svg
-                        className="h-full w-full text-gray-300"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                      </svg>
-                    </span>
-                    <button
-                      type="button"
-                      className="ml-5 rounded-md border border-gray-300 bg-white p-2 py-2 px-3 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    <div className="w-full p-3"></div>
+                    <label
+                      htmlFor="photo"
+                      className="block pb-4 text-sm font-medium text-gray-700"
                     >
-                      Change
-                    </button>
+                      Profile Photo
+                    </label>
+                    {picture_url && (
+                      <div className="relative flex h-80 w-80 flex-col">
+                        <div className="ml-auto flex">
+                          <div
+                            onClick={deletePicture}
+                            className=" cursor-pointer rounded-full bg-red-600 p-2 text-white hover:bg-red-700"
+                          >
+                            <TrashIcon height={20} width={20} />
+                          </div>
+                        </div>
+                        <img
+                          src={picture_url}
+                          className="h-40 w-40 rounded-lg"
+                        />
+                      </div>
+                    ) }
+                      <div className="md:flex">
+                        {picture_loading ? (
+                          <UploadLoading progress={progress} />
+                        ) : (
+                          <div
+                            className={` relative flex h-20 cursor-pointer items-center justify-center rounded-lg border-2 border-dashed border-gray-300 `}
+                          >
+                            <div className="absolute">
+                              <svg
+                                className="mx-auto h-12 w-12 text-gray-400"
+                                stroke="currentColor"
+                                fill="none"
+                                viewBox="0 0 48 48"
+                                aria-hidden="true"
+                              >
+                                <path
+                                  d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                                  strokeWidth={2}
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                              </svg>
+                              <div className="flex flex-col items-center">
+                                <span className="block font-normal text-gray-400">
+                                  Select picture
+                                </span>{' '}
+                              </div>
+                            </div>
+
+                            <input
+                              // onChange={uploadMultipleFiles}
+                              type="file"
+                              className="h-full w-full opacity-0"
+                              onChange={upload_picture}
+                              accept="image/jpeg,image/png"
+                              name=""
+                            />
+                          </div>
+                        )}
+                      </div>
                   </div>
-                </div>
               </div>
             </div>
 
