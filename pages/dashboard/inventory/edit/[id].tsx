@@ -154,7 +154,7 @@ export default function EditProduct(props: any) {
               </div>
 
               {/* image gallery */}
-              <div>
+              {/* <div>
                 <div className="mt:mt-0 mt-8 md:grid md:grid-cols-3 md:gap-6">
                   <div className="md:col-span-1">
                     <div className="px-4 sm:px-0">
@@ -177,7 +177,7 @@ export default function EditProduct(props: any) {
                     />
                   </div>
                 </div>
-              </div>
+              </div> */}
               <div className="hidden sm:block" aria-hidden="true">
                 <div className="py-5">
                   <div className="border-t border-gray-200" />
