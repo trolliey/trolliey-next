@@ -17,6 +17,7 @@ import BlueButton from '../../components/Buttons/BlueButton'
 import axios from 'axios'
 import { getError } from '../../utils/error'
 import { useAuthFetch } from '../../hooks/useAuthFetch'
+import { apiUrl } from '../../utils/apiUrl'
 
 export default function Dashboard() {
   const { state:store_state } = useContext(Store)
@@ -27,7 +28,7 @@ export default function Dashboard() {
   var today = new Date()
   var curHr = today.getHours()
 
-  const url = `/api/store/dashboard`
+  const url = `${apiUrl}/api/store/details`
 
   const state = useAuthFetch(url, userInfo?.token)
 
@@ -164,7 +165,7 @@ export default function Dashboard() {
                   />
                 }
                 location="dashboard/reports"
-                amount={store_data?.store?.amount_to_be_paid}
+                amount={state?.data?.store_info?.amount_to_be_paid}
                 loading={loading}
                 bg_color={'bg-red-200'}
               />
@@ -190,7 +191,7 @@ export default function Dashboard() {
                 }
                 name="Total products"
                 location="/dashboard/inventory"
-                amount={store_data?.store_products?.length}
+                amount={state?.data?.number_of_products}
                 loading={loading}
                 bg_color="bg-blue-200"
               />
@@ -216,7 +217,7 @@ export default function Dashboard() {
                 }
                 name="Orders"
                 location="/dashboard/orders"
-                amount={store_data?.store?.orders.length}
+                amount={state?.data?.store_info?.orders.length}
                 loading={loading}
                 bg_color="bg-cyan-200"
               />

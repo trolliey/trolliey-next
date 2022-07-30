@@ -10,6 +10,7 @@ import { getError } from '../../utils/error';
 import Tags from '../../components/Tags/Tags';
 import Error from '../../components/Alerts/Error';
 import { useRouter } from 'next/router';
+import { apiUrl } from '../../utils/apiUrl';
 
 export default function CreateStore() {
     const [brands, setBrands] = useState<any>([])
@@ -56,7 +57,7 @@ export default function CreateStore() {
     const create_store = async () => {
         try {
             setLoading(true)
-            await axios.post(`/api/store`, { values: state, brands: brands, agreed }, {
+            await axios.post(`${apiUrl}/api/store/create`, { values: state, brands: brands, agreed }, {
                 headers: {
                     authorization: userInfo.token
                 }
@@ -581,7 +582,7 @@ export default function CreateStore() {
                                                         id="stock_handle"
                                                         name="stock_handle"
                                                         type="radio"
-                                                        value={'keep_my_stock'}
+                                                        value={'handle_myself'}
                                                         onChange={(e) => setState({ ...state, stock_handle: e.target.value })}
                                                         className="focus:ring-blue-primary h-4 w-4 textblue-primary border-gray-300"
                                                         required
@@ -595,7 +596,7 @@ export default function CreateStore() {
                                                         id="stock_handle"
                                                         name="stock_handle"
                                                         type="radio"
-                                                        value={'trolliey_keep_stock'}
+                                                        value={'handled_by_trolliey'}
                                                         onChange={(e) => setState({ ...state, stock_handle: e.target.value })}
                                                         className="focus:ring-blue-primary h-4 w-4 textblue-primary border-gray-300"
                                                         required

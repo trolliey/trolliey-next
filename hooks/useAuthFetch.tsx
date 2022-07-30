@@ -5,7 +5,7 @@ import { getError } from '../utils/error'
 
 export const useAuthFetch = (url: string, token: string) => {
   const cache = useRef<any>({})
-  const { state:search_state } = useContext(Store)
+  const { state: search_state } = useContext(Store)
   const { search_query, currency } = search_state
 
   const initialState = {
@@ -38,9 +38,7 @@ export const useAuthFetch = (url: string, token: string) => {
         dispatch({ type: 'FETCHED', payload: data })
       } else {
         try {
-          const { data } = await axios.post(url, {
-            query: '',
-          },{
+          const { data } = await axios.get(url, {
             headers: {
               authorization: token,
             },

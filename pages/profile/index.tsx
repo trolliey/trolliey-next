@@ -1,16 +1,18 @@
-import React, {
-  ReactElement,
-  useState,
-  useContext,
-  useEffect,
-  useRef,
-} from 'react'
+import React, { ReactElement, useState, useContext, useEffect } from 'react'
 import GeneralLayout from '../../layouts/GeneralLayout'
 import { Progress, useToast } from '@chakra-ui/react'
 import { getError } from '../../utils/error'
 import axios from 'axios'
 import { Store } from '../../Context/Store'
 import { useRouter } from 'next/router'
+
+// prettier-ignore
+import {getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject} from 'firebase/storage'
+import { firebaseApp } from '../../utils/firebase-config'
+import { TrashIcon } from '@heroicons/react/outline'
+import UploadLoading from '../../components/UploadingLoading/UploadLoading'
+import { useFetch } from '../../hooks/useFetch'
+import { apiUrl } from '../../utils/apiUrl'
 
 function index(): ReactElement {
   const [name, setname] = useState<string>('')
@@ -22,162 +24,116 @@ function index(): ReactElement {
   const [city, setCity] = useState<string>('')
   const [province, setProvince] = useState<string>('')
   const history = useRouter()
-  const [user, setUser] = useState('')
+  const toast = useToast()
 
   // get user from context
-  const { state } = useContext(Store)
-  const { userInfo } = state
+  const { state: user_state } = useContext(Store)
+  const { userInfo } = user_state
+
+  //upload image
+  const storage = getStorage(firebaseApp)
+  const [picture_loading, setPictureLoading] = useState(false)
+  const [picture_url, setPictureUrl] = useState<any>(null)
+  const [alert, setAlert] = useState(false)
+  const [alertStatus, setAlertStatus] = useState<any>('')
+  const [alertMsg, setAlertMsg] = useState('')
+  const [progress, setProgress] = useState(1)
+
+  const upload_picture = (e: any) => {
+    e.preventDefault()
+    setPictureLoading(true)
+    const pictureFile = e.target.files[0]
+    const storageRef = ref(storage, `Profile/${Date.now()}-${pictureFile.name}`)
+    try {
+      const uploadTask = uploadBytesResumable(storageRef, pictureFile)
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+          const uploadProgress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          setProgress(uploadProgress)
+        },
+        (error) => {
+          console.log(error)
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setPictureUrl(downloadURL)
+            setPictureLoading(false)
+            setAlert(true)
+            setAlertStatus('success')
+            setAlertMsg('Your video is uploaded to our server')
+            setTimeout(() => {
+              setAlert(false)
+            }, 4000)
+          })
+        }
+      )
+    } catch (error) {
+      setPictureLoading(false)
+    }
+  }
+
+  const deletePicture = () => {
+    const deleteRef = ref(storage, picture_url)
+    deleteObject(deleteRef)
+      .then(() => {
+        setPictureUrl(null)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+  const url = `${apiUrl}/api/user/single/${userInfo?._id}`
+  const state = useFetch(url)
 
   useEffect(() => {
-    if (!userInfo) {
-      history.push(`/login?redirect=profile`)
-      return
-    }
-    const getUser = async () => {
-      const data = await axios.get(`/api/users/${userInfo?.token}`, {
-        headers: {
-          authorization: userInfo.token,
-        },
-      })
-      console.log(data?.data)
-      setUser(data?.data.user)
-    }
-    getUser()
-  }, [])
+    setname(state?.data?.user?.username)
+    setLastName(state?.data?.user?.lastname)
+    setFirstName(state?.data?.user?.firstname)
+    setProvince(state?.data?.user?.province)
+    setCity(state?.data?.user?.city)
+    setAddress(state?.data?.user?.street)
+    setFirstName(state?.data?.user?.firstname)
+    setPictureUrl(state?.data?.user?.photoURL)
+  }, [state])
 
-  // for image upload
-  const fileSelect = useRef<any>(null)
-  const [image, setImage] = useState<any>('')
-  const [progress, setProgress] = useState<any>(0)
-  const [upload_image, setUploadImage] = useState<any>(null)
-
-  async function handleImageUpload() {
-    if (fileSelect) {
-      fileSelect.current.click()
-    }
-  }
-
-  function handleFiles(files: any) {
-    for (let i = 0; i < files?.length; i++) {
-      console.log(files)
-      //   uploadFile(files);
-      setUploadImage(files)
-    }
-  }
-
-  const edit_profile_info_Handler = async (file: any) => {
-    //@ts-ignore
-    const url = `https://api.cloudinary.com/v1_1/trolliey/image/upload`
-    const xhr = new XMLHttpRequest()
-    const fd = new FormData()
-    xhr.open('POST', url, true)
-    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
-
-    // Update progress (can be used to show progress indicator)
-    xhr.upload.addEventListener('progress', (e) => {
-      setProgress(Math.round((e.loaded * 100.0) / e.total))
-      console.log(Math.round((e.loaded * 100.0) / e.total))
-    })
-
-    xhr.onreadystatechange = (e) => {
-      if (xhr.readyState == 4 && xhr.status == 200) {
-        const response = JSON.parse(xhr.responseText)
-        setImage(response.secure_url)
-        console.log(response.secure_url)
-      }
-    }
-
-    fd.append('upload_preset', 'g6ixv6cg')
-    fd.append('tags', 'browser_upload')
-    //@ts-ignore
-    fd.append('api_key', process.env.CLOUDNARY_API_KEY)
-    fd.append('file', file)
-    xhr.send(fd)
-  }
-
-  const toast = useToast()
   const submitHandler = async (e: any) => {
     e.preventDefault()
-    if (upload_image) {
-      edit_profile_info_Handler(upload_image)
-      try {
-        //@ts-ignore
-        const { data } = axios.put(
-          '/api/users/profile',
-          {
-            name,
-            first_name,
-            last_name,
-            email,
-            country,
-            address,
-            city,
-            province,
-            picture: image,
+    try {
+      const { data } = await axios.put(
+        `${apiUrl}/api/user/edit/${userInfo?._id}`,
+        {
+          username: name,
+          city,
+          province,
+          country,
+          firstname: first_name,
+          lastname: last_name,
+          picture_url,
+          address: address
+        },
+        {
+          headers: {
+            Authorization: userInfo?.token,
           },
-          {
-            headers: {
-              authorization: userInfo.token,
-            },
-          }
-        )
-        toast({
-          title: 'Profile Updated Successfully ',
-          status: 'success',
-          position: 'top-right',
-          duration: 9000,
-          isClosable: true,
-        })
-      } catch (error) {
-        toast({
-          title: 'Failed.',
-          description: getError(error),
-          status: 'error',
-          position: 'top-right',
-          duration: 9000,
-          isClosable: true,
-        })
-      }
-    } else {
-      try {
-        //@ts-ignore
-        const { data } = axios.put(
-          '/api/users/profile',
-          {
-            name,
-            first_name,
-            last_name,
-            email,
-            country,
-            address,
-            city,
-            province,
-            //@ts-ignore
-            picture: user?.photoURL,
-          },
-          {
-            headers: {
-              authorization: userInfo.token,
-            },
-          }
-        )
-        toast({
-          title: 'Profile Updated Successfully ',
-          status: 'success',
-          position: 'top-right',
-          duration: 9000,
-          isClosable: true,
-        })
-      } catch (error) {
-        toast({
-          title: 'Failed.',
-          description: getError(error),
-          status: 'error',
-          position: 'top-right',
-          duration: 9000,
-          isClosable: true,
-        })
-      }
+        }
+      )
+      toast({
+        title: getError(data),
+        status: 'success',
+        position: 'top-right',
+        duration: 9000,
+        isClosable: true,
+      })
+    } catch (error) {
+      toast({
+        title: getError(error),
+        status: 'success',
+        position: 'top-right',
+        duration: 9000,
+        isClosable: true,
+      })
     }
   }
 
@@ -218,87 +174,85 @@ function index(): ReactElement {
                         trolliey.com/
                       </span>
                       <input
-                        type="text"
-                        name="name"
-                        id="name"
-                        //@ts-ignore
-                        defaultValue={user?.name}
+                        id="username"
                         onChange={(e) => setname(e.target.value)}
-                        autoComplete="name"
+                        //@ts-ignore
+                        // value={state?.data?.user?.username}
+                        defaultValue={state?.data?.user?.username}
+                        placeholder={'enter your username'}
+                        key={state?.data?.user?.username}
+                        name="username"
+                        type="text"
+                        autoComplete="username"
                         className="block w-full min-w-0 flex-1 rounded-none rounded-r-md border border-gray-300 p-2 sm:text-sm"
                       />
                     </div>
                   </div>
 
                   <div className="sm:col-span-6">
-                    {/* <label
-                      htmlFor="photo"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Photo
-                    </label>
-                    <div className="mt-1 flex items-center">
-                      <span className="h-12 w-12 overflow-hidden rounded-full bg-gray-100">
-                        <svg
-                          className="h-full w-full text-gray-300"
-                          fill="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                        </svg>
-                      </span>
-                      <button
-                        type="button"
-                        className="ml-5 rounded-md border border-gray-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-primary focus:ring-offset-2"
-                      >
-                        Change
-                      </button>
-                    </div> */}
+                    <div className="w-full p-3"></div>
                     <label
                       htmlFor="photo"
                       className="block pb-4 text-sm font-medium text-gray-700"
                     >
                       Profile Photo
                     </label>
-                    <>
-                      {image ? (
+                    {picture_url && (
+                      <div className="relative flex h-80 w-80 flex-col">
+                        <div className="ml-auto flex">
+                          <div
+                            onClick={deletePicture}
+                            className=" cursor-pointer rounded-full bg-red-600 p-2 text-white hover:bg-red-700"
+                          >
+                            <TrashIcon height={20} width={20} />
+                          </div>
+                        </div>
                         <img
-                          className="rounded-lg object-contain"
-                          src={image.replace('upload/', 'upload/w_600/')}
-                          style={{ height: 400, width: 600 }}
+                          src={picture_url}
+                          className="h-40 w-40 rounded-lg"
                         />
-                      ) : (
-                        <div
-                          className="rounded-lg border-2 border-dashed border-gray-400 bg-gray-200"
-                          style={{ height: 100, width: 300 }}
-                        >
-                          {upload_image && <p className='text-center py-2 text-gray-700'>Picture has been selected</p>}
-                          <form className="flex h-full items-center justify-center">
-                            {progress === 0 ? (
-                              <div className="text-center text-gray-700">
-                                <button
-                                  className="m-auto block rounded bg-blue-600 px-4 py-2 text-xs font-bold text-white hover:bg-blue-800"
-                                  onClick={handleImageUpload}
-                                  type="button"
-                                >
-                                  Select Image
-                                </button>
+                      </div>
+                    ) }
+                      <div className="md:flex">
+                        {picture_loading ? (
+                          <UploadLoading progress={progress} />
+                        ) : (
+                          <div
+                            className={` relative flex h-20 cursor-pointer items-center justify-center rounded-lg border-2 border-dashed border-gray-300 `}
+                          >
+                            <div className="absolute">
+                              <svg
+                                className="mx-auto h-12 w-12 text-gray-400"
+                                stroke="currentColor"
+                                fill="none"
+                                viewBox="0 0 48 48"
+                                aria-hidden="true"
+                              >
+                                <path
+                                  d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                                  strokeWidth={2}
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                              </svg>
+                              <div className="flex flex-col items-center">
+                                <span className="block font-normal text-gray-400">
+                                  Select picture
+                                </span>{' '}
                               </div>
-                            ) : (
-                              <span className="text-gray-700">{progress}%</span>
-                            )}
+                            </div>
 
                             <input
-                              ref={fileSelect}
+                              // onChange={uploadMultipleFiles}
                               type="file"
-                              accept="image/*"
-                              style={{ display: 'none' }}
-                              onChange={(e) => handleFiles(e.target.files)}
+                              className="h-full w-full opacity-0"
+                              onChange={upload_picture}
+                              accept="image/jpeg,image/png"
+                              name=""
                             />
-                          </form>
-                        </div>
-                      )}
-                    </>
+                          </div>
+                        )}
+                      </div>
                   </div>
                 </div>
               </div>
@@ -322,14 +276,15 @@ function index(): ReactElement {
                     </label>
                     <div className="mt-1">
                       <input
-                        type="text"
-                        //@ts-ignore
-                        defaultValue={user?.firstname}
+                        id="firstname"
                         onChange={(e) => setFirstName(e.target.value)}
-                        name="first-name"
-                        id="first-name"
-                        placeholder="enter your firstname"
-                        autoComplete="given-name"
+                        //@ts-ignore
+                        defaultValue={state?.data?.user?.firstname}
+                        placeholder={'enter your firstname'}
+                        key={state?.data?.user?.firstname}
+                        name="firstname"
+                        type="text"
+                        autoComplete="firstname"
                         className="block w-full rounded-md border border-gray-300 p-2 shadow-sm sm:text-sm"
                       />
                     </div>
@@ -344,14 +299,15 @@ function index(): ReactElement {
                     </label>
                     <div className="mt-1">
                       <input
-                        type="text"
-                        //@ts-ignore
-                        defaultValue={user?.lastname}
+                        id="lastname"
                         onChange={(e) => setLastName(e.target.value)}
-                        placeholder={'enter yout lastname'}
-                        name="last-name"
-                        id="last-name"
-                        autoComplete="family-name"
+                        //@ts-ignore
+                        defaultValue={state?.data?.user?.lastname}
+                        placeholder={'enter your lastname'}
+                        key={state?.data?.user?.lastname}
+                        name="lastname"
+                        type="text"
+                        autoComplete="lastname"
                         className="block w-full rounded-md border border-gray-300 p-2 shadow-sm sm:text-sm"
                       />
                     </div>
@@ -369,7 +325,7 @@ function index(): ReactElement {
                         id="email"
                         onChange={(e) => setEmail(e.target.value)}
                         //@ts-ignore
-                        defaultValue={user?.email}
+                        defaultValue={state?.data?.user?.email}
                         placeholder={'enter your email'}
                         name="email"
                         type="email"
@@ -390,7 +346,7 @@ function index(): ReactElement {
                       <select
                         id="country"
                         //@ts-ignore
-                        defaultValue={user?.country}
+                        defaultValue={state?.data?.user?.country}
                         onChange={(e) => setCountry(e.target.value)}
                         placeholder={'enter your country'}
                         name="country"
@@ -413,13 +369,15 @@ function index(): ReactElement {
                     </label>
                     <div className="mt-1">
                       <input
-                        type="text"
-                        value={address}
+                        id="street"
                         onChange={(e) => setAddress(e.target.value)}
-                        name="street-address"
-                        placeholder={'enter your address'}
-                        id="street-address"
-                        autoComplete="street-address"
+                        //@ts-ignore
+                        defaultValue={state?.data?.user?.street}
+                        placeholder={'enter your street'}
+                        key={state?.data?.user?.street}
+                        name="street"
+                        type="text"
+                        autoComplete="street"
                         className="block w-full rounded-md border border-gray-300 p-2 shadow-sm sm:text-sm"
                       />
                     </div>
@@ -434,13 +392,15 @@ function index(): ReactElement {
                     </label>
                     <div className="mt-1">
                       <input
-                        type="text"
-                        value={city}
-                        onChange={(e) => setCity(e.target.value)}
-                        placeholder={'enter your city'}
-                        name="city"
                         id="city"
-                        autoComplete="address-level2"
+                        onChange={(e) => setCity(e.target.value)}
+                        //@ts-ignore
+                        defaultValue={state?.data?.user?.city}
+                        placeholder={'enter your city'}
+                        key={state?.data?.user?.city}
+                        name="city"
+                        type="text"
+                        autoComplete="city"
                         className="block w-full rounded-md border border-gray-300 p-2 shadow-sm sm:text-sm"
                       />
                     </div>
@@ -455,22 +415,21 @@ function index(): ReactElement {
                     </label>
                     <div className="mt-1">
                       <input
-                        type="text"
-                        value={province}
+                        id="province"
                         onChange={(e) => setProvince(e.target.value)}
+                        //@ts-ignore
+                        defaultValue={state?.data?.user?.province}
                         placeholder={'enter your province'}
-                        name="region"
-                        id="region"
-                        autoComplete="address-level1"
+                        key={state?.data?.user?.province}
+                        name="province"
+                        type="text"
+                        autoComplete="province"
                         className="block w-full rounded-md border border-gray-300 p-2 shadow-sm sm:text-sm"
                       />
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="flex w-full pt-5">
-              <Progress hasStripe value={64} />
             </div>
 
             <div className="pt-5">

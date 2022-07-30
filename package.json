@@ -28,6 +28,7 @@
     "connect-mongo": "^4.6.0",
     "emailjs": "^3.7.0",
     "embla-carousel-react": "^6.2.0",
+    "firebase": "^9.9.1",
     "formidable": "^2.0.1",
     "framer-motion": "6",
     "fs": "^0.0.1-security",

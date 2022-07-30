@@ -179,6 +179,7 @@ function Home(): ReactFragment {
                 <div className="scrollbar-hide relative mx-auto flex space-x-2 overflow-x-auto md:space-x-4">
                   {data.categories.map((category, index) => (
                     <div
+                      key={`${category.value}-${index}`}
                       className={`relative w-full transition hover:-translate-y-1 hover:shadow-lg motion-reduce:transform-none  motion-reduce:transition-none`}
                     >
                       <div onClick={() => search_by_category(category.name)}>

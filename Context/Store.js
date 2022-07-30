@@ -37,6 +37,7 @@ function reducer(state={search_category:''}, action) {
         case 'USER_LOGIN':
             return { ...state, userInfo: action.payload }
         case 'USER_LOGOUT':
+            Cookies.remove('userInfo')
             return { ...state, userInfo: null, cart: { cartItems: [] } }
         case 'SET_SEARCH_QUERY':
             return { ...state, search_query: action.payload }
