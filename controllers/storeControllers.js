@@ -103,7 +103,6 @@ exports.createAStore = async (req, res) => {
       // give user the store address
       const user = await User.findOne({ _id: _user._id });
       user.store = saved_store._id;
-      user.role = "seller";
       // save documents
       await user.save();
       return res.status(201).json({ message: "Store Created!" });
@@ -137,13 +136,12 @@ exports.getAStoreProducts = async (req, res) => {
         { $unwind: "$creator" },
       ];
 
-
       query.push({
-        $match:{
-          store_id: _user._id
-        }
-      })
-  
+        $match: {
+          store_id: _user._id,
+        },
+      });
+
       // handling search queries
       if (req.query.keyword && req.query.keyword != "") {
         query.push({
@@ -163,7 +161,7 @@ exports.getAStoreProducts = async (req, res) => {
           },
         });
       }
-  
+
       // category wise filtration // should send slug
       if (req.query.category) {
         query.push({
@@ -173,14 +171,14 @@ exports.getAStoreProducts = async (req, res) => {
           },
         });
       }
-  
+
       let total = await Product.countDocuments(query);
       //@ts-ignore
       let page = req.query.page ? parseInt(req.query.page) : 1;
       //@ts-ignore
       let perPage = req.query.perPage ? parseInt(req.query.perPage) : 16;
       let skip = (page - 1) * perPage;
-  
+
       query.push({
         //@ts-ignore
         $skip: skip,
@@ -189,7 +187,7 @@ exports.getAStoreProducts = async (req, res) => {
         //@ts-ignore
         $limit: perPage,
       });
-  
+
       // exclude some fields
       query.push({
         //@ts-ignore
@@ -207,7 +205,7 @@ exports.getAStoreProducts = async (req, res) => {
           "creator.twitter": 0,
         },
       });
-  
+
       // handling sort
       if (req.query.sortBy && req.query.sortOrder) {
         var sort = {};
@@ -223,9 +221,9 @@ exports.getAStoreProducts = async (req, res) => {
           $sort: { createdAt: -1 },
         });
       }
-  
+
       let products = await Product.aggregate(query);
-  
+
       return res.status(200).send({
         message: "Products fetched sucessfully",
         length: products.length,
@@ -339,7 +337,17 @@ exports.editAStore = async (req, res) => {
 exports.getAStore = async (req, res) => {
   const { id } = req.params; // the store id
   const user_id = req.user._id; // the id of the user who visited the store
-  console.log("to edit once products have been added");
+  try {
+    const store = await Store.findOne({ user: user_id });
+    const number_of_products = await Product.countDocuments({
+      store_id: store._id,
+    });
+    return res
+      .status(200)
+      .send({ store_info: store, number_of_products: number_of_products });
+  } catch (error) {
+    return res.status(500).send({ message: `${error}` });
+  }
 };
 
 // delete a store.

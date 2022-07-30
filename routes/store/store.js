@@ -79,7 +79,7 @@ router.put(
  *      '500':
  *        description: Failed to delete user
  */
-router.get("/details/:id", requireUserSignIn, getAStore);
+router.get("/details", requireStoreSignIn, getAStore);
 
 /**
  * @swagger

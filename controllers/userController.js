@@ -1,7 +1,5 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/User");
-const fs = require("fs");
-const cloudinary = require("../helpers/cloudinary");
 
 // edit user
 // /api/user/edit/{userId}

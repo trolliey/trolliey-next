@@ -131,6 +131,14 @@ const storeSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    numberOfProducts:{
+      type: Number,
+      default: 0
+    },
+    numberOfLikes:{
+      types:Number,
+      default: 0
+    }
   },
   {
     timestamps: true,
