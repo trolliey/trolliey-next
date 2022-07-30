@@ -49,6 +49,28 @@ exports.createAProduct = async (req, res) => {
         time_to_delivery,
       } = req.body;
 
+      if (!description) {
+        return res.status(400).send({ message: "Please enter a description" });
+      }
+      if (!title) {
+        return res.status(400).send({ message: "Please enter a title" });
+      }
+      if (!category) {
+        return res.status(400).send({ message: "Please enter a category" });
+      }
+      if (!price) {
+        return res.status(400).send({ message: "Please enter a price" });
+      }
+      if (!brand) {
+        return res.status(400).send({ message: "Please enter a brand" });
+      }
+      if (!currency) {
+        return res.status(400).send({ message: "Please specify a curency" });
+      }
+      if (!description) {
+        return res.status(400).send({ message: "Please enter a description" });
+      }
+
       // check if picture has been changed
       if (req.files.length > 0) {
         // upload images to cloudinary
@@ -90,16 +112,11 @@ exports.createAProduct = async (req, res) => {
         time_to_deliver: time_to_delivery,
       });
 
-      try {
-        // const saved_product = await newProduct.save();
-        // return res.status(200).send({
-        //   message: "Product saved successfully",
-        //   product_id: saved_product._id,
-        // });
-        return res.status(200).send({ message: "product has been saved" });
-      } catch (error) {
-        return res.status(400).send({ message: "could not create product" });
-      }
+      const saved_product = await newProduct.save();
+      return res.status(200).send({
+        message: "Product saved successfully",
+        product_id: saved_product._id,
+      });
     } else {
       return res
         .status(403)
@@ -160,23 +177,23 @@ exports.editAProduct = async (req, res) => {
     }
 
     // check if picture has been changed
-    if (req.files.length > 0) {
-      // upload images to cloudinary
-      const uploader = async (path) =>
-        cloudinary.upload(path, "Product-Images");
-      const files = req.files;
-      for (const file of files) {
-        const { path } = file;
-        try {
-          const newPath = await uploader(path);
-          urls.push(newPath);
-          fs.unlinkSync(path);
-        } catch (error) {
-          res.status(500).send({ message: `Error uploading images ${error}` });
-        }
-      }
-      console.log("image uploaded");
-    }
+    // if (req.body.product_pictures.length > 0) {
+    //   // upload images to cloudinary
+    //   const uploader = async (path) =>
+    //     cloudinary.upload(path, "Product-Images");
+    //   const files = req.body.product_pictures;
+    //   for (const file of files) {
+    //     const { path } = file;
+    //     try {
+    //       const newPath = await uploader(path);
+    //       urls.push(newPath);
+    //       fs.unlinkSync(path);
+    //     } catch (error) {
+    //       return res.status(500).send({ message: `Error uploading images ${error}` });
+    //     }
+    //   }
+    //   console.log("image uploaded");
+    // }
 
     product.title = title;
     product.description = description;
@@ -200,6 +217,8 @@ exports.editAProduct = async (req, res) => {
   } catch (error) {
     return res.status(500).send({ message: `${error}` });
   }
+
+  
 };
 
 // get single product

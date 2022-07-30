@@ -138,7 +138,7 @@ exports.getAStoreProducts = async (req, res) => {
 
       query.push({
         $match: {
-          store_id: _user._id,
+          'store_id': _user.store_id,
         },
       });
 

@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const Store = require("../models/Store");
 
 // regular express to verify email format
 const emailRegexp = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
@@ -61,6 +62,47 @@ exports.loginUser = async (req, res) => {
       return res.status(403).send({ message: "Please verify your email" });
     }
 
+    if (_user.role === "seller") {
+      // decrypt password value from database
+      const store = await Store.findOne({email:email, user: _user._id})
+
+      const password_correct = await bcrypt.compare(password, _user.password);
+      if (password_correct) {
+        const token = await jwt.sign(
+          {
+            name: _user.name,
+            email: _user.email,
+            _id: _user._id,
+            role: _user.role,
+            emailVerified: _user.emailVerified,
+            photoURL: _user.photoURL,
+            store_id: store._id
+          },
+          process.env.JWT_SECRET
+        );
+        if (token) {
+          const user = {
+            name: _user.name,
+            email: _user.email,
+            _id: _user._id,
+            role: _user.role,
+            emailVerified: _user.emailVerified,
+            photoURL: _user.photoURL,
+            token: token,
+            store_id: store._id
+          };
+
+          return res.send({ ...user, message: "logged in sucessfully" });
+        } else {
+          return res
+            .status(422)
+            .send({ message: "Failed to login, Wrong details!" });
+        }
+      } else {
+        return res.status(400).send({ message: "Wrong login details" });
+      }
+    }
+
     // decrypt password value from database
     const password_correct = await bcrypt.compare(password, _user.password);
     if (password_correct) {
@@ -71,7 +113,7 @@ exports.loginUser = async (req, res) => {
           _id: _user._id,
           role: _user.role,
           emailVerified: _user.emailVerified,
-          photoURL: _user.photoURL
+          photoURL: _user.photoURL,
         },
         process.env.JWT_SECRET
       );
