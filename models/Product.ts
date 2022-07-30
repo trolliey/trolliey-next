@@ -16,7 +16,7 @@ const productSchema = new mongoose.Schema(
     },
     currency_type: {
       type: String,
-      enum: ['ZWL', 'USD'],
+      enum: ["ZWL", "USD"],
     },
     averageRating: {
       type: Number,
@@ -34,7 +34,7 @@ const productSchema = new mongoose.Schema(
     },
     brand: {
       type: String,
-      default: '',
+      default: "",
     },
     numReviews: {
       type: Number,
@@ -50,7 +50,7 @@ const productSchema = new mongoose.Schema(
     },
     category_slug: {
       type: String,
-      default: '',
+      default: "",
       index: true,
     },
     variants: {
@@ -58,8 +58,10 @@ const productSchema = new mongoose.Schema(
       default: [],
     },
     store_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Store',
+      // type: mongoose.Schema.Types.ObjectId,
+      // ref: "Store",
+      type: String,
+      required: [true, 'please enter a store id']
     },
     ratings: {
       type: Array,
@@ -67,11 +69,11 @@ const productSchema = new mongoose.Schema(
     },
     sku: {
       type: String,
-      default: '',
+      default: "",
     },
     status: {
       type: String,
-      default: 'private',
+      default: "private",
     },
     times_bought: {
       type: Number,
@@ -79,17 +81,18 @@ const productSchema = new mongoose.Schema(
     },
     sub_category: {
       type: String,
-      default: '',
+      default: "",
     },
-    time_to_deliver:{
+    time_to_deliver: {
       type: Number,
-      default: 0
-    }
+      default: 0,
+    },
   },
   {
     timestamps: true,
   }
-)
+);
+
 
 productSchema.index({
   category: 'text',

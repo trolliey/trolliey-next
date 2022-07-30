@@ -21,12 +21,14 @@ export default function Inventory() {
   const [page, setPage] = useState(1)
   const { userInfo } = state
   const prod_page = page ? page : 1
-  const new_url = `${apiUrl}/api/store/products?page=${prod_page}&keyword=${search_query ? search_query : ''}&perPage=${PER_PAGE}`
+  const new_url = `${apiUrl}/api/store/products?page=${prod_page}&keyword=${
+    search_query ? search_query : ''
+  }&perPage=${PER_PAGE}`
   const all_products = useAuthFetch(new_url, userInfo?.token)
 
-  useEffect(()=>{
+  useEffect(() => {
     setProducts(all_products?.data)
-  },[all_products])
+  }, [all_products])
 
   console.log(all_products)
 
@@ -57,35 +59,45 @@ export default function Inventory() {
           </div>
         </div>
 
-        {state?.status === 'fetching' ? (
+        {all_products?.status === 'fetching' ? (
           <div className="grid h-96 w-full content-center items-center justify-center">
-            <Spinner />
+            <Spinner size="lg" />
           </div>
         ) : (
           <>
-            {products?.length < 1 ? (
-              <div className=" h-68 grid content-center items-center justify-center">
-                <div className="relative h-40">
-                  <Image src={no_product} layout="fill" objectFit="contain" />
-                </div>
-                <p className="my-4 text-center font-semibold capitalize text-gray-700">
-                  You have not added any products yet
-                </p>
-                <BlueButton
-                  text={'Click here to add product'}
-                  onClick={() => history.push('/dashboard/inventory/create')}
-                />
-              </div>
-            ) : (
+            {all_products?.status === 'fetched' && (
               <>
-                <ProductsTable
-                  products={products?.products}
-                  PER_PAGE={PER_PAGE}
-                  delete_item_from_table={delete_item_from_table}
-                  data_info={products?.meta}
-                  setPage={setPage}
-                  page={page}
-                />
+                {products?.length < 1 ? (
+                  <div className=" h-68 grid content-center items-center justify-center">
+                    <div className="relative h-40">
+                      <Image
+                        src={no_product}
+                        layout="fill"
+                        objectFit="contain"
+                      />
+                    </div>
+                    <p className="my-4 text-center font-semibold capitalize text-gray-700">
+                      You have not added any products yet
+                    </p>
+                    <BlueButton
+                      text={'Click here to add product'}
+                      onClick={() =>
+                        history.push('/dashboard/inventory/create')
+                      }
+                    />
+                  </div>
+                ) : (
+                  <>
+                    <ProductsTable
+                      products={products?.products}
+                      PER_PAGE={PER_PAGE}
+                      delete_item_from_table={delete_item_from_table}
+                      data_info={products?.meta}
+                      setPage={setPage}
+                      page={page}
+                    />
+                  </>
+                )}
               </>
             )}
           </>

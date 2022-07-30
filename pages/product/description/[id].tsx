@@ -67,14 +67,24 @@ function ProductDescription(props: any) {
     history.push('/shipping')
   }
 
+  if(!product){
+    return(
+      <GeneralLayout title={'Not Found'} description="Product could not find the product">
+        <div className="flex flex-col items-center w-full">
+        product not found
+        </div>
+      </GeneralLayout>
+    )
+  }
+
   return (
     <GeneralLayout
-      title={product.title}
-      description={product.description}
-      og_image={product.pictures[0]}
+      title={product?.title}
+      description={product?.description}
+      og_image={product?.pictures[0]}
       twitter_title={product?.title}
       twitter_description={product?.description}
-      og_url={`/product/description/${product._id}`}
+      og_url={`/product/description/${product?._id}`}
     >
       <div className="flex max-w-7xl flex-col bg-gray-100">
         <div className="mx-auto w-full flex-1 rounded ">
@@ -448,7 +458,7 @@ function ProductDescription(props: any) {
         </div>
         <div className="related_products my-16">
           <>
-            <RelatedProducts category={product.category} />
+            <RelatedProducts category={product?.category} />
           </>
         </div>
       </div>
@@ -461,7 +471,7 @@ export async function getServerSideProps(context: any) {
   const { id } = params
   await connect()
   const product = await Products.findOne({ _id: id }).lean()
-  const store = await ProductStore.findOne({ _id: product.store_id }).lean()
+  const store = await ProductStore.findOne({ _id: product?.store_id }).lean()
   await disconnect()
   return {
     props: {
