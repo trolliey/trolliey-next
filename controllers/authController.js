@@ -64,7 +64,7 @@ exports.loginUser = async (req, res) => {
 
     if (_user.role === "seller") {
       // decrypt password value from database
-      const store = await Store.findOne({email:email, user: _user._id})
+      const store = await Store.findOne({user: _user._id})
 
       const password_correct = await bcrypt.compare(password, _user.password);
       if (password_correct) {
