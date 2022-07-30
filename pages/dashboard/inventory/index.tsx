@@ -1,68 +1,34 @@
-import React, { useState, useEffect, useContext, useRef } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import DashboardLayout from '../../../layouts/DashboardLayout'
 import { SearchIcon } from '@heroicons/react/outline'
 import ProductsTable from '../../../components/Tables/ProductsTable'
 import BlueButton from '../../../components/Buttons/BlueButton'
 import { useRouter } from 'next/router'
-import axios from 'axios'
 import { Store } from '../../../Context/Store'
 import { Spinner } from '@chakra-ui/react'
 import Image from 'next/image'
 import no_product from '../../../public/img/no_product.svg'
+import { useAuthFetch } from '../../../hooks/useAuthFetch'
+import { apiUrl } from '../../../utils/apiUrl'
 
 const PER_PAGE = 8
 
 export default function Inventory() {
   const history = useRouter()
-  const [loading, setLoading] = useState<boolean>(false)
   const [search_query, setSearchQuery] = useState<string>('')
   const [products, setProducts] = useState<any>([])
-  const [data_info, setDAtaInfo] = useState()
   const { state } = useContext(Store)
   const [page, setPage] = useState(1)
   const { userInfo } = state
-  const cache = useRef<any>({})
+  const prod_page = page ? page : 1
+  const new_url = `${apiUrl}/api/store/products?page=${prod_page}&keyword=${search_query ? search_query : ''}&perPage=${PER_PAGE}`
+  const all_products = useAuthFetch(new_url, userInfo?.token)
 
-  useEffect(() => {
-    let cancelRequest = false
-    const prod_page = page ? page : 1
-    const url = `/api/dashboard/store_products/?page=${prod_page}&keyword=${search_query ? search_query : ''}&perPage=${PER_PAGE}`
-    const getData = async () => {
-      if (cache.current[url]) {
-        const data = cache.current[url]
-        setProducts(data?.products)
-        
-        setLoading(false)
-      } else {
-        try {
-          setLoading(true)
-          const { data } = await axios.post(
-            url,
-            {
-              query: search_query,
-            },
-            {
-              headers: {
-                authorization: userInfo?.token,
-              },
-            }
-          )
-          cache.current[url] = data
-          if (cancelRequest) return
-          setProducts(data?.products)
-          setDAtaInfo(data?.meta)
-          setLoading(false)
-        } catch (error) {
-          if (cancelRequest) return
-          setLoading(false)
-        }
-      }
-    }
-    getData()
-    return function cleanup() {
-      cancelRequest = true
-    }
-  }, [search_query, page])
+  useEffect(()=>{
+    setProducts(all_products?.data)
+  },[all_products])
+
+  console.log(all_products)
 
   // console.log(products)
   const delete_item_from_table = (id: any) => {
@@ -91,7 +57,7 @@ export default function Inventory() {
           </div>
         </div>
 
-        {loading ? (
+        {state?.status === 'fetching' ? (
           <div className="grid h-96 w-full content-center items-center justify-center">
             <Spinner />
           </div>
@@ -113,10 +79,10 @@ export default function Inventory() {
             ) : (
               <>
                 <ProductsTable
-                  products={products}
+                  products={products?.products}
                   PER_PAGE={PER_PAGE}
                   delete_item_from_table={delete_item_from_table}
-                  data_info={data_info}
+                  data_info={products?.meta}
                   setPage={setPage}
                   page={page}
                 />

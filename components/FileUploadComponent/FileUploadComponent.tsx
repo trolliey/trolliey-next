@@ -1,15 +1,22 @@
 import { PlusIcon, XIcon } from '@heroicons/react/outline';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface Props {
     multiple?: any,
-    selectedPictures?: any
+    selectedPictures?: any,
+    initial_pictures?:any
 }
 
-export default function FileUploadComponent({ multiple, selectedPictures }: Props) {
+export default function FileUploadComponent({ multiple, selectedPictures, initial_pictures }: Props) {
     let fileObj: any = []
     let fileArray: any = []
     const upload_files: any = []
+
+    useEffect(()=>{
+        setPreviewFiles(initial_pictures)
+        setUploadFiles(initial_pictures)
+        selectedPictures(initial_pictures)
+    },[])
 
     const [preview_files, setPreviewFiles] = useState<any>([])
     const [files_to_upload, setUploadFiles] = useState<any>([])

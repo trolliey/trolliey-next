@@ -16,6 +16,7 @@ import { getError } from '../../../../utils/error'
 import { connect, convertDocToObj, disconnect } from '../../../../utils/mongo'
 import Products from '../../../../models/Product'
 import {apiUrl} from '../../../../utils/apiUrl'
+import { useRouter } from 'next/router'
 
 const product_options = [
   { id: 'private', title: 'Private' },
@@ -43,24 +44,41 @@ export default function EditProduct(props: any) {
   const { userInfo } = state
   const [showMore, setShowMore] = useState<any>()
   const [currency, setCurrency] = useState('')
+  const history = useRouter()
 
-  useEffect(() => {
+  useEffect(()=>{
     let mounted = true
-    setPicturesForUpload(product?.pictures)
+    setPicturesForUpload(props?.product?.pictures)
+    setQuillDescription(props?.product?.description)
+    setVariations(props?.product?.variants)
+    setPrice(props?.product?.price)
+    setDiscountPrice(props?.product?.discount_price)
+    setBrand(props?.product?.brand)
+    setCategory(props?.product?.category)
+    setStatus(props?.product?.status)
+    setCountInStock(props?.product?.countInStock)
+    setCurrency(props?.product?.currency_type)
+    setTitle(props?.product?.title)
+
+    // clean up
     return function cleanup() {
       mounted = false
     }
-  }, [product?.pictures])
+  },[props])
 
   const selectedPictures = (pictures: any) => {
     setPicturesForUpload(pictures)
   }
 
+  console.log(pictures_for_upload)
+  console.log(variations)
+
   const selectedTags = (tags: any) => {
     setVariations(tags)
   }
 
-  const edit_product = async () => {
+  const edit_product = async (e:any) => {
+    e.preventDefault()
     try {
       setLoading(true)
       const formData = new FormData()
@@ -69,9 +87,11 @@ export default function EditProduct(props: any) {
       pictures_for_upload.forEach((file: any | Blob) => {
         formData.append('product_pictures', file)
       })
+     if(variations?.length >= 1){
       for (const value of variations) {
         formData.append('variants', value)
       }
+     }
       formData.append('description', description ? description : product?.description)
       formData.append('title', title)
       formData.append('category', category)
@@ -90,7 +110,7 @@ export default function EditProduct(props: any) {
         headers: { authorization: userInfo?.token },
       })
       setLoading(false)
-      console.log(data)
+      history.push(`/product/description/${product?._id}`)
       toast({
         title: 'Product Edited.',
         description: 'Product Edited successfully!.',
@@ -146,32 +166,14 @@ export default function EditProduct(props: any) {
                   </div>
                 </div>
                 <div className="mt-5 md:col-span-2 md:mt-0">
-                  <div className="flex w-full flex-col items-start">
-                    <p className="pb-1 font-semibold text-gray-700">
-                      Old Pictures
-                    </p>
-                    <div className="grid md:grid-cols-4 grid-cols-3 items-center gap-8 my-2 mx-4 w-full">
-                    {(pictures_for_upload)?.map(
-                      (url: string | undefined, index: number) => (
-                        <div
-                          key={index}
-                          className="relative col-span-1 flex flex-col items-center rounded"
-                        >
-                          {/* <span onClick={() => removePicture(index)} className='cursor-pointer absolute top-0 right-0 bg-white rounded-full p-1'>
-                                <XIcon height={12} width={12} className='text-gray-700' />
-                            </span> */}
-                          <img src={url} alt="..." className="h-28 rounded" />
-                        </div>
-                      )
-                    )}
-                    </div>
-                  </div>
+                 
                   
                     <p className="pb-1 pt-2 font-semibold text-gray-700">
                       New Pictures
                     </p>
                   <FileUploadComponent
                     selectedPictures={selectedPictures}
+                    initial_pictures = {pictures_for_upload}
                     multiple
                   />
                 </div>

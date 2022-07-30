@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import DashboardLayout from '../../layouts/DashboardLayout'
 import { Store } from '../../Context/Store'
 import { useRouter } from 'next/router'
@@ -14,46 +14,19 @@ import {
 } from '@heroicons/react/outline'
 import { Avatar } from '@chakra-ui/react'
 import BlueButton from '../../components/Buttons/BlueButton'
-import axios from 'axios'
-import { getError } from '../../utils/error'
 import { useAuthFetch } from '../../hooks/useAuthFetch'
 import { apiUrl } from '../../utils/apiUrl'
 
 export default function Dashboard() {
   const { state:store_state } = useContext(Store)
   const { userInfo } = store_state
-  const [loading, setLoading] = useState<boolean>(false)
-  const [store_data, setStore_Data] = useState<any>()
   const history = useRouter()
   var today = new Date()
   var curHr = today.getHours()
-
   const url = `${apiUrl}/api/store/details`
-
   const state = useAuthFetch(url, userInfo?.token)
 
-  console.log(state)
-
-  useEffect(() => {
-    setLoading(true)
-    const getStoreDAta = async () => {
-      try {
-        const { data } = await axios.get(`/api/store/dashboard`, {
-          headers: {
-            authorization: userInfo?.token,
-          },
-        })
-        setStore_Data(data)
-        setLoading(false)
-      } catch (error) {
-        setLoading(false)
-        console.log(getError(error))
-      }
-    }
-    getStoreDAta()
-  }, [])
-
-  // console.log(store_data)
+  console.log(userInfo)
 
   return (
     <DashboardLayout>
@@ -166,7 +139,7 @@ export default function Dashboard() {
                 }
                 location="dashboard/reports"
                 amount={state?.data?.store_info?.amount_to_be_paid}
-                loading={loading}
+                loading={state.status === 'fetching'}
                 bg_color={'bg-red-200'}
               />
               <DashboardCard
@@ -179,7 +152,7 @@ export default function Dashboard() {
                 }
                 location="/dashboard/reports"
                 amount={0}
-                loading={loading}
+                loading={state.status === 'fetching'}
                 bg_color={'bg-green-200'}
               />
               <DashboardCard
@@ -192,7 +165,7 @@ export default function Dashboard() {
                 name="Total products"
                 location="/dashboard/inventory"
                 amount={state?.data?.number_of_products}
-                loading={loading}
+                loading={state.status === 'fetching'}
                 bg_color="bg-blue-200"
               />
               <DashboardCard
@@ -205,7 +178,7 @@ export default function Dashboard() {
                 name="Cards & Payments"
                 location="/dashboard/cards"
                 amount={0}
-                loading={loading}
+                loading={state.status === 'fetching'}
                 bg_color="bg-indigo-200"
               />
               <DashboardCard
@@ -218,7 +191,7 @@ export default function Dashboard() {
                 name="Orders"
                 location="/dashboard/orders"
                 amount={state?.data?.store_info?.orders.length}
-                loading={loading}
+                loading={state.status === 'fetching'}
                 bg_color="bg-cyan-200"
               />
               <DashboardCard
@@ -231,7 +204,7 @@ export default function Dashboard() {
                 name="Settings"
                 location="/dashboard/settings"
                 amount={'store settings'}
-                loading={loading}
+                loading={state.status === 'fetching'}
                 bg_color="bg-gray-200"
               />
             </div>

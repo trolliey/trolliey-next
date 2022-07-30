@@ -66,155 +66,73 @@ export default function CreateProduct() {
 
   // function to create product and send api call
   const create_product = async () => {
-    // errors to show if fields are empty
-    if (!pictures_for_upload) {
-      toast({
-        title: 'Error Adding.',
-        description: 'Atleast one picture is needed',
-        status: 'error',
-        position: 'top-right',
-        duration: 9000,
-        isClosable: true,
-      })
-    } else if (!description) {
-      setLoading(false)
-      toast({
-        title: 'Error Adding.',
-        description: 'Please enter the description',
-        status: 'error',
-        position: 'top-right',
-        duration: 9000,
-        isClosable: true,
-      })
-    } else if (!title) {
-      setLoading(false)
-      toast({
-        title: 'Error Adding.',
-        description: 'Please enter the title',
-        status: 'error',
-        position: 'top-right',
-        duration: 9000,
-        isClosable: true,
-      })
-    } else if (!price) {
-      setLoading(false)
-      toast({
-        title: 'Error Adding.',
-        description: 'A price is needed',
-        status: 'error',
-        position: 'top-right',
-        duration: 9000,
-        isClosable: true,
-      })
-    } else if (!category) {
-      setLoading(false)
-      toast({
-        title: 'Error Adding.',
-        description: 'Please enter a category',
-        status: 'error',
-        position: 'top-right',
-        duration: 9000,
-        isClosable: true,
-      })
-    } else if (!currency) {
-      setLoading(false)
-      toast({
-        title: 'Error Adding.',
-        description: 'You should choose atleast one preferred currency!',
-        status: 'error',
-        position: 'top-right',
-        duration: 9000,
-        isClosable: true,
-      })
-    } else if (!countInStock) {
-      setLoading(false)
-      toast({
-        title: 'Error Adding.',
-        description: 'You should provide quantity of the item',
-        status: 'error',
-        position: 'top-right',
-        duration: 9000,
-        isClosable: true,
-      })
-    } else {
-      try {
-        setLoading(true)
-        const formData = new FormData()
+    try {
+      setLoading(true)
+      const formData = new FormData()
 
-        // uploading pictures to cloudinary and returning an array of urls
-        pictures_for_upload.forEach((file: any | Blob) => {
-          formData.append('product_pictures', file)
-        })
-        for (const value of variations) {
-          formData.append('variants', value)
-        }
-        formData.append('description', description)
-        formData.append('title', title)
-        formData.append('category', category)
-        formData.append('price', price)
-        formData.append('discount_price', discount_price ? discount_price : 0)
-        formData.append('countInStock', countInStock)
-        formData.append('brand', brand)
-        formData.append('status', status)
-        formData.append('sku', sku)
-        formData.append('currency', currency)
-        formData.append('sub_category', sub_category)
-        formData.append('time_to_delivery', time_to_delivery)
-
-        //upload the product to database from here
-        axios
-          .post(`${apiUrl}/api/product/create`, formData, {
-            headers: { authorization: userInfo?.token },
-          })
-          .then((res: any) => {
-            toast({
-              title: 'Product Added.',
-              description: 'Product Added successfully!.',
-              status: 'success',
-              position: 'top-right',
-              duration: 9000,
-              isClosable: true,
-            })
-            setLoading(false)
-            setPicturesForUpload([])
-            setQuillDescription('')
-            setVariations([])
-            setTitle('')
-            setPrice(0)
-            setDiscountPrice(0)
-            setBrand('')
-            setCountInStock(0)
-            setCategory('')
-            setStatus('')
-            setSku('')
-            router.push(
-              `/dashboard/inventory/add_success/${res?.data.product_id}`
-            )
-          })
-          .catch((error: any) => {
-            setLoading(false)
-            toast({
-              title: 'Error Adding.',
-              description: getError(error),
-              status: 'error',
-              position: 'top-right',
-              duration: 9000,
-              isClosable: true,
-            })
-            return
-          })
-      } catch (error) {
-        setLoading(false)
-        toast({
-          title: 'Error Adding.',
-          description: getError(error),
-          status: 'error',
-          position: 'top-right',
-          duration: 9000,
-          isClosable: true,
-        })
-        return
+      // uploading pictures to cloudinary and returning an array of urls
+      pictures_for_upload.forEach((file: any | Blob) => {
+        formData.append('product_pictures', file)
+      })
+      for (const value of variations) {
+        formData.append('variants', value)
       }
+      formData.append('description', description)
+      formData.append('title', title)
+      formData.append('category', category)
+      formData.append('price', price)
+      formData.append('discount_price', discount_price ? discount_price : 0)
+      formData.append('countInStock', countInStock)
+      formData.append('brand', brand)
+      formData.append('status', status)
+      formData.append('sku', sku)
+      formData.append('currency', currency)
+      formData.append('sub_category', sub_category)
+      formData.append('time_to_delivery', time_to_delivery)
+
+      //upload the product to database from here
+      const { data } = await axios.post(
+        `${apiUrl}/api/product/create`,
+        formData,
+        {
+          headers: { authorization: userInfo?.token },
+        }
+      )
+      toast({
+        title: 'Product Added.',
+        description: 'Product Added successfully!.',
+        status: 'success',
+        position: 'top-right',
+        duration: 9000,
+        isClosable: true,
+      })
+      setLoading(false)
+      setPicturesForUpload([])
+      setQuillDescription('')
+      setVariations([])
+      setTitle('')
+      setPrice(0)
+      setDiscountPrice(0)
+      setBrand('')
+      setCountInStock(0)
+      setCategory('')
+      setStatus('')
+      setSku('')
+      router.push(
+        `/dashboard/inventory/add_success/${data.product_id}`
+      )
+      console.log(data)
+    } catch (error) {
+      setLoading(false)
+      toast({
+        title: 'Error Adding.',
+        description: getError(error),
+        status: 'error',
+        position: 'top-right',
+        duration: 9000,
+        isClosable: true,
+      })
+      return
     }
   }
 
@@ -408,7 +326,9 @@ export default function CreateProduct() {
                               type="number"
                               name="delivery_time"
                               value={time_to_delivery}
-                              onChange={(e) => setTimeToDelivery(e.target.value)}
+                              onChange={(e) =>
+                                setTimeToDelivery(e.target.value)
+                              }
                               id="delivery_time"
                               autoComplete="delivery_time"
                               placeholder="Time it takes you to deliver item (days)"

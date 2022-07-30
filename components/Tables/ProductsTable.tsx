@@ -143,7 +143,6 @@ export default function ProductsTable({
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 bg-white">
-                {products && (
                   <>
                     {products?.map((product: any, index: number) => (
                       <>
@@ -224,7 +223,6 @@ export default function ProductsTable({
                       </>
                     ))}
                   </>
-                )}
               </tbody>
             </table>
 
