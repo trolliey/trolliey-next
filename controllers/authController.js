@@ -67,9 +67,11 @@ exports.loginUser = async (req, res) => {
         // decrypt password value from database
         const store = await Store.findOne({ user: _user._id });
 
+        console.log(store._id, ' - ', _user._id)
         if(!store){
           return res.status(404).send({message: 'We cant seem to find your store'})
         }
+
 
         const password_correct = await bcrypt.compare(password, _user.password);
         if (password_correct) {
