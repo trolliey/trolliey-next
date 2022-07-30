@@ -20,7 +20,7 @@ exports.requireUserSignIn = (req, res, next) => {
                 res.status(500).send({ error: err.message })
             }
             // if token is valid return user object
-            if (user.role === 'user' || user.role === 'admin') {
+            if (user) {
                 req.user = user
                 next()
             }
