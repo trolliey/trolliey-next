@@ -140,6 +140,6 @@ exports.loginUser = async (req, res) => {
       }
     }
   } catch (error) {
-    return res.status(200).send({ message: `${error}` });
+    return res.status(500).send({ message: `${error}` });
   }
 };
