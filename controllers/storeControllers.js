@@ -333,12 +333,12 @@ exports.editAStore = async (req, res) => {
 
 // get a store and details
 // get request
-// /api/store/details/{storeId}
+// /api/store/details
 exports.getAStore = async (req, res) => {
   const { id } = req.params; // the store id
-  const user_id = req.user._id; // the id of the user who visited the store
+  const store_id = req.user.store_id; // the id of the user who visited the store
   try {
-    const store = await Store.findOne({ user: user_id });
+    const store = await Store.findOne({ _id: store_id });
     const number_of_products = await Product.countDocuments({
       store_id: store._id,
     });
