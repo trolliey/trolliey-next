@@ -1,5 +1,5 @@
 const express = require('express');
-const { editUserInfo, delteUser } = require('../../controllers/userController');
+const { editUserInfo, delteUser, getSingleUser } = require('../../controllers/userController');
 const upload = require('../../helpers/multer');
 const { requireUserSignIn } = require('../../middleware/require_auth');
 const router = express.Router()
@@ -35,6 +35,11 @@ const router = express.Router()
  *        description: Failed to edit user
  */
 router.put('/edit/:id',requireUserSignIn,upload.array('profile_picture'), editUserInfo)
+
+// get single user
+// /api/user/single/:id
+// get request
+router.get('/single/:id',getSingleUser)
 
 /**
  * @swagger

@@ -9,7 +9,7 @@ const cloudinary = require("../helpers/cloudinary");
 exports.editUserInfo = async (req, res, next) => {
   try {
     // get iformation from client
-    const { username, old_password, new_password } = req.body;
+    const { username, old_password, new_password, firstname, city, lastname, country, picture_url, address } = req.body;
 
     // find if user exists in database
     const { id } = req.params;
@@ -29,26 +29,10 @@ exports.editUserInfo = async (req, res, next) => {
       return;
     }
 
-    // check if picture has been changed
-    if (req.files.length > 0) {
-      // upload images to cloudinary
-      const uploader = async (path) => cloudinary.upload(path, "Profiles");
-      const files = req.files;
-      for (const file of files) {
-        const { path } = file;
-        try {
-          const newPath = await uploader(path);
-          urls.push(newPath);
-          fs.unlinkSync(path);
-        } catch (error) {
-          res.status(500).send({ message: `Error uploading images ${error}` });
-        }
-      }
-      console.log("image uploaded");
-    }
-
-    // if user wants to edit password
-    if (old_password && new_password) {
+    
+   if(new_password){
+     // if user wants to edit password
+    if (old_password) {
       // decrypt password value from database
       const password_correct = await bcrypt.compare(
         old_password,
@@ -68,18 +52,52 @@ exports.editUserInfo = async (req, res, next) => {
     } else {
       return res
         .status(403)
-        .send({ message: "You have entered a wrong password" });
-      //   user.name = username;
-      //   user.photoURL = urls.length > 0 ? urls[0] : profile_picture
-      //   await user.save();
-      //   return res.status(200).send({ message: "Account has been updated" });
+        .send({ message: "Please enter your correct old password" });
+      
     }
+   }
+
+   user.firstname = firstname
+   user.lastname = lastname
+   user.photoURL = picture_url
+   user.city = city
+   user.country = country
+   user.street = address
+
+   await user.save()
+   return res.status(200).send({message: "Information saved"})
+
+
 
     // the user has been found
   } catch (error) {
     return res.status(500).send({ message: `${error} ` });
   }
 };
+
+// get single user
+// /api/user/single/{userId}
+// get request
+exports.getSingleUser =  async (req, res)=>{
+  const {id} = req.params
+  try {
+    const _user = await User.findOne({_id: id})
+
+    return res.status(200).send({message: 'User found', user: {
+      username: _user.name,
+      email: _user.email,
+      firstname: _user.firstname,
+      lastname: _user.lastname,
+      street: _user.street,
+      city: _user.city,
+      photoURL: _user.photoURL,
+      createdAt: _user.createdAt,
+      province:_user.province
+    }})
+  } catch (error) {
+    return res.status(500).send({message: `${error}`})
+  }
+}
 
 // delete user
 // /api/user/delete/{userId}

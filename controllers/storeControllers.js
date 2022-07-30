@@ -3,6 +3,7 @@ const User = require("../models/User");
 const moment = require("moment");
 const cloudinary = require("../helpers/cloudinary");
 const fs = require("fs");
+const Product = require("../models/Product");
 
 // create a store.
 // post request
@@ -115,6 +116,135 @@ exports.createAStore = async (req, res) => {
   }
 };
 
+// create a store.
+// post request
+// /api/store/products
+exports.getAStoreProducts = async (req, res) => {
+  try {
+    const _user = req.user; // info of the store
+
+    try {
+      // handling store schema
+      let query = [
+        {
+          $lookup: {
+            from: "stores",
+            let: { store: "store" },
+            pipeline: [{ $limit: 1 }],
+            as: "creator",
+          },
+        },
+        { $unwind: "$creator" },
+      ];
+
+
+      query.push({
+        $match:{
+          store_id: _user._id
+        }
+      })
+  
+      // handling search queries
+      if (req.query.keyword && req.query.keyword != "") {
+        query.push({
+          //@ts-ignore
+          $match: {
+            $or: [
+              { title: { $regex: req.query.keyword, $options: "i" } },
+              { description: { $regex: req.query.keyword, $options: "i" } },
+              {
+                "creator.company_name": {
+                  $regex: req.query.keyword,
+                  $options: "i",
+                },
+              },
+              { category: { $regex: req.query.keyword, $options: "i" } },
+            ],
+          },
+        });
+      }
+  
+      // category wise filtration // should send slug
+      if (req.query.category) {
+        query.push({
+          //@ts-ignore
+          $match: {
+            category_slug: req.query.category,
+          },
+        });
+      }
+  
+      let total = await Product.countDocuments(query);
+      //@ts-ignore
+      let page = req.query.page ? parseInt(req.query.page) : 1;
+      //@ts-ignore
+      let perPage = req.query.perPage ? parseInt(req.query.perPage) : 16;
+      let skip = (page - 1) * perPage;
+  
+      query.push({
+        //@ts-ignore
+        $skip: skip,
+      });
+      query.push({
+        //@ts-ignore
+        $limit: perPage,
+      });
+  
+      // exclude some fields
+      query.push({
+        //@ts-ignore
+        $project: {
+          "creator.orders": 0,
+          "creator.stock_handle": 0,
+          "creator.store_address": 0,
+          "creator.total_amount": 0,
+          "creator.amount_to_be_paid": 0,
+          "creator.is_paid": 0,
+          "creator.next_payment_date": 0,
+          "creator.notification_type": 0,
+          "creator.facebook": 0,
+          "creator.instagram": 0,
+          "creator.twitter": 0,
+        },
+      });
+  
+      // handling sort
+      if (req.query.sortBy && req.query.sortOrder) {
+        var sort = {};
+        //@ts-ignore
+        sort[req.query.sortBy] = req.query.sortOrder == "asc" ? 1 : -1;
+        query.push({
+          //@ts-ignore
+          $sort: sort,
+        });
+      } else {
+        query.push({
+          //@ts-ignore
+          $sort: { createdAt: -1 },
+        });
+      }
+  
+      let products = await Product.aggregate(query);
+  
+      return res.status(200).send({
+        message: "Products fetched sucessfully",
+        length: products.length,
+        meta: {
+          total: total,
+          currentPage: page,
+          perPage: perPage,
+          totalPages: Math.ceil(total / perPage),
+        },
+        products: products,
+      });
+    } catch (error) {
+      return res.status(500).send({ message: `${error}` });
+    }
+  } catch (error) {
+    return res.status(500).send({ message: `${error}` });
+  }
+};
+
 // edit a store.
 // put request
 // /api/store/edit/{storeId}
@@ -207,9 +337,9 @@ exports.editAStore = async (req, res) => {
 // get request
 // /api/store/details/{storeId}
 exports.getAStore = async (req, res) => {
-    const { id } = req.params; // the store id
-    const user_id = req.user._id // the id of the user who visited the store
-    console.log('to edit once products have been added')
+  const { id } = req.params; // the store id
+  const user_id = req.user._id; // the id of the user who visited the store
+  console.log("to edit once products have been added");
 };
 
 // delete a store.

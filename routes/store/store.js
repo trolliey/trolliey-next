@@ -4,6 +4,7 @@ const {
   editAStore,
   deleteAStore,
   getAStore,
+  getAStoreProducts,
 } = require("../../controllers/storeControllers");
 const upload = require("../../helpers/multer");
 const {
@@ -32,6 +33,9 @@ const router = express.Router();
  *        description: Failed to delete user
  */
 router.post("/create", requireUserSignIn, createAStore);
+
+// get store products
+router.get('/products', requireStoreSignIn, getAStoreProducts )
 
 /**
  * @swagger

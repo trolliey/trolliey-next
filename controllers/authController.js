@@ -58,7 +58,7 @@ exports.loginUser = async (req, res) => {
     return res.status(404).send({ message: "Account does not exist!" });
   } else {
     if (!_user.emailVerified) {
-      return res.status(403).send({ message: "Verify your email in database" });
+      return res.status(403).send({ message: "Please verify your email" });
     }
 
     // decrypt password value from database
