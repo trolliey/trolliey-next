@@ -12,6 +12,7 @@ import telecash from '../../public/img/telecash.svg'
 import onemoney from '../../public/img/ONEMONEY.png'
 import visa_mastercard from '../../public/img/visamastercard.svg'
 import getStripe from '../../utils/getStripe'
+import { apiUrl } from '../../utils/apiUrl'
 
 interface Props {
   method?: any
@@ -72,7 +73,7 @@ function PaymentMethod({
     try {
       setLoading(true)
       const { data } = await axios.post(
-        `/api/orders`,
+        `${apiUrl}/api/order/create`,
         {
           orderItems: cart.cartItems,
           address: values.address,

@@ -151,7 +151,7 @@ auth_handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
       }
     }
   } catch (error) {
-    return res.status(500).send({ message: error })
+    return res.status(500).send({ message: `${error}` })
   }
 })
 

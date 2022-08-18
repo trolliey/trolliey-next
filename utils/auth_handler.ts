@@ -22,7 +22,7 @@ export default nextConnect<NextApiRequest, NextApiResponse>({
         //@ts-ignore
         jwt.verify(token, process.env.JWT_SECRET, (err, decode) => {
             if (err) {
-               return res.status(401).send({ message: 'Login is required!' })
+               return res.status(401).send({ message: `${err}` })
             } else {
                 //@ts-ignore
                 req.user = decode
