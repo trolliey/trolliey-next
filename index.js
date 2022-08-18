@@ -57,6 +57,7 @@ app.use("/api/auth/login", require("./routes/auth/login"));
 app.use("/api/user", require("./routes/user/user"));
 app.use('/api/store', require('./routes/store/store'))
 app.use('/api/product', require('./routes/product/product'))
+app.use('/api/order', require('./routes/order/order'))
 
 //not found handler
 app.use((req, res, next) => {
