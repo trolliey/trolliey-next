@@ -264,13 +264,13 @@ function ProductDescription(props: any) {
                         <div className="flex flex-row items-center">
                           <p className="mr-2 text-gray-500">Delivered by</p>
                           <div className="text-gray-500">
-                            <Image
+                            {/* <Image
                               width={80}
                               objectFit="contain"
                               src={logo}
                               alt="logo on descriprion page"
                               className="h-6"
-                            />
+                            /> */}
                           </div>
                         </div>
                       </div>

@@ -297,6 +297,9 @@ function PaymentMethod({
             <p className="pb-4 text-center font-semibold capitalize text-black">
               A list of our ware houses
             </p>
+            <p>
+              78 Leopold Takawira, Corner Robert Mugabe 
+            </p>
           </div>
         </div>
         <div className="mt-4 flex w-full space-x-4 border-t border-gray-200 px-4 pt-4 pb-4">
