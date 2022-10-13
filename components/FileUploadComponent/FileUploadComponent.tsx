@@ -49,8 +49,8 @@ export default function FileUploadComponent({ multiple, selectedPictures, initia
             upload_files.push(fileObj[0][i])
         }
         setPreviewFiles([...preview_files, fileArray])
-        setUploadFiles([...files_to_upload, upload_files])
-        selectedPictures([...files_to_upload, upload_files])
+        setUploadFiles((files_to_upload: any) => [...files_to_upload, upload_files])
+        selectedPictures((files_to_upload: any) => [...files_to_upload, upload_files])
     }
 
     // const uploadFiles = (e) => {
