@@ -11,7 +11,7 @@ import { ArrowRightIcon } from '@heroicons/react/solid'
 import { apiUrl } from '../../utils/apiUrl'
 
 function FeaturedProducts(): ReactElement {
-  const address = `${apiUrl}/api/product/all?page=${1}&perPage=${16}&sortBy=times_bought&sortOrder=desc`
+  const address = `${apiUrl}/api/product/all?page=${1}&perPage=${16}&sortBy=times_bought&category=electronics-and-wearable`
   const fetcher = async (url: any) =>
     await axios.get(url).then((res) => res.data)
   const { data: all_products, error } = useSWR(address, fetcher)

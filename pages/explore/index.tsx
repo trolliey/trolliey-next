@@ -22,7 +22,7 @@ function Explore() {
 
   const url = `${apiUrl}/api/product/all?page=${page}&category=${
     search_category ? search_category : ''
-  }&keyword=${search_query ? search_query : ''}&perPage=${PER_PAGE}`
+  }&keyword=${search_query ? search_query : ''}&perPage=${PER_PAGE}&sortOrder=asc`
 
   // start the fetching using the useFetch hook
   const state = useFetch(url)
