@@ -37,6 +37,7 @@ export default function CreateProduct() {
   const [currency, setCurrency] = useState('')
   const [time_to_delivery, setTimeToDelivery] = useState<any>(0)
   const [loading, setLoading] = useState(false)
+  const [seo_description, setSeoDescription] = useState('')
 
   //for selecting sub category
   const [current_category, setCurrentCategory] = useState<any>('')
@@ -350,6 +351,21 @@ export default function CreateProduct() {
                               style={{ borderRadius: '5px' }}
                               value={description}
                               onChange={setQuillDescription}
+                            />
+                          </div>
+                          <div className="col-span-6">
+                            <label
+                              htmlFor="category"
+                              className="mb-1 block text-sm font-medium text-gray-700"
+                            >
+                             Description For SEO (Optional)
+                            </label>
+                            <textarea
+                              rows={5}
+                              placeholder="Enter your SEO description here"
+                              className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                              value={description}
+                              onChange={(e:any) => setSeoDescription(e.target.value)}
                             />
                           </div>
 
