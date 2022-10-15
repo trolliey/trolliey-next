@@ -143,7 +143,7 @@ function GeneralNavbar({ component_above_navbar, scrollY, setCloseMessage, close
           <Link href={'/'}>
             <a className="flex cursor-pointer flex-row items-center text-sm font-bold uppercase text-gray-700">
               <Image
-                height={30}
+                height={300}
                 objectFit="contain"
                 src={logo}
                 alt="logo representing the website icon"

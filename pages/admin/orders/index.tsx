@@ -17,10 +17,12 @@ function ManageOrders(props: any) {
         Manage all orders from here!
       </p>
       <div className="flex min-h-screen flex-col px-2 md:px-4">
-        <div className="grid grid-cols-5 rounded-t bg-black p-2 text-sm text-white">
+        <div className="grid grid-cols-7 rounded-t bg-black p-2 text-sm text-white">
           <div className="col-span-1">order</div>
           <div className="col-span-1">status</div>
           <div className="col-span-1 md:flex hidden">Ordered by</div>
+          <div className="col-span-1 md:flex hidden">Address</div>
+          <div className="col-span-1 md:flex hidden">Phone Number</div>
           <Text noOfLines={1} className="col-span-1">time ordered</Text>
           <div className="col-span-1">action</div>
         </div>
@@ -41,6 +43,8 @@ function ManageOrders(props: any) {
               </div>
             </div>
             <div className="col-span-1 md:flex hidden">{order.full_name}</div>
+            <div className="col-span-1 md:flex hidden">{order?.address}</div>
+            <div className="col-span-1 md:flex hidden">{order?.contact_phone_number}</div>
             <Text noOfLines={1} className="col-span-1">
               {moment(order.createdAt).fromNow()}
             </Text>
