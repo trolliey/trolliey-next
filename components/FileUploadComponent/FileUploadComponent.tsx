@@ -12,12 +12,6 @@ export default function FileUploadComponent({ multiple, selectedPictures, initia
     let fileArray: any = []
     const upload_files: any = []
 
-    // useEffect(()=>{
-    //     setPreviewFiles(initial_pictures)
-    //     setUploadFiles(initial_pictures)
-    //     selectedPictures(initial_pictures)
-    // },[])
-
     const [preview_files, setPreviewFiles] = useState<any>([])
     const [files_to_upload, setUploadFiles] = useState<any>([])
 
@@ -49,13 +43,9 @@ export default function FileUploadComponent({ multiple, selectedPictures, initia
             upload_files.push(fileObj[0][i])
         }
         setPreviewFiles([...preview_files, fileArray])
-        setUploadFiles((files_to_upload: any) => [...files_to_upload, upload_files])
-        selectedPictures((files_to_upload: any) => [...files_to_upload, upload_files])
+        setUploadFiles([...files_to_upload, upload_files])
+        selectedPictures([...files_to_upload, upload_files])
     }
-
-    // const uploadFiles = (e) => {
-    //     e.preventDefault()
-    // }
 
     return (
         <div className={` py-2`}>
