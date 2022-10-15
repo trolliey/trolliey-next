@@ -281,6 +281,22 @@ exports.getAllProducts = async (req, res) => {
       });
     }
 
+    // handling sort
+    if (req.query.sortBy && req.query.sortOrder) {
+      var sort = {};
+      //@ts-ignore
+      sort[req.query.sortBy] = req.query.sortOrder == "asc" ? 1 : -1;
+      query.push({
+        //@ts-ignore
+        $sort: sort,
+      });
+    } else {
+      query.push({
+        //@ts-ignore
+        $sort: { createdAt: -1 },
+      });
+    }
+
     let total = await Product.countDocuments(query);
     //@ts-ignore
     let page = req.query.page ? parseInt(req.query.page) : 1;
@@ -314,22 +330,6 @@ exports.getAllProducts = async (req, res) => {
         "creator.twitter": 0,
       },
     });
-
-    // handling sort
-    if (req.query.sortBy && req.query.sortOrder) {
-      var sort = {};
-      //@ts-ignore
-      sort[req.query.sortBy] = req.query.sortOrder == "asc" ? 1 : -1;
-      query.push({
-        //@ts-ignore
-        $sort: sort,
-      });
-    } else {
-      query.push({
-        //@ts-ignore
-        $sort: { createdAt: -1 },
-      });
-    }
 
     let products = await Product.aggregate(query);
 

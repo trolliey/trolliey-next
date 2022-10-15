@@ -65,7 +65,7 @@ exports.loginUser = async (req, res) => {
 
       if (_user.role === "seller") {
         // decrypt password value from database
-        const store = await Store.findOne({ _id: _user.store});
+        const store = await Store.findOne({ _id: _user.store}); 
 
         if(!store){
           return res.status(404).send({message: 'We cant seem to find your store'})
