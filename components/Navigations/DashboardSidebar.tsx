@@ -163,8 +163,8 @@ function DashboardSidebar({ sidebarOpen, setSidebarOpen }: Props) {
                     {/* Sidebar component, swap this element with another sidebar if you like */}
                     <div className="flex flex-col flex-grow bg-blue-primary pt-5 pb-4 overflow-y-auto">
                         <div onClick={() => router.push('/')} className="flex items-center flex-shrink-0">
-                           <div className="relative py-2 h-40 self-center mx-auto">
-                           <Image  objectFit="contain" src={logo} alt="dashboard indicator of site name" />
+                           <div className="relative py-2 self-center mx-auto">
+                           <Image  objectFit="contain" height={500} src={logo} alt="dashboard indicator of site name" />
                            </div>
                         </div>
                         {
