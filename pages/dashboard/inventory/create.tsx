@@ -363,7 +363,7 @@ export default function CreateProduct() {
                             <textarea
                               rows={5}
                               placeholder="Enter your SEO description here"
-                              className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                              className="mt-1 block w-full rounded-md border border-gray-300 p-2 outline-none sm:text-sm"
                               value={description}
                               onChange={(e:any) => setSeoDescription(e.target.value)}
                             />
