@@ -49,6 +49,30 @@ const payment_methods = [
   },
 ]
 
+const pay_on_collection_methods = [
+  {
+    id: 'collect_my_order',
+    title: 'On Collection',
+    icon: onemoney,
+    currency: 'ZWL',
+  },
+  {
+    id: 'collect_my_order',
+    title: 'On Collection',
+    icon: onemoney,
+    currency: 'USD',
+  },
+  { id: 'ecocash', title: 'Ecocash', icon: ecocash, currency: 'ZWL' },
+  { id: 'telecash', title: 'Telecash', icon: telecash, currency: 'ZWL' },
+  { id: 'onemoney', title: 'One  Money', icon: onemoney, currency: 'ZWL' },
+  {
+    id: 'visa/mastercard',
+    title: 'Visa/Mastercard',
+    icon: visa_mastercard,
+    currency: 'USD',
+  },
+]
+
 function PaymentMethod({
   values,
   step,
@@ -285,8 +309,37 @@ function PaymentMethod({
     return (
       <ShipmentLayout step={step} heading="Payment Info">
         <div>
+        <div className="mt-4 bg-gray-200 p-4 mb-4">
+          <legend className="sr-only">Payment Method</legend>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-8">
+            {pay_on_collection_methods.map((method: any, index: number) => (
+              <>
+                {method.currency === currency && (
+                  <div
+                    key={index}
+                    onClick={() => setSelectedMethod(method.id)}
+                    className="col-span-1"
+                  >
+                    <PaymentCard
+                      className="col-span-1"
+                      method={method.id}
+                      title={method.title}
+                      selected_method={selected_method}
+                      icon={method.icon}
+                    />
+                  </div>
+                )}
+              </>
+            ))}
+          </div>
+        </div>
+        <div className="flex space-x-4 py-4 flex-row items-center">
+                  <Divider/>
+                  <p>Or</p>
+                  <Divider/>
+        </div>
           <label className="px-4 pt-4 text-base font-medium text-gray-900">
-            Collection Points
+            Use Collection Points
           </label>
           <p className="px-4 text-sm leading-5 text-gray-500">
             You can collect your items at any of the following pickup points
@@ -297,7 +350,7 @@ function PaymentMethod({
             <p className="pb-4 text-center font-semibold capitalize text-black">
               A list of our ware houses
             </p>
-            <p>
+            <p className='text-gray-700 font-semibold p-2'>
               78 Leopold Takawira, Corner Robert Mugabe 
             </p>
           </div>
