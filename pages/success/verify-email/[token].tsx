@@ -21,7 +21,7 @@ function VerifyEmail() {
   const verify_email = async () => {
     setLoading(true)
     try {
-      const { data } = await axios.post(`${apiUrl}/auth/verify`, {
+      const { data } = await axios.post(`${apiUrl}/auth/verify?code=${token}`, {
         code: token,
       })
       dispatch({ type: 'USER_LOGIN', payload: data })
