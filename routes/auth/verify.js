@@ -6,3 +6,5 @@ const router = express.Router()
 // post request
 // /api/v1/auth/verify
 router.post('/', verifyEmail)
+
+module.exports = router
