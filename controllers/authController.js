@@ -206,10 +206,12 @@ exports.verifyEmail = async (req, res, next) => {
     // assign token and senf back to client
     const token = jwt.sign(
       {
-        _id: _user._id,
-        email: _user.email,
-        role: _user.role,
         name: _user.name,
+        email: _user.email,
+        _id: _user._id,
+        role: _user.role,
+        emailVerified: _user.emailVerified,
+        photoURL: _user.photoURL,
       },
       // @ts-ignore
       process.env.JWT_SECRET,
@@ -219,10 +221,12 @@ exports.verifyEmail = async (req, res, next) => {
     );
     return res.send({
       token,
-      _id: _user._id,
-      email: _user.email,
-      role: _user.role,
       name: _user.name,
+      email: _user.email,
+      _id: _user._id,
+      role: _user.role,
+      emailVerified: _user.emailVerified,
+      photoURL: _user.photoURL,
     });
   } catch (error) {
     next(error);
