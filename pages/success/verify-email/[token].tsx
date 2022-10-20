@@ -8,6 +8,7 @@ import { getError } from '../../../utils/error'
 import Cookies from 'js-cookie'
 import { useToast } from '@chakra-ui/react'
 import GeneralLayout from '../../../layouts/GeneralLayout'
+import { apiUrl } from '../../../utils/apiUrl'
 
 function VerifyEmail() {
   const router = useRouter()
@@ -20,7 +21,7 @@ function VerifyEmail() {
   const verify_email = async () => {
     setLoading(true)
     try {
-      const { data } = await axios.post(`${'/api'}/auth/verify`, {
+      const { data } = await axios.post(`${apiUrl}/auth/verify`, {
         code: token,
       })
       dispatch({ type: 'USER_LOGIN', payload: data })
@@ -84,6 +85,7 @@ function VerifyEmail() {
           </p>
           <div className="flex">
             <BlueButton
+            loading={loading}
               text={'Verify Email'}
               onClick={verify_email}
             />
