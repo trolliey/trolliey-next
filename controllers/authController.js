@@ -198,7 +198,7 @@ exports.verifyEmail = async (req, res, next) => {
     await User.findOneAndUpdate(
       { confirmationCode: code },
       {
-        emailVerified: "active",
+        emailVerified: true,
         confirmationCode: "",
       }
     );
