@@ -191,7 +191,7 @@ exports.verifyEmail = async (req, res, next) => {
     if (_user.confirmationCode === "") {
       return res
         .status(500)
-        .semd({ message: "Email already verfied, Try loggin in" });
+        .send({ message: "Email already verfied, Try loggin in" });
     }
 
     // update user doc and remove the code
@@ -217,7 +217,7 @@ exports.verifyEmail = async (req, res, next) => {
         expiresIn: "30d",
       }
     );
-    res.send({
+    return res.send({
       token,
       _id: _user._id,
       email: _user.email,
