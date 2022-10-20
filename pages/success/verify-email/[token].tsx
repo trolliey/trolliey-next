@@ -21,9 +21,7 @@ function VerifyEmail() {
   const verify_email = async () => {
     setLoading(true)
     try {
-      const { data } = await axios.post(`${apiUrl}/api/auth/verify?code=${token}`, {
-        code: token,
-      })
+      const { data } = await axios.post(`${apiUrl}/api/auth/verify?code=${token}`)
       dispatch({ type: 'USER_LOGIN', payload: data })
       Cookies.set('userInfo', JSON.stringify(data), { expires: 7 })
       setTimeout(() => {
