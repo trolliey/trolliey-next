@@ -67,6 +67,7 @@ export const data = {
         { name: 'eBook Readers & Accessories', description: '' },
       ],
       id: 1,
+      location: '/category/electronics-and-wearing'
     },
     {
       name: 'Computers',
@@ -89,6 +90,7 @@ export const data = {
         { name: 'Warranties & Services', description: '' },
       ],
       id: 2,
+      location: '/category/computers'
     },
     {
       name: 'Agriculture',
@@ -109,6 +111,7 @@ export const data = {
         { name: 'Goat and Sheep', description: '' },
         { name: 'Tools and machinery', description: '' },
       ],
+      location: '/category/agriculture'
     },
     {
       name: 'Toys And Games',

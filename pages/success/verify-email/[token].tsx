@@ -68,10 +68,10 @@ function VerifyEmail() {
           <h2 className="pb-8 text-lg font-semibold text-blue-dark">
             Please verify your email.
           </h2>
-          <p className="font-semibold text-gray-700">
+          {/* <p className="font-semibold text-gray-700">
             We have sent you an email. If it doesn't appear check your spam
             folder
-          </p>
+          </p> */}
           <p className="pb-8 font-semibold text-gray-700">
             If you have any questions please email{' '}
             <a
