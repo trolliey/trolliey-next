@@ -123,7 +123,7 @@ function Password() {
 
 
                             <div>
-                                <BlueButton text="Submot" className="w-full" onClick={change_password} loading={false} />
+                                <BlueButton text="Submit" className="w-full" onClick={change_password} loading={false} />
                             </div>
                         </div>
 

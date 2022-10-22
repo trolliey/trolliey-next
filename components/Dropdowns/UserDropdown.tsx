@@ -8,7 +8,7 @@ import {
   Avatar,
 } from '@chakra-ui/react'
 import { UserIcon } from '@heroicons/react/outline'
-import { useRouter } from 'next/router'
+import { Router, useRouter } from 'next/router'
 import Username from '../Username/Username'
 import { Store } from '../../Context/Store'
 import Link from 'next/link'
@@ -115,7 +115,7 @@ function UserDropdown(): ReactElement {
 
           {user && (
             <>
-              <MenuItem>
+              <MenuItem onClick={() => history.push('/password')}>
                 <Link href={'/password'} passHref>
                   <a className="font-semibold capitalize text-gray-700">
                     Change Password
