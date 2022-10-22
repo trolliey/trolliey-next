@@ -26,7 +26,7 @@ function VerifyEmail() {
       Cookies.set('userInfo', JSON.stringify(data), { expires: 7 })
       setTimeout(() => {
         //@ts-ignore
-        history.push('/')
+        router.push('/')
       }, 1000)
       setLoading(false)
       toast({
