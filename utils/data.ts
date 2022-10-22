@@ -31,7 +31,7 @@ import promo_2 from '../public/img/fregrance_sale.png'
 export const data = {
   original_title: 'Trolliey Retail',
   site_description:
-    'Trolliey is a modern ecommerce platform. You can become a seller or become a buyer and trade your items from anywhere you like. You can manage you inventory and customers using our intuitive dashboard, Buy and sell goods and items online',
+    "Zimbabwe's leading onlise store. Fast, reliable delivery to your door. Many ways to pay. Shop anything online: TV's, laptops cellphones, home appliances, and many more",
   site_url: 'https://www.trolliey.com',
   site_top_message: 'Free delivery on first order',
   banner_images: [

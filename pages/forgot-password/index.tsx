@@ -1,7 +1,9 @@
 import { BriefcaseIcon } from '@heroicons/react/outline'
+import axios from 'axios'
 import React, { useState } from 'react'
 import BlueButton from '../../components/Buttons/BlueButton'
 import GeneralLayout from '../../layouts/GeneralLayout'
+import { apiUrl } from '../../utils/apiUrl'
 
 type Props = {}
 
@@ -9,10 +11,12 @@ function ForgotPassword({}: Props) {
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
 
-  const reset_password = () => {
-    setLoading(false)
+  const reset_password = async () => {
+    const {data} = await axios.post(`${apiUrl}/auth/reset-password/start`,{
+        email: email
+    })
   }
-  
+
   return (
     <GeneralLayout
       no_text
