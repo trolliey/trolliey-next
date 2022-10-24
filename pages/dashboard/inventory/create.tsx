@@ -38,6 +38,7 @@ export default function CreateProduct() {
   const [time_to_delivery, setTimeToDelivery] = useState<any>(0)
   const [loading, setLoading] = useState(false)
   const [seo_description, setSeoDescription] = useState('')
+  const [days_to_delivery, setDaysToDelivery] = useState(0)
 
   //for selecting sub category
   const [current_category, setCurrentCategory] = useState<any>('')
