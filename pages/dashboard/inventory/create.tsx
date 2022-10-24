@@ -38,6 +38,7 @@ export default function CreateProduct() {
   const [time_to_delivery, setTimeToDelivery] = useState<any>(0)
   const [loading, setLoading] = useState(false)
   const [seo_description, setSeoDescription] = useState('')
+  const [days_to_delivery, setDaysToDelivery] = useState(0)
 
   //for selecting sub category
   const [current_category, setCurrentCategory] = useState<any>('')
@@ -364,7 +365,7 @@ export default function CreateProduct() {
                               rows={5}
                               placeholder="Enter your SEO description here"
                               className="mt-1 block w-full rounded-md border border-gray-300 p-2 outline-none sm:text-sm"
-                              value={description}
+                              value={seo_description}
                               onChange={(e:any) => setSeoDescription(e.target.value)}
                             />
                           </div>
@@ -473,6 +474,27 @@ export default function CreateProduct() {
                               onChange={(e) => setPrice(e.target.value)}
                               autoComplete="price"
                               placeholder="Enter price"
+                              className="mt-1 block w-full rounded-md border border-gray-300 p-2 outline-none sm:text-sm"
+                            />
+                          </div>
+
+                          <div className="col-span-6 ">
+                            <label
+                              htmlFor="city"
+                              className="block text-sm font-medium text-gray-700"
+                            >
+                              Days To Delivery
+                            </label>
+                            <input
+                              type="number"
+                              name="days_to_delivery"
+                              id="days_to_delivery"
+                              value={days_to_delivery}
+                              //@ts-ignore
+                              onWheel={(e) => e.target.blur()}
+                              onChange={(e:any) => setDaysToDelivery(e.target.value)}
+                              autoComplete="price"
+                              placeholder="Enter days delivery"
                               className="mt-1 block w-full rounded-md border border-gray-300 p-2 outline-none sm:text-sm"
                             />
                           </div>

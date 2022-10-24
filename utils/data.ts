@@ -31,7 +31,7 @@ import promo_2 from '../public/img/fregrance_sale.png'
 export const data = {
   original_title: 'Trolliey Retail',
   site_description:
-    "Zimbabwe's leading onlise store. Fast, reliable delivery to your door. Many ways to pay. Shop anything online: TV's, laptops cellphones, home appliances, and many more",
+    "Zimbabwe's leading online store. Fast, reliable delivery to your door. Many ways to pay. Shop anything online: TV's, laptops cellphones, home appliances, and many more",
   site_url: 'https://www.trolliey.com',
   site_top_message: 'Free delivery on first order',
   banner_images: [
