@@ -38,7 +38,6 @@ export default function CreateProduct() {
   const [time_to_delivery, setTimeToDelivery] = useState<any>(0)
   const [loading, setLoading] = useState(false)
   const [seo_description, setSeoDescription] = useState('')
-  const [days_to_delivery, setDaysToDelivery] = useState(0)
 
   //for selecting sub category
   const [current_category, setCurrentCategory] = useState<any>('')
@@ -91,6 +90,7 @@ export default function CreateProduct() {
       formData.append('currency', currency)
       formData.append('sub_category', sub_category)
       formData.append('time_to_delivery', time_to_delivery)
+      
 
       //upload the product to database from here
       const { data } = await axios.post(
