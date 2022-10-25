@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import BlueButton from '../../components/Buttons/BlueButton'
 import GeneralLayout from '../../layouts/GeneralLayout'
 import { apiUrl } from '../../utils/apiUrl'
+import { getError } from '../../utils/error'
 
 type Props = {}
 
@@ -12,9 +13,18 @@ function ForgotPassword({}: Props) {
   const [loading, setLoading] = useState(false)
 
   const reset_password = async () => {
-    const {data} = await axios.post(`${apiUrl}/auth/reset-password/start`,{
-        email: email
-    })
+    try {
+      setLoading(true)
+      const { data } = await axios.post(`${apiUrl}/auth/reset-password/start`, {
+        email: email,
+      })
+
+      console.log(data)
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+      console.log(getError(error))
+    }
   }
 
   return (
