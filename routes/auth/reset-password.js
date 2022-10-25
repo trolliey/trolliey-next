@@ -35,9 +35,7 @@ router.post("/start", async (res, res, next) => {
       from: "trewmane@gmail.com", // Change to your verified sender
       subject: "Email Verification",
       text: "verify your email",
-      html: formatedResetHTMl(
-        `https://www.trolliey.com/password-reset/${token}`
-      ),
+      html:`click the following link below to reset your password - https://www.trolliey.com/password-reset/${token}`,
     };
     await sgMail.send(msg);
 
@@ -54,7 +52,7 @@ router.post("/reset", async (res, res, next) => {
     //get filds from request
     const { id, password, confirm_passsword } = req.body;
 
-    if(!password || !confirm_passsword){
+    if (!password || !confirm_passsword) {
       return res.status(400).send({ message: "Please enter all fields" });
     }
 
@@ -77,7 +75,7 @@ router.post("/reset", async (res, res, next) => {
 
     return res.status(200).send({ message: "Password changed!" });
   } catch (error) {
-    return res.status(500).send({message: error})
+    return res.status(500).send({ message: error });
   }
 });
 
