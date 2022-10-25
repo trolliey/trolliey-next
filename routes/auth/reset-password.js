@@ -46,7 +46,7 @@ router.post("/start", async (req, res, next) => {
   }
 });
 
-router.post("/reset", async (res, res, next) => {
+router.post("/reset", async (req, res, next) => {
   try {
     //get filds from request
     const { id, password, confirm_passsword } = req.body;
