@@ -17,6 +17,7 @@ import ProductStore from '../../../models/Store'
 import axios from 'axios'
 import RelatedProducts from '../../../components/HomeSections/RelatedProducts'
 import Amount from '../../../components/Amount/Amount'
+import no_product from '../../../public/img/no_product.svg'
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
@@ -70,9 +71,14 @@ function ProductDescription(props: any) {
   if(!product){
     return(
       <GeneralLayout title={'Not Found'} description="Product could not find the product">
-        <div className="flex flex-col items-center w-full">
-        product not found
-        </div>
+        <div className=" h-68 grid content-center items-center justify-center rounded bg-white py-2 my-16">
+                  <div className="relative h-40">
+                    <Image src={no_product} layout="fill" objectFit="contain" />
+                  </div>
+                  <p className="mt-4 text-center font-semibold capitalize text-gray-700">
+                    Item Not Found
+                  </p>
+                </div>
       </GeneralLayout>
     )
   }
