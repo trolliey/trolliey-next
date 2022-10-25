@@ -54,6 +54,10 @@ router.post("/reset", async (res, res, next) => {
     //get filds from request
     const { id, password, confirm_passsword } = req.body;
 
+    if(!password || !confirm_passsword){
+      return res.status(400).send({ message: "Please enter all fields" });
+    }
+
     if (password.length < 6) {
       return res.status(400).send({ message: "Passwords too short!" });
     }
