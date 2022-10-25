@@ -30,7 +30,7 @@ module.exports = {
           primary: '#ad596d',
           light: '#bf7e8e'
         }
-      }
+      },
     },
   },
   plugins: [],

@@ -3,7 +3,6 @@ import GeneralLayout from '../../../layouts/GeneralLayout'
 import { Tab } from '@headlessui/react'
 import { ShoppingCartIcon, InformationCircleIcon } from '@heroicons/react/solid'
 import { PlusIcon } from '@heroicons/react/outline'
-import logo from '../../../public/img/full_logo.png'
 import { Avatar, Divider, useToast } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
@@ -68,17 +67,20 @@ function ProductDescription(props: any) {
     history.push('/shipping')
   }
 
-  if(!product){
-    return(
-      <GeneralLayout title={'Not Found'} description="Product could not find the product">
-        <div className=" h-68 grid content-center items-center justify-center rounded bg-white py-2 my-16">
-                  <div className="relative h-40">
-                    <Image src={no_product} layout="fill" objectFit="contain" />
-                  </div>
-                  <p className="mt-4 text-center font-semibold capitalize text-gray-700">
-                    Item Not Found
-                  </p>
-                </div>
+  if (!product) {
+    return (
+      <GeneralLayout
+        title={'Not Found'}
+        description="Product could not find the product"
+      >
+        <div className=" h-68 my-16 grid content-center items-center justify-center rounded bg-white py-2">
+          <div className="relative h-40">
+            <Image src={no_product} layout="fill" objectFit="contain" />
+          </div>
+          <p className="mt-4 text-center font-semibold capitalize text-gray-700">
+            Item Not Found
+          </p>
+        </div>
       </GeneralLayout>
     )
   }
@@ -193,7 +195,10 @@ function ProductDescription(props: any) {
                       ) : (
                         <Amount
                           className="text-2xl font-bold text-gray-700"
-                          amount={parseFloat(product?.price) - parseFloat(product?.discount_price)}
+                          amount={
+                            parseFloat(product?.price) -
+                            parseFloat(product?.discount_price)
+                          }
                         />
                       )}
                       {selected_variant ? (

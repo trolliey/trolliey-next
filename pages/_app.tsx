@@ -9,6 +9,7 @@ import { StepsStyleConfig as Steps } from 'chakra-ui-steps';
 import { StoreProvider } from '../Context/Store'
 import NProgress from 'nprogress'; //nprogress module
 import 'nprogress/nprogress.css'; //styles of nprogress
+import '../styles/ScrollingLogoSection.css'
 
 //Binding loading events. 
 Router.events.on('routeChangeStart', () => NProgress.start()); 

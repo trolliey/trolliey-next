@@ -1,11 +1,6 @@
 import React, { ReactFragment, useContext, useState } from 'react'
 import Courosel from '../components/Carousel/Carousel'
 import CategoriesDropdown from '../components/Dropdowns/CategoriesDropdown'
-import samsung from '../public/img/samsung.svg'
-import defy from '../public/img/defy.svg'
-import kenwood from '../public/img/kenwood-logo.svg'
-import dell from '../public/img/dell-logo.svg'
-import oppo from '../public/img/oppo-logo.svg'
 import Image from 'next/image'
 import FeaturedProducts from '../components/HomeSections/FeaturedProducts'
 import { useRouter } from 'next/router'
@@ -16,9 +11,9 @@ import GeneralNavbar from '../components/Navigations/GeneralNavbar'
 import { useWindowScrollPositions } from '../hooks/useWindowScrollPosition'
 import Footer from '../components/Navigations/Footer'
 import { Text } from '@chakra-ui/react'
-import HomeBrandItem from '../components/HomeBrandItem/HomeBrandItem'
 import slugify from '../utils/slugify'
 import Head from 'next/head'
+import ScrollingLogoSection from '../components/SrollingLogoSection/ScrollingLogoSection'
 
 const OG_IMAGE = 'https://res.cloudinary.com/trolliey/image/upload/v1656413519/trolliey%20static%20images/home_og_image_rwubje.jpg'
 
@@ -33,15 +28,6 @@ function Home(): ReactFragment {
   }
   
   const { scrollY } = useWindowScrollPositions()
-
-  const home_brands = [
-    { image: samsung, alt_text: 'sumsung brand' },
-    { image: defy, alt_text: 'defy brand' },
-    { image: kenwood, alt_text: 'kenwood brand' },
-    { image: dell, alt_text: 'dell brand' },
-    { image: oppo, alt_text: 'oppo brand' },
-    { image: oppo, alt_text: 'oppo brand' },
-  ]
 
   return (
     <>
@@ -131,7 +117,7 @@ function Home(): ReactFragment {
             <div className="hidden md:flex md:w-1/5">
               <CategoriesDropdown />
             </div>
-            <div className="flex-1">
+            <div className="flex-1 overflow-hidden pb-4">
               <div className="flex flex-col">
                 <div className="z-0 mb-2 h-auto  w-full overflow-hidden bg-gray-100 md:mb-4">
                   <div className="z-0 grid w-full content-center items-center overflow-hidden rounded  bg-white">
@@ -142,11 +128,7 @@ function Home(): ReactFragment {
                   <h1 className="mb-2 hidden text-xs font-semibold capitalize text-gray-900 md:mb-8 md:flex md:text-lg">
                     Featured Brands
                   </h1>
-                  <div className="brands flex flex-row items-center justify-between gap-4 overflow-auto px-2 py-2 md:px-8 md:py-0">
-                    {home_brands?.map((brand: any, index: number) => (
-                      <HomeBrandItem key={brand.alt_text+index} image={brand.image} alt_text={brand.alt_text} />
-                    ))}
-                  </div>
+                  <ScrollingLogoSection />
                 </div>
               </div>
             </div>
