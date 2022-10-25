@@ -16,7 +16,7 @@ for (let i = 0; i < 25; i++) {
   token += characters[Math.floor(Math.random() * characters.length)];
 }
 
-router.post("/start", async (res, res, next) => {
+router.post("/start", async (req, res, next) => {
   try {
     //get filds from request
     const { email } = req.body;
