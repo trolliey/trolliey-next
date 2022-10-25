@@ -1,6 +1,5 @@
 const express = require("express");
 const User = require("../../models/User");
-const formatedResetHTMl = require("../../utils/reset-email-template");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 
