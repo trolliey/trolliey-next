@@ -2,6 +2,7 @@ const express = require("express");
 const User = require("../../models/User");
 const router = express.Router();
 const bcrypt = require("bcrypt");
+const sgMail = require("@sendgrid/mail");
 
 const SENDGRID_API_KEY = process.env.SEND_GRID_API;
 
