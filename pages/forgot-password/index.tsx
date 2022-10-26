@@ -1,3 +1,4 @@
+import { useToast } from '@chakra-ui/react'
 import { BriefcaseIcon } from '@heroicons/react/outline'
 import axios from 'axios'
 import React, { useState } from 'react'
@@ -11,6 +12,7 @@ type Props = {}
 function ForgotPassword({}: Props) {
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
+  const toast = useToast()
 
   const reset_password = async () => {
     try {
@@ -18,11 +20,25 @@ function ForgotPassword({}: Props) {
       const { data } = await axios.post(`${apiUrl}/auth/reset-password/start`, {
         email: email,
       })
+      toast({
+        title: 'We have sent you an email.',
+        status: 'success',
+        position: 'top-right',
+        duration: 15000,
+        isClosable: true,
+      })
 
       console.log(data)
       setLoading(false)
     } catch (error) {
       setLoading(false)
+      toast({
+        title: getError(error),
+        status: 'error',
+        position: 'top-right',
+        duration: 9000,
+        isClosable: true,
+      })
       console.log(getError(error))
     }
   }

@@ -2,34 +2,34 @@ import { useState, ReactElement } from 'react'
 import DashboardNavbar from '../components/Navigations/DashboardNavbar'
 import DashboardSidebar from '../components/Navigations/DashboardSidebar'
 
-interface Props{
-    children :any
+interface Props {
+  children: any
 }
 
-function DashboardLayout({ children }:Props):ReactElement {
-    const [sidebarOpen, setSidebarOpen] = useState<boolean>(false)
-    return (
-        <>
-
-            <div className="relative h-screen flex overflow-hidden bg-gray-100">
-                <div className="h-full">
-                    <DashboardSidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-                </div>
-
-                {/* // the body of the dashboard */}
-
-                <div className="flex-1 overflow-auto focus:outline-none">
-                    <main className="flex-1 relative pb-8 z-0 overflow-y-auto">
-                        {/* Page header */}
-                        <DashboardNavbar setSidebarOpen={setSidebarOpen} />
-
-                        {/* // the rest of the dashboard */}
-                        {children}
-                    </main>
-                </div>
+function DashboardLayout({ children }: Props): ReactElement {
+  const [sidebarOpen, setSidebarOpen] = useState<boolean>(false)
+  return (
+    <>
+      <main className="flex h-screen w-full flex-col">
+        <div className="flex w-full flex-1 overflow-hidden bg-gray-100">
+          <div className="flex">
+            <DashboardSidebar
+              sidebarOpen={sidebarOpen}
+              setSidebarOpen={setSidebarOpen}
+            />
+          </div>
+          <div className="flex w-full flex-1 flex-col">
+            <div className="flex w-full flex-col">
+              <DashboardNavbar setSidebarOpen={setSidebarOpen} />
             </div>
-        </>
-    )
+            <div className="flex flex-col max-w-7xl mx-auto w-full overflow-y-auto bg-blue-300 px-4">
+              {children}
+            </div>
+          </div>
+        </div>
+      </main>
+    </>
+  )
 }
 
 export default DashboardLayout
