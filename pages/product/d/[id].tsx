@@ -92,7 +92,7 @@ function ProductDescription(props: any) {
       og_image={product?.pictures[0]}
       twitter_title={product?.title}
       twitter_description={product?.description}
-      og_url={`/product/description/${product?._id}`}
+      og_url={`/product/d/${product?._id}`}
     >
       <div className="flex max-w-7xl flex-col bg-gray-100">
         <div className="mx-auto w-full flex-1 rounded ">
@@ -273,8 +273,9 @@ function ProductDescription(props: any) {
                     <div className="mt-2">
                       <div className="mb-2 flex flex-row items-center text-sm font-semibold capitalize text-gray-800 ">
                         <div className="flex flex-row items-center">
-                          <p className="mr-2 text-gray-500">Delivered by</p>
+                          <p className="mr-2 text-gray-500">Delivered in</p>
                           <div className="text-gray-500">
+                            {props?.time_to_deliver ? props?.time_to_deliver : 'Not Specified'}
                             {/* <Image
                               width={80}
                               objectFit="contain"
