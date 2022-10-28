@@ -78,7 +78,7 @@ function ProductItem({
           : 'w-full transition hover:-translate-y-1 hover:shadow-lg motion-reduce:transform-none  motion-reduce:transition-none '
       } relative flex max-h-96 flex-1 transform cursor-pointer flex-col overflow-hidden rounded border border-gray-100 bg-white `}
     >
-      <Link href={`/product/description/${id}`} passHref>
+      <Link href={`/product/d/${id}`} passHref>
         <a className="relative flex h-32 flex-col items-center overflow-hidden rounded bg-white md:h-52">
           <Image
             objectFit="contain"
@@ -94,7 +94,7 @@ function ProductItem({
       </Link>
       <div className="px-2">
         <div
-          onClick={() => history.push(`/product/description/${id}`)}
+          onClick={() => history.push(`/product/d/${id}`)}
           className="star mt-1 flex flex-row items-center md:mt-2"
         >
           {pathname === '/' ? null : (
@@ -114,7 +114,7 @@ function ProductItem({
           )}
         </div>
         <div
-          onClick={() => history.push(`/product/description/${id}`)}
+          onClick={() => history.push(`/product/d/${id}`)}
           className="flex-1 overflow-hidden"
         >
           <Text noOfLines={1} className="text-sm text-gray-500 ">
@@ -135,7 +135,7 @@ function ProductItem({
           <div className="flex flex-row items-center justify-between">
             {discount_price ? (
               <div
-                onClick={() => history.push(`/product/description/${id}`)}
+                onClick={() => history.push(`/product/d/${id}`)}
                 className={`${
                   currency === 'USD'
                     ? 'flex flex-row items-center '
@@ -162,7 +162,7 @@ function ProductItem({
               </div>
             ) : (
               <div
-                onClick={() => history.push(`/product/description/${id}`)}
+                onClick={() => history.push(`/product/d/${id}`)}
                 className="flex flex-row items-center"
               >
                 <Text noOfLines={1} className="mr-2 font-bold text-gray-900">

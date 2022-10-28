@@ -134,10 +134,17 @@ function Home(): ReactFragment {
             </div>
           </div>
 
-          <div className="section px-2 md:px-0">
+          <div className="section flex flex-col w-full space-y-8 px-2 md:px-0">
             {/* // featured products */}
             <>
-              <FeaturedProducts />
+              <FeaturedProducts sortBy={'times_bought'} heading={'Top -Ranking'} category={'electronics-and-wearable'} />
+            </>
+
+            <>
+              <FeaturedProducts heading={'Special Products'} />
+            </>
+            <>
+              <FeaturedProducts heading={'One-Day-Delivery'} />
             </>
             <section aria-labelledby="category-heading" className="my-8">
               <div className="mx-auto max-w-7xl rounded bg-white p-4 md:p-8">

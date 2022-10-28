@@ -27,6 +27,10 @@ import health_house from '../public/img/health_and_household-min.png'
 import kindle from '../public/img/kindle_and_ereaders-min.png'
 import fashion from '../public/img/fashion.svg'
 import promo_2 from '../public/img/fregrance_sale.png'
+import samsung1 from '../public/images/shop_samsung.png'
+import samsung2 from '../public/images/shop_samsung_SERIES.png'
+import keson from '../public/images/KESON_SMART_TV.png'
+
 
 export const data = {
   original_title: 'Trolliey Retail',
@@ -37,7 +41,10 @@ export const data = {
   banner_images: [
     // { body: 'First banner representantion', image: promo_1 },
     { body: 'Second banner representantion', image: promo_2 },
-    { body: 'Second banner representantion', image: promo_2 },
+    { body: 'Samsung banner', image: samsung1 },
+    { body: 'Samsung banner 2', image: samsung2 },
+    { body: 'Keson tv banner', image: keson },
+
 
     // { body: 'Third banner representantion', image: promo_1 },
   ],
