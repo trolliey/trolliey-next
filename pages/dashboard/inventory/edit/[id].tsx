@@ -113,7 +113,7 @@ export default function EditProduct(props: any) {
         headers: { authorization: userInfo?.token },
       })
       setLoading(false)
-      history.push(`/product/description/${product?._id}`)
+      history.push(`/product/d/${product?._id}`)
       toast({
         title: 'Product Edited.',
         description: 'Product Edited successfully!.',

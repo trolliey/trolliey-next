@@ -94,7 +94,7 @@ function NavSearch(): ReactElement {
                       {searched_products?.map((item: any, index: number) => (
                         <div
                           onClick={() =>
-                            history.push(`/product/description/${item._id}`)
+                            history.push(`/product/d/${item._id}`)
                           }
                           key={index}
                           className="flex cursor-pointer flex-row items-center p-2  hover:bg-gray-100"

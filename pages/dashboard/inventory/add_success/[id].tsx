@@ -33,7 +33,7 @@ function AddSuccess() {
           <BlueButton
             text={'Show Product'}
             outline
-            onClick={() => router.push(`/product/description/${id}`)}
+            onClick={() => router.push(`/product/d/${id}`)}
           />
         </div>
       </div>

@@ -10,7 +10,7 @@ export default async (req, res) => {
     const products = await Products.find({})
     products.map((product) => {
       links.push({
-        url: `/product/description/${product._id}`,
+        url: `/product/d/${product._id}`,
         changefreq: 'daily',
         priority: 0.9,
       })

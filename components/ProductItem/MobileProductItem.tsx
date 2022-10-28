@@ -39,7 +39,7 @@ function MobileProductItem({
       <div className="flex flex-row space-x-4 border-b border-gray-100 pb-2">
         <div className="flex">
           <div
-            onClick={() => history.push(`/product/description/${id}`)}
+            onClick={() => history.push(`/product/d/${id}`)}
             className="relative flex h-28 w-28 flex-col items-center overflow-hidden rounded-lg  bg-white"
           >
             <Image
@@ -62,7 +62,7 @@ function MobileProductItem({
           <Text>
             {discount_price ? (
               <div
-                onClick={() => history.push(`/product/description/${id}`)}
+                onClick={() => history.push(`/product/d/${id}`)}
                 className="flex flex-row items-center"
               >
                 <div className="mr-2 font-bold text-gray-900">
@@ -82,7 +82,7 @@ function MobileProductItem({
               </div>
             ) : (
               <div
-                onClick={() => history.push(`/product/description/${id}`)}
+                onClick={() => history.push(`/product/d/${id}`)}
                 className="flex flex-row items-center"
               >
                 <p className="mr-2 font-bold text-gray-900">

@@ -181,7 +181,7 @@ function Orders() {
                                     <div
                                       onClick={() =>
                                         history.push(
-                                          `/product/description/${product._id}`
+                                          `/product/d/${product._id}`
                                         )
                                       }
                                       className="cursor-pointer text-blue-primary"
