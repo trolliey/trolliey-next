@@ -306,7 +306,7 @@ function ProductDescription(props: any) {
                     <div className="mt-2">
                       <div className="mb-2 flex flex-row items-center text-sm font-semibold capitalize text-gray-800 ">
                         <div className="flex flex-row items-center">
-                          <p className="mr-2 text-gray-500">Delivered in</p>
+                          <p className="mr-2 text-gray-500">Delivers in</p>
                           <div className="text-gray-500">
                             {single_product?.data?.product?.time_to_deliver >=0 
                               ? (<p>{single_product?.data?.product?.time_to_deliver + 2 } days</p>)
@@ -352,7 +352,7 @@ function ProductDescription(props: any) {
 
                       <div className="mt-2 flex flex-row items-center gap-2">
                         <p className="text-xs text-gray-700">
-                          are you eligible in cash on delivery?
+                         Eligible for cash on delivery?
                         </p>
                         <div className="flex flex-col rounded-full">
                           <InformationCircleIcon
@@ -364,7 +364,7 @@ function ProductDescription(props: any) {
                       </div>
                       <div className="flex flex-row items-center gap-2">
                         <p className="my-1 text-xs text-gray-700">
-                          6-Months Limited Waranty
+                          Limited Warranty
                         </p>
                         <div className="flex flex-col rounded-full">
                           <InformationCircleIcon
@@ -377,6 +377,18 @@ function ProductDescription(props: any) {
                       <div className="flex flex-row items-center gap-2">
                         <p className="my-1 text-xs text-gray-700">
                           Cash on delivery accepted
+                        </p>
+                        <div className="flex flex-col rounded-full">
+                          <InformationCircleIcon
+                            className="text-green-700"
+                            height={16}
+                            width={16}
+                          />
+                        </div>
+                      </div>
+                      <div className="flex flex-row items-center gap-2">
+                        <p className="my-1 text-xs text-gray-700">
+                          RTGS Online Payments Available
                         </p>
                         <div className="flex flex-col rounded-full">
                           <InformationCircleIcon

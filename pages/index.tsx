@@ -53,7 +53,7 @@ function Home(): ReactFragment {
         <meta name="twitter:card" content="summary" />
         <meta
           name="twitter:title"
-          content={`Trolliey | Buy and Sell Items Online`}
+          content={`Trolliey | Zim's leading online store`}
         />
         <meta name="twitter:description" content={data.site_description} />
         <meta name="twitter:site" content="" />
@@ -65,7 +65,7 @@ function Home(): ReactFragment {
         <meta name="twitter:image" content={OG_IMAGE} />
         <link rel="canonical" href={`${data.site_url}/`} />
       </Head>
-      <div className="flex w-full flex-col  overflow-scroll bg-gradient-to-b from-blue-superlight via-gray-100 to-gray-100">
+      <div className="flex w-full flex-col  overflow-scroll bg-gradient-to-b from-[#338ec8] via-gray-100 to-gray-100">
         <div className="nav">
           <GeneralNavbar
             setCloseMessage={setCloseMessage}
@@ -84,7 +84,7 @@ function Home(): ReactFragment {
               {data.benefits.map((benefit, index) => (
                 <div
                   key={index}
-                  className="col-span-1 mx-auto flex cursor-pointer flex-col items-center border-b border-blue-dark pb-4 text-blue-dark hover:text-new-primary md:flex-row md:border-none md:pb-0"
+                  className="col-span-1 mx-auto flex cursor-pointer flex-col items-center border-b border-blue-dark pb-4 text-gray-900 hover:text-new-primary md:flex-row md:border-none md:pb-0"
                 >
                   <div className="hidden md:block">
                     <benefit.icon height={32} width={32} className="mr-2" />
@@ -93,7 +93,7 @@ function Home(): ReactFragment {
                     <benefit.icon height={24} width={24} className="mr-2" />
                   </div>
                   <div className="flex flex-col items-center md:items-start">
-                    <p className="font-semibold capitalize text-blue-dark">
+                    <p className="font-semibold capitalize text-gray-900">
                       {benefit.heading}
                     </p>
                     <p className="text-sm capitalize text-gray-700">
@@ -106,7 +106,7 @@ function Home(): ReactFragment {
           </div>
           {/* <h1>Products</h1> */}
           <div className="container mx-auto min-h-screen max-w-7xl pt-4 md:pt-0">
-            <div className="top mb-8 flex w-full flex-row gap-2 rounded-lg bg-white px-0 py-0 md:gap-8  md:p-8 md:px-4 md:py-4">
+            <div className="top mb-8 flex w-full flex-row gap-2 md:rounded-lg bg-white px-0 py-0 md:gap-8  md:p-8 md:px-4 md:py-4">
               <div className="hidden md:flex md:w-1/5">
                 <CategoriesDropdown />
               </div>

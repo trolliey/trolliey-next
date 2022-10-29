@@ -58,16 +58,16 @@ function Carousel({ data }: Props): ReactElement {
         onMouseEnter={() => setShowIndicators(true)}
         onMouseLeave={() => setShowIndicators(false)}
         ref={slideRef}
-        className="relative w-full cursor-pointer select-none rounded"
+        className="relative w-full cursor-pointer select-none md:rounded"
       >
-        <div className="aspect-w-16 aspect-h-9 overflow-hidden rounded">
+        <div className="aspect-w-16 aspect-h-9 overflow-hidden md:rounded">
           <Image
             src={data[currentIndex].image}
             placeholder="blur"
             quality={50}
             loading="eager"
             alt={data[0].body}
-            className="rounded"
+            className="md:rounded"
           />
         </div>
 

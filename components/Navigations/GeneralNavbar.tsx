@@ -37,7 +37,7 @@ function GeneralNavbar({ component_above_navbar, scrollY, setCloseMessage, close
             <>
               {!close_message && (
                 <div
-                  className="bg-blue-superlight"
+                  className="bg-[#338ec8]"
                   style={{
                     backgroundImage: `url(${particles.src})`,
                     width: '100%',
@@ -48,13 +48,13 @@ function GeneralNavbar({ component_above_navbar, scrollY, setCloseMessage, close
                     maxW="container.xl"
                     className="mx-auto flex flex-row items-center justify-between md:py-4 py-2"
                   >
-                    <p className="font-bold text-blue-dark sm:text-xs md:text-base">
+                    <p className="font-bold text-gray-900 sm:text-xs md:text-base">
                       Free delivery on your first order
                     </p>
                     <div className="flex flex-row items-center space-x-2 md:space-x-4">
                       <Link href={'/explore'} passHref>
                         <a>
-                          <div className="md:flex hidden rounded-full bg-blue-dark px-2 py-1 text-xs font-semibold text-white md:text-sm">
+                          <div className="md:flex hidden rounded-full bg-gray-900 px-2 py-1 text-xs font-semibold text-white md:text-sm">
                             View more
                           </div>
                         </a>
@@ -66,7 +66,7 @@ function GeneralNavbar({ component_above_navbar, scrollY, setCloseMessage, close
                         <XIcon
                           height={20}
                           width={20}
-                          className="text-blue-dark"
+                          className="text-gray-900"
                         />
                       </div>
                     </div>

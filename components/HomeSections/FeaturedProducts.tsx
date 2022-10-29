@@ -51,7 +51,7 @@ function FeaturedProducts({
                   </div>
                 ))}
               </div>
-              <div className="scrollbar-hide relative mx-auto  grid grid-cols-2 gap-4 md:hidden md:grid-cols-4 md:gap-8 lg:grid-cols-5">
+              <div className="scrollbar-hide w-full relative mx-auto  grid grid-cols-2 gap-4 md:hidden md:grid-cols-4 md:gap-8 lg:grid-cols-5">
                 {[1, 2]?.map((product: any, index: number) => (
                   <div
                     key={index}

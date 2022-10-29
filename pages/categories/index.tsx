@@ -4,6 +4,7 @@ import React, { useContext } from 'react'
 import { Store } from '../../Context/Store'
 import GeneralLayout from '../../layouts/GeneralLayout'
 import { data } from '../../utils/data'
+import slugify from '../../utils/slugify'
 
 function Categories() {
   const { dispatch } = useContext(Store)
@@ -11,7 +12,7 @@ function Categories() {
 
   const search_by_category = (category: any) => {
     dispatch({ type: 'SET_SEARCH_QUERY', payload: category })
-    history.push('/explore')
+    history.push(`/explore?category=${slugify(category)}`)
   }
   return (
     <GeneralLayout
