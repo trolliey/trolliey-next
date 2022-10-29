@@ -21,7 +21,7 @@ for (let i = 0; i < 25; i++) {
 }
 
 // register user controller
-exports.registerUser = async (req, res) => {
+exports.registerUser = async (req, res, next) => {
   //get filds from request
   let {
     email,
@@ -56,9 +56,9 @@ exports.registerUser = async (req, res) => {
 
   // Check if this user already exisits
   else {
-    let user = await User.findOne({ email: req.body.email });
+    let _user = await User.findOne({ email: req.body.email });
 
-    if (user) {
+    if (_user) {
       return res.status(500).send({ message: "Email already registered" });
     } else {
       //create new user object
@@ -75,31 +75,32 @@ exports.registerUser = async (req, res) => {
         emailVerified: emailVerified
       });
 
-      if (method === "gooogle") {
+      if (method === "google") {
+        const new_user = await newUser.save();
         token = await jwt.sign(
           {
-            name: _user.name,
-            email: _user.email,
-            _id: _user._id,
-            role: _user.role,
-            emailVerified: _user.emailApproved,
-            username: _user.username,
-            photoURL: _user.photoURL,
+            name: new_user.name,
+            email: new_user.email,
+            _id: new_user._id,
+            role: new_user.role,
+            emailVerified: new_user.emailApproved,
+            username: new_user.username,
+            photoURL: new_user.photoURL,
           },
           process.env.JWT_SECRET
         );
         if (token) {
           const user = {
-            name: _user.name,
-            email: _user.email,
-            _id: _user._id,
-            role: _user.role,
-            emailVerified: _user.emailApproved,
-            username: _user.username,
-            photoURL: _user.photoURL,
+            name: new_user.name,
+            email: new_user.email,
+            _id: new_user._id,
+            role: new_user.role,
+            emailVerified: new_user.emailApproved,
+            username: new_user.username,
+            photoURL: new_user.photoURL,
             token: token,
           };
-          await newUser.save();
+          
 
           return res.status(200).send({ ...user, message: "Account Created" });
         } else {
@@ -122,7 +123,7 @@ exports.registerUser = async (req, res) => {
         await sgMail.send(msg);
         await newUser.save();
 
-        return res.status(200).send("Account Created");
+        return res.status(200).send({message: "Account Created"});
       }
     }
   }
