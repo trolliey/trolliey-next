@@ -71,7 +71,7 @@ function MobileNavDrawers({ user }: Props): ReactElement {
             {/* <p className="text-lg font-semibold text-gray-700 uppercase mx-auto text-center my-4">logo</p> */}
             <div className="font-myriad-pro flex py-2 font-extrabold text-black">
               <Image
-                height={20}
+                height={160}
                 objectFit="contain"
                 src={logo}
                 alt="logo for mobile drawer"
