@@ -224,12 +224,20 @@ exports.editAProduct = async (req, res) => {
 // get single product
 // get request
 // /api/product/single/{productId}
-exports.getSingleProduct = async (req, res) => {
+exports.getSingleProduct = async (req, res, next) => {
   try {
-    const product = await Product.findById(req.query.id);
-    await res.send(product);
+    const {id} = req.params
+    const product = await Product.findById(id);
+    const store = await Store.findOne({_id: product.store_id})
+    const store_info = {
+      store_id: store._id,
+      company_name: store.company_name,
+      logo: store.logo,
+      banner: store.banner
+    }
+    return res.status(200).send({product, store_info});
   } catch (error) {
-    return res.status(500).send({ message: `${error}` });
+    next(error)
   }
 };
 
