@@ -1,4 +1,4 @@
-import React, { ReactElement, useState, useContext } from 'react'
+import React, { ReactElement, useState, useContext, useEffect } from 'react'
 import { ChevronDownIcon } from '@heroicons/react/outline'
 import {
   useDisclosure,
@@ -50,6 +50,8 @@ export default function AdminProductsTable({
   const { state } = useContext(Store)
   const { userInfo } = state
 
+  console.log('asdfhkasjd ---------------------------- ',products)
+
   const confirm_delete_item = async (product_id: string) => {
     try {
       setLoading(true)
@@ -97,7 +99,7 @@ export default function AdminProductsTable({
     try {
       setLoading(true)
       const { data } = await axios.put(
-        `${apiUrl}/api/product/edit/${product_id}?toggle_special=${true}`,
+        `${apiUrl}/api/product/special/${product_id}?toggle_special=${true}`,
         {},
         {
           headers: {
@@ -245,9 +247,9 @@ export default function AdminProductsTable({
                                 </MenuItem>
                                 <MenuItem>
                                   <MakeSpecialModal
-                                    product_id={product_id}
+                                    product_id={product?._id}
                                     onClick={toggle_featured}
-                                    product_name={product_name}
+                                    product_name={product?.title}
                                     loading={loading}
                                   />
                                 </MenuItem>

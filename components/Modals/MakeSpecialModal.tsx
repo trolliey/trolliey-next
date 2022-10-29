@@ -34,8 +34,8 @@ export default function MakeSpecialModal({
               Make Product Special
             </p>
             <p className="text-center">
-              Are you sure you want to make product with name {product_name}{' '}
-              specaial?
+              Are you sure you want to make product with name <span className='text-black font-semibold'>"{product_name}"</span>{' '}
+              special?
             </p>
           </ModalBody>
 

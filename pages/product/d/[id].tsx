@@ -34,6 +34,8 @@ function ProductDescription(props: any) {
   // for toast
   const toast = useToast()
 
+  console.log(single_product)
+
   const add_to_basket = async () => {
     const { data } = await axios.get(`/api/products/${single_product?.data?.product?._id}`)
     if (data?.countInStock <= 0) {
