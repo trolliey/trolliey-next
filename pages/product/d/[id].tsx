@@ -256,7 +256,7 @@ function ProductDescription(props: any) {
                     {single_product?.data?.product?.variants?.length < 1 ? (
                       <div className="flex flex-col">
                         <p className="text-center text-sm text-gray-500">
-                          This single_product?.data?.product has no variants
+                          This product has no variants
                         </p>
                       </div>
                     ) : (
