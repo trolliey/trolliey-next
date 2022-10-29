@@ -232,7 +232,9 @@ exports.makeSpecial = async (req, res) => {
     let product = await Product.findOne({ _id: id });
 
     if (req.query.toggle_special) {
-      product.is_special === false ? product.is_special = true : product.is_special = false;
+      product.is_special === false
+        ? (product.is_special = true)
+        : (product.is_special = false);
     }
 
     await product.save();
@@ -296,6 +298,25 @@ exports.getAllProducts = async (req, res) => {
             },
             { category: { $regex: req.query.keyword, $options: "i" } },
           ],
+        },
+      });
+    }
+
+    // filter by special
+    if (req.query.is_special) {
+      query.push({
+        //@ts-ignore
+        $match: {
+          is_special: true,
+        },
+      });
+    }
+
+    if (req.query.store_id) {
+      query.push({
+        //@ts-ignore
+        $match: {
+          store_id: req.query.store_id,
         },
       });
     }
