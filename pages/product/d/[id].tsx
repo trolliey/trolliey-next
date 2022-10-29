@@ -3,7 +3,7 @@ import GeneralLayout from '../../../layouts/GeneralLayout'
 import { Tab } from '@headlessui/react'
 import { ShoppingCartIcon, InformationCircleIcon } from '@heroicons/react/solid'
 import { PlusIcon } from '@heroicons/react/outline'
-import { Avatar, Divider, useToast } from '@chakra-ui/react'
+import { Avatar, Divider, Spinner, useToast } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import BlueButton from '../../../components/Buttons/BlueButton'
@@ -24,25 +24,28 @@ function classNames(...classes: string[]) {
 function ProductDescription(props: any) {
   const { dispatch } = useContext(Store)
   const history = useRouter()
-  const {id} = history.query
+  const { id } = history.query
 
   const [selected_variant, setSelectedVariant] = useState<any>()
   const [show_features, setShowFeatures] = useState<boolean>(false)
   const [showMore, setShowMore] = useState<any>()
 
   const single_product = useFetch(`${apiUrl}/api/product/single/${id}`)
-
-  console.log('asdfas', single_product)
   // for toast
   const toast = useToast()
 
   const add_to_basket = async () => {
-    const { data } = await axios.get(`/api/products/${single_product?.data?.product?._id}`)
+    const { data } = await axios.get(
+      `/api/products/${single_product?.data?.product?._id}`
+    )
     if (data?.countInStock <= 0) {
       alert('Sorry. Product our of stock')
       return
     }
-    dispatch({ type: 'ADD_TO_CART', payload: { ...single_product?.data?.product, quantity: 1 } })
+    dispatch({
+      type: 'ADD_TO_CART',
+      payload: { ...single_product?.data?.product, quantity: 1 },
+    })
     toast({
       title: `${single_product?.data?.product?.title} added to cart.`,
       position: 'top-right',
@@ -53,12 +56,17 @@ function ProductDescription(props: any) {
   }
 
   const buy_item_now = async () => {
-    const { data } = await axios.get(`/api/products/${single_product?.data?.product?._id}`)
+    const { data } = await axios.get(
+      `/api/products/${single_product?.data?.product?._id}`
+    )
     if (data?.countInStock <= 0) {
       alert('Sorry. Product our of stock')
       return
     }
-    dispatch({ type: 'ADD_TO_CART', payload: { ...single_product?.data?.product, quantity: 1 } })
+    dispatch({
+      type: 'ADD_TO_CART',
+      payload: { ...single_product?.data?.product, quantity: 1 },
+    })
     toast({
       title: `${single_product?.data?.product?.title} added to cart.`,
       position: 'top-right',
@@ -67,6 +75,16 @@ function ProductDescription(props: any) {
       isClosable: true,
     })
     history.push('/shipping')
+  }
+
+  if (single_product?.status === 'fetching') {
+    return (
+      <GeneralLayout title={'Loading...'} description="Product Is loading">
+        <div className=" my-16 grid h-96 content-center items-center justify-center rounded bg-white py-2">
+          <Spinner size={'xl'} />
+        </div>
+      </GeneralLayout>
+    )
   }
 
   if (!single_product?.data?.product) {
@@ -108,53 +126,57 @@ function ProductDescription(props: any) {
                 {/* Image selector */}
                 <div className="mx-auto mt-6 w-full max-w-2xl sm:block lg:max-w-none">
                   <Tab.List className="grid grid-cols-4 gap-2 md:grid-cols-8">
-                    {single_product?.data?.product?.pictures?.map((image: any, index: number) => (
-                      <Tab
-                        key={index}
-                        className="relative flex h-16 w-16 cursor-pointer items-center justify-center rounded-md bg-gray-100 text-sm font-medium uppercase text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-offset-4"
-                      >
-                        {({ selected }) => (
-                          <>
-                            <span className="sr-only">{'image'}</span>
-                            <span className="absolute inset-0 overflow-hidden rounded-md">
-                              <Image
-                                src={image}
-                                objectFit="contain"
-                                layout="fill"
-                                alt="for a single single_product?.data?.product"
-                                className="h-full w-full rounded object-cover object-center"
+                    {single_product?.data?.product?.pictures?.map(
+                      (image: any, index: number) => (
+                        <Tab
+                          key={index}
+                          className="relative flex h-16 w-16 cursor-pointer items-center justify-center rounded-md bg-gray-100 text-sm font-medium uppercase text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-offset-4"
+                        >
+                          {({ selected }) => (
+                            <>
+                              <span className="sr-only">{'image'}</span>
+                              <span className="absolute inset-0 overflow-hidden rounded-md">
+                                <Image
+                                  src={image}
+                                  objectFit="contain"
+                                  layout="fill"
+                                  alt="for a single single_product?.data?.product"
+                                  className="h-full w-full rounded object-cover object-center"
+                                />
+                              </span>
+                              <span
+                                className={classNames(
+                                  selected
+                                    ? 'ring-blue-primary'
+                                    : 'ring-transparent',
+                                  'pointer-events-none absolute inset-0 rounded-md ring-2 ring-offset-2'
+                                )}
+                                aria-hidden="true"
                               />
-                            </span>
-                            <span
-                              className={classNames(
-                                selected
-                                  ? 'ring-blue-primary'
-                                  : 'ring-transparent',
-                                'pointer-events-none absolute inset-0 rounded-md ring-2 ring-offset-2'
-                              )}
-                              aria-hidden="true"
-                            />
-                          </>
-                        )}
-                      </Tab>
-                    ))}
+                            </>
+                          )}
+                        </Tab>
+                      )
+                    )}
                   </Tab.List>
                 </div>
 
                 <Tab.Panels className="aspect-w-1 aspect-h-1 max-h-[750px] w-full flex-1 overflow-hidden rounded-lg">
-                  {single_product?.data?.product?.pictures?.map((image: any, index: number) => (
-                    <Tab.Panel key={index} className=" rounded">
-                      <Image
-                        src={image}
-                        layout="responsive"
-                        width={'100%'}
-                        height={'100%'}
-                        objectFit="contain"
-                        alt={'for the single_product?.data?.product'}
-                        className="bg-gray-100 object-center sm:rounded-lg"
-                      />
-                    </Tab.Panel>
-                  ))}
+                  {single_product?.data?.product?.pictures?.map(
+                    (image: any, index: number) => (
+                      <Tab.Panel key={index} className=" rounded">
+                        <Image
+                          src={image}
+                          layout="responsive"
+                          width={'100%'}
+                          height={'100%'}
+                          objectFit="contain"
+                          alt={'for the single_product?.data?.product'}
+                          className="bg-gray-100 object-center sm:rounded-lg"
+                        />
+                      </Tab.Panel>
+                    )
+                  )}
                 </Tab.Panels>
               </Tab.Group>
 
@@ -174,11 +196,14 @@ function ProductDescription(props: any) {
                     <div className="flex items-center">
                       <div className="flex items-center">
                         <RatingComponent
-                          ratings={Math.floor(single_product?.data?.product?.averageRating)}
+                          ratings={Math.floor(
+                            single_product?.data?.product?.averageRating
+                          )}
                         />
                       </div>
                       <p className="sr-only">
-                        {single_product?.data?.product?.averageRating} out of 5 stars
+                        {single_product?.data?.product?.averageRating} out of 5
+                        stars
                       </p>
                     </div>
                   </div>
@@ -199,7 +224,9 @@ function ProductDescription(props: any) {
                           className="text-2xl font-bold text-gray-700"
                           amount={
                             parseFloat(single_product?.data?.product?.price) -
-                            parseFloat(single_product?.data?.product?.discount_price)
+                            parseFloat(
+                              single_product?.data?.product?.discount_price
+                            )
                           }
                         />
                       )}
@@ -232,19 +259,21 @@ function ProductDescription(props: any) {
                       </div>
                     ) : (
                       <div className="grid grid-cols-4 gap-2 p-1 md:gap-4">
-                        {single_product?.data?.product?.variants?.map((item: any, index: number) => (
-                          <span
-                            onClick={() => setSelectedVariant(item)}
-                            key={index}
-                            className={`${
-                              item.variant === selected_variant?.variant
-                                ? 'bg-blue-primary text-white'
-                                : ''
-                            } col-span-1 cursor-pointer rounded-full border border-gray-300 py-1 px-2 text-xs uppercase text-gray-700 hover:border-gray-700 hover:text-gray-700`}
-                          >
-                            <p className="text-center">{item.variant}</p>
-                          </span>
-                        ))}
+                        {single_product?.data?.product?.variants?.map(
+                          (item: any, index: number) => (
+                            <span
+                              onClick={() => setSelectedVariant(item)}
+                              key={index}
+                              className={`${
+                                item.variant === selected_variant?.variant
+                                  ? 'bg-blue-primary text-white'
+                                  : ''
+                              } col-span-1 cursor-pointer rounded-full border border-gray-300 py-1 px-2 text-xs uppercase text-gray-700 hover:border-gray-700 hover:text-gray-700`}
+                            >
+                              <p className="text-center">{item.variant}</p>
+                            </span>
+                          )
+                        )}
                       </div>
                     )}
                   </div>
@@ -277,7 +306,9 @@ function ProductDescription(props: any) {
                         <div className="flex flex-row items-center">
                           <p className="mr-2 text-gray-500">Delivered in</p>
                           <div className="text-gray-500">
-                            {single_product?.data?.product?.time_to_deliver ? single_product?.data?.product?.time_to_deliver : 'Not Specified'}
+                            {single_product?.data?.product?.time_to_deliver
+                              ? single_product?.data?.product?.time_to_deliver
+                              : 'Not Specified'}
                             {/* <Image
                               width={80}
                               objectFit="contain"
@@ -303,7 +334,8 @@ function ProductDescription(props: any) {
                           <p className="text-sm font-semibold text-gray-700">
                             {selected_variant
                               ? selected_variant.countInStock
-                              : single_product?.data?.product?.countInStock}{' '}
+                              : single_product?.data?.product
+                                  ?.countInStock}{' '}
                             In Stock
                           </p>
                         ) : (
@@ -373,7 +405,9 @@ function ProductDescription(props: any) {
                 </div>
                 <div
                   onClick={() =>
-                    history.push(`/store/${single_product?.data?.store_info?.store_id}/products`)
+                    history.push(
+                      `/store/${single_product?.data?.store_info?.store_id}/products`
+                    )
                   }
                   className="flex cursor-pointer flex-row items-center space-x-4 rounded border border-gray-200 bg-white p-4"
                 >
@@ -385,7 +419,8 @@ function ProductDescription(props: any) {
                   />
                   <div className="flex flex-col">
                     <p className="font-semibold text-gray-700">
-                      View {single_product?.data?.store_info?.company_name}'s store
+                      View {single_product?.data?.store_info?.company_name}'s
+                      store
                     </p>
                     <p className="text-sm text-gray-400">
                       View the seller's shop and catalogues
@@ -453,7 +488,11 @@ function ProductDescription(props: any) {
                         <div
                           className="space-y-6 text-base leading-normal text-gray-700"
                           dangerouslySetInnerHTML={{
-                            __html: single_product?.data?.product?.description?.substring(0, 500),
+                            __html:
+                              single_product?.data?.product?.description?.substring(
+                                0,
+                                500
+                              ),
                           }}
                         />
                       )}
@@ -472,7 +511,9 @@ function ProductDescription(props: any) {
         </div>
         <div className="related_single_product?.data?.products my-16">
           <>
-            <RelatedProducts category={single_product?.data?.product?.category} />
+            <RelatedProducts
+              category={single_product?.data?.product?.category}
+            />
           </>
         </div>
       </div>
