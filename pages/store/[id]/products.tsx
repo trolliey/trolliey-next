@@ -13,6 +13,7 @@ import MobileProductItem from '../../../components/ProductItem/MobileProductItem
 import MobileProductItemLoading from '../../../components/ProductItem/MobileProductItemLoading'
 import LoadMoreComponent from '../../../components/LoadMore/LoadMoreComponent'
 import Pagination from '../../../components/Pagination/Pagination'
+import { apiUrl } from '../../../utils/apiUrl'
 
 const PER_PAGE = 16
 
@@ -23,11 +24,13 @@ function StoreProducts(props: any) {
   const history = useRouter()
   const { id } = history.query
 
-  const url = `/api/store/${id}?keyword=${
+  const url = `${apiUrl}/api/product/all/?store_id=${id}&page=${page}&keyword=${
     api_search ? api_search : ''
   }&perPage=${PER_PAGE}`
   // start the fetching using the useFetch hook
   const state = useFetch(url)
+
+  console.log('asdfads', state)
 
   if (state?.data.products?.length < 1) {
     return (
@@ -65,7 +68,7 @@ function StoreProducts(props: any) {
   }
 
   return (
-    <StoreLayout store_info={props.store}>
+    <StoreLayout store_info={state?.data?.products?.[0]?.creator}>
       <div className="w-full rounded-lg bg-white p-2 shadow md:p-4">
         {/* desktop mobile items and loading components
         loading component is the same on both mobile and desktop
