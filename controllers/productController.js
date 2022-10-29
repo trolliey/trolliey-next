@@ -154,7 +154,7 @@ exports.editAProduct = async (req, res) => {
       currency_type,
     } = req.body;
 
-    if (!description) {
+    if (!!description) {
       return res.status(400).send({ message: "Enter a description" });
     }
     if (!title) {
@@ -194,6 +194,12 @@ exports.editAProduct = async (req, res) => {
     //   }
     //   console.log("image uploaded");
     // }
+    if (req.query.toggle_special) {
+      product.is_special === true ? false : true;
+    }
+    if (req.query.toggle_featured) {
+      product.is_featured === true ? false : true;
+    }
 
     product.title = title;
     product.description = description;
@@ -215,10 +221,25 @@ exports.editAProduct = async (req, res) => {
     await product.save();
     return res.status(200).send({ message: "Product has been updated" });
   } catch (error) {
-    return res.status(500).send({ message: `${error}` });
+    next(error);
   }
+};
 
-  
+// make special
+exports.makeSpecial = async (req, res) => {
+  try {
+    const { id } = req.params; // the id of the product
+    let product = await Product.findOne({ _id: id });
+
+    if (req.query.toggle_special) {
+      product.is_special === false ? product.is_special = true : product.is_special = false;
+    }
+
+    await product.save();
+    return res.status(200).send({ message: "Product has been updated" });
+  } catch (error) {
+    next(error);
+  }
 };
 
 // get single product
@@ -226,18 +247,18 @@ exports.editAProduct = async (req, res) => {
 // /api/product/single/{productId}
 exports.getSingleProduct = async (req, res, next) => {
   try {
-    const {id} = req.params
+    const { id } = req.params;
     const product = await Product.findById(id);
-    const store = await Store.findOne({_id: product.store_id})
+    const store = await Store.findOne({ _id: product.store_id });
     const store_info = {
       store_id: store._id,
       company_name: store.company_name,
       logo: store.logo,
-      banner: store.banner
-    }
-    return res.status(200).send({product, store_info});
+      banner: store.banner,
+    };
+    return res.status(200).send({ product, store_info });
   } catch (error) {
-    next(error)
+    next(error);
   }
 };
 

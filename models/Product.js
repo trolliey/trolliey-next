@@ -87,6 +87,14 @@ const productShema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    is_special:{
+      type: Boolean,
+      default: false
+    },
+    is_featured:{
+      type: Boolean, 
+      default: false
+    }
   },
   {
     timestamps: true,

@@ -5,6 +5,7 @@ const {
   getAllProducts,
   deleteAProduct,
   getSingleProduct,
+  makeSpecial,
 } = require("../../controllers/productController");
 const { requireStoreSignIn } = require("../../middleware/require_auth");
 const router = express.Router();
@@ -28,6 +29,15 @@ router.put(
   requireStoreSignIn,
   upload.array("product_pictures"),
   editAProduct
+);
+
+// make special
+// put request
+// /api/product/special/{productId}
+router.put(
+  "/special/:id",
+  requireStoreSignIn,
+  makeSpecial
 );
 
 // get single product
