@@ -14,6 +14,7 @@ import { Text } from '@chakra-ui/react'
 import slugify from '../utils/slugify'
 import Head from 'next/head'
 import ScrollingLogoSection from '../components/SrollingLogoSection/ScrollingLogoSection'
+import SpecialProducts from '../components/HomeSections/SpecialProducts'
 
 const OG_IMAGE =
   'https://res.cloudinary.com/trolliey/image/upload/v1656413519/trolliey%20static%20images/home_og_image_rwubje.jpg'
@@ -129,21 +130,25 @@ function Home(): ReactFragment {
             <div className="section flex w-full flex-col space-y-8 px-2 md:px-0">
               {/* // featured products */}
               <>
-                <FeaturedProducts
+                <SpecialProducts
                   sortBy={'createdBy'}
-                  heading={'New Arrivals'}
-                  category={'electronics-and-wearable'}
+                  heading={'Special Products'}
+                  is_special={true}
                 />
-              </>
-
-              <>
-                <FeaturedProducts heading={'Next Day Delivery'} />
               </>
               <>
                 <FeaturedProducts
                   heading={'Best Selling'}
                   sortBy="times_bought"
+                  sortOrder="desc"
                 />
+                <>
+                  <FeaturedProducts
+                    sortBy="createdAt"
+                    heading={'Next Day Delivery'}
+                    sortOrder="asc"
+                  />
+                </>
               </>
               <section aria-labelledby="category-heading" className="my-8">
                 <div className="mx-auto max-w-7xl rounded bg-white p-4 md:p-8">

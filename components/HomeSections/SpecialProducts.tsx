@@ -13,21 +13,16 @@ interface Props {
   heading: string
   category?: string
   sortBy?: string
-  is_special?: boolean,
-  sortOrder?:string
+  is_special?: boolean
 }
 
-function FeaturedProducts({
+function SpecialProducts({
   heading,
-  category,
-  sortBy,
-  is_special,
-  sortOrder
 }: Props): ReactElement {
-  const address = `${apiUrl}/api/product/all?page=${1}&sortOrder=${sortOrder}$&perPage=${16}&sortBy=${sortBy}&category=${
-    category ? category : ''
-  }`
+  const address = `${apiUrl}/api/product/all?page=${1}&is_special=${true}&perPage=${16}&sortBy=${'createdAt'}`
   const response = useFetch(address)
+
+  console.log('special products', response?.data)
 
   return (
     <>
@@ -128,4 +123,4 @@ function FeaturedProducts({
   )
 }
 
-export default FeaturedProducts
+export default SpecialProducts

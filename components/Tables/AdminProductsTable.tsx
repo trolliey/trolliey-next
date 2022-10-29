@@ -50,8 +50,6 @@ export default function AdminProductsTable({
   const { state } = useContext(Store)
   const { userInfo } = state
 
-  console.log('asdfhkasjd ---------------------------- ',products)
-
   const confirm_delete_item = async (product_id: string) => {
     try {
       setLoading(true)
@@ -107,10 +105,23 @@ export default function AdminProductsTable({
           },
         }
       )
-      console.log(data)
+      toast({
+        title: 'Sucesfully changed!.',
+        status: 'success',
+        position: 'top-right',
+        duration: 9000,
+        isClosable: true,
+      })
       setLoading(false)
     } catch (error) {
       setLoading(false)
+      toast({
+        title: 'Please try again.',
+        status: 'error',
+        position: 'top-right',
+        duration: 9000,
+        isClosable: true,
+      })
       console.log(getError(error))
     }
   }
