@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
-import ProductsTable from '../../../components/Tables/ProductsTable'
+import AdminProductsTable from '../../../components/Tables/AdminProductsTable'
 import { useFetch } from '../../../hooks/useFetch'
 import AdminDashboard from '../../../layouts/AdminDashboard'
 import { apiUrl } from '../../../utils/apiUrl'
 
-const PER_PAGE = 16 
+const PER_PAGE = 16
 function ManageProducts() {
-
   const [page, setPage] = useState(1)
   const url = `${apiUrl}/api/product/all?page=${page}&perPage=${PER_PAGE}`
   const all_pro = useFetch(url)
@@ -18,7 +17,13 @@ function ManageProducts() {
           Manage all products
         </p>
         <div className="flex flex-col">
-          <ProductsTable setPage={setPage} PER_PAGE={PER_PAGE} data_info={all_pro?.data?.meta} products={all_pro?.data?.products} />
+          <AdminProductsTable
+            setPage={setPage}
+            PER_PAGE={PER_PAGE}
+            data_info={all_pro?.data?.meta}
+            products={all_pro?.data?.products}
+            table_loading={all_pro?.status === 'fetching'}
+          />
         </div>
       </div>
     </AdminDashboard>

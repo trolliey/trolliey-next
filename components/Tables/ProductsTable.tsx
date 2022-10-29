@@ -81,8 +81,6 @@ export default function ProductsTable({
     }
   }
 
-  // console.log(data_info)
-
   const set_delete_item = (id: string, name: string) => {
     onOpen()
     setProductId(id)
