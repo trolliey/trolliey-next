@@ -69,7 +69,7 @@ function login() {
     }
   }
 
-  const login_With_Google = async () => {
+  const login_With_Google  = async () => {
     try {
       setLoading(true)
       const res = await signInWithPopup(auth, googleProvider)
