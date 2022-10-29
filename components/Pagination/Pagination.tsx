@@ -34,7 +34,7 @@ function Pagination({
   })
 
   //@ts-ignore
-  if (currentPage === 0 || paginationRange.length < 2) {
+  if (currentPage === 0 || paginationRange?.length < 2) {
     return null
   }
 
@@ -47,7 +47,7 @@ function Pagination({
   }
 
   //@ts-ignore
-  let lastPage = paginationRange[paginationRange.length - 1]
+  let lastPage = paginationRange?.[paginationRange?.length - 1]
 
   return (
     <ul

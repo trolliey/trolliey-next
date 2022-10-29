@@ -7,6 +7,7 @@ import { Store } from '../../Context/Store'
 import Cookies from 'js-cookie'
 import { useToast } from '@chakra-ui/react'
 import { getError } from '../../utils/error'
+import { apiUrl } from '../../utils/apiUrl'
 
 function AdminLogin() {
     const [email, setEmail] = useState<string>('')
@@ -30,7 +31,7 @@ function AdminLogin() {
     const login_user_handler = async () => {
         setLoading(true)
         try {
-            const { data } = await axios.post(`/api/auth/admin`, { email, password })
+            const { data } = await axios.post(`${apiUrl}/api/auth/admin/login`, { email, password })
             dispatch({ type: 'USER_LOGIN', payload: data })
             Cookies.set('userInfo', JSON.stringify(data))
             setTimeout(() => {

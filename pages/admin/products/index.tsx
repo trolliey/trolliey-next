@@ -1,53 +1,15 @@
-import axios from 'axios'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
 import ProductsTable from '../../../components/Tables/ProductsTable'
+import { useFetch } from '../../../hooks/useFetch'
 import AdminDashboard from '../../../layouts/AdminDashboard'
+import { apiUrl } from '../../../utils/apiUrl'
 
+const PER_PAGE = 16 
 function ManageProducts() {
 
-  const [loading, setLoading] = useState<boolean>(false)
-  const [search_query, setSearchQuery] = useState<string>('')
-  const [products, setProducts] = useState<any>([])
-  const [data_info, setDAtaInfo] = useState()
   const [page, setPage] = useState(1)
-  const cache = useRef<any>({})
-
-  const PER_PAGE = 16
-
-  useEffect(() => {
-    let cancelRequest = false
-    const prod_page = page ? page : 1
-    const url = `/api/products?page=${prod_page}&perPage=${PER_PAGE}`
-    const getData = async () => {
-      if (cache.current[url]) {
-        const data = cache.current[url]
-        setProducts(data?.products)
-        setLoading(false)
-      } else {
-        try {
-          setLoading(true)
-          const { data } = await axios.post(
-            url,
-            {
-              query: search_query,
-            }
-          )
-          cache.current[url] = data
-          if (cancelRequest) return
-          setProducts(data?.products)
-          setDAtaInfo(data?.meta)
-          setLoading(false)
-        } catch (error) {
-          if (cancelRequest) return
-          setLoading(false)
-        }
-      }
-    }
-    getData()
-    return function cleanup() {
-      cancelRequest = true
-    }
-  }, [search_query, page])
+  const url = `${apiUrl}/api/product/all?page=${page}&perPage=${PER_PAGE}`
+  const all_pro = useFetch(url)
 
   return (
     <AdminDashboard>
@@ -56,7 +18,7 @@ function ManageProducts() {
           Manage all products
         </p>
         <div className="flex flex-col">
-          {/* <ProductsTable PER_PAGE={PER_PAGE} data_info={data_info} products={products} /> */}
+          <ProductsTable setPage={setPage} PER_PAGE={PER_PAGE} data_info={all_pro?.data?.meta} products={all_pro?.data?.products} />
         </div>
       </div>
     </AdminDashboard>

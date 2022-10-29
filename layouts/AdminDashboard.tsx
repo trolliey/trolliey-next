@@ -22,26 +22,25 @@ function AdminDashboard({ children }: Props) {
 
   return (
     <>
-      <div className="relative flex h-screen overflow-hidden bg-gray-100">
-        <div className="h-full">
+     <main className="flex h-screen w-full flex-col">
+        <div className="flex w-full flex-1 overflow-hidden bg-gray-100">
+          <div className="flex">
           <AdminSidebar
             sidebarOpen={sidebarOpen}
             setSidebarOpen={setSidebarOpen}
           />
+          </div>
+          <div className="flex w-full flex-1 flex-col">
+            <div className="flex w-full flex-col">
+              <DashboardNavbar setSidebarOpen={setSidebarOpen} />
+            </div>
+            <div className="flex flex-col max-w-7xl mx-auto w-full overflow-y-auto bg-blue-300 px-4">
+              {children}
+            </div>
+          </div>
         </div>
-
-        {/* // the body of the dashboard */}
-
-        <div className="flex-1 overflow-auto focus:outline-none">
-          <main className="relative z-0 flex-1 overflow-y-auto pb-8">
-            {/* Page header */}
-            <DashboardNavbar setSidebarOpen={setSidebarOpen} />
-
-            {/* // the rest of the dashboard */}
-            {children}
-          </main>
-        </div>
-      </div>
+      </main>
+     
     </>
   )
 }

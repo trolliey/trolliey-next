@@ -9,14 +9,13 @@ import Image from 'next/image'
 import BlueButton from '../../../components/Buttons/BlueButton'
 import BlackButton from '../../../components/Buttons/BlackButton'
 import RatingComponent from '../../../components/Rating/RatingComponent'
-import { connect, convertDocToObj, disconnect } from '../../../utils/mongo'
-import Products from '../../../models/Product'
 import { Store } from '../../../Context/Store'
-import ProductStore from '../../../models/Store'
 import axios from 'axios'
 import RelatedProducts from '../../../components/HomeSections/RelatedProducts'
 import Amount from '../../../components/Amount/Amount'
 import no_product from '../../../public/img/no_product.svg'
+import { useFetch } from '../../../hooks/useFetch'
+import { apiUrl } from '../../../utils/apiUrl'
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
@@ -24,25 +23,26 @@ function classNames(...classes: string[]) {
 
 function ProductDescription(props: any) {
   const { dispatch } = useContext(Store)
-  const { product, store } = props
   const history = useRouter()
+  const {id} = history.query
 
   const [selected_variant, setSelectedVariant] = useState<any>()
   const [show_features, setShowFeatures] = useState<boolean>(false)
   const [showMore, setShowMore] = useState<any>()
 
+  const single_product = useFetch(`${apiUrl}/api/product/single/${id}`)
   // for toast
   const toast = useToast()
 
   const add_to_basket = async () => {
-    const { data } = await axios.get(`/api/products/${product?._id}`)
+    const { data } = await axios.get(`/api/products/${single_product?.data?.product?._id}`)
     if (data?.countInStock <= 0) {
       alert('Sorry. Product our of stock')
       return
     }
-    dispatch({ type: 'ADD_TO_CART', payload: { ...product, quantity: 1 } })
+    dispatch({ type: 'ADD_TO_CART', payload: { ...single_product?.data?.product, quantity: 1 } })
     toast({
-      title: `${product?.title} added to cart.`,
+      title: `${single_product?.data?.product?.title} added to cart.`,
       position: 'top-right',
       status: 'success',
       duration: 9000,
@@ -51,14 +51,14 @@ function ProductDescription(props: any) {
   }
 
   const buy_item_now = async () => {
-    const { data } = await axios.get(`/api/products/${product?._id}`)
+    const { data } = await axios.get(`/api/products/${single_product?.data?.product?._id}`)
     if (data?.countInStock <= 0) {
       alert('Sorry. Product our of stock')
       return
     }
-    dispatch({ type: 'ADD_TO_CART', payload: { ...product, quantity: 1 } })
+    dispatch({ type: 'ADD_TO_CART', payload: { ...single_product?.data?.product, quantity: 1 } })
     toast({
-      title: `${product?.title} added to cart.`,
+      title: `${single_product?.data?.product?.title} added to cart.`,
       position: 'top-right',
       status: 'success',
       duration: 9000,
@@ -67,7 +67,7 @@ function ProductDescription(props: any) {
     history.push('/shipping')
   }
 
-  if (!product) {
+  if (!single_product?.data?.product) {
     return (
       <GeneralLayout
         title={'Not Found'}
@@ -87,12 +87,12 @@ function ProductDescription(props: any) {
 
   return (
     <GeneralLayout
-      title={product?.title}
-      description={product?.description}
-      og_image={product?.pictures[0]}
-      twitter_title={product?.title}
-      twitter_description={product?.description}
-      og_url={`/product/d/${product?._id}`}
+      title={single_product?.data?.product?.title}
+      description={single_product?.data?.product?.description}
+      og_image={single_product?.data?.product?.pictures?.[0]}
+      twitter_title={single_product?.data?.product?.title}
+      twitter_description={single_product?.data?.product?.description}
+      og_url={`/single_product?.data?.product/d/${single_product?.data?.product?._id}`}
     >
       <div className="flex max-w-7xl flex-col bg-gray-100">
         <div className="mx-auto w-full flex-1 rounded ">
@@ -106,7 +106,7 @@ function ProductDescription(props: any) {
                 {/* Image selector */}
                 <div className="mx-auto mt-6 w-full max-w-2xl sm:block lg:max-w-none">
                   <Tab.List className="grid grid-cols-4 gap-2 md:grid-cols-8">
-                    {product?.pictures.map((image: any, index: number) => (
+                    {single_product?.data?.product?.pictures?.map((image: any, index: number) => (
                       <Tab
                         key={index}
                         className="relative flex h-16 w-16 cursor-pointer items-center justify-center rounded-md bg-gray-100 text-sm font-medium uppercase text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-offset-4"
@@ -119,7 +119,7 @@ function ProductDescription(props: any) {
                                 src={image}
                                 objectFit="contain"
                                 layout="fill"
-                                alt="for a single product"
+                                alt="for a single single_product?.data?.product"
                                 className="h-full w-full rounded object-cover object-center"
                               />
                             </span>
@@ -140,7 +140,7 @@ function ProductDescription(props: any) {
                 </div>
 
                 <Tab.Panels className="aspect-w-1 aspect-h-1 max-h-[750px] w-full flex-1 overflow-hidden rounded-lg">
-                  {product?.pictures.map((image: any, index: number) => (
+                  {single_product?.data?.product?.pictures?.map((image: any, index: number) => (
                     <Tab.Panel key={index} className=" rounded">
                       <Image
                         src={image}
@@ -148,7 +148,7 @@ function ProductDescription(props: any) {
                         width={'100%'}
                         height={'100%'}
                         objectFit="contain"
-                        alt={'for the product'}
+                        alt={'for the single_product?.data?.product'}
                         className="bg-gray-100 object-center sm:rounded-lg"
                       />
                     </Tab.Panel>
@@ -160,10 +160,10 @@ function ProductDescription(props: any) {
               <div className="mt-10 rounded sm:mt-16 sm:px-0 lg:mt-0">
                 <div className="flex flex-col rounded bg-white px-2 py-4 md:px-8">
                   <h2 className=" text-sm font-semibold tracking-tight text-gray-400">
-                    {product?.category}
+                    {single_product?.data?.product?.category}
                   </h2>
                   <h1 className="text-xl font-bold uppercase tracking-tight text-gray-900 md:text-3xl">
-                    {product?.title}
+                    {single_product?.data?.product?.title}
                   </h1>
 
                   {/* Reviews */}
@@ -172,11 +172,11 @@ function ProductDescription(props: any) {
                     <div className="flex items-center">
                       <div className="flex items-center">
                         <RatingComponent
-                          ratings={Math.floor(product?.averageRating)}
+                          ratings={Math.floor(single_product?.data?.product?.averageRating)}
                         />
                       </div>
                       <p className="sr-only">
-                        {product?.averageRating} out of 5 stars
+                        {single_product?.data?.product?.averageRating} out of 5 stars
                       </p>
                     </div>
                   </div>
@@ -196,8 +196,8 @@ function ProductDescription(props: any) {
                         <Amount
                           className="text-2xl font-bold text-gray-700"
                           amount={
-                            parseFloat(product?.price) -
-                            parseFloat(product?.discount_price)
+                            parseFloat(single_product?.data?.product?.price) -
+                            parseFloat(single_product?.data?.product?.discount_price)
                           }
                         />
                       )}
@@ -209,7 +209,7 @@ function ProductDescription(props: any) {
                       ) : (
                         <Amount
                           className="text-xl text-gray-300 line-through"
-                          amount={product?.price}
+                          amount={single_product?.data?.product?.price}
                         />
                       )}
                     </div>
@@ -222,15 +222,15 @@ function ProductDescription(props: any) {
                     <h6 className="mb-1 text-sm font-semibold text-gray-700">
                       Variants:
                     </h6>
-                    {product?.variants?.length < 1 ? (
+                    {single_product?.data?.product?.variants?.length < 1 ? (
                       <div className="flex flex-col">
                         <p className="text-center text-sm text-gray-500">
-                          This product has no variants
+                          This single_product?.data?.product has no variants
                         </p>
                       </div>
                     ) : (
                       <div className="grid grid-cols-4 gap-2 p-1 md:gap-4">
-                        {product?.variants?.map((item: any, index: number) => (
+                        {single_product?.data?.product?.variants?.map((item: any, index: number) => (
                           <span
                             onClick={() => setSelectedVariant(item)}
                             key={index}
@@ -275,7 +275,7 @@ function ProductDescription(props: any) {
                         <div className="flex flex-row items-center">
                           <p className="mr-2 text-gray-500">Delivered in</p>
                           <div className="text-gray-500">
-                            {props?.time_to_deliver ? props?.time_to_deliver : 'Not Specified'}
+                            {single_product?.data?.product?.time_to_deliver ? single_product?.data?.product?.time_to_deliver : 'Not Specified'}
                             {/* <Image
                               width={80}
                               objectFit="contain"
@@ -286,7 +286,7 @@ function ProductDescription(props: any) {
                           </div>
                         </div>
                       </div>
-                      {product?.price > 50 ? (
+                      {single_product?.data?.product?.price > 50 ? (
                         <p className="text-sm font-semibold text-gray-700">
                           Free delivery around Harare
                         </p>
@@ -297,11 +297,11 @@ function ProductDescription(props: any) {
                       )}
 
                       <div className="mt-2 flex flex-row items-center border-t border-b py-2">
-                        {product?.countInStock >= 1 ? (
+                        {single_product?.data?.product?.countInStock >= 1 ? (
                           <p className="text-sm font-semibold text-gray-700">
                             {selected_variant
                               ? selected_variant.countInStock
-                              : product?.countInStock}{' '}
+                              : single_product?.data?.product?.countInStock}{' '}
                             In Stock
                           </p>
                         ) : (
@@ -371,19 +371,19 @@ function ProductDescription(props: any) {
                 </div>
                 <div
                   onClick={() =>
-                    history.push(`/store/${product?.store_id}/products`)
+                    history.push(`/store/${single_product?.data?.store_info?.store_id}/products`)
                   }
                   className="flex cursor-pointer flex-row items-center space-x-4 rounded border border-gray-200 bg-white p-4"
                 >
                   {/*@ts-ignore */}
                   <Avatar
-                    src={store?.logo}
-                    name={store?.company_name}
+                    src={single_product?.data?.store_info?.logo}
+                    name={single_product?.data?.store_info?.company_name}
                     className="text-gray-700"
                   />
                   <div className="flex flex-col">
                     <p className="font-semibold text-gray-700">
-                      View {store?.company_name}'s store
+                      View {single_product?.data?.store_info?.company_name}'s store
                     </p>
                     <p className="text-sm text-gray-400">
                       View the seller's shop and catalogues
@@ -444,14 +444,14 @@ function ProductDescription(props: any) {
                         <div
                           className="space-y-6 text-base leading-normal text-gray-700"
                           dangerouslySetInnerHTML={{
-                            __html: product?.description,
+                            __html: single_product?.data?.product?.description,
                           }}
                         />
                       ) : (
                         <div
                           className="space-y-6 text-base leading-normal text-gray-700"
                           dangerouslySetInnerHTML={{
-                            __html: product?.description.substring(0, 500),
+                            __html: single_product?.data?.product?.description?.substring(0, 500),
                           }}
                         />
                       )}
@@ -468,29 +468,14 @@ function ProductDescription(props: any) {
             </section>
           </div>
         </div>
-        <div className="related_products my-16">
+        <div className="related_single_product?.data?.products my-16">
           <>
-            <RelatedProducts category={product?.category} />
+            <RelatedProducts category={single_product?.data?.product?.category} />
           </>
         </div>
       </div>
     </GeneralLayout>
   )
-}
-
-export async function getServerSideProps(context: any) {
-  const { params } = context
-  const { id } = params
-  await connect()
-  const product = await Products.findOne({ _id: id }).lean()
-  const store = await ProductStore.findOne({ _id: product?.store_id }).lean()
-  await disconnect()
-  return {
-    props: {
-      product: convertDocToObj(product),
-      store: JSON.parse(JSON.stringify(store)),
-    },
-  }
 }
 
 export default ProductDescription

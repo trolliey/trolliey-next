@@ -152,7 +152,7 @@ function AdminSidebar({ sidebarOpen, setSidebarOpen }: Props) {
                     <div className="flex flex-col flex-grow bg-black pt-5 pb-4 overflow-y-auto">
                         <div onClick={() => router.push('/')} className="flex items-center flex-shrink-0">
                            <div className="relative py-2 h-40 self-center mx-auto">
-                           <Image  objectFit="contain" src={logo} alt="dashboard indicator of site name" />
+                           <Image height={140} width={140}  objectFit="contain" src={logo} alt="dashboard indicator of site name" />
                            </div>
                         </div>
                         {
