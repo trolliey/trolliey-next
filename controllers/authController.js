@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const Store = require("../models/Store");
 const sgMail = require("@sendgrid/mail");
 const formatedHTMl = require("../utils/approve-email-template");
+const { randomUUID } = require("crypto");
 
 const SENDGRID_API_KEY = process.env.SEND_GRID_API;
 
@@ -22,7 +23,23 @@ for (let i = 0; i < 25; i++) {
 // register user controller
 exports.registerUser = async (req, res) => {
   //get filds from request
-  const { email, password, agreed, role, username } = req.body;
+  let {
+    email,
+    password,
+    agreed,
+    role,
+    username,
+    googleAuthId,
+    photoURL,
+    method,
+  } = req.body;
+  let emailVerified = false
+
+  // create password for google users
+  if (method === "google") {
+    password = randomUUID();
+    emailVerified = true
+  }
 
   //validate forms
   if (!agreed) {
@@ -52,23 +69,61 @@ exports.registerUser = async (req, res) => {
         terms_agreed: agreed,
         name: username,
         confirmationCode: token,
+        authMethod: method,
+        googleAuthId: googleAuthId,
+        photoURL: photoURL,
+        emailVerified: emailVerified
       });
 
-      //save in database
+      if (method === "gooogle") {
+        token = await jwt.sign(
+          {
+            name: _user.name,
+            email: _user.email,
+            _id: _user._id,
+            role: _user.role,
+            emailVerified: _user.emailApproved,
+            username: _user.username,
+            photoURL: _user.photoURL,
+          },
+          process.env.JWT_SECRET
+        );
+        if (token) {
+          const user = {
+            name: _user.name,
+            email: _user.email,
+            _id: _user._id,
+            role: _user.role,
+            emailVerified: _user.emailApproved,
+            username: _user.username,
+            photoURL: _user.photoURL,
+            token: token,
+          };
+          await newUser.save();
 
-      const msg = {
-        to: email, // Change to your recipient
-        from: "trewmane@gmail.com", // Change to your verified sender
-        subject: "Email Verification",
-        text: "verify your email",
-        html: formatedHTMl(
-          `https://www.trolliey.com/success/verify-email/${token}`
-        ),
-      };
-      await sgMail.send(msg);
-      await newUser.save();
+          return res.status(200).send({ ...user, message: "Account Created" });
+        } else {
+          return res
+            .status(422)
+            .send({ message: "Failed to login, Try again!" });
+        }
+      } else {
+        //save in database
 
-      return res.status(200).send("Account Created");
+        const msg = {
+          to: email, // Change to your recipient
+          from: "trewmane@gmail.com", // Change to your verified sender
+          subject: "Email Verification",
+          text: "verify your email",
+          html: formatedHTMl(
+            `https://www.trolliey.com/success/verify-email/${token}`
+          ),
+        };
+        await sgMail.send(msg);
+        await newUser.save();
+
+        return res.status(200).send("Account Created");
+      }
     }
   }
 };
