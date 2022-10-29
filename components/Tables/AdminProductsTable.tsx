@@ -18,6 +18,7 @@ import Pagination from '../../components/Pagination/Pagination'
 import DeleteModal from '../Modals/DeleteModal'
 import { apiUrl } from '../../utils/apiUrl'
 import MakeSpecialModal from '../Modals/MakeSpecialModal'
+import { getError } from '../../utils/error'
 
 interface Props {
   products?: any
@@ -90,6 +91,26 @@ export default function AdminProductsTable({
     onOpen()
     setProductId(id)
     setProductName(name)
+  }
+
+  const toggle_featured = async () => {
+    try {
+      setLoading(true)
+      const { data } = await axios.put(
+        `${apiUrl}/api/product/edit/${product_id}?toggle_special=${true}`,
+        {},
+        {
+          headers: {
+            Authorization: userInfo?.token,
+          },
+        }
+      )
+      console.log(data)
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+      console.log(getError(error))
+    }
   }
 
   if (table_loading) {
@@ -225,9 +246,7 @@ export default function AdminProductsTable({
                                 <MenuItem>
                                   <MakeSpecialModal
                                     product_id={product_id}
-                                    onClick={() =>
-                                      console.log('make item special')
-                                    }
+                                    onClick={toggle_featured}
                                     product_name={product_name}
                                     loading={loading}
                                   />
