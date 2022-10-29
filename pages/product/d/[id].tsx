@@ -34,6 +34,8 @@ function ProductDescription(props: any) {
   // for toast
   const toast = useToast()
 
+  console.log('asdkjf -----------', single_product)
+
   const add_to_basket = async () => {
     const { data } = await axios.get(
       `/api/products/${single_product?.data?.product?._id}`
@@ -80,7 +82,7 @@ function ProductDescription(props: any) {
   if (single_product?.status === 'fetching') {
     return (
       <GeneralLayout title={'Loading...'} description="Product Is loading">
-        <div className=" my-16 grid h-96 content-center items-center justify-center rounded bg-white py-2">
+        <div className="mb-16 grid h-96 content-center items-center justify-center rounded bg-white py-2">
           <Spinner size={'xl'} />
         </div>
       </GeneralLayout>
@@ -93,7 +95,7 @@ function ProductDescription(props: any) {
         title={'Not Found'}
         description="Product could not find the product"
       >
-        <div className=" h-68 my-16 grid content-center items-center justify-center rounded bg-white py-2">
+        <div className=" h-68 grid content-center items-center justify-center rounded bg-white py-2">
           <div className="relative h-40">
             <Image src={no_product} layout="fill" objectFit="contain" />
           </div>
@@ -306,8 +308,8 @@ function ProductDescription(props: any) {
                         <div className="flex flex-row items-center">
                           <p className="mr-2 text-gray-500">Delivered in</p>
                           <div className="text-gray-500">
-                            {single_product?.data?.product?.time_to_deliver
-                              ? single_product?.data?.product?.time_to_deliver
+                            {single_product?.data?.product?.time_to_deliver >=0 
+                              ? (<p>{single_product?.data?.product?.time_to_deliver + 2 } days</p>)
                               : 'Not Specified'}
                             {/* <Image
                               width={80}
