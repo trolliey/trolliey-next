@@ -61,7 +61,7 @@ export default function EditProduct(props: any) {
     setCurrency(props?.product?.currency_type)
     setTitle(props?.product?.title)
     setSku(props?.product?.sku)
-    setSku(props?.product?.weight)
+    setWeight(props?.product?.weight)
 
     // clean up
     return function cleanup() {
@@ -106,7 +106,7 @@ export default function EditProduct(props: any) {
       formData.append('status', status)
       formData.append('sku', sku)
       formData.append('brand', brand)
-      formData.append('currency', currency)
+      formData.append('currency', 'USD')
       formData.append('sub_category', sub_category)
       formData.append('product_id', product._id)
       formData.append('currency_type', currency)
@@ -371,7 +371,7 @@ export default function EditProduct(props: any) {
                               />
                             </div>
 
-                            <fieldset className="mt-4">
+                            {/* <fieldset className="mt-4">
                               <label
                                 htmlFor="status"
                                 className="mb-1 block text-sm font-medium text-gray-700"
@@ -405,7 +405,7 @@ export default function EditProduct(props: any) {
                                   </div>
                                 ))}
                               </div>
-                            </fieldset>
+                            </fieldset> */}
                           </div>
                         </div>
                       </div>
@@ -439,7 +439,7 @@ export default function EditProduct(props: any) {
                         <div className="bg-white px-4 py-5 sm:p-6">
                           <div className="grid grid-cols-6 gap-6">
                             <div className="col-span-6 ">
-                              <div className="col-span-6 ">
+                              {/* <div className="col-span-6 ">
                                 <label
                                   htmlFor="city"
                                   className="block text-sm font-medium text-gray-700"
@@ -459,7 +459,7 @@ export default function EditProduct(props: any) {
                                   <option value={'USD'}>USD</option>
                                   <option value={'ZWL'}>ZWL</option>
                                 </Select>
-                              </div>
+                              </div> */}
                               <label
                                 htmlFor="city"
                                 className="block text-sm font-medium text-gray-700"

@@ -89,7 +89,7 @@ export default function CreateProduct() {
       formData.append('brand', brand)
       formData.append('status', status)
       formData.append('sku', sku)
-      formData.append('currency', currency)
+      formData.append('currency', 'USD')
       formData.append('weight', weight)
       formData.append('sub_category', sub_category)
       formData.append('time_to_delivery', time_to_delivery)
@@ -439,7 +439,7 @@ export default function CreateProduct() {
                     <div className="overflow-hidden shadow sm:rounded-md">
                       <div className="bg-white px-4 py-5 sm:p-6">
                         <div className="grid grid-cols-6 gap-6">
-                          <div className="col-span-6 ">
+                          {/* <div className="col-span-6 ">
                             <label
                               htmlFor="currency"
                               className="block text-sm font-medium text-gray-700"
@@ -459,14 +459,14 @@ export default function CreateProduct() {
                               <option value={'USD'}>USD</option>
                               <option value={'ZWL'}>ZWL</option>
                             </Select>
-                          </div>
+                          </div> */}
 
                           <div className="col-span-6 ">
                             <label
                               htmlFor="city"
                               className="block text-sm font-medium text-gray-700"
                             >
-                              Price
+                              Price (in USD)
                             </label>
                             <input
                               type="number"
