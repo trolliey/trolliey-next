@@ -56,6 +56,9 @@ exports.createAProduct = async (req, res) => {
       if (!title) {
         return res.status(400).send({ message: "Please enter a title" });
       }
+      if (!weight) {
+        return res.status(400).send({ message: "Please enter a weight" });
+      }
       if (!category) {
         return res.status(400).send({ message: "Please enter a category" });
       }
