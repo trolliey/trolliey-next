@@ -30,6 +30,7 @@ export default function CreateProduct() {
   const [discount_price, setDiscountPrice] = useState<any>()
   const [brand, setBrand] = useState<string>('')
   const [countInStock, setCountInStock] = useState<any>()
+  const [weight, setWeight] = useState<number>(0)
   const [category, setCategory] = useState<any>()
   const [sub_category, setSubCategory] = useState<any>('')
   const [status, setStatus] = useState<any>()
@@ -118,6 +119,7 @@ export default function CreateProduct() {
       setDiscountPrice(0)
       setBrand('')
       setCountInStock(0)
+      setWeight(0)
       setCategory('')
       setStatus('')
       setSku('')
@@ -371,7 +373,7 @@ export default function CreateProduct() {
                             />
                           </div>
 
-                          <fieldset className="mt-4">
+                          {/* <fieldset className="mt-4">
                             <label
                               htmlFor="status"
                               className="mb-1 block text-sm font-medium text-gray-700"
@@ -403,7 +405,7 @@ export default function CreateProduct() {
                                 </div>
                               ))}
                             </div>
-                          </fieldset>
+                          </fieldset> */}
                         </div>
                       </div>
                     </div>
@@ -436,7 +438,7 @@ export default function CreateProduct() {
                     <div className="overflow-hidden shadow sm:rounded-md">
                       <div className="bg-white px-4 py-5 sm:p-6">
                         <div className="grid grid-cols-6 gap-6">
-                          <div className="col-span-6 ">
+                          {/* <div className="col-span-6 ">
                             <label
                               htmlFor="city"
                               className="block text-sm font-medium text-gray-700"
@@ -456,7 +458,7 @@ export default function CreateProduct() {
                               <option value={'USD'}>USD</option>
                               <option value={'ZWL'}>ZWL</option>
                             </Select>
-                          </div>
+                          </div> */}
 
                           <div className="col-span-6 ">
                             <label
@@ -475,6 +477,26 @@ export default function CreateProduct() {
                               onChange={(e) => setPrice(e.target.value)}
                               autoComplete="price"
                               placeholder="Enter price"
+                              className="mt-1 block w-full rounded-md border border-gray-300 p-2 outline-none sm:text-sm"
+                            />
+                          </div>
+                          <div className="col-span-6 ">
+                            <label
+                              htmlFor="city"
+                              className="block text-sm font-medium text-gray-700"
+                            >
+                              Estimated item weight
+                            </label>
+                            <input
+                              type="number"
+                              name="weight"
+                              id="weight"
+                              value={weight}
+                              //@ts-ignore
+                              onWheel={(e) => e.target.blur()}
+                              onChange={(e:any) => setWeight(e.target.value)}
+                              autoComplete="weight"
+                              placeholder="Enter weight"
                               className="mt-1 block w-full rounded-md border border-gray-300 p-2 outline-none sm:text-sm"
                             />
                           </div>

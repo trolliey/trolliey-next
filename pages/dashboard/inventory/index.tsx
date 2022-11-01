@@ -61,7 +61,7 @@ export default function Inventory() {
 
         {all_products?.status === 'fetching' ? (
           <div className="grid h-96 w-full content-center items-center justify-center">
-            <Spinner size="lg" />
+            <Spinner size="xl" />
           </div>
         ) : ( 
           <>

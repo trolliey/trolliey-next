@@ -20,10 +20,17 @@ function NavSearch(): ReactElement {
   const history = useRouter()
   const [searched_products, setSearchedProducts] = useState<any>()
   const { dispatch } = useContext(Store)
+  const router = useRouter()
 
   const search_handler = () => {
+    history.push(
+      `/explore?q=${search_query}&sort_order=${
+        router.query.sort_order ? router.query.sort_order : ''
+      }&sort_value=${
+        router.query.sort_value ? router.query.sort_value : ''
+      }&category=${router.query.category ? router.query.category : ''}`
+    )
     dispatch({ type: 'SET_SEARCH_QUERY', payload: search_query })
-    history.push('/explore')
     onClose()
   }
 
@@ -93,9 +100,7 @@ function NavSearch(): ReactElement {
                     <>
                       {searched_products?.map((item: any, index: number) => (
                         <div
-                          onClick={() =>
-                            history.push(`/product/d/${item._id}`)
-                          }
+                          onClick={() => history.push(`/product/d/${item._id}`)}
                           key={index}
                           className="flex cursor-pointer flex-row items-center p-2  hover:bg-gray-100"
                         >

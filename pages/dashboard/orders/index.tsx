@@ -53,7 +53,7 @@ function Orders() {
 
           {loading ? (
             <div className="grid h-96 content-center items-center justify-center">
-              <Spinner />
+              <Spinner size="xl" />
             </div>
           ) : (
             <>

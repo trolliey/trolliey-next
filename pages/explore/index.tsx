@@ -12,6 +12,7 @@ import loading_error_svg from '../../public/images/loading_error.svg'
 import no_data_svg from '../../public/images/not_data.svg'
 import Pagination from '../../components/Pagination/Pagination'
 import { apiUrl } from '../../utils/apiUrl'
+import { useRouter } from 'next/router'
 
 const PER_PAGE = 16;
 
@@ -20,12 +21,13 @@ function Explore() {
   const { state: store_state } = useContext(Store)
   const { search_category, search_query } = store_state
 
-  const url = `${apiUrl}/api/product/all?page=${page}&category=${
-    search_category ? search_category : ''
-  }&keyword=${search_query ? search_query : ''}&perPage=${PER_PAGE}&sortOrder=asc`
+  const router = useRouter()
+  const url = `${apiUrl}/api/product/all?page=${page}&category=${router.query.category ? router.query.category : ''}&keyword=${router.query.q ? router.query.q : ''}&perPage=${PER_PAGE}&sortOrder=${router.query.sort_order ? router.query.sort_order :''}&sortBy=${router.query.sort_value ? router.query.sort_value : ''}`
 
   // start the fetching using the useFetch hook
   const state = useFetch(url)
+
+  console.log('queries', router.query)
 
   if (state.error) {
     return (

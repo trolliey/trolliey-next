@@ -6,6 +6,7 @@ import { data } from '../utils/data'
 import slugify from '../utils/slugify'
 import { Store } from '../Context/Store'
 import { Select } from '@chakra-ui/react'
+import { useRouter } from 'next/router'
 
 const OG_IMAGE =
   'https://res.cloudinary.com/trolliey/image/upload/v1656413519/trolliey%20static%20images/home_og_image_rwubje.jpg'
@@ -15,16 +16,28 @@ interface Props {
 }
 
 export default function ExploreLayout({ children }: Props) {
-  const [sort_value, sortValue] = useState<any>(0)
-  const [sort_order, sortOrder] = useState<any>(0)
+  const [sort_value, sortValue] = useState<any>('price')
+  const [sort_order, sortOrder] = useState<any>('asc')
   const [slice_number, setSliceNumber] = useState<any>(5)
+  const [category, setCategory] = useState('')
+  const router = useRouter()
   const { dispatch } = useContext(Store)
 
   const filter_by_price = () => {
-    console.log(sort_value, sort_order)
+    router.push(
+      `/explore?sort_order=${sort_order}&sort_value=${sort_value}&category=${category}&q=${
+        router.query.q ? router.query.q : ''
+      }`
+    )
   }
 
   const filter_by_category = (category: string) => {
+    setCategory(category)
+    router.push(
+      `/explore?category=${category}&sort_order=${sort_order}&sort_value=${sort_value}&q=${
+        router.query.q ? router.query.q : ''
+      }`
+    )
     dispatch({ type: 'SET_SEARCH_CATEGORY', payload: category })
   }
 
@@ -159,10 +172,11 @@ export default function ExploreLayout({ children }: Props) {
                   placeholder="Sort"
                 >
                   <option value="price">Price</option>
+                  <option value="createdAt">Date Added</option>
                   <option value="title">Title</option>
                 </Select>
                 <Select
-                  onChange={(e) => sortValue(e.target.value)}
+                  onChange={(e) => sortOrder(e.target.value)}
                   placeholder="Sort By"
                 >
                   <option value="asc">Ascending</option>
