@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
 import DashboardLayout from '../../../../layouts/DashboardLayout'
-import { Divider, Select } from '@chakra-ui/react'
+import { Divider, Select, Spinner } from '@chakra-ui/react'
 import FileUploadComponent from '../../../../components/FileUploadComponent/FileUploadComponent'
 import { data } from '../../../../utils/data'
 import dynamic from 'next/dynamic'
@@ -13,8 +13,6 @@ import axios from 'axios'
 import { Store } from '../../../../Context/Store'
 import { useToast } from '@chakra-ui/react'
 import { getError } from '../../../../utils/error'
-import { connect, convertDocToObj, disconnect } from '../../../../utils/mongo'
-import Products from '../../../../models/Product'
 import { apiUrl } from '../../../../utils/apiUrl'
 import { useRouter } from 'next/router'
 import { useFetch } from '../../../../hooks/useFetch'
@@ -25,7 +23,6 @@ const product_options = [
 ]
 
 export default function EditProduct(props: any) {
-  const { product } = props
 
   const router = useRouter()
   const { id } = router.query
@@ -53,7 +50,6 @@ export default function EditProduct(props: any) {
   const [weight, setWeight] = useState<any>(0)
 
   useEffect(() => {
-    let mounted = true
     setPicturesForUpload(sinlge_product?.data?.product?.pictures)
     setQuillDescription(sinlge_product?.data?.product?.description)
     setVariations(sinlge_product?.data?.product?.variants)
@@ -67,11 +63,6 @@ export default function EditProduct(props: any) {
     setTitle(sinlge_product?.data?.product?.title)
     setSku(sinlge_product?.data?.product?.sku)
     setWeight(sinlge_product?.data?.product?.weight)
-
-    // clean up
-    return function cleanup() {
-      mounted = false
-    }
   }, [sinlge_product])
   
 
@@ -97,10 +88,7 @@ export default function EditProduct(props: any) {
           formData.append('variants', value)
         }
       }
-      formData.append(
-        'description',
-        description ? description : product?.description
-      )
+      formData.append('description', description)
       formData.append('title', title)
       formData.append('category', category)
       formData.append('price', price)
@@ -111,15 +99,15 @@ export default function EditProduct(props: any) {
       formData.append('brand', brand)
       formData.append('currency', 'USD')
       formData.append('sub_category', sub_category)
-      formData.append('product_id', product._id)
+      formData.append('product_id', sinlge_product?.data?.product._id)
       formData.append('currency_type', currency)
       formData.append('weight', weight)
 
-      await axios.put(`${apiUrl}/api/product/edit/${product?._id}`, formData, {
+      await axios.put(`${apiUrl}/api/product/edit/${id}`, formData, {
         headers: { authorization: userInfo?.token },
       })
       setLoading(false)
-      history.push(`/product/d/${product?._id}`)
+      history.push(`/product/d/${id}`)
       toast({
         title: 'Product Edited.',
         description: 'Product Edited successfully!.',
@@ -139,6 +127,18 @@ export default function EditProduct(props: any) {
         isClosable: true,
       })
     }
+  }
+
+  if(sinlge_product?.status === 'fetching'){
+    return(
+      <NoSSR>
+        <DashboardLayout>
+          <div className="grid w-full h-96 item-center content-center justify-center">
+            <Spinner size={'xl'} />
+          </div>
+        </DashboardLayout>
+      </NoSSR>
+    )
   }
 
   return (
@@ -614,17 +614,4 @@ export default function EditProduct(props: any) {
       </DashboardLayout>
     </NoSSR>
   )
-}
-
-export async function getServerSideProps(context: any) {
-  const { params } = context
-  const { id } = params
-  await connect()
-  const product = await Products.findOne({ _id: id }).lean()
-  await disconnect()
-  return {
-    props: {
-      product: convertDocToObj(product),
-    },
-  }
 }
