@@ -65,7 +65,7 @@ function Home(): ReactFragment {
         <meta name="twitter:image" content={OG_IMAGE} />
         <link rel="canonical" href={`${data.site_url}/`} />
       </Head>
-      <div className="flex w-full flex-col  overflow-scroll bg-gradient-to-b from-[#338ec8] via-gray-100 to-gray-100">
+      <div className="flex w-full flex-col  overflow-scroll bg-gradient-to-b from-blue-superlight via-gray-100 to-gray-100">
         <div className="nav">
           <GeneralNavbar
             setCloseMessage={setCloseMessage}

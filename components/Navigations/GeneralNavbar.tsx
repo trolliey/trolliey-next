@@ -37,7 +37,7 @@ function GeneralNavbar({ component_above_navbar, scrollY, setCloseMessage, close
             <>
               {!close_message && (
                 <div
-                  className="bg-[#338ec8]"
+                  className="bg-blue-light"
                   style={{
                     backgroundImage: `url(${particles.src})`,
                     width: '100%',
