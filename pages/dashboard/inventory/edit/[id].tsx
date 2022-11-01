@@ -45,6 +45,7 @@ export default function EditProduct(props: any) {
   const [showMore, setShowMore] = useState<any>()
   const [currency, setCurrency] = useState('')
   const history = useRouter()
+  const [weight, setWeight] = useState(0)
 
   useEffect(() => {
     let mounted = true
@@ -60,6 +61,7 @@ export default function EditProduct(props: any) {
     setCurrency(props?.product?.currency_type)
     setTitle(props?.product?.title)
     setSku(props?.product?.sku)
+    setSku(props?.product?.weight)
 
     // clean up
     return function cleanup() {
@@ -108,6 +110,7 @@ export default function EditProduct(props: any) {
       formData.append('sub_category', sub_category)
       formData.append('product_id', product._id)
       formData.append('currency_type', currency)
+      formData.append('weight', weight)
 
       await axios.put(`${apiUrl}/api/product/edit/${product?._id}`, formData, {
         headers: { authorization: userInfo?.token },
@@ -495,6 +498,27 @@ export default function EditProduct(props: any) {
                                 className="mt-1 block w-full rounded-md border border-gray-300 p-2 outline-none sm:text-sm"
                               />
                             </div>
+                            <div className="col-span-6 ">
+                            <label
+                              htmlFor="city"
+                              className="block text-sm font-medium text-gray-700"
+                            >
+                              Estimated item weight
+                            </label>
+                            <input
+                              type="number"
+                              name="weight"
+                              id="weight"
+                              value={weight}
+                              //@ts-ignore
+                              onWheel={(e) => e.target.blur()}
+                              onChange={(e:any) => setWeight(e.target.value)}
+                              autoComplete="weight"
+                              placeholder="Enter weight"
+                              className="mt-1 block w-full rounded-md border border-gray-300 p-2 outline-none sm:text-sm"
+                            />
+                          </div>
+
 
                             <div className="col-span-6 ">
                               <label

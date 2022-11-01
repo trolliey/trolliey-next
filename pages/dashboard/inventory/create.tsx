@@ -90,6 +90,7 @@ export default function CreateProduct() {
       formData.append('status', status)
       formData.append('sku', sku)
       formData.append('currency', currency)
+      formData.append('weight', weight)
       formData.append('sub_category', sub_category)
       formData.append('time_to_delivery', time_to_delivery)
       
