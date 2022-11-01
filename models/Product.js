@@ -67,6 +67,10 @@ const productShema = new mongoose.Schema(
       type: Array,
       default: [],
     },
+    weight:{
+      type:Number,
+      default: 0
+    },
     sku: {
       type: String,
       default: "",

@@ -47,6 +47,7 @@ exports.createAProduct = async (req, res) => {
         currency,
         sub_category,
         time_to_delivery,
+        weight
       } = req.body;
 
       if (!description) {
@@ -110,6 +111,7 @@ exports.createAProduct = async (req, res) => {
         currency_type: currency,
         sub_category: sub_category,
         time_to_deliver: time_to_delivery,
+        weight: weight
       });
 
       const saved_product = await newProduct.save();
