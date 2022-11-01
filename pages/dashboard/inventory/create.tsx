@@ -438,9 +438,9 @@ export default function CreateProduct() {
                     <div className="overflow-hidden shadow sm:rounded-md">
                       <div className="bg-white px-4 py-5 sm:p-6">
                         <div className="grid grid-cols-6 gap-6">
-                          {/* <div className="col-span-6 ">
+                          <div className="col-span-6 ">
                             <label
-                              htmlFor="city"
+                              htmlFor="currency"
                               className="block text-sm font-medium text-gray-700"
                             >
                               Preffed currency (if not selected we assume USD)
@@ -458,7 +458,7 @@ export default function CreateProduct() {
                               <option value={'USD'}>USD</option>
                               <option value={'ZWL'}>ZWL</option>
                             </Select>
-                          </div> */}
+                          </div>
 
                           <div className="col-span-6 ">
                             <label
