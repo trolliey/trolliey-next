@@ -17,6 +17,7 @@ import { connect, convertDocToObj, disconnect } from '../../../../utils/mongo'
 import Products from '../../../../models/Product'
 import { apiUrl } from '../../../../utils/apiUrl'
 import { useRouter } from 'next/router'
+import { useFetch } from '../../../../hooks/useFetch'
 
 const product_options = [
   { id: 'private', title: 'Private' },
@@ -25,6 +26,11 @@ const product_options = [
 
 export default function EditProduct(props: any) {
   const { product } = props
+
+  const router = useRouter()
+  const { id } = router.query
+  const url = `${apiUrl}/api/product/single/${id}`
+  const sinlge_product = useFetch(url)
 
   const [pictures_for_upload, setPicturesForUpload] = useState<any>([])
   const [description, setQuillDescription] = useState<any>('')
@@ -42,39 +48,36 @@ export default function EditProduct(props: any) {
   const toast = useToast()
   const { state } = useContext(Store)
   const { userInfo } = state
-  const [showMore, setShowMore] = useState<any>()
   const [currency, setCurrency] = useState('')
   const history = useRouter()
   const [weight, setWeight] = useState<any>(0)
 
   useEffect(() => {
     let mounted = true
-    setPicturesForUpload(props?.product?.pictures)
-    setQuillDescription(props?.product?.description)
-    setVariations(props?.product?.variants)
-    setPrice(props?.product?.price)
-    setDiscountPrice(props?.product?.discount_price)
-    setBrand(props?.product?.brand)
-    setCategory(props?.product?.category)
-    setStatus(props?.product?.status)
-    setCountInStock(props?.product?.countInStock)
-    setCurrency(props?.product?.currency_type)
-    setTitle(props?.product?.title)
-    setSku(props?.product?.sku)
-    setWeight(props?.product?.weight)
+    setPicturesForUpload(sinlge_product?.data?.product?.pictures)
+    setQuillDescription(sinlge_product?.data?.product?.description)
+    setVariations(sinlge_product?.data?.product?.variants)
+    setPrice(sinlge_product?.data?.product?.price)
+    setDiscountPrice(sinlge_product?.data?.product?.discount_price)
+    setBrand(sinlge_product?.data?.product?.brand)
+    setCategory(sinlge_product?.data?.product?.category)
+    setStatus(sinlge_product?.data?.product?.status)
+    setCountInStock(sinlge_product?.data?.product?.countInStock)
+    setCurrency(sinlge_product?.data?.product?.currency_type)
+    setTitle(sinlge_product?.data?.product?.title)
+    setSku(sinlge_product?.data?.product?.sku)
+    setWeight(sinlge_product?.data?.product?.weight)
 
     // clean up
     return function cleanup() {
       mounted = false
     }
-  }, [props])
+  }, [sinlge_product])
+  
 
   const selectedPictures = (pictures: any) => {
     setPicturesForUpload(pictures)
   }
-
-  console.log(pictures_for_upload)
-  console.log(variations)
 
   const selectedTags = (tags: any) => {
     setVariations(tags)
@@ -216,7 +219,8 @@ export default function EditProduct(props: any) {
                                 id="country"
                                 name="country"
                                 autoComplete="country-name"
-                                defaultValue={product?.category}
+                                defaultValue={category}
+                                value={category}
                                 onChange={(e) => setCategory(e.target.value)}
                                 className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                               >
@@ -241,7 +245,8 @@ export default function EditProduct(props: any) {
                                 id="country"
                                 name="country"
                                 autoComplete="country-name"
-                                defaultValue={product?.sub_category}
+                                defaultValue={sub_category}
+                                value={sub_category}
                                 onChange={(e) => setSubCategory(e.target.value)}
                                 className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                               >
@@ -263,7 +268,8 @@ export default function EditProduct(props: any) {
                               <input
                                 type="text"
                                 name="brand"
-                                defaultValue={product?.brand}
+                                defaultValue={brand}
+                                value={brand}
                                 onChange={(e) => setBrand(e.target.value)}
                                 id="brand"
                                 autoComplete="brand"
@@ -313,7 +319,8 @@ export default function EditProduct(props: any) {
                               <input
                                 type="text"
                                 name="title"
-                                defaultValue={product?.title}
+                                defaultValue={title}
+                                value={title}
                                 onChange={(e) => setTitle(e.target.value)}
                                 id="title"
                                 autoComplete="title"
@@ -329,45 +336,14 @@ export default function EditProduct(props: any) {
                               >
                                 Description
                               </label>
-                              <div className="flex w-full rounded bg-white py-2 md:py-4">
-                                <p className="sr-only">Current Description</p>
-
-                                <span className="w-full flex-grow ">
-                                  <div className="mb-4 flex flex-col">
-                                    {showMore ? (
-                                      <div
-                                        className="space-y-6 text-sm leading-normal text-gray-700"
-                                        dangerouslySetInnerHTML={{
-                                          __html: product?.description,
-                                        }}
-                                      />
-                                    ) : (
-                                      <div
-                                        className="space-y-6 text-sm leading-normal text-gray-700"
-                                        dangerouslySetInnerHTML={{
-                                          __html:
-                                            product?.description.substring(
-                                              0,
-                                              500
-                                            ),
-                                        }}
-                                      />
-                                    )}
-                                  </div>
-                                  <span
-                                    onClick={() => setShowMore(!showMore)}
-                                    className="cutsor-pointer mx-auto my-4 w-full self-center rounded bg-blue-primary p-2 text-center text-xs font-semibold text-white"
-                                  >
-                                    {showMore ? 'Read Less' : 'Read More'}
-                                  </span>
-                                </span>
-                              </div>
+                             
                               <ReactQuill
                                 theme="snow"
                                 // value={quill_description}
                                 placeholder="Enter your new description here"
                                 style={{ borderRadius: '5px' }}
                                 onChange={setQuillDescription}
+                                value={description}
                               />
                             </div>
 
@@ -470,7 +446,8 @@ export default function EditProduct(props: any) {
                                 type="number"
                                 name="price"
                                 id="price"
-                                defaultValue={product?.price}
+                                defaultValue={price}
+                                value={price}
                                 onChange={(e) => setPrice(e.target.value)}
                                 autoComplete="price"
                                 placeholder="Enter price"
@@ -489,7 +466,8 @@ export default function EditProduct(props: any) {
                                 type="number"
                                 name="discount"
                                 id="discount"
-                                defaultValue={product?.discount_price}
+                                defaultValue={discount_price}
+                                value={discount_price}
                                 onChange={(e) =>
                                   setDiscountPrice(e.target.value)
                                 }
@@ -509,6 +487,7 @@ export default function EditProduct(props: any) {
                               type="number"
                               name="weight"
                               id="weight"
+                              defaultValue={weight}
                               value={weight}
                               //@ts-ignore
                               onWheel={(e) => e.target.blur()}
@@ -531,7 +510,8 @@ export default function EditProduct(props: any) {
                                 type="text"
                                 name="sku"
                                 id="sku"
-                                defaultValue={product?.sku}
+                                defaultValue={sku}
+                                value={sku}
                                 onChange={(e) => setSku(e.target.value)}
                                 autoComplete="sku"
                                 placeholder="Enter sku"
@@ -550,7 +530,8 @@ export default function EditProduct(props: any) {
                                 type="number"
                                 name="quantity"
                                 id="quantity"
-                                defaultValue={product?.countInStock}
+                                defaultValue={countInStock}
+                                value={countInStock}
                                 onChange={(e) =>
                                   setCountInStock(e.target.value)
                                 }
