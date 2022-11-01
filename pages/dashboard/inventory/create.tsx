@@ -30,7 +30,7 @@ export default function CreateProduct() {
   const [discount_price, setDiscountPrice] = useState<any>()
   const [brand, setBrand] = useState<string>('')
   const [countInStock, setCountInStock] = useState<any>()
-  const [weight, setWeight] = useState<number>(0)
+  const [weight, setWeight] = useState<any>(0)
   const [category, setCategory] = useState<any>()
   const [sub_category, setSubCategory] = useState<any>('')
   const [status, setStatus] = useState<any>()

@@ -45,7 +45,7 @@ export default function EditProduct(props: any) {
   const [showMore, setShowMore] = useState<any>()
   const [currency, setCurrency] = useState('')
   const history = useRouter()
-  const [weight, setWeight] = useState(0)
+  const [weight, setWeight] = useState<any>(0)
 
   useEffect(() => {
     let mounted = true
