@@ -1,4 +1,4 @@
-import React, { ReactElement, useState, useContext } from 'react'
+import React, { ReactElement, useState, useContext, useEffect } from 'react'
 import BlueButton from '../Buttons/BlueButton'
 import ShipmentLayout from '../../layouts/ShipmentLayout'
 import { Divider, useToast } from '@chakra-ui/react'
@@ -13,6 +13,7 @@ import onemoney from '../../public/img/ONEMONEY.png'
 import visa_mastercard from '../../public/img/visamastercard.svg'
 import getStripe from '../../utils/getStripe'
 import { apiUrl } from '../../utils/apiUrl'
+import { renderWeight } from '../../utils/renderWeight'
 
 interface Props {
   method?: any
@@ -89,6 +90,31 @@ function PaymentMethod({
   const toast = useToast()
   const [usd_loading, setUsdLoading] = useState(false)
 
+  const [total_price, setTotalPrice] = useState<any>(0)
+  const [total_weight, setTotalWeight] = useState<any>(0)
+
+  // set total price
+  useEffect(() => {
+    setTotalPrice(
+      cart?.cartItems.reduce(
+        (a: any, c: any) =>
+          parseInt(a) + parseInt(c.quantity) * parseInt(c.price),
+        0
+      )
+    )
+  }, [cart.cartItems])
+
+  // set total weight
+  useEffect(() => {
+    setTotalWeight(
+      cart?.cartItems.reduce(
+        (a: any, c: any) =>
+          parseInt(a) + parseInt(c.quantity) * parseInt(c.weight),
+        0
+      )
+    )
+  }, [cart.cartItems])
+
   const placeOrderHandler = async () => {
     if (payment_method === 'pay_on_delivery') {
       setSelectedMethod(payment_method)
@@ -107,22 +133,15 @@ function PaymentMethod({
             0
           ),
           shippingPrice: 0,
-          totalPrice: cart?.cartItems.reduce(
-            (a: any, c: any) =>
-              parseInt(a) + parseInt(c.quantity) * parseInt(c.price),
-            0
-          ),
+          // @ts-ignore
+          totalPrice: total_price + renderWeight(total_weight),
           full_name: values.full_name,
           province: values.province,
           collect_my_order: collect_my_order,
           method: selected_method,
           isPaid: false,
           pay_on_delivery: 'yes',
-          weight: cart?.cartItems.reduce(
-            (a: any, c: any) =>
-              parseInt(a) + parseInt(c.quantity) * parseInt(c.weight),
-            0
-          ),
+          weight: total_weight,
           paying_number: values.paying_number,
           contact_phone_number: values.contact_number,
           city: values.city,
@@ -180,22 +199,15 @@ function PaymentMethod({
             0
           ),
           shippingPrice: 0,
-          totalPrice: cart?.cartItems.reduce(
-            (a: any, c: any) =>
-              parseInt(a) + parseInt(c.quantity) * parseInt(c.price),
-            0
-          ),
+          // @ts-ignore
+          totalPrice: total_price + renderWeight(total_weight),
           full_name: values.full_name,
           province: values.province,
           collect_my_order: collect_my_order,
           method: selected_method,
           isPaid: false,
           pay_on_delivery: 'yes',
-          weight: cart?.cartItems.reduce(
-            (a: any, c: any) =>
-              parseInt(a) + parseInt(c.quantity) * parseInt(c.weight),
-            0
-          ),
+          weight: total_weight,
           paying_number: values.paying_number,
           contact_phone_number: values.contact_number,
           city: values.city,
@@ -239,22 +251,15 @@ function PaymentMethod({
             0
           ),
           shippingPrice: 0,
-          totalPrice: cart?.cartItems.reduce(
-            (a: any, c: any) =>
-              parseInt(a) + parseInt(c.quantity) * parseInt(c.price),
-            0
-          ),
+          // @ts-ignore
+          totalPrice: total_price + renderWeight(total_weight),
           full_name: values.full_name,
           province: values.province,
           collect_my_order: collect_my_order,
           method: selected_method,
           isPaid: false,
           pay_on_delivery: 'yes',
-          weight: cart?.cartItems.reduce(
-            (a: any, c: any) =>
-              parseInt(a) + parseInt(c.quantity) * parseInt(c.weight),
-            0
-          ),
+          weight: total_weight,
           paying_number: values.paying_number,
           contact_phone_number: values.contact_number,
           city: values.city,
@@ -350,14 +355,14 @@ function PaymentMethod({
               ))}
             </div>
           </div>
-          
+
           {selected_method === 'collect_my_order' && (
             <>
-            <div className="flex flex-row items-center space-x-4 py-4">
-            <Divider />
-            <p>Or</p>
-            <Divider />
-          </div>
+              <div className="flex flex-row items-center space-x-4 py-4">
+                <Divider />
+                <p>Or</p>
+                <Divider />
+              </div>
               <label className="px-4 pt-4 text-base font-medium text-gray-900">
                 Use Collection Points
               </label>
