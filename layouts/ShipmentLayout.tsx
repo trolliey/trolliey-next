@@ -1,10 +1,16 @@
-import React, { useContext, FunctionComponent } from 'react'
+import React, {
+  useContext,
+  FunctionComponent,
+  useState,
+  useEffect,
+} from 'react'
 import GeneralLayout from './GeneralLayout'
 import { Divider, Avatar, Select } from '@chakra-ui/react'
 import { Store } from '../Context/Store'
 import { LockClosedIcon } from '@heroicons/react/outline'
 import Cookies from 'js-cookie'
 import Amount from '../components/Amount/Amount'
+import {renderWeight} from '../utils/renderWeight'
 
 interface Props {
   children: any
@@ -19,6 +25,30 @@ const ShipmentLayout: FunctionComponent<Props> = ({
 }: Props) => {
   const { state, dispatch } = useContext(Store)
   const { cart, currency } = state
+  const [total_weight, setTotalWeight] = useState<any>(0)
+  const [total_amount, setTotalAmount] =  useState<any>(0)
+
+  useEffect(() => {
+    setTotalWeight(
+      cart?.cartItems.reduce(
+        (a: any, c: any) =>
+          parseInt(a) + parseInt(c.quantity) * parseInt(c.weight),
+        0
+      )
+    )
+  }, [cart.cartItems])
+
+  useEffect(() => {
+    setTotalAmount(
+      cart?.cartItems.reduce(
+        (a: any, c: any) =>
+          parseInt(a) + parseInt(c.quantity) * parseInt(c.price),
+        0
+      )
+    )
+  }, [cart.cartItems])
+
+ 
 
   return (
     <GeneralLayout
@@ -74,11 +104,9 @@ const ShipmentLayout: FunctionComponent<Props> = ({
                   </span>
                 </p>
                 <p>
-                  <Amount amount={cart?.cartItems.reduce(
-                    (a: any, c: any) =>
-                      parseInt(a) + parseInt(c.quantity) * parseInt(c.price),
-                    0
-                  )} />
+                  <Amount
+                    amount={total_amount}
+                  />
                 </p>
               </div>
               <Divider className="my-4" color={'gray.400'} />
@@ -97,15 +125,24 @@ const ShipmentLayout: FunctionComponent<Props> = ({
               ))}
               <Divider className="my-4" color={'gray.300'} />
               <div className="mt-4 flex w-full flex-row items-center justify-between font-semibold">
+                <p className="text-sm font-bold text-gray-800">
+                  DELIVERY FEES{' '}
+                </p>
+                <div className="flex-1"></div>
+                <p className="font-bold text-blue-primary">
+                  {' '}
+                  <Amount amount={renderWeight(total_weight)} />
+                </p>
+              </div>
+              <Divider className="my-4" color={'gray.300'} />
+              <div className="mt-4 flex w-full flex-row items-center justify-between font-semibold">
                 <p className="text-sm font-bold text-gray-800">TO PAY </p>
                 <div className="flex-1"></div>
                 <p className="font-bold text-blue-primary">
                   {' '}
-                  <Amount amount={cart?.cartItems.reduce(
-                    (a: any, c: any) =>
-                      parseInt(a) + parseInt(c.quantity) * parseInt(c.price),
-                    0
-                  )} />
+                  <Amount
+                    amount={total_amount + renderWeight(total_weight)}
+                  />
                 </p>
               </div>
               <Divider className="mt-4 mb-2" color={'gray.300'} />
