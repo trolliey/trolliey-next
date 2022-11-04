@@ -24,6 +24,7 @@ function classNames(...classes: string[]) {
 function ProductDescription(props: any) {
   const { dispatch } = useContext(Store)
   const history = useRouter()
+  const [loading, setLoading] = useState(false)
   const { id } = history.query
 
   const [selected_variant, setSelectedVariant] = useState<any>()
@@ -34,49 +35,61 @@ function ProductDescription(props: any) {
   // for toast
   const toast = useToast()
 
-  console.log('asdkjf -----------', single_product)
-
   const add_to_basket = async () => {
-    const { data } = await axios.get(
-      `/api/products/${single_product?.data?.product?._id}`
-    )
-    if (data?.countInStock <= 0) {
-      alert('Sorry. Product our of stock')
-      return
+    try {
+      setLoading(true)
+      const { data } = await axios.get(
+        `/api/products/${single_product?.data?.product?._id}`
+      )
+      if (data?.countInStock <= 0) {
+        alert('Sorry. Product our of stock')
+        return
+      }
+      dispatch({
+        type: 'ADD_TO_CART',
+        payload: { ...single_product?.data?.product, quantity: 1 },
+      })
+      toast({
+        title: `${single_product?.data?.product?.title} added to cart.`,
+        position: 'top-right',
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      })
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+      console.log(error)
     }
-    dispatch({
-      type: 'ADD_TO_CART',
-      payload: { ...single_product?.data?.product, quantity: 1 },
-    })
-    toast({
-      title: `${single_product?.data?.product?.title} added to cart.`,
-      position: 'top-right',
-      status: 'success',
-      duration: 9000,
-      isClosable: true,
-    })
   }
 
   const buy_item_now = async () => {
-    const { data } = await axios.get(
-      `/api/products/${single_product?.data?.product?._id}`
-    )
-    if (data?.countInStock <= 0) {
-      alert('Sorry. Product our of stock')
-      return
+    try {
+      setLoading(true)
+      const { data } = await axios.get(
+        `/api/products/${single_product?.data?.product?._id}`
+      )
+      if (data?.countInStock <= 0) {
+        alert('Sorry. Product our of stock')
+        return
+      }
+      dispatch({
+        type: 'ADD_TO_CART',
+        payload: { ...single_product?.data?.product, quantity: 1 },
+      })
+      setLoading(false)
+      toast({
+        title: `${single_product?.data?.product?.title} added to cart.`,
+        position: 'top-right',
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      })
+      history.push('/shipping')
+    } catch (error) {
+      setLoading(false)
+      console.log(error)
     }
-    dispatch({
-      type: 'ADD_TO_CART',
-      payload: { ...single_product?.data?.product, quantity: 1 },
-    })
-    toast({
-      title: `${single_product?.data?.product?.title} added to cart.`,
-      position: 'top-right',
-      status: 'success',
-      duration: 9000,
-      isClosable: true,
-    })
-    history.push('/shipping')
   }
 
   if (single_product?.status === 'fetching') {
@@ -284,6 +297,7 @@ function ProductDescription(props: any) {
                   {/* // add to cart button */}
                   <div className=" mb-2">
                     <BlueButton
+                      loading={loading}
                       text={
                         <div className="mx-auto flex w-full flex-row content-center items-center justify-center space-x-1">
                           <PlusIcon height={10} width={10} />
@@ -308,9 +322,16 @@ function ProductDescription(props: any) {
                         <div className="flex flex-row items-center">
                           <p className="mr-2 text-gray-500">Delivers in</p>
                           <div className="text-gray-500">
-                            {single_product?.data?.product?.time_to_deliver >=0 
-                              ? (<p>{single_product?.data?.product?.time_to_deliver + 2 } days</p>)
-                              : 'Not Specified'}
+                            {single_product?.data?.product?.time_to_deliver >=
+                            0 ? (
+                              <p>
+                                {single_product?.data?.product
+                                  ?.time_to_deliver + 2}{' '}
+                                days
+                              </p>
+                            ) : (
+                              'Not Specified'
+                            )}
                             {/* <Image
                               width={80}
                               objectFit="contain"
@@ -352,7 +373,7 @@ function ProductDescription(props: any) {
 
                       <div className="mt-2 flex flex-row items-center gap-2">
                         <p className="text-xs text-gray-700">
-                         Eligible for cash on delivery?
+                          Eligible for cash on delivery?
                         </p>
                         <div className="flex flex-col rounded-full">
                           <InformationCircleIcon
@@ -410,6 +431,7 @@ function ProductDescription(props: any) {
                     <div className="my-2"></div>
                     <div className="">
                       <BlackButton
+                        loading={loading}
                         text="Buy Item Now"
                         className="w-full flex-1"
                         onClick={buy_item_now}
