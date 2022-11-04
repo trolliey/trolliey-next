@@ -118,6 +118,11 @@ function PaymentMethod({
           method: selected_method,
           isPaid: false,
           pay_on_delivery: 'yes',
+          weight: cart?.cartItems.reduce(
+            (a: any, c: any) =>
+              parseInt(a) + parseInt(c.quantity) * parseInt(c.weight),
+            0
+          ),
           paying_number: values.paying_number,
           contact_phone_number: values.contact_number,
           city: values.city,
@@ -186,6 +191,11 @@ function PaymentMethod({
           method: selected_method,
           isPaid: false,
           pay_on_delivery: 'yes',
+          weight: cart?.cartItems.reduce(
+            (a: any, c: any) =>
+              parseInt(a) + parseInt(c.quantity) * parseInt(c.weight),
+            0
+          ),
           paying_number: values.paying_number,
           contact_phone_number: values.contact_number,
           city: values.city,
@@ -240,6 +250,11 @@ function PaymentMethod({
           method: selected_method,
           isPaid: false,
           pay_on_delivery: 'yes',
+          weight: cart?.cartItems.reduce(
+            (a: any, c: any) =>
+              parseInt(a) + parseInt(c.quantity) * parseInt(c.weight),
+            0
+          ),
           paying_number: values.paying_number,
           contact_phone_number: values.contact_number,
           city: values.city,
