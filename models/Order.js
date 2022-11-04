@@ -76,6 +76,10 @@ const orderSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
+    weight:{
+      type: Number,
+      defult: 0
+    }
   },
   {
     timestamps: true,
