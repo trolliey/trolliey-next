@@ -22,6 +22,7 @@ function ManageOrders(props: any) {
           <div className="col-span-1">status</div>
           <div className="col-span-1 md:flex hidden">Ordered by</div>
           <div className="col-span-1 md:flex hidden">Address</div>
+          <div className="col-span-1 md:flex hidden">weight</div>
           <div className="col-span-1 md:flex hidden">Phone Number</div>
           <Text noOfLines={1} className="col-span-1">time ordered</Text>
           <div className="col-span-1">action</div>
@@ -44,6 +45,7 @@ function ManageOrders(props: any) {
             </div>
             <div className="col-span-1 md:flex hidden">{order.full_name}</div>
             <div className="col-span-1 md:flex hidden">{order?.address}</div>
+            <div className="col-span-1 md:flex hidden">{order?.weight ? order.weight : 'Not Specified'}</div>
             <div className="col-span-1 md:flex hidden">{order?.contact_phone_number}</div>
             <Text noOfLines={1} className="col-span-1">
               {moment(order.createdAt).fromNow()}
