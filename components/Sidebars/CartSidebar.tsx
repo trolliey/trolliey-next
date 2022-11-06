@@ -85,7 +85,7 @@ function CartSidebar({ open, setOpen }: Props): ReactElement {
 
                                         <div className="mt-8">
                                             <div className="flow-root">
-                                                <div className="-my-6 divide-y divide-gray-200">
+                                                <div className="-my-6 divide-y divide-gray-200 w-full">
                                                     {cart?.cartItems?.length < 1 ? (
                                                         <p className="text-lg text-center text-gray-700 my-16 flex capitalize flex-1">Your cart is empty</p>
                                                     ) : (
@@ -145,7 +145,13 @@ function CartSidebar({ open, setOpen }: Props): ReactElement {
                                     <div className="border-t border-gray-200 bg-white shadow py-2 px-4 sm:px-6">
                                         <div className="flex justify-between text-base font-medium text-gray-900">
                                             <p>Subtotal for <span>{cart?.cartItems?.reduce((a: any, c: any) => parseInt(a) + parseInt(c.quantity), 0)} items</span></p>
-                                            <p><Amount amount={cart?.cartItems?.reduce((a: any, c: any) =>  parseInt(a) + parseInt(c.quantity) * parseInt(c.price), 0)} /></p>
+                                            <p>{
+                                                cart.cartItems ? (
+                                                    <Amount amount={cart?.cartItems?.reduce((a: any, c: any) =>  parseInt(a) + parseInt(c.quantity) * parseInt(c.price), 0)} />
+                                                ):(
+                                                    <Amount amount={0} />
+                                                )
+                                                }</p>
                                         </div>
                                         <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes included on grand total.</p>
                                         <div className="mt-6">
