@@ -30,7 +30,7 @@ const ShipmentLayout: FunctionComponent<Props> = ({
 
   useEffect(() => {
     setTotalWeight(
-      cart?.cartItems.reduce(
+      cart?.cartItems?.reduce(
         (a: any, c: any) =>
           parseInt(a) + parseInt(c.quantity) * parseInt(c.weight),
         0
@@ -40,7 +40,7 @@ const ShipmentLayout: FunctionComponent<Props> = ({
 
   useEffect(() => {
     setTotalAmount(
-      cart?.cartItems.reduce(
+      cart?.cartItems?.reduce(
         (a: any, c: any) =>
           parseInt(a) + parseInt(c.quantity) * parseInt(c.price),
         0
@@ -96,7 +96,7 @@ const ShipmentLayout: FunctionComponent<Props> = ({
               <div className="mt-4 flex w-full flex-row items-center justify-between text-sm font-semibold text-gray-400">
                 <p>
                   <span>
-                    {cart?.cartItems.reduce(
+                    {cart?.cartItems?.reduce(
                       (a: any, c: any) => parseInt(a) + parseInt(c.quantity),
                       0
                     )}{' '}

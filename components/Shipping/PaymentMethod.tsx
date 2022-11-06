@@ -96,7 +96,7 @@ function PaymentMethod({
   // set total price
   useEffect(() => {
     setTotalPrice(
-      cart?.cartItems.reduce(
+      cart?.cartItems?.reduce(
         (a: any, c: any) =>
           parseInt(a) + parseInt(c.quantity) * parseInt(c.price),
         0
@@ -107,7 +107,7 @@ function PaymentMethod({
   // set total weight
   useEffect(() => {
     setTotalWeight(
-      cart?.cartItems.reduce(
+      cart?.cartItems?.reduce(
         (a: any, c: any) =>
           parseInt(a) + parseInt(c.quantity) * parseInt(c.weight),
         0
@@ -127,7 +127,7 @@ function PaymentMethod({
         {
           orderItems: cart.cartItems,
           address: values.address,
-          itemsPrice: cart?.cartItems.reduce(
+          itemsPrice: cart?.cartItems?.reduce(
             (a: any, c: any) =>
               parseInt(a) + parseInt(c.quantity) * parseInt(c.price),
             0
@@ -145,7 +145,7 @@ function PaymentMethod({
           paying_number: values.paying_number,
           contact_phone_number: values.contact_number,
           city: values.city,
-          number_of_items_bought: cart?.cartItems.reduce(
+          number_of_items_bought: cart?.cartItems?.reduce(
             (a: any, c: any) => parseInt(a) + parseInt(c.quantity),
             0
           ),
@@ -193,7 +193,7 @@ function PaymentMethod({
         {
           orderItems: cart.cartItems,
           address: values.address,
-          itemsPrice: cart?.cartItems.reduce(
+          itemsPrice: cart?.cartItems?.reduce(
             (a: any, c: any) =>
               parseInt(a) + parseInt(c.quantity) * parseInt(c.price),
             0
@@ -211,7 +211,7 @@ function PaymentMethod({
           paying_number: values.paying_number,
           contact_phone_number: values.contact_number,
           city: values.city,
-          number_of_items_bought: cart?.cartItems.reduce(
+          number_of_items_bought: cart?.cartItems?.reduce(
             (a: any, c: any) => parseInt(a) + parseInt(c.quantity),
             0
           ),
@@ -245,7 +245,7 @@ function PaymentMethod({
         {
           orderItems: cart.cartItems,
           address: values.address,
-          itemsPrice: cart?.cartItems.reduce(
+          itemsPrice: cart?.cartItems?.reduce(
             (a: any, c: any) =>
               parseInt(a) + parseInt(c.quantity) * parseInt(c.price),
             0
@@ -263,7 +263,7 @@ function PaymentMethod({
           paying_number: values.paying_number,
           contact_phone_number: values.contact_number,
           city: values.city,
-          number_of_items_bought: cart?.cartItems.reduce(
+          number_of_items_bought: cart?.cartItems?.reduce(
             (a: any, c: any) => parseInt(a) + parseInt(c.quantity),
             0
           ),

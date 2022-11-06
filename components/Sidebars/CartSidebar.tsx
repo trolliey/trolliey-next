@@ -21,14 +21,16 @@ function CartSidebar({ open, setOpen }: Props): ReactElement {
     const { cart } = state
     const history = useRouter()
 
+    console.log('cart item ------- ', cart)
+
     const remove_from_cart = (item: any) => {
-        dispatch({ type: 'REMOVE_FROM_CART', payload: item })
+        dispatch({ type: 'REMOVE_FROM_CART', payload: {...item} })
     }
 
     const updateCartHandler = async (item: any, value: any) => {
         const { data } = await axios.get(`/api/products/${item?._id}`)
         if (data?.countInStock <= 0) {
-            alert('Sorry. Product our of stock')
+            alert('Sorry. Product out of stock')
             return
         }
         dispatch({ type: 'ADD_TO_CART', payload: { ...item, quantity: value } })
@@ -142,8 +144,8 @@ function CartSidebar({ open, setOpen }: Props): ReactElement {
 
                                     <div className="border-t border-gray-200 bg-white shadow py-2 px-4 sm:px-6">
                                         <div className="flex justify-between text-base font-medium text-gray-900">
-                                            <p>Subtotal for <span>{cart?.cartItems.reduce((a: any, c: any) => parseInt(a) + parseInt(c.quantity), 0)} items</span></p>
-                                            <p><Amount amount={cart?.cartItems.reduce((a: any, c: any) =>  parseInt(a) + parseInt(c.quantity) * parseInt(c.price), 0)} /></p>
+                                            <p>Subtotal for <span>{cart?.cartItems?.reduce((a: any, c: any) => parseInt(a) + parseInt(c.quantity), 0)} items</span></p>
+                                            <p><Amount amount={cart?.cartItems?.reduce((a: any, c: any) =>  parseInt(a) + parseInt(c.quantity) * parseInt(c.price), 0)} /></p>
                                         </div>
                                         <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes included on grand total.</p>
                                         <div className="mt-6">
