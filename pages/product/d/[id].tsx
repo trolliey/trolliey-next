@@ -14,7 +14,6 @@ import axios from 'axios'
 import RelatedProducts from '../../../components/HomeSections/RelatedProducts'
 import Amount from '../../../components/Amount/Amount'
 import no_product from '../../../public/img/no_product.svg'
-import { useFetch } from '../../../hooks/useFetch'
 import { apiUrl } from '../../../utils/apiUrl'
 
 function classNames(...classes: string[]) {
@@ -22,16 +21,15 @@ function classNames(...classes: string[]) {
 }
 
 function ProductDescription(props: any) {
+  console.log('props from api call ------ ', props)
   const { dispatch } = useContext(Store)
   const history = useRouter()
   const [loading, setLoading] = useState(false)
-  const { id } = history.query
 
   const [selected_variant, setSelectedVariant] = useState<any>()
   const [show_features, setShowFeatures] = useState<boolean>(false)
   const [showMore, setShowMore] = useState<any>()
 
-  const single_product = useFetch(`${apiUrl}/api/product/single/${id}`)
   // for toast
   const toast = useToast()
 
@@ -39,7 +37,7 @@ function ProductDescription(props: any) {
     try {
       setLoading(true)
       const { data } = await axios.get(
-        `/api/products/${single_product?.data?.product?._id}`
+        `/api/products/${props.data.product._id}`
       )
       if (data?.countInStock <= 0) {
         alert('Sorry. Product our of stock')
@@ -47,10 +45,10 @@ function ProductDescription(props: any) {
       }
       dispatch({
         type: 'ADD_TO_CART',
-        payload: { ...single_product?.data?.product, quantity: 1 },
+        payload: { ...props.data.product, quantity: 1 },
       })
       toast({
-        title: `${single_product?.data?.product?.title} added to cart.`,
+        title: `${props.data.product.title} added to cart.`,
         position: 'top-right',
         status: 'success',
         duration: 9000,
@@ -67,7 +65,7 @@ function ProductDescription(props: any) {
     try {
       setLoading(true)
       const { data } = await axios.get(
-        `/api/products/${single_product?.data?.product?._id}`
+        `/api/products/${props.data.product._id}`
       )
       if (data?.countInStock <= 0) {
         alert('Sorry. Product our of stock')
@@ -75,11 +73,11 @@ function ProductDescription(props: any) {
       }
       dispatch({
         type: 'ADD_TO_CART',
-        payload: { ...single_product?.data?.product, quantity: 1 },
+        payload: { ...props.data.product, quantity: 1 },
       })
       setLoading(false)
       toast({
-        title: `${single_product?.data?.product?.title} added to cart.`,
+        title: `${props.data.product.title} added to cart.`,
         position: 'top-right',
         status: 'success',
         duration: 9000,
@@ -92,7 +90,7 @@ function ProductDescription(props: any) {
     }
   }
 
-  if (single_product?.status === 'fetching') {
+  if (!props.data.product) {
     return (
       <GeneralLayout title={'Loading...'} description="Product Is loading">
         <div className="mb-16 grid h-96 content-center items-center justify-center rounded bg-white py-2">
@@ -102,32 +100,32 @@ function ProductDescription(props: any) {
     )
   }
 
-  if (!single_product?.data?.product) {
-    return (
-      <GeneralLayout
-        title={'Not Found'}
-        description="Product could not find the product"
-      >
-        <div className=" h-68 grid content-center items-center justify-center rounded bg-white py-2">
-          <div className="relative h-40">
-            <Image src={no_product} layout="fill" objectFit="contain" />
-          </div>
-          <p className="mt-4 text-center font-semibold capitalize text-gray-700">
-            Item Not Found
-          </p>
-        </div>
-      </GeneralLayout>
-    )
-  }
+  // if (!props.data.product) {
+  //   return (
+  //     <GeneralLayout
+  //       title={'Not Found'}
+  //       description="Product could not find the product"
+  //     >
+  //       <div className=" h-68 mb-16 grid content-center items-center justify-center rounded bg-white py-2">
+  //         <div className="relative h-40">
+  //           <Image src={no_product} layout="fill" objectFit="contain" />
+  //         </div>
+  //         <p className="mt-4 text-center font-semibold capitalize text-gray-700">
+  //           Item Not Found
+  //         </p>
+  //       </div>
+  //     </GeneralLayout>
+  //   )
+  // }
 
   return (
     <GeneralLayout
-      title={single_product?.data?.product?.title}
-      description={single_product?.data?.product?.description}
-      og_image={single_product?.data?.product?.pictures?.[0]}
-      twitter_title={single_product?.data?.product?.title}
-      twitter_description={single_product?.data?.product?.description}
-      og_url={`/single_product?.data?.product/d/${single_product?.data?.product?._id}`}
+      title={props.data.product.title}
+      description={props.data.product.description}
+      og_image={props.data.product.pictures?.[0]}
+      twitter_title={props.data.product.title}
+      twitter_description={props.data.product.description}
+      og_url={`/props.data.product/d/${props.data.product._id}`}
     >
       <div className="flex max-w-7xl flex-col bg-gray-100">
         <div className="mx-auto w-full flex-1 rounded ">
@@ -141,7 +139,7 @@ function ProductDescription(props: any) {
                 {/* Image selector */}
                 <div className="mx-auto mt-6 w-full max-w-2xl sm:block lg:max-w-none">
                   <Tab.List className="grid grid-cols-4 gap-2 md:grid-cols-8">
-                    {single_product?.data?.product?.pictures?.map(
+                    {props.data.product.pictures?.map(
                       (image: any, index: number) => (
                         <Tab
                           key={index}
@@ -155,7 +153,7 @@ function ProductDescription(props: any) {
                                   src={image}
                                   objectFit="contain"
                                   layout="fill"
-                                  alt="for a single single_product?.data?.product"
+                                  alt="for a single props.data.product"
                                   className="h-full w-full rounded object-cover object-center"
                                 />
                               </span>
@@ -177,7 +175,7 @@ function ProductDescription(props: any) {
                 </div>
 
                 <Tab.Panels className="aspect-w-1 aspect-h-1 max-h-[750px] w-full flex-1 overflow-hidden rounded-lg">
-                  {single_product?.data?.product?.pictures?.map(
+                  {props.data.product.pictures?.map(
                     (image: any, index: number) => (
                       <Tab.Panel key={index} className=" rounded">
                         <Image
@@ -186,7 +184,7 @@ function ProductDescription(props: any) {
                           width={'100%'}
                           height={'100%'}
                           objectFit="contain"
-                          alt={'for the single_product?.data?.product'}
+                          alt={'for the props.data.product'}
                           className="bg-gray-100 object-center sm:rounded-lg"
                         />
                       </Tab.Panel>
@@ -199,10 +197,10 @@ function ProductDescription(props: any) {
               <div className="mt-10 rounded sm:mt-16 sm:px-0 lg:mt-0">
                 <div className="flex flex-col rounded bg-white px-2 py-4 md:px-8">
                   <h2 className=" text-sm font-semibold tracking-tight text-gray-400">
-                    {single_product?.data?.product?.category}
+                    {props.data.product.category}
                   </h2>
                   <h1 className="text-xl font-bold uppercase tracking-tight text-gray-900 md:text-3xl">
-                    {single_product?.data?.product?.title}
+                    {props.data.product.title}
                   </h1>
 
                   {/* Reviews */}
@@ -212,12 +210,12 @@ function ProductDescription(props: any) {
                       <div className="flex items-center">
                         <RatingComponent
                           ratings={Math.floor(
-                            single_product?.data?.product?.averageRating
+                            props.data.product.averageRating
                           )}
                         />
                       </div>
                       <p className="sr-only">
-                        {single_product?.data?.product?.averageRating} out of 5
+                        {props.data.product.averageRating} out of 5
                         stars
                       </p>
                     </div>
@@ -238,9 +236,9 @@ function ProductDescription(props: any) {
                         <Amount
                           className="text-2xl font-bold text-gray-700"
                           amount={
-                            parseFloat(single_product?.data?.product?.price) -
+                            parseFloat(props.data.product.price) -
                             parseFloat(
-                              single_product?.data?.product?.discount_price
+                              props.data.product.discount_price
                             )
                           }
                         />
@@ -253,7 +251,7 @@ function ProductDescription(props: any) {
                       ) : (
                         <Amount
                           className="text-xl text-gray-300 line-through"
-                          amount={single_product?.data?.product?.price}
+                          amount={props.data.product.price}
                         />
                       )}
                     </div>
@@ -266,7 +264,7 @@ function ProductDescription(props: any) {
                     <h6 className="mb-1 text-sm font-semibold text-gray-700">
                       Variants:
                     </h6>
-                    {single_product?.data?.product?.variants?.length < 1 ? (
+                    {props.data.product.variants?.length < 1 ? (
                       <div className="flex flex-col">
                         <p className="text-center text-sm text-gray-500">
                           This product has no variants
@@ -274,7 +272,7 @@ function ProductDescription(props: any) {
                       </div>
                     ) : (
                       <div className="grid grid-cols-4 gap-2 p-1 md:gap-4">
-                        {single_product?.data?.product?.variants?.map(
+                        {props.data.product.variants?.map(
                           (item: any, index: number) => (
                             <span
                               onClick={() => setSelectedVariant(item)}
@@ -322,10 +320,10 @@ function ProductDescription(props: any) {
                         <div className="flex flex-row items-center">
                           <p className="mr-2 text-gray-500">Delivers in</p>
                           <div className="text-gray-500">
-                            {single_product?.data?.product?.time_to_deliver >=
+                            {props.data.product.time_to_deliver >=
                             0 ? (
                               <p>
-                                {single_product?.data?.product
+                                {props.data.product
                                   ?.time_to_deliver + 2}{' '}
                                 days
                               </p>
@@ -342,7 +340,7 @@ function ProductDescription(props: any) {
                           </div>
                         </div>
                       </div>
-                      {single_product?.data?.product?.price > 50 ? (
+                      {props.data.product.price > 50 ? (
                         <p className="text-sm font-semibold text-gray-700">
                           Free delivery around Harare
                         </p>
@@ -353,11 +351,11 @@ function ProductDescription(props: any) {
                       )}
 
                       <div className="mt-2 flex flex-row items-center border-t border-b py-2">
-                        {single_product?.data?.product?.countInStock >= 1 ? (
+                        {props.data.product.countInStock >= 1 ? (
                           <p className="text-sm font-semibold text-gray-700">
                             {selected_variant
                               ? selected_variant.countInStock
-                              : single_product?.data?.product
+                              : props.data.product
                                   ?.countInStock}{' '}
                             In Stock
                           </p>
@@ -442,20 +440,20 @@ function ProductDescription(props: any) {
                 <div
                   onClick={() =>
                     history.push(
-                      `/store/${single_product?.data?.store_info?.store_id}/products`
+                      `/store/${props.data.store_info?.store_id}/products`
                     )
                   }
                   className="flex cursor-pointer flex-row items-center space-x-4 rounded border border-gray-200 bg-white p-4"
                 >
                   {/*@ts-ignore */}
                   <Avatar
-                    src={single_product?.data?.store_info?.logo}
-                    name={single_product?.data?.store_info?.company_name}
+                    src={props.data.store_info?.logo}
+                    name={props.data.store_info?.company_name}
                     className="text-gray-700"
                   />
                   <div className="flex flex-col">
                     <p className="font-semibold text-gray-700">
-                      View {single_product?.data?.store_info?.company_name}'s
+                      View {props.data.store_info?.company_name}'s
                       store
                     </p>
                     <p className="text-sm text-gray-400">
@@ -517,7 +515,7 @@ function ProductDescription(props: any) {
                         <div
                           className="space-y-6 text-base leading-normal text-gray-700"
                           dangerouslySetInnerHTML={{
-                            __html: single_product?.data?.product?.description,
+                            __html: props.data.product.description,
                           }}
                         />
                       ) : (
@@ -525,7 +523,7 @@ function ProductDescription(props: any) {
                           className="space-y-6 text-base leading-normal text-gray-700"
                           dangerouslySetInnerHTML={{
                             __html:
-                              single_product?.data?.product?.description?.substring(
+                              props.data.product.description?.substring(
                                 0,
                                 500
                               ),
@@ -545,16 +543,26 @@ function ProductDescription(props: any) {
             </section>
           </div>
         </div>
-        <div className="related_single_product?.data?.products my-16">
+        <div className="related_props.data.products my-16">
           <>
             <RelatedProducts
-              category={single_product?.data?.product?.category}
+              category={props.data.product.category}
             />
           </>
         </div>
       </div>
     </GeneralLayout>
   )
+}
+
+export async function getServerSideProps(context: any) {
+  const propduct_id = context.params.id
+
+  const { data } = await axios.get(
+    `${apiUrl}/api/product/single/${propduct_id}`
+  )
+
+  return { props: { data } }
 }
 
 export default ProductDescription
