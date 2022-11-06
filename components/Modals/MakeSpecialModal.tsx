@@ -8,21 +8,27 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import { TrashIcon } from '@heroicons/react/outline'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 type Props = {
   product_name: string
   loading: boolean
   onClick: any
   product_id: string
+  setProductId?:any
 }
 
 export default function MakeSpecialModal({
   product_name,
   loading,
   onClick,
+  product_id,
+  setProductId
 }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  useEffect(()=>{
+    setProductId(product_id)
+  },[])
   return (
     <>
       <div onClick={onOpen}>Make Special</div>
@@ -43,7 +49,10 @@ export default function MakeSpecialModal({
             <Button colorScheme="blue" mr={3} onClick={onClose}>
               Close
             </Button>
-            <Button onClick={onClick} colorScheme="red" isLoading={loading}>
+            <Button onClick={() =>{
+              onClick()
+              onClose()
+            }} colorScheme="red" isLoading={loading}>
               Confirm
             </Button>
           </ModalFooter>

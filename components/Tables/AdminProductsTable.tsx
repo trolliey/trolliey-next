@@ -105,6 +105,7 @@ export default function AdminProductsTable({
           },
         }
       )
+      console.log(data)
       toast({
         title: 'Sucesfully changed!.',
         status: 'success',
@@ -116,7 +117,7 @@ export default function AdminProductsTable({
     } catch (error) {
       setLoading(false)
       toast({
-        title: 'Please try again.',
+        title: getError(error),
         status: 'error',
         position: 'top-right',
         duration: 9000,
@@ -260,7 +261,9 @@ export default function AdminProductsTable({
                                   <MakeSpecialModal
                                     product_id={product?._id}
                                     onClick={toggle_featured}
+                                    setProductId={setProductId}
                                     product_name={product?.title}
+                                    
                                     loading={loading}
                                   />
                                 </MenuItem>
