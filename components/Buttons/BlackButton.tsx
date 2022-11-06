@@ -13,7 +13,15 @@ function BlackButton({ outline, text, onClick, className, loading }: Props): Rea
         <button
             onClick={onClick ? onClick : () => console.log('no action available')}
             className={`${className} ${outline ? "text-black bg-white border hover:bg-gray-900 hover:text-white" : "bg-black text-white hover:bg-gray-900 "} rounded outline-none border-blue-primary `}>
-            <div className="text-sm font-semibold md:p-3 p-2 capitalize">{text}</div>
+            {
+                loading ? (
+                    <div className="text-sm font-semibold md:p-3 p-2 capitalize">{text}</div>
+                    
+                ):(
+                    <div className="text-sm font-semibold md:p-3 p-2 capitalize">Loading ... </div>
+                )
+            }
+            
         </button>
     )
 }

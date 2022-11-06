@@ -88,7 +88,16 @@ function login() {
         duration: 9000,
         isClosable: true,
       })
-    } catch (error) {}
+    } catch (error) {
+      setLoading(false)
+      toast({
+        title: getError(error),
+        status: 'error',
+        position: 'top-right',
+        duration: 9000,
+        isClosable: true,
+      })
+    }
   }
 
   return (
