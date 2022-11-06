@@ -41,8 +41,6 @@ function UserDropdown(): ReactElement {
           <MenuButton>
             <div className="flex cursor-pointer flex-row items-center gap-1">
               <Avatar size="sm" src={user?.user?.photoURL} name={user?.name} />
-              {/* <p className='text-gray-700 font-semibold'>{user?.name}</p> */}
-              {/* <ChevronDownIcon height={12} width={12} /> */}
             </div>
           </MenuButton>
         ) : (
@@ -134,11 +132,11 @@ function UserDropdown(): ReactElement {
           ) : (
             <>
               {dropdown.un_authenticated.map((option, index) => (
-                <MenuItem key={index}>
-                  <Link href={option.location} passHref>
-                    <a className="capitalize">{option.label}</a>
+                <div key={index} className="flex flex-col">
+                  <Link href={option.location} passHref >
+                    <a className="capitalize hover:bg-gray-100 p-2">{option.label}</a>
                   </Link>
-                </MenuItem>
+                </div>
               ))}
             </>
           )}
