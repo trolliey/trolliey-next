@@ -47,7 +47,7 @@ function BecomeASeller() {
           name="og:description"
           property="og:description"
           content={
-            'List your products online. Apply to become a seller on Trolliey, and get access to a seller dashboard with a lotof features to boost and track your sales.'
+            "Join Zimbabwe's  best online marketplace platform. Sell to over 1000 happy shoppers"
           }
         />
         <meta property="og:site_name" content={'Trolliey'} />

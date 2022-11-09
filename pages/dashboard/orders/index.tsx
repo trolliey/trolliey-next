@@ -1,41 +1,21 @@
 import { Spinner, Text } from '@chakra-ui/react'
-import axios from 'axios'
 import { useRouter } from 'next/router'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext} from 'react'
 import { Store } from '../../../Context/Store'
 import DashboardLayout from '../../../layouts/DashboardLayout'
-import { getError } from '../../../utils/error'
 import no_data from '../../../public/img/not_data.svg'
 import Image from 'next/image'
 import moment from 'moment'
+import { apiUrl } from '../../../utils/apiUrl'
+import { useAuthFetch } from '../../../hooks/useAuthFetch'
 
 function Orders() {
   const { state } = useContext(Store)
   const { userInfo } = state
-  const [store_data, setStore_Data] = useState<any>()
-  const [loading, setLoading] = useState<boolean>(false)
-  const history = useRouter()
+  const history = useRouter()  
 
-  useEffect(() => {
-    setLoading(true)
-    const getStoreDAta = async () => {
-      try {
-        const { data } = await axios.get(`/api/store/dashboard`, {
-          headers: {
-            authorization: userInfo?.token,
-          },
-        })
-        setStore_Data(data?.store?.orders)
-        setLoading(false)
-      } catch (error) {
-        setLoading(false)
-        console.log(getError(error))
-      }
-    }
-    getStoreDAta()
-  }, [])
-
-  console.log(store_data)
+  const url = `${apiUrl}/api/order/store`
+  const orders = useAuthFetch(url, userInfo?.token)
 
   return (
     <DashboardLayout>
@@ -51,13 +31,13 @@ function Orders() {
             </p>
           </div>
 
-          {loading ? (
+          {orders?.status === 'fetching' ? (
             <div className="grid h-96 content-center items-center justify-center">
               <Spinner size="xl" />
             </div>
           ) : (
             <>
-              {store_data?.length < 1 ? (
+              {orders?.data?.orders?.length < 1 ? (
                <div className="grid h-96 items-center content-center justify-center">
                    <Image src={no_data} height={150} objectFit="contain" />
                     <p className="text-center text-gray-700 font-semibold capitalize mt-4">No Pending Orders at the momet</p>
@@ -67,7 +47,7 @@ function Orders() {
                   <div className="mt-16">
                     <h2 className="sr-only">Recent orders</h2>
                     <div className="space-y-20">
-                      {store_data?.map((order: any) => (
+                      {orders?.data?.orders?.map((order: any) => (
                         <div key={order._id}>
                           <h3 className="sr-only">
                             Order placed on{' '}
@@ -99,7 +79,7 @@ function Orders() {
                               <div className="flex flex-row items-center pt-6 font-medium text-white sm:pt-0">
                                 <p className='font-semibold'>Total amount:</p>
                                 <p className="sm:ml-1">
-                                  {order?.items.reduce(
+                                  {order?.items?.reduce(
                                     (a: any, c: any) =>
                                       parseInt(a) +
                                       parseInt(c.quantity) * parseInt(c.price),
@@ -152,7 +132,7 @@ function Orders() {
                               </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200 border-b border-gray-200 text-sm sm:border-t">
-                              {order?.items.map((product: any) => (
+                              {order?.items?.map((product: any) => (
                                 <tr key={product.id}>
                                   <td className="py-1 pr-8">
                                     <div className="flex items-center">

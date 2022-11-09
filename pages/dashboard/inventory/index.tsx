@@ -24,7 +24,7 @@ export default function Inventory() {
   const new_url = `${apiUrl}/api/store/products?page=${prod_page}&keyword=${
     search_query ? search_query : ''
   }&perPage=${PER_PAGE}`
-  const all_products = useAuthFetch(new_url, userInfo?.token)
+  const all_products = useAuthFetch(new_url, userInfo?.token)  
 
   useEffect(() => {
     setProducts(all_products?.data)
