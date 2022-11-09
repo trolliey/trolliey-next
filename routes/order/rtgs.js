@@ -72,7 +72,7 @@ router.post("/payment", requireUserSignIn, async (req, res, next) => {
 
               while (keepCalling) {
                 let status = await paynow.pollTransaction(pollUrl)
-                console.log('error from initializer', status)
+                // console.log('error from initializer', status)
                 // if (status.status) {
                 //   console.log('we are here')
                 //   return res.json({ message: 'Yay! Transaction was paid for' })
