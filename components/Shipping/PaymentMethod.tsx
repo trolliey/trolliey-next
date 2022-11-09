@@ -134,7 +134,7 @@ function PaymentMethod({
           ),
           shippingPrice: 0,
           // @ts-ignore
-          totalPrice: total_price + renderWeight(total_weight),
+          totalPrice: total_price,
           full_name: values.full_name,
           province: values.province,
           collect_my_order: collect_my_order,

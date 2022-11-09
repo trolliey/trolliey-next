@@ -122,7 +122,7 @@ function ProductDescription(props: any) {
     <GeneralLayout
       title={props.data.product.title}
       description={props.data.product.description}
-      og_image={props.data.product.pictures?.[0]}
+      og_image={props.data.product.pictures[0]}
       twitter_title={props.data.product.title}
       twitter_description={props.data.product.description}
       og_url={`/props.data.product/d/${props.data.product._id}`}
