@@ -294,8 +294,6 @@ function PaymentMethod({
     }
   }
 
-  console.log('cart items', cart)
-
   if (payment_method === 'pay_on_delivery') {
     return (
       <ShipmentLayout step={step} heading="Payment Info">

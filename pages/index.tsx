@@ -129,13 +129,13 @@ function Home(): ReactFragment {
 
             <div className="section flex w-full flex-col space-y-8 px-2 md:px-0 mb-16">
               {/* // featured products */}
-              <>
+              {/* <>
                 <SpecialProducts
                   sortBy={'createdBy'}
                   heading={'Special Products'}
                   is_special={true}
                 />
-              </>
+              </> */}
               <>
                 <FeaturedProducts
                   heading={'Best Selling'}
