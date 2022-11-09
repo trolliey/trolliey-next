@@ -60,6 +60,8 @@ app.use("/api/user", require("./routes/user/user"));
 app.use('/api/store', require('./routes/store/store'))
 app.use('/api/product', require('./routes/product/product'))
 app.use('/api/order', require('./routes/order/order'))
+app.use('/api/order/usd', require('./routes/order/usd'))
+app.use('/api/order/rtgs', require('./routes/order/rtgs'))
 app.use('/api/auth/reset-password', require('./routes/auth/reset-password'))
 
 
