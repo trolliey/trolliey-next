@@ -43,7 +43,7 @@ function GeneralLayout({
   const { scrollY } = useWindowScrollPositions()
   const [close_message, setCloseMessage] = useState(false)
 
-const OG_IMAGE = 'https://res.cloudinary.com/trolliey/image/upload/v1656413519/trolliey%20static%20images/home_og_image_rwubje.jpg'
+const OG_IMAGE = 'https://res.cloudinary.com/trolliey/image/upload/v1668036453/flyer_qb7qnl.png'
 
 
   useEffect(() => {

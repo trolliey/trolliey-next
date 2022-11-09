@@ -241,7 +241,7 @@ function PaymentMethod({
     try {
       setUsdLoading(true)
       const { data } = await axios.post(
-        `/api/payment/rtgs`,
+        `${apiUrl}/api/order/rtgs/payment`,
         {
           orderItems: cart.cartItems,
           address: values.address,
