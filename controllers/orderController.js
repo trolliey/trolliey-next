@@ -1,7 +1,7 @@
 const Order = require("../models/Order");
 const Store = require("../models/Store");
-const Products = require('../models/Product')
-
+const Products = require("../models/Product");
+const User = require("../models/User");
 
 // create an order
 // post request
@@ -9,7 +9,7 @@ const Products = require('../models/Product')
 exports.createAnOrder = async (req, res) => {
   try {
     const { collect_my_order, method, paying_number } = req.body;
-    
+
     if (!method) {
       return res
         .status(500)
@@ -24,6 +24,8 @@ exports.createAnOrder = async (req, res) => {
       collect_my_order: collect_my_order,
       stores_involved: [],
       method: method,
+      paying_number: paying_number,
+      status: "pending",
     });
 
     // decrement quantity of product
@@ -82,6 +84,23 @@ exports.createAnOrder = async (req, res) => {
       .send({ order: order._id, message: "order created successfully" });
   } catch (error) {
     return res.status(500).send({ message: `${error}` });
+  }
+};
+
+// get store ordes
+exports.getStoreOrders = async (req, res, next) => {
+  try {
+   
+    const _user = req.user;
+    const user = await User.findOne({ _id: _user._id });
+    const store = await Store.findOne({ _id: user.store });
+    if (store) {
+      const orders = store.orders
+      return res.status(200).send({message: 'Orders Found', orders})
+    }
+    return res.status(400).send({ message: "Store no longer exists" });
+  } catch (error) {
+    next(error);
   }
 };
 

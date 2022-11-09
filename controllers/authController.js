@@ -138,7 +138,7 @@ exports.registerUser = async (req, res, next) => {
 exports.loginUser = async (req, res, next) => {
   try {
     // fields from request
-    const { email, password, googleAuthId } = req.body;
+    const { email, password, googleAuthId, method } = req.body;
 
     const _user = await User.findOne({ email: email });
 

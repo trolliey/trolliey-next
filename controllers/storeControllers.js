@@ -121,6 +121,7 @@ exports.createAStore = async (req, res) => {
 exports.getAStoreProducts = async (req, res) => {
   try {
     const _user = req.user; // info of the store
+    const user = await User.findOne({ _id: _user._id });
 
     try {
       // handling store schema
@@ -138,7 +139,7 @@ exports.getAStoreProducts = async (req, res) => {
 
       query.push({
         $match: {
-          'store_id': _user.store_id,
+          store_id: user.store,
         },
       });
 
@@ -336,16 +337,20 @@ exports.editAStore = async (req, res) => {
 // /api/store/details
 exports.getAStore = async (req, res) => {
   const { id } = req.params; // the store id
-  const store_id = req.user.store_id; // the id of the user who visited the store
+  const _user = req.user; // the id of the user who visited the store
   try {
-    const store = await Store.findOne({ _id: store_id });
-    const number_of_products = await Product.countDocuments({
-      store_id: store._id,
-    });
-    return res
-      .status(200)
-      .send({ store_info: store, number_of_products: number_of_products });
+    const store = await Store.findOne({ email: _user.email });
+    if (store) {
+      const number_of_products = await Product.countDocuments({
+        store_id: store._id,
+      });
+      return res
+        .status(200)
+        .send({ store_info: store, number_of_products: number_of_products });
+    }
+    return res.status(404).send({ message: "Store was not found" });
   } catch (error) {
+    console.log(error);
     return res.status(500).send({ message: `${error}` });
   }
 };

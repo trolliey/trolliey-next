@@ -11,6 +11,9 @@ const orderSchema = new mongoose.Schema(
       type: Array,
       required: true,
     },
+    store_id:{
+      type: String,
+    },
     address: {
       type: String,
       required: true,
@@ -67,6 +70,7 @@ const orderSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: ["pending", "delivered", "cancelled"],
+      default: 'pending'
     },
     collect_my_order: {
       type: String,

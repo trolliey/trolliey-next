@@ -1,6 +1,6 @@
 const express= require('express')
-const { createAnOrder, getASingleOrder, editAnOrder, deleteAnOrder } = require('../../controllers/orderController')
-const { requireUserSignIn, requireAdminSignIn } = require('../../middleware/require_auth')
+const { createAnOrder, getASingleOrder, editAnOrder, deleteAnOrder, getStoreOrders } = require('../../controllers/orderController')
+const { requireUserSignIn, requireAdminSignIn, requireStoreSignIn } = require('../../middleware/require_auth')
 const router = express.Router()
 
 // create an order
@@ -11,7 +11,10 @@ router.post('/create', requireUserSignIn, createAnOrder)
 // get an order
 // get request
 // /api/order/single/{orderId}
-router.get('/single/:id', requireUserSignIn, getASingleOrder)
+router.get('/single/:id', requireStoreSignIn, getASingleOrder)
+
+// get store orders
+router.get('/store', requireStoreSignIn,getStoreOrders)
 
 // edit an order
 // put request
