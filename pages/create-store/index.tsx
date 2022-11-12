@@ -234,16 +234,16 @@ export default function CreateStore() {
 
                                         <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
                                             <label htmlFor="username" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2 italic">
-                                                Phone Number <span className='text-gray-500 italic font-normal'>(Optional)</span>
+                                                Phone Number 
                                             </label>
                                             <div className="mt-1 sm:mt-0 sm:col-span-1">
                                                 <div className="max-w-lg flex rounded-md shadow-sm">
                                                     <input
                                                         type="text"
-                                                        name="email"
+                                                        name="mobile-number"
                                                         onChange={(e) => setState({ ...state, mobile_number: e.target.value })}
-                                                        id="phone-number"
-                                                        autoComplete="phone-number"
+                                                        id="mobile-number"
+                                                        autoComplete="mobile-number"
                                                         className="flex-1 block w-full outline-none p-3 min-w-0 rounded-none rounded-r-md sm:text-sm border border-gray-300"
                                                     />
                                                 </div>
@@ -257,10 +257,10 @@ export default function CreateStore() {
                                                 <div className="max-w-lg flex rounded-md shadow-sm">
                                                     <input
                                                         type="text"
-                                                        name="email"
+                                                        name="phone-number"
                                                         onChange={(e) => setState({ ...state, phone_number: e.target.value })}
-                                                        id="mobile-number"
-                                                        autoComplete="mobile-number"
+                                                        id="phone-number"
+                                                        autoComplete="phone-number"
                                                         className="flex-1 block w-full outline-none p-3 min-w-0 rounded-none rounded-r-md sm:text-sm border border-gray-300"
                                                         required
                                                     />

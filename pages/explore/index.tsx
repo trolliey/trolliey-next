@@ -5,7 +5,6 @@ import MobileProductItem from '../../components/ProductItem/MobileProductItem'
 import MobileProductItemLoading from '../../components/ProductItem/MobileProductItemLoading'
 import ProductItem from '../../components/ProductItem/ProductItem'
 import ProductLoading from '../../components/ProductItem/ProductLoading'
-import { Store } from '../../Context/Store'
 import { useFetch } from '../../hooks/useFetch'
 import ExploreLayout from '../../layouts/ExploreLayout'
 import loading_error_svg from '../../public/images/loading_error.svg'
@@ -18,9 +17,6 @@ const PER_PAGE = 16;
 
 function Explore() {
   const [page, setPage] = useState<number>(1)
-  const { state: store_state } = useContext(Store)
-  const { search_category, search_query } = store_state
-
   const router = useRouter()
   const url = `${apiUrl}/api/product/all?page=${page}&category=${router.query.category ? router.query.category : ''}&keyword=${router.query.q ? router.query.q : ''}&perPage=${PER_PAGE}&sortOrder=${router.query.sort_order ? router.query.sort_order :''}&sortBy=${router.query.sort_value ? router.query.sort_value : ''}`
 
