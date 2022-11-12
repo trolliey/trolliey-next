@@ -46,7 +46,7 @@ exports.createAStore = async (req, res) => {
     if (!company_name) {
       return res.status(400).send({ message: "Your company needs a name" });
     }
-    if (!phone_number) {
+    if (!mobile_number) {
       return res
         .status(400)
         .send({ message: "Your company phone number is needed!" });
