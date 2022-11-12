@@ -73,6 +73,7 @@ exports.registerUser = async (req, res, next) => {
           authMethod: method,
           photoURL: photoURL,
           emailVerified: emailVerified,
+          googleAuthId: googleAuthId
         });
 
         if (method === "google") {
@@ -198,7 +199,7 @@ exports.loginUser = async (req, res, next) => {
                 .send({ message: "Failed to login, Try Again" });
             }
           } else {
-            return res.status(403).send({ message: "Login using Google" });
+            return res.status(403).send({ message: "Cant seem to login try again" });
           }
         }
 
