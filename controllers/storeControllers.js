@@ -54,7 +54,7 @@ exports.createAStore = async (req, res) => {
     if (!email) {
       return res
         .status(400)
-        .send({ message: "Your company phone number is needed!" });
+        .send({ message: "Your company email number is needed!" });
     }
 
     // check if user alreadu has a store
