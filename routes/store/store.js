@@ -5,11 +5,14 @@ const {
   deleteAStore,
   getAStore,
   getAStoreProducts,
+  getAllStores,
+  approveAStore,
 } = require("../../controllers/storeControllers");
 const upload = require("../../helpers/multer");
 const {
   requireUserSignIn,
   requireStoreSignIn,
+  requireAdminSignIn,
 } = require("../../middleware/require_auth");
 const router = express.Router();
 
@@ -102,5 +105,17 @@ router.get("/details", requireStoreSignIn, getAStore);
  *        description: Failed to delete user
  */
 router.delete("/delete/:id", requireStoreSignIn, deleteAStore);
+
+
+// get all stores
+//  get request
+// /api/store/all
+router.get('/all', getAllStores)
+
+
+// put action on a store
+//  put request
+// /api/store/action
+router.put('/action',requireAdminSignIn, approveAStore)
 
 module.exports = router;

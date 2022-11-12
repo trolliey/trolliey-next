@@ -378,3 +378,138 @@ exports.deleteAStore = async (req, res) => {
     return;
   }
 };
+
+// get all stores
+//  get request
+// /api/store/all
+exports.getAllStores = async (req, res, next) => {
+  try {
+    let query = [];
+
+    // handling search queries
+    if (req.query.keyword && req.query.keyword != "") {
+      query.push({
+        //@ts-ignore
+        $match: {
+          $or: [
+            { title: { $regex: req.query.keyword, $options: "i" } },
+            { description: { $regex: req.query.keyword, $options: "i" } },
+            {
+              "creator.company_name": {
+                $regex: req.query.keyword,
+                $options: "i",
+              },
+            },
+            { category: { $regex: req.query.keyword, $options: "i" } },
+          ],
+        },
+      });
+    }
+
+    // handling sort
+    if (req.query.sortBy && req.query.sortOrder) {
+      var sort = {};
+      //@ts-ignore
+      sort[req.query.sortBy] = req.query.sortOrder == "asc" ? 1 : -1;
+      query.push({
+        //@ts-ignore
+        $sort: sort,
+      });
+    } else {
+      query.push({
+        //@ts-ignore
+        $sort: { createdAt: -1 },
+      });
+    }
+
+    let total = await Store.countDocuments(query);
+    //@ts-ignore
+    let page = req.query.page ? parseInt(req.query.page) : 1;
+    //@ts-ignore
+    let perPage = req.query.perPage ? parseInt(req.query.perPage) : 16;
+    let skip = (page - 1) * perPage;
+
+    query.push({
+      //@ts-ignore
+      $skip: skip,
+    });
+    query.push({
+      //@ts-ignore
+      $limit: perPage,
+    });
+    let stores = await Store.aggregate(query);
+
+    return res.status(200).send({
+      message: "stores fetched sucessfully",
+      length: stores.length,
+      meta: {
+        total: total,
+        currentPage: page,
+        perPage: perPage,
+        totalPages: Math.ceil(total / perPage),
+      },
+      stores: stores,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// apprive a store
+// /put request
+// /api/store/approve
+exports.approveAStore = async (req, res, next) => {
+  try {
+    const { action, store_id } = req.body;
+    const store = await Store.findOne({_id: store_id})
+
+    console.log("action selected is ------- ", action);
+
+    if (!action) {
+      return res.status(500).send("Please specify an action!");
+    }
+
+    if (action === "approve") {
+      try {
+        await Store.findOneAndUpdate({ _id: store_id }, { approved: true });
+        await User.findOneAndUpdate({ _id: store.user }, { role: 'seller' });
+        return res
+          .status(200)
+          .send("Store has been approved and can start selling now!");
+      } catch (error) {
+        return res.status(500).send({ message: error });
+      }
+    }
+
+    if (action === "disapprove") {
+      try {
+        await Store.findOneAndUpdate({ _id: store_id }, { approved: false });
+        await User.findOneAndUpdate({ _id: store.user }, { role: 'user' });
+        return res
+          .status(200)
+          .send("Store has been dis-approved and can start selling now!");
+      } catch (error) {
+        return res.status(500).send({ message: error });
+      }
+    }
+
+    if (action === "verify") {
+      await Store.findOneAndUpdate({ _id: store_id }, { verified: true });
+      return res.status(200).send("Verification action complete");
+    }
+    if (action === "un-verify") {
+      await Store.findOneAndUpdate({ _id: store_id }, { verified: false });
+      return res.status(200).send("Verification action complete");
+    }
+    if (action === "block") {
+      await Store.findOneAndUpdate({ id: store_id }, { blocked: true });
+      return res.status(200).send("Blocking action complete");
+    }
+    if (action === "un-block") {
+      await Store.findOneAndUpdate({ id: store_id }, { blocked: false });
+      return res.status(200).send("Blocking action complete");
+    }
+  } catch (error) {
+    next(error)
+  }
+};
