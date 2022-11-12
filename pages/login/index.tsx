@@ -108,14 +108,22 @@ function login() {
       description="Welcome back to Trolliey, login and enjoy shopping"
     >
       <div className="flex min-h-screen flex-col bg-gray-100 sm:px-6 lg:px-8">
-        <div className="pt-32 sm:mx-auto sm:w-full sm:max-w-md">
+        <div className="pt-12 sm:mx-auto sm:w-full sm:max-w-md">
           <h1 className="mt-2 text-center text-lg font-extrabold text-gray-900 md:text-3xl">
             Login to your account
           </h1>
         </div>
 
-        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-md">
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+
+              <GoogleAuthButton onClick={login_With_Google} loading={loading} />
+          <div className="flex w-full flex-row items-center space-x-4 py-4">
+                <Divider />
+                <p>Or</p>
+                <Divider />
+              </div>
+
             <div className="space-y-6">
               <div>
                 <label
@@ -214,12 +222,7 @@ function login() {
                   loading={loading}
                 />
               </div>
-              <div className="flex w-full flex-row items-center space-x-4 py-4">
-                <Divider />
-                <p>Or</p>
-                <Divider />
-              </div>
-              <GoogleAuthButton onClick={login_With_Google} loading={loading} />
+              
               <p
                 onClick={() => history.push('/register')}
                 className="my-4 cursor-pointer text-center text-sm font-semibold text-gray-500 hover:text-gray-700"

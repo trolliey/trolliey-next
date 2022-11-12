@@ -4,8 +4,8 @@ import GeneralLayout from '../../layouts/GeneralLayout'
 import BlueButton from '../../components/Buttons/BlueButton'
 import { useRouter } from 'next/router'
 import axios from 'axios'
-import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
-import {firebaseApp} from '../../utils/firebase-config'
+import { GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth'
+import { firebaseApp } from '../../utils/firebase-config'
 import { getError } from '../../utils/error'
 import { Divider, useToast } from '@chakra-ui/react'
 import { apiUrl } from '../../utils/apiUrl'
@@ -20,53 +20,53 @@ function Register() {
   const [agreed, setAgreed] = useState<any>(false)
   const [loading, setLoading] = useState<boolean>(false)
   const toast = useToast()
-  const {dispatch} = useContext(Store)
+  const { dispatch } = useContext(Store)
 
   // for google uauth
-  const auth = getAuth(firebaseApp);
-  const googleProvider = new GoogleAuthProvider();
+  const auth = getAuth(firebaseApp)
+  const googleProvider = new GoogleAuthProvider()
 
   const history = useRouter()
   const { redirect } = history.query
 
-    // register with google
-    const register_With_Google = async () => {
-      try {
-        setLoading(true);
-        const res = await signInWithPopup(auth, googleProvider);
-        const user = res.user;
-        const { data } = await axios.post(`${apiUrl}/api/auth/register`, {
-          email: user.email,
-          agreed: agreed,
-          role: "user",
-          method: "google",
-          username: user.displayName,
-          googleAuthId: user.uid,
-          photoURL: user.photoURL,
-          phoneNumber: user.phoneNumber
-        });
-        dispatch({ type: "USER_LOGIN", payload: data });
-        setLoading(false);
-        toast({
-          title: "Account Created",
-          status: "success",
-          position: "top-right",
-          duration: 9000,
-          isClosable: true,
-        });
-        // @ts-ignore
-        history.push(redirect || '/')
-      } catch (error) {
-        setLoading(false);
-        toast({
-          title: getError(error),
-          status: "error",
-          position: "top-right",
-          duration: 9000,
-          isClosable: true,
-        });
-      }
-    };
+  // register with google
+  const register_With_Google = async () => {
+    try {
+      setLoading(true)
+      const res = await signInWithPopup(auth, googleProvider)
+      const user = res.user
+      const { data } = await axios.post(`${apiUrl}/api/auth/register`, {
+        email: user.email,
+        agreed: agreed,
+        role: 'user',
+        method: 'google',
+        username: user.displayName,
+        googleAuthId: user.uid,
+        photoURL: user.photoURL,
+        phoneNumber: user.phoneNumber,
+      })
+      dispatch({ type: 'USER_LOGIN', payload: data })
+      setLoading(false)
+      toast({
+        title: 'Account Created',
+        status: 'success',
+        position: 'top-right',
+        duration: 9000,
+        isClosable: true,
+      })
+      // @ts-ignore
+      history.push(redirect || '/')
+    } catch (error) {
+      setLoading(false)
+      toast({
+        title: getError(error),
+        status: 'error',
+        position: 'top-right',
+        duration: 9000,
+        isClosable: true,
+      })
+    }
+  }
 
   const register_user_handler = async (e: any) => {
     setLoading(true)
@@ -105,7 +105,7 @@ function Register() {
   return (
     <GeneralLayout
       no_text
-      og_url='register'
+      og_url="register"
       title="Register on Trolliey"
       description="Create an account and join the evergrowing comminuty of Trolliey"
     >
@@ -119,6 +119,15 @@ function Register() {
 
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-lg">
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+            <GoogleAuthButton
+              onClick={register_With_Google}
+              loading={loading}
+            />
+            <div className="flex w-full flex-row items-center space-x-4 py-4">
+              <Divider />
+              <p>Or</p>
+              <Divider />
+            </div>
             <form
               onSubmit={register_user_handler}
               className="space-y-6"
@@ -239,12 +248,7 @@ function Register() {
                   loading={loading}
                 />
               </div>
-              <div className='flex flex-row items-center space-x-4 py-4 w-full'>
-                    <Divider />
-                    <p>Or</p>
-                    <Divider/>
-              </div>
-              <GoogleAuthButton onClick={register_With_Google} loading={loading} />
+
               <p
                 onClick={() =>
                   history.push(`/login?redirect=${redirect || '/'}`)
