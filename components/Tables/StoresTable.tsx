@@ -4,6 +4,9 @@ import React, { useState } from 'react'
 import moment from 'moment'
 import BlueButton from '../Buttons/BlueButton'
 import StoresDropdown from '../Dropdowns/StoresDropdown'
+import { useFetch } from '../../hooks/useFetch'
+import { apiUrl } from '../../utils/apiUrl'
+import { Spinner } from '@chakra-ui/react'
 
 interface Props{
     stores?:any
@@ -11,10 +14,24 @@ interface Props{
 
 function StoresTable({ stores }:Props) {
     const [search_query, setSearchQuery] = useState<any>('')
+    const [page, setPage] = useState(1)
+    const url = `${apiUrl}/api/store/all?page=${page}`
+    const all_stores = useFetch(url)
+
+    console.log('all stores ', all_stores)
 
     const search_item = () => {
         console.log(search_query)
     }
+
+    if(all_stores?.status === 'fetching'){
+        return(
+            <div className="flex items-center content-center justify-center py-16 w-full">
+                <Spinner size={"xl"} />
+            </div>
+        )
+    }
+
     return (
         <div className="flex flex-col mx-4">
             <div className="flex flex-row items-center space-x-2 w-full mb-4 ">
@@ -47,7 +64,7 @@ function StoresTable({ stores }:Props) {
             </div>
 
             {
-                stores?.map((store:any, index:number) => (
+                all_stores?.data?.stores?.map((store:any, index:number) => (
                     <div key={index} className="grid grid-cols-6 w-full bg-white p-2 flex-1 items-center rounded-t shadow border-b text-gray-800 border-gray-100 ">
                         <div className="col-span-1 flex flex-row items-center gap-2  ">
                             <Avatar src={store?.photoURL} name={store?.company_name} />
