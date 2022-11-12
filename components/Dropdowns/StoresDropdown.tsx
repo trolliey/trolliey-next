@@ -18,6 +18,7 @@ import {
 import axios from 'axios'
 import { Store } from '../../Context/Store'
 import { getError } from '../../utils/error'
+import { apiUrl } from '../../utils/apiUrl'
 
 function classNames(...classes: any[]) {
   return classes.filter(Boolean).join(' ')
@@ -81,7 +82,7 @@ function StoresDropdown({ id, verified }: Props) {
     try {
       setLoading(true)
       await axios.put(
-        `/api/store`,
+        `${apiUrl}/api/store/action`,
         { store_id: id, action: 'approve' },
         {
           headers: {
