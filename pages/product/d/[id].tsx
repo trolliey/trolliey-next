@@ -279,7 +279,7 @@ function ProductDescription(props: any) {
                               key={index}
                               className={`${
                                 item.variant === selected_variant?.variant
-                                  ? 'bg-blue-primary text-white'
+                                  ? 'bg-[#0e75bc] text-white'
                                   : ''
                               } col-span-1 cursor-pointer rounded-full border border-gray-300 py-1 px-2 text-xs uppercase text-gray-700 hover:border-gray-700 hover:text-gray-700`}
                             >
@@ -420,7 +420,7 @@ function ProductDescription(props: any) {
                     </div>
                     {/* <div className="mt-4">
                                             <div className="md:col-span-2 col-span-3 flex flex-row items-center w-full">
-                                                <div onClick={() => console.log('add to compare')} className="text-blue-primary flex-1 border border-blue-primary rounded p-2 text-center font-semibold capitalize hover:bg-blue-primary hover:text-white cursor-pointer">
+                                                <div onClick={() => console.log('add to compare')} className="text-blue-primary flex-1 border border-blue-primary rounded p-2 text-center font-semibold capitalize hover:bg-[#0e75bc] hover:text-white cursor-pointer">
                                                     compare
                                                 </div>
                                             </div>
@@ -533,7 +533,7 @@ function ProductDescription(props: any) {
                     </div>
                     <span
                       onClick={() => setShowMore(!showMore)}
-                      className="cutsor-pointer mx-auto my-4 w-full self-center rounded bg-blue-primary p-2 text-center text-xs font-semibold text-white"
+                      className="cutsor-pointer mx-auto my-4 w-full self-center rounded bg-[#0e75bc] p-2 text-center text-xs font-semibold text-white"
                     >
                       {showMore ? 'Read Less' : 'Read More'}
                     </span>

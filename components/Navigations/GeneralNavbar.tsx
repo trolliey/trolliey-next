@@ -37,9 +37,9 @@ function GeneralNavbar({ component_above_navbar, scrollY, setCloseMessage, close
             <>
               {!close_message && (
                 <div
-                  className="bg-blue-light"
+                  className="bg-[#0e75bc]"
                   style={{
-                    backgroundImage: `url(${particles.src})`,
+                    // backgroundImage: `url(${particles.src})`,
                     width: '100%',
                     height: '100%',
                   }}
@@ -48,14 +48,14 @@ function GeneralNavbar({ component_above_navbar, scrollY, setCloseMessage, close
                     maxW="container.xl"
                     className="mx-auto flex flex-row items-center justify-between md:py-4 py-2"
                   >
-                    <p className="font-bold text-gray-900 sm:text-xs md:text-base">
-                      Free delivery on your first order
+                    <p className="font-bold text-white sm:text-xs md:text-base">
+                      Apply to sell for free
                     </p>
                     <div className="flex flex-row items-center space-x-2 md:space-x-4">
-                      <Link href={'/explore'} passHref>
+                      <Link href={'/applytosell'} passHref>
                         <a>
-                          <div className="md:flex hidden rounded-full bg-gray-900 px-2 py-1 text-xs font-semibold text-white md:text-sm">
-                            View more
+                          <div className="md:flex hidden rounded-full bg-white text-[#0e75bc] px-2 py-1 text-xs font-semibold text-white md:text-sm">
+                            Apply Now
                           </div>
                         </a>
                       </Link>
@@ -66,7 +66,7 @@ function GeneralNavbar({ component_above_navbar, scrollY, setCloseMessage, close
                         <XIcon
                           height={20}
                           width={20}
-                          className="text-gray-900"
+                          className="text-white"
                         />
                       </div>
                     </div>

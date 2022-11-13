@@ -13,7 +13,7 @@ function BlueButton({ outline, text, onClick, className, loading }: Props): Reac
         <button
             type='button'
             onClick={loading ? () => console.log('loading...') : onClick}
-            className={`${className} ${outline ? "text-blue-primary bg-white border hover:bg-blue-primary hover:text-white" : "bg-blue-primary text-white hover:bg-blue-dark "} rounded outline-none border-blue-primary `}>
+            className={`${className} ${outline ? "text-blue-primary bg-white border hover:bg-[#0e75bc] hover:text-white" : "bg-[#0e75bc] text-white hover:bg-blue-dark "} rounded outline-none border-blue-primary `}>
             {loading ? (
                 <div className="flex flex-row items-center justify-center font-semibold md:p-3 p-2 capitalize">
                     <div className={`animate-spin rounded-full h-5 w-5 mr-2 border-t-2  border-b-2 ${outline ? "border-blue-primary hover:border-white" : "border-white"}`}></div>

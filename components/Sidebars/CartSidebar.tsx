@@ -115,7 +115,7 @@ function CartSidebar({ open, setOpen }: Props): ReactElement {
                                                                                     title='quantity'
                                                                                     onChange={e => updateCartHandler(product, e.target.value)}
                                                                                     // value={product.quantity}
-                                                                                    className={'outli-none border--gray-200 rounded bg-gray-100'} >
+                                                                                    className={'outline-none border--gray-200 rounded bg-gray-100'} >
                                                                                     {/*@ts-ignore*/}
                                                                                     {[...Array(product?.countInStock).keys()].map((x) => (
                                                                                         <option key={x + 1} value={x + 1}>{x + 1}</option>

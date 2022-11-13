@@ -37,7 +37,7 @@ function CategoriesDropdown() {
   return (
     <div className="md:w-96 z-10 lg:w-60">
       <ul className="menu relative font-semibold text-gray-700">
-        <div className="flex flex-row items-center justify-between gap-8 rounded-t bg-blue-primary p-3 text-sm capitalize text-white">
+        <div className="flex flex-row items-center justify-between gap-8 rounded-t bg-[#0e75bc] p-3 text-sm capitalize text-white">
           <p className="hidden pl-2 pr-8 md:hidden lg:flex">By Category</p>
           <p className="hidden pl-2 pr-8 md:flex lg:hidden">By Category</p>
           <ChevronDownIcon height={16} width={16} />
