@@ -1,6 +1,7 @@
 import React, { ReactElement, useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/outline'
+import { useRouter } from 'next/router'
 
 interface Props {
   data: any
@@ -13,6 +14,7 @@ function Carousel({ data }: Props): ReactElement {
   const slideRef = useRef<any>()
   const [currentIndex, setCurrentIndex] = useState<number>(0)
   const [show_indicators, setShowIndicators] = useState<boolean>(false)
+  const router = useRouter()
 
   const handleOnNextClick = () => {
     count = (count + 1) % data.length
@@ -60,7 +62,7 @@ function Carousel({ data }: Props): ReactElement {
         ref={slideRef}
         className="relative w-full cursor-pointer select-none md:rounded"
       >
-        <div className="aspect-w-16 aspect-h-9 overflow-hidden md:rounded">
+        <div onClick={()=> router.push(`/explore?q=${data[currentIndex].body}`)} className="aspect-w-16 aspect-h-9 overflow-hidden md:rounded">
           <Image
             src={data[currentIndex].image}
             placeholder="blur"

@@ -36,7 +36,7 @@ function DashboardNavbar({setSidebarOpen}:Props):ReactElement {
 
     return (
         <>
-            <div className="relative z-10 flex-shrink-0 flex h-16 bg-white border-b border-gray-200 lg:border-none">
+            <div className="relative z-10 flex-shrink-0 flex h-16 w-full bg-white border-b border-gray-200 lg:border-none">
                 <button
                     type="button"
                     className="px-4 border-r border-gray-200 text-gray-400 focus:outline-none lg:hidden"
@@ -46,7 +46,7 @@ function DashboardNavbar({setSidebarOpen}:Props):ReactElement {
                     <MenuAlt1Icon className="h-6 w-6" aria-hidden="true" />
                 </button>
                 {/* Search bar */}
-                <div className="flex-1 px-4 flex justify-between sm:px-6 lg:max-w-6xl lg:mx-auto lg:px-8">
+                <div className="flex-1 md:px-8 px-4 flex justify-between">
                     <div className="flex-1 flex">
                         <form onSubmit={search_items_handler} className="w-full flex md:ml-0" action="#" method="GET">
                             <label htmlFor="search-field" className="sr-only">

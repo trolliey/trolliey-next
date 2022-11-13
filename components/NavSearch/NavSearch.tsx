@@ -60,13 +60,10 @@ function NavSearch(): ReactElement {
         onClick={onOpen}
         className="flex cursor-pointer flex-row items-center p-2 md:p-0 "
       >
-        <div className="hidden w-full flex-1 flex-row items-center rounded-full border border-gray-300 py-2 px-4 hover:bg-gray-200 md:flex">
-          <div className="w-full"></div>
-          <SearchIcon height={20} width={20} className="text-gray-500" />
-        </div>
-        <div className="flex md:hidden">
+        <div className=" items-center rounded-full ">
           <SearchIcon height={20} width={20} className="text-gray-700" />
         </div>
+       
       </div>
 
       <Modal isOpen={isOpen} onClose={onClose} size={'lg'}>

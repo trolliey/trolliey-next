@@ -10,6 +10,7 @@ import Image from 'next/image'
 import no_product from '../../../public/img/no_product.svg'
 import { useAuthFetch } from '../../../hooks/useAuthFetch'
 import { apiUrl } from '../../../utils/apiUrl'
+import { XIcon } from '@heroicons/react/solid'
 
 const PER_PAGE = 8
 
@@ -21,9 +22,7 @@ export default function Inventory() {
   const [page, setPage] = useState(1)
   const { userInfo } = state
   const prod_page = page ? page : 1
-  const new_url = `${apiUrl}/api/store/products?page=${prod_page}&keyword=${
-    search_query ? search_query : ''
-  }&perPage=${PER_PAGE}`
+  const new_url = `${apiUrl}/api/store/products?page=${prod_page}&keyword=${search_query ? search_query : ''}&perPage=${PER_PAGE}&sortOrder=${history.query.sort_order ? history.query.sort_order :''}&sortBy=${history.query.sort_value ? history.query.sort_value : ''}`
   const all_products = useAuthFetch(new_url, userInfo?.token)  
 
   useEffect(() => {
@@ -47,10 +46,18 @@ export default function Inventory() {
               <SearchIcon height={20} width={20} />
               <input
                 type="text"
+                value={search_query}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search something and press enter"
                 className="flex-1 p-2 outline-none"
               />
+              {
+                search_query && (
+                  <span className='p-1 cursor-pointer hover:bg-blue-dark text-white bg-[#0e75bc] rounded-full' onClick={() => setSearchQuery('')}>
+                    <XIcon height={12} width={12} />
+                  </span>
+                )
+              }
             </div>
             <BlueButton
               text="Create Product"

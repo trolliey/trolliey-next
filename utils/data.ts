@@ -41,11 +41,11 @@ export const data = {
   site_top_message: 'Free delivery on first order',
   banner_images: [
     // { body: 'First banner representantion', image: promo_1 },
-    { body: 'Samsung banner', image: samsung1 },
-    { body: 'Samsung banner 2', image: samsung2 },
+    { body: 'Samsung', image: samsung1 },
+    { body: 'Samsung', image: samsung2 },
     // { body: 'Keson tv banner', image: keson },
     { body: 'Sampung shops', image: shop_samsung },
-    { body: 'Keson tv ', image: tv_banners },
+    { body: 'tv ', image: tv_banners },
 
 
 

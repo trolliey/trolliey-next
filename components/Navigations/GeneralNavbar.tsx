@@ -46,19 +46,19 @@ function GeneralNavbar({ component_above_navbar, scrollY, setCloseMessage, close
                 >
                   <Container
                     maxW="container.xl"
-                    className="mx-auto flex flex-row items-center justify-between md:py-4 py-2"
+                    className="mx-auto flex flex-row items-center justify-between md:py-1 py-2"
                   >
-                    <p className="font-bold text-white sm:text-xs md:text-base">
+                    <p className="font-semibold text-white mx-auto sm:text-xs md:text-base">
                       Apply to sell for free
                     </p>
                     <div className="flex flex-row items-center space-x-2 md:space-x-4">
-                      <Link href={'/applytosell'} passHref>
+                      {/* <Link href={'/applytosell'} passHref>
                         <a>
-                          <div className="md:flex hidden rounded-full bg-white text-[#0e75bc] px-2 py-1 text-xs font-semibold text-white md:text-sm">
+                          <div className="md:flex hidden rounded-full bg-white text-[#0e75bc] px-2 text-xs text-white md:text-sm">
                             Apply Now
                           </div>
                         </a>
-                      </Link>
+                      </Link> */}
                       <div
                         className="flex"
                         onClick={() => setCloseMessage(true)}
@@ -93,13 +93,13 @@ function GeneralNavbar({ component_above_navbar, scrollY, setCloseMessage, close
 
         {userInfo?.role != 'seller' && (
           <Link href={'/applytosell'}>
-            <a className="cursor-pointer font-semibold capitalize text-gray-700">
-              Become a seller
+            <a className="cursor-pointer capitalize text-gray-700">
+              sell on trolliey
             </a>
           </Link>
         )}
-        {/* <div className="flex-1"></div> */}
-        <div className='flex flex-1 flex-col'>
+        <div className="flex-1"></div>
+        <div className='flex flex-col'>
           <NavSearch />
         </div>
 

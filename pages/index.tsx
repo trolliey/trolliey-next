@@ -65,7 +65,7 @@ function Home(): ReactFragment {
         <meta name="twitter:image" content={OG_IMAGE} />
         <link rel="canonical" href={`${data.site_url}/`} />
       </Head>
-      <div className="flex w-full flex-col  overflow-scroll bg-gray-50">
+      <div className="flex w-full flex-col  overflow-scroll bg-gray-100">
         <div className="nav">
           <GeneralNavbar
             setCloseMessage={setCloseMessage}
@@ -77,8 +77,8 @@ function Home(): ReactFragment {
         <div className="flex w-full flex-col">
           <div
             className={`${
-              !close_message ? 'pt-24 md:pt-32 ' : 'pt-12 md:pt-16 '
-            }`}
+              !close_message ? 'pt-24 md:pt-28 ' : 'pt-12 md:pt-16 '
+            } `}
           >
             <div className="mx-auto hidden w-full max-w-7xl grid-cols-1 items-center gap-4 py-4 md:grid md:grid-cols-2 md:py-4 lg:grid-cols-4 ">
               {data.benefits.map((benefit, index) => (

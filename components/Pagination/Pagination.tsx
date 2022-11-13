@@ -57,7 +57,7 @@ function Pagination({
         onClick={onPrevious}
         className={`${
           currentPage === 1 ? ' hidden ' : 'p-2 '
-        } cursor-pointer text-blue-primary hover:text-gray-700`}
+        } cursor-pointer text-[#0e75bc] hover:text-gray-700`}
       >
         <ChevronLeftIcon height={32} width={32} />
       </li>
@@ -75,7 +75,7 @@ function Pagination({
             className={`${
               pageNumber === currentPage
                 ? pagination_item +
-                  ' rounded bg-blue-primary p-2 text-center text-white '
+                  ' rounded bg-[#0e75bc] p-2 text-center text-white '
                 : ' my-auto flex cursor-pointer items-center p-2 text-center text-gray-700 hover:bg-gray-200 '
             } `}
           >
@@ -90,7 +90,7 @@ function Pagination({
           currentPage === lastPage
             ? 'hidden '
             : 'my-auto flex items-center p-2 text-center text-gray-700 '
-        } cursor-pointer text-blue-primary hover:text-gray-700`}
+        } cursor-pointer text-[#0e75bc] hover:text-gray-700`}
       >
         <ChevronRightIcon height={32} width={32} />
       </li>

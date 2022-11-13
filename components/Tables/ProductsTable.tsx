@@ -14,6 +14,8 @@ import { useToast } from '@chakra-ui/react'
 import axios from 'axios'
 import { Store } from '../../Context/Store'
 import Pagination from '../../components/Pagination/Pagination'
+import { ArrowDownIcon, ArrowUpIcon } from '@heroicons/react/solid'
+import moment from 'moment'
 
 interface Props {
   products?: any
@@ -38,10 +40,20 @@ export default function ProductsTable({
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const toast = useToast()
+  const [sortBy, setSortBy] = useState('title')
+  const [sortOrder, setSortOrder] = useState('desc')
 
   // user info from cookies
   const { state } = useContext(Store)
   const { userInfo } = state
+
+  const sort_handler = () => {
+    router.push(
+      `/dashboard/inventory?&sort_order=${
+        sortOrder ? sortOrder : ''
+      }&sort_value=${sortBy ? sortBy : ''}`
+    )
+  }
 
   const confirm_delete_item = async (product_id: string) => {
     try {
@@ -81,6 +93,36 @@ export default function ProductsTable({
     }
   }
 
+  const renderArrow = (order: string | any, value: string) => {
+    return (
+      <>
+        {order === 'desc' ? (
+          <span
+            onClick={() => {
+              setSortBy(value)
+              setSortOrder('asc')
+              sort_handler()
+            }}
+            className="cursor-pointer"
+          >
+            <ArrowUpIcon height={12} width={12} />
+          </span>
+        ) : (
+          <span
+            onClick={() => {
+              setSortBy(value)
+              setSortOrder('desc')
+              sort_handler()
+            }}
+            className="cursor-pointer"
+          >
+            <ArrowDownIcon height={12} width={12} />
+          </span>
+        )}
+      </>
+    )
+  }
+
   const set_delete_item = (id: string, name: string) => {
     onOpen()
     setProductId(id)
@@ -93,134 +135,143 @@ export default function ProductsTable({
         <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
           <div className="w-full overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
             <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+              <thead className="bg-[#3a3a3c] text-white">
                 <tr>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
+                    className="flex flex-row items-center space-x-2 px-6 py-3 text-left text-xs font-medium uppercase tracking-wider "
                   >
-                    Name
+                    <p> Name</p>
+                    {renderArrow(router.query.sort_order, 'title')}
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
+                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider "
                   >
                     Category
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
+                    className="px-6 flex flex-row items-cneter space-x-2 py-3 text-left text-xs font-medium uppercase tracking-wider "
                   >
-                    Price/Unit
+                    <p>Price/Unit</p>
+                    {renderArrow(router.query.sort_order, 'price')}
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
+                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider "
                   >
                     discount
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
+                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider "
                   >
                     quantity
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
+                    className="px-6 flex flex-row items-center space-x-2 py-3 text-left text-xs font-medium uppercase tracking-wider "
                   >
-                    Status
+                    <p>Date Created</p>
+                    {renderArrow(router.query.sort_order, 'price')}
+                    
                   </th>
 
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
+                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider "
                   >
                     Actions
                   </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 bg-white">
-                  <>
-                    {products?.map((product: any, index: number) => (
-                      <>
-                        <tr key={index}>
-                          <td className="whitespace-nowrap px-6 py-4" onClick={()=> router.push(`/product/d/${product?._id}`)}>
-                            <div className="flex items-center">
-                              <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gray-100">
-                                <img
-                                  className="h-10 w-10 rounded-full"
-                                  src={product.pictures[0]}
-                                  alt=""
-                                />
-                              </div>
-                              <div className="ml-4">
-                                <div className="max-w-xs overflow-hidden text-sm font-medium text-gray-900">
-                                  {product.title}
-                                </div>
+                <>
+                  {products?.map((product: any, index: number) => (
+                    <>
+                      <tr key={index}>
+                        <td
+                          className="whitespace-nowrap px-6 py-4"
+                          onClick={() =>
+                            router.push(`/product/d/${product?._id}`)
+                          }
+                        >
+                          <div className="flex items-center">
+                            <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gray-100">
+                              <img
+                                className="h-10 w-10 rounded-full"
+                                src={product.pictures[0]}
+                                alt=""
+                              />
+                            </div>
+                            <div className="ml-4">
+                              <div className="max-w-xs overflow-hidden text-sm font-medium text-gray-900">
+                                {product.title}
                               </div>
                             </div>
-                          </td>
-                          <td className="whitespace-nowrap px-6 py-4">
-                            <div className="text-sm text-gray-500">
-                              {product.category}
-                            </div>
-                          </td>
+                          </div>
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4">
+                          <div className="text-sm text-gray-500">
+                            {product.category}
+                          </div>
+                        </td>
 
-                          <td className="whitespace-nowrap px-6 py-4">
-                            <div className="text-sm text-gray-500">
-                              {product.price}
-                            </div>
-                          </td>
-                          <td className="whitespace-nowrap px-6 py-4">
-                            <div className="text-sm text-gray-500">
-                              {product.discount_price}
-                            </div>
-                          </td>
-                          <td className="whitespace-nowrap px-6 py-4">
-                            <div className="text-sm text-gray-500">
-                              {product.countInStock}
-                            </div>
-                          </td>
-                          <td className="whitespace-nowrap px-6 py-4">
-                            <span className="inline-flex rounded-full bg-green-700 px-2 text-xs font-semibold leading-5 text-white">
-                              Active
+                        <td className="whitespace-nowrap px-6 py-4">
+                          <div className="text-sm text-gray-500">
+                            {product.price}
+                          </div>
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4">
+                          <div className="text-sm text-gray-500">
+                            {product.discount_price}
+                          </div>
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4">
+                          <div className="text-sm text-gray-500">
+                            {product.countInStock}
+                          </div>
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4">
+                          <div className="text-sm text-gray-500">
+                            {moment(product.createdAt).fromNow()}
+                          </div>
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
+                          <div className="flex flex-row items-center space-x-2">
+                            <span
+                              onClick={() =>
+                                set_delete_item(product._id, product.title)
+                              }
+                              className="cursor-pointer"
+                            >
+                              <TrashIcon
+                                height={20}
+                                width={20}
+                                className="text-red-400 "
+                              />
                             </span>
-                          </td>
-                          <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
-                            <div className="flex flex-row items-center space-x-2">
-                              <span
-                                onClick={() =>
-                                  set_delete_item(product._id, product.title)
-                                }
-                                className="cursor-pointer"
-                              >
-                                <TrashIcon
-                                  height={20}
-                                  width={20}
-                                  className="text-red-400 "
-                                />
-                              </span>
-                              <span
-                                onClick={() =>
-                                  router.push(
-                                    `/dashboard/inventory/edit/${product?._id}`
-                                  )
-                                }
-                                className="cursor-pointer"
-                              >
-                                <PencilIcon
-                                  height={20}
-                                  width={20}
-                                  className="cursor-pointer text-gray-500"
-                                />
-                              </span>
-                            </div>
-                          </td>
-                        </tr>
-                      </>
-                    ))}
-                  </>
+                            <span
+                              onClick={() =>
+                                router.push(
+                                  `/dashboard/inventory/edit/${product?._id}`
+                                )
+                              }
+                              className="cursor-pointer"
+                            >
+                              <PencilIcon
+                                height={20}
+                                width={20}
+                                className="cursor-pointer text-gray-500"
+                              />
+                            </span>
+                          </div>
+                        </td>
+                      </tr>
+                    </>
+                  ))}
+                </>
               </tbody>
             </table>
 
