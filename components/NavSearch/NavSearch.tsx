@@ -58,9 +58,9 @@ function NavSearch(): ReactElement {
     <>
       <div
         onClick={onOpen}
-        className="flex cursor-pointer flex-row items-center p-2 md:p-0 "
+        className="flex cursor-pointer flex-row items-center p-2 rounded-full hover:bg-gray-100"
       >
-        <div className=" items-center rounded-full ">
+        <div className=" items-center ">
           <SearchIcon height={20} width={20} className="text-gray-700" />
         </div>
        
