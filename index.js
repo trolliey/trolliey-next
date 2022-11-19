@@ -13,7 +13,7 @@ const swaggerJsDoc = require("swagger-jsdoc");
 const port = process.env.PORT || 5000;
 
 //applevel middleware
-app.use(helmet());
+app.use(helmet({contentSecurityPolicy: false}));
 app.use(morgan("common"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

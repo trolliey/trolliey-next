@@ -255,7 +255,7 @@ exports.makeSpecial = async (req, res) => {
 exports.getSingleProduct = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const product = await Product.findById(id);
+    const product = await Product.findOne({_id: id});
     const store = await Store.findOne({ _id: product.store_id });
     const store_info = {
       store_id: store._id,
