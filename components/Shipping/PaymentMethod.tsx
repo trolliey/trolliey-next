@@ -11,9 +11,9 @@ import ecocash from '../../public/img/eco_cash.svg'
 import telecash from '../../public/img/telecash.svg'
 import onemoney from '../../public/img/ONEMONEY.png'
 import visa_mastercard from '../../public/img/visamastercard.svg'
-import getStripe from '../../utils/getStripe'
 import { apiUrl } from '../../utils/apiUrl'
 import { renderWeight } from '../../utils/renderWeight'
+import UsdPayment from '../../components/Payment/UsdPayment'
 
 interface Props {
   method?: any
@@ -41,7 +41,7 @@ const payment_methods = [
   },
   { id: 'ecocash', title: 'Ecocash', icon: ecocash, currency: 'ZWL' },
   { id: 'telecash', title: 'Telecash', icon: telecash, currency: 'ZWL' },
-  { id: 'onemoney', title: 'One  Money', icon: onemoney, currency: 'ZWL' },
+  // { id: 'onemoney', title: 'One  Money', icon: onemoney, currency: 'ZWL' },
   {
     id: 'visa/mastercard',
     title: 'Visa/Mastercard',
@@ -65,7 +65,7 @@ const pay_on_collection_methods = [
   },
   { id: 'ecocash', title: 'Ecocash', icon: ecocash, currency: 'ZWL' },
   { id: 'telecash', title: 'Telecash', icon: telecash, currency: 'ZWL' },
-  { id: 'onemoney', title: 'One  Money', icon: onemoney, currency: 'ZWL' },
+  // { id: 'onemoney', title: 'One  Money', icon: onemoney, currency: 'ZWL' },
   {
     id: 'visa/mastercard',
     title: 'Visa/Mastercard',
@@ -181,59 +181,6 @@ function PaymentMethod({
         duration: 9000,
         isClosable: true,
       })
-    }
-  }
-
-  const handle_usd_payment = async () => {
-    try {
-      setUsdLoading(true)
-      const stripe = await getStripe()
-      const { data } = await axios.post(
-        `/api/payment/usd`,
-        {
-          orderItems: cart.cartItems,
-          address: values.address,
-          itemsPrice: cart?.cartItems?.reduce(
-            (a: any, c: any) =>
-              parseInt(a) + parseInt(c.quantity) * parseInt(c.price),
-            0
-          ),
-          shippingPrice: 0,
-          // @ts-ignore
-          totalPrice: total_price + renderWeight(total_weight),
-          full_name: values.full_name,
-          province: values.province,
-          collect_my_order: collect_my_order,
-          method: selected_method,
-          isPaid: false,
-          pay_on_delivery: 'yes',
-          weight: total_weight,
-          paying_number: values.paying_number,
-          contact_phone_number: values.contact_number,
-          city: values.city,
-          number_of_items_bought: cart?.cartItems?.reduce(
-            (a: any, c: any) => parseInt(a) + parseInt(c.quantity),
-            0
-          ),
-        },
-        {
-          headers: {
-            authorization: `${userInfo.token}`,
-          },
-        }
-      )
-      toast({
-        title: 'Redirecting ... ',
-        status: 'success',
-        position: 'top-right',
-        duration: 9000,
-        isClosable: true,
-      })
-      stripe.redirectToCheckout({ sessionId: data.id })
-    } catch (error) {
-      setUsdLoading(false)
-      console.log(getError(error))
-      return
     }
   }
 
@@ -441,14 +388,14 @@ function PaymentMethod({
 
         <div className="mt-4 bg-gray-200 p-4">
           <legend className="sr-only">Payment Method</legend>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-8">
+          <div className="flex flex-row flex-wrap justify-between">
             {payment_methods.map((method: any, index: number) => (
               <>
                 {method.currency === currency && (
                   <div
                     key={index}
                     onClick={() => setSelectedMethod(method.id)}
-                    className="col-span-1"
+                    className="col-span-1 pb-2"
                   >
                     <PaymentCard
                       className="col-span-1"
@@ -475,11 +422,12 @@ function PaymentMethod({
 
       {selected_method === 'visa/mastercard' && (
         <div className="col-span-full mt-4 flex w-full flex-col items-center">
-          <div className="my-4">
-            <BlueButton
+          <div className="my-4 w-full">
+            {/* <BlueButton
               text={'Proceed to payment'}
               onClick={handle_usd_payment}
-            />
+            /> */}
+            <UsdPayment />
           </div>
         </div>
       )}

@@ -13,7 +13,6 @@ import { Store } from '../../../Context/Store'
 import axios from 'axios'
 import RelatedProducts from '../../../components/HomeSections/RelatedProducts'
 import Amount from '../../../components/Amount/Amount'
-import no_product from '../../../public/img/no_product.svg'
 import { apiUrl } from '../../../utils/apiUrl'
 
 function classNames(...classes: string[]) {
