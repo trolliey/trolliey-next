@@ -83,6 +83,10 @@ const orderSchema = new mongoose.Schema(
     weight:{
       type: Number,
       defult: 0
+    },
+    orderId:{
+      type: String,
+       default: ''
     }
   },
   {

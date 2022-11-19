@@ -4,21 +4,13 @@ const router = express.Router();
 const Store = require("../../models/Store");
 const Orders = require("../../models/Order");
 const Products = require("../../models/Product");
-var paypal = require("paypal-rest-sdk");
-
-// configure paypal sdk
-paypal.configure({
-  mode: "sandbox", //sandbox or live
-  client_id: process.env.PAYPAL_CLIENT_ID,
-  client_secret: process.env.PAYPAL_CLIENT_SECRET,
-});
 
 // make rtgs payment
 // /api/order/usd
 // post request
 router.post("/", requireUserSignIn, async (req, res, next) => {
   try {
-    const { collect_my_order, method, paying_number, address, city } = req.body;
+    const { collect_my_order, method, paying_number, address, city, orderId } = req.body;
     const all_involved_stores = [];
 
     const newOrder = new Orders({
@@ -27,11 +19,12 @@ router.post("/", requireUserSignIn, async (req, res, next) => {
       user: req.user._id,
       collect_my_order: collect_my_order,
       stores_involved: [],
-      method: method,
+      method: 'USD',
       isPaid: false,
       paying_number: paying_number,
       address: address,
       city: city,
+      orderId: orderId
     });
 
     // decrement quantity of product
@@ -83,40 +76,5 @@ router.post("/", requireUserSignIn, async (req, res, next) => {
     next(error);
   }
 });
-
-router.get("/success", (req, res) => {
-  const payerId = req.query.PayerID;
-  const paymentId = req.query.paymentId;
-
-  const execute_payment_json = {
-    payer_id: payerId,
-    transactions: [
-      {
-        amount: {
-          currency: "USD",
-          total: "25.00",
-        },
-      },
-    ],
-  };
-
-  // Obtains the transaction details from paypal
-  paypal.payment.execute(
-    paymentId,
-    execute_payment_json,
-    function (error, payment) {
-      //When error occurs when due to non-existent transaction, throw an error else log the transaction details in the console then send a Success string reposponse to the user.
-      if (error) {
-        console.log(error.response);
-        throw error;
-      } else {
-        console.log(JSON.stringify(payment));
-        return res.send("Success");
-      }
-    }
-  );
-});
-
-router.get("/cancel", (req, res) => res.send("Cancelled"));
 
 module.exports = router;
