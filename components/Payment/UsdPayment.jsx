@@ -5,8 +5,11 @@ import { Store } from '../../Context/Store'
 import { Spinner, useToast } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { getError } from '../../utils/error'
+import axios from 'axios'
+import { apiUrl } from '../../utils/apiUrl'
+import { renderWeight } from '../../utils/renderWeight'
 
-function UsdPayment() {
+function UsdPayment({values, total_price, total_weight, collect_my_order, selected_method}) {
   const [show, setShow] = useState(false)
   const [success, setSuccess] = useState(false)
   const [ErrorMessage, setErrorMessage] = useState('')
@@ -75,7 +78,6 @@ function UsdPayment() {
         isClosable: true,
       })
       console.log(getError(error))
-      return
     }
   }
 
@@ -121,6 +123,7 @@ function UsdPayment() {
   //capture likely error
   const onError = (data, actions) => {
     setUsdLoading(false)
+    console.log('data on error', data)
     setErrorMessage('An Error occured with your payment ')
     toast({
       title: 'An Error occured with your payment',

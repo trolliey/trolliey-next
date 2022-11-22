@@ -6,6 +6,7 @@ import GeneralLayout from '../../layouts/GeneralLayout'
 import BlueButton from '../../components/Buttons/BlueButton'
 import { runFireWorks } from '../../utils/utils'
 import axios from 'axios'
+import { data } from '../../utils/data'
 
 function OrderSucess() {
   const router = useRouter()
@@ -57,9 +58,9 @@ function OrderSucess() {
             If you have any questions please email{' '}
             <a
               className="font-semibold text-red-600"
-              href="mailto:mytrolliey@gmail.com"
+              href={`mailto:${data.primary_email}`}
             >
-              mytrolliey@gmail.com
+              {data.primary_email}
             </a>
           </p>
           <div className="flex">

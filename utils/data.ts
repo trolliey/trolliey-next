@@ -51,6 +51,7 @@ export const data = {
 
     // { body: 'Third banner representantion', image: promo_1 },
   ],
+  primary_email: 'info@trolliey.com',
   current_rate: {
     value: 600,
   },

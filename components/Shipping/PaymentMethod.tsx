@@ -427,7 +427,13 @@ function PaymentMethod({
               text={'Proceed to payment'}
               onClick={handle_usd_payment}
             /> */}
-            <UsdPayment />
+            <UsdPayment
+              collect_my_order={collect_my_order}
+              selected_method={selected_method}
+              total_price={total_price}
+              total_weight={total_weight}
+              values={values}
+            />
           </div>
         </div>
       )}
