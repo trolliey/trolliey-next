@@ -70,7 +70,7 @@ router.post("/", requireUserSignIn, async (req, res, next) => {
       );
     }
 
-    const order = await Order.save()
+    const order = await newOrder.save()
 
     return res
       .status(200)
