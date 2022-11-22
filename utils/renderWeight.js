@@ -1,4 +1,7 @@
 export const renderWeight = (total_weight) => {
+  if(total_weight === 0){
+    return 0
+  }
   if (total_weight <= 5) {
     return 7
   }
