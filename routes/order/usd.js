@@ -4,6 +4,7 @@ const router = express.Router();
 const Store = require("../../models/Store");
 const Orders = require("../../models/Order");
 const Products = require("../../models/Product");
+const Order = require("../../models/Order");
 
 // make rtgs payment
 // /api/order/usd
@@ -68,6 +69,8 @@ router.post("/", requireUserSignIn, async (req, res, next) => {
         }
       );
     }
+
+    const order = await Order.save()
 
     return res
       .status(200)
