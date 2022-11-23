@@ -5,7 +5,7 @@ const Store = require("../models/Store");
 const sgMail = require("@sendgrid/mail");
 const formatedHTMl = require("../utils/approve-email-template");
 const { randomUUID } = require("crypto");
-const { default: data } = require("../utils/data");
+const data = require("../utils/data");
 
 const SENDGRID_API_KEY = process.env.SEND_GRID_API;
 
