@@ -5,6 +5,7 @@ const Store = require("../models/Store");
 const sgMail = require("@sendgrid/mail");
 const formatedHTMl = require("../utils/approve-email-template");
 const { randomUUID } = require("crypto");
+const { default: data } = require("../utils/data");
 
 const SENDGRID_API_KEY = process.env.SEND_GRID_API;
 
@@ -116,7 +117,7 @@ exports.registerUser = async (req, res, next) => {
 
           const msg = {
             to: email, // Change to your recipient
-            from: "trewmane@gmail.com", // Change to your verified sender
+            from: data.sender_email, // Change to your verified sender
             subject: "Email Verification",
             text: "verify your email",
             html: formatedHTMl(
