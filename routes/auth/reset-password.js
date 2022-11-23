@@ -3,6 +3,7 @@ const User = require("../../models/User");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const sgMail = require("@sendgrid/mail");
+const data = require("../../utils/data");
 
 const SENDGRID_API_KEY = process.env.SEND_GRID_API;
 
@@ -32,7 +33,7 @@ router.post("/start", async (req, res, next) => {
 
     const msg = {
       to: email, // Change to your recipient
-      from: "trewmane@gmail.com", // Change to your verified sender
+      from: data.sender_email, // Change to your verified sender
       subject: "Email Verification",
       text: "verify your email",
       html:`click the following link below to reset your password - https://www.trolliey.com/password-reset/${token}`,
