@@ -23,4 +23,7 @@ export const renderWeight = (total_weight) => {
   if (total_weight > 50 && total_weight <= 100) {
     return 40
   }
+  if (total_weight > 100) {
+    return 65
+  }
 }
