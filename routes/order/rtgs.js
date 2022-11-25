@@ -10,12 +10,12 @@ let paynow = new Paynow(
 );
 
 // Set return and result urls
-paynow.resultUrl = "https://trolliey-backend.herokuapp.com/api/order/rtgs/result";
-paynow.returnUrl = "https://trolliey-backend.herokuapp.com/api/order/rtgs/return";
+// paynow.resultUrl = "https://trolliey-backend.herokuapp.com/api/order/rtgs/result";
+// paynow.returnUrl = "https://trolliey-backend.herokuapp.com/api/order/rtgs/return";
 
 // Set return and result urls
-// paynow.resultUrl = "http://192.168.206.150:5000/api/order/rtgs/result";
-// paynow.returnUrl = "http://192.168.206.150:5000/api/order/rtgs/return";
+paynow.resultUrl = "http://192.168.30.65:3000/success/order_success";
+paynow.returnUrl = "http://192.168.30.65:5000/api/order/rtgs/return";
 
 // regex for phone numbers
 const phone_number_regex = /^(\\d{4}[- .]?)(\\d{3}[- .]?)(\\d{3})$/;
@@ -47,27 +47,22 @@ router.post("/payment", requireUserSignIn, async (req, res, next) => {
       );
 
       // add items to payment
-      newOrder.orderItems.forEach((item) => {
-        payment.add(item.title, item.price)
-      })
-    //   payment.add("item name", 1);
+      // newOrder.orderItems.forEach((item) => {
+      //   payment.add(item.title, item.price)
+      // })
+      payment.add("item name", 1);
 
-      const response = await paynow.sendMobile(payment, paying_number, method);
-      if (response && response.success) {
-        let instructions = response.instructions;
-        let pollUrl = response.pollUrl;
-        let status = await paynow.pollTransaction(pollUrl);
-        if (status.status === "paid") {
-          res.json("Yay! Transaction was paid for");
-          console.log("succcessful transaction");
-        } else if (status.status === "cancelled") {
-          //   res.json("Why you no pay?");
-          console.log("cancelled");
+      // Send off the payment to Paynow
+      paynow.send(payment).then((response) => {
+        // Check if request was successful
+        if (response.success) {
+          // Get the link to redirect the user to, then use it as you see fit
+          // Save poll url, maybe (recommended)?
+          let pollUrl = response.pollUrl;
+          let link = response.redirectUrl;
+          return res.send({ link: link, pollUrl: pollUrl });
         }
-      } else {
-        console.log("Error", response.error);
-        res.json({message: response.error});
-      }
+      });
     }
   } catch (error) {
     next(error);
