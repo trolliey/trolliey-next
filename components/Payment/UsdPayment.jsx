@@ -31,7 +31,7 @@ function UsdPayment({values, total_price, total_weight, collect_my_order, select
           orderItems: cart.cartItems,
           address: values.address,
           itemsPrice: cart?.cartItems?.reduce(
-            (a, c) => parseInt(a) + parseInt(c.quantity) * parseInt(c.price),
+            (a, c) => parseFloat(a) + parseFloat(c.quantity) * parseFloat(c.price),
             0
           ),
           shippingPrice: 0,

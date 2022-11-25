@@ -147,11 +147,12 @@ function CartSidebar({ open, setOpen }: Props): ReactElement {
                                             <p>Subtotal for <span>{cart?.cartItems?.reduce((a: any, c: any) => parseInt(a) + parseInt(c.quantity), 0)} items</span></p>
                                             <p>{
                                                 cart.cartItems ? (
-                                                    <Amount amount={cart?.cartItems?.reduce((a: any, c: any) =>  parseInt(a) + parseInt(c.quantity) * parseInt(c.price), 0)} />
+                                                    <Amount amount={cart?.cartItems?.reduce((a: any, c: any) =>  parseFloat(a) + parseFloat(c.quantity) * parseFloat(c.price), 0)} />
                                                 ):(
                                                     <Amount amount={0} />
                                                 )
                                                 }</p>
+                                                {/* <p>{cart?.cartItems?.reduce((a: any, c: any) =>  parseFloat(a) + parseFloat(c.quantity) * parseFloat(c.price), 0)}</p> */}
                                         </div>
                                         <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes included on grand total.</p>
                                         <div className="mt-6">

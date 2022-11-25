@@ -7,7 +7,8 @@ import {
 import GeneralNavbar from '../../components/Navigations/GeneralNavbar'
 import { useRouter } from 'next/router'
 import BlueButton from '../../components/Buttons/BlueButton'
-import dashboard from '../../public/img/dashboard_screenshot.png'
+import dashboard from '../../public/images/picture1.png'
+import dashboard2 from '../../public/images/picture2.png'
 import Image from 'next/image'
 import { Store } from '../../Context/Store'
 import Link from 'next/link'
@@ -148,7 +149,7 @@ function BecomeASeller() {
                       Pricing
                     </h2>
                     <p className="mt-4 text-xl text-gray-600">
-                      Apply and Register for an online store for free. We handle delivery of your products to customers. 
+                      We charge a monthly subscription fee $10 per seller account/month. You can choose to cancel your account at any time. (Free for the first month)
                     </p>
                   </div>
                 </div>
@@ -319,7 +320,7 @@ function BecomeASeller() {
                       layout="fill"
                       objectFit="cover"
                       className="w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 lg:absolute lg:right-0 lg:h-full lg:w-auto lg:max-w-none"
-                      src={dashboard}
+                      src={dashboard2}
                       alt="Customer profile user interface"
                     />
                   </div>

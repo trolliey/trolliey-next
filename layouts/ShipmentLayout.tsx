@@ -32,7 +32,7 @@ const ShipmentLayout: FunctionComponent<Props> = ({
     setTotalWeight(
       cart?.cartItems?.reduce(
         (a: any, c: any) =>
-          parseInt(a) + parseInt(c.quantity) * parseInt(c.weight),
+          parseFloat(a) + parseFloat(c.quantity) * parseFloat(c.weight),
         0
       )
     )
@@ -42,7 +42,7 @@ const ShipmentLayout: FunctionComponent<Props> = ({
     setTotalAmount(
       cart?.cartItems?.reduce(
         (a: any, c: any) =>
-          parseInt(a) + parseInt(c.quantity) * parseInt(c.price),
+          parseFloat(a) + parseFloat(c.quantity) * parseFloat(c.price),
         0
       )
     )

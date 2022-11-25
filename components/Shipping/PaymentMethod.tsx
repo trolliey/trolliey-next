@@ -98,7 +98,7 @@ function PaymentMethod({
     setTotalPrice(
       cart?.cartItems?.reduce(
         (a: any, c: any) =>
-          parseInt(a) + parseInt(c.quantity) * parseInt(c.price),
+          parseFloat(a) + parseFloat(c.quantity) * parseFloat(c.price),
         0
       )
     )
@@ -129,7 +129,7 @@ function PaymentMethod({
           address: values.address,
           itemsPrice: cart?.cartItems?.reduce(
             (a: any, c: any) =>
-              parseInt(a) + parseInt(c.quantity) * parseInt(c.price),
+              parseFloat(a) + parseFloat(c.quantity) * parseFloat(c.price),
             0
           ),
           shippingPrice: 0,
@@ -194,7 +194,7 @@ function PaymentMethod({
           address: values.address,
           itemsPrice: cart?.cartItems?.reduce(
             (a: any, c: any) =>
-              parseInt(a) + parseInt(c.quantity) * parseInt(c.price),
+              parseFloat(a) + parseFloat(c.quantity) * parseFloat(c.price),
             0
           ),
           shippingPrice: 0,
