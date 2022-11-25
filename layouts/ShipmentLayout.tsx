@@ -38,8 +38,6 @@ const ShipmentLayout: FunctionComponent<Props> = ({
     )
   }, [cart.cartItems])
 
-  console.log('cart on layout', cart)
-
   useEffect(() => {
     setTotalAmount(
       cart?.cartItems?.reduce(
