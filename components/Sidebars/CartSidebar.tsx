@@ -21,8 +21,6 @@ function CartSidebar({ open, setOpen }: Props): ReactElement {
     const { cart } = state
     const history = useRouter()
 
-    console.log('cart item ------- ', cart)
-
     const remove_from_cart = (item: any) => {
         dispatch({ type: 'REMOVE_FROM_CART', payload: {...item} })
     }

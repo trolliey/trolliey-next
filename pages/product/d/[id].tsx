@@ -20,7 +20,6 @@ function classNames(...classes: string[]) {
 }
 
 function ProductDescription(props: any) {
-  console.log('props from api call ------ ', props)
   const { dispatch } = useContext(Store)
   const history = useRouter()
   const [loading, setLoading] = useState(false)

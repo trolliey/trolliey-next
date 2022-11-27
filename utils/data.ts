@@ -28,9 +28,12 @@ import kindle from '../public/img/kindle_and_ereaders-min.png'
 import fashion from '../public/img/fashion.svg'
 import samsung1 from '../public/images/shop_samsung.png'
 import samsung2 from '../public/images/shop_samsung_SERIES.png'
-import keson from '../public/images/KESON_SMART_TV.png'
 import shop_samsung from '../public/images/shop_samsung_SERIES.png'
 import tv_banners from '../public/images/tvs_banner.png'
+import ecocash_icon from '../public/img/ECOCASH.svg'
+import visa_icon from '../public/svg/visa.svg' 
+import paypal_icon from '../public/img/paypal.png'
+import mastercard from '../public/img/mastercard.svg'
 
 
 export const data = {
@@ -39,6 +42,20 @@ export const data = {
     "Zimbabwe's leading online store. Fast, reliable delivery to your door. Many ways to pay. Shop anything online: TV's, laptops cellphones, home appliances, and many more",
   site_url: 'https://www.trolliey.com',
   site_top_message: 'Free delivery on first order',
+  payment_methods: [
+    {name: 'ecocash', currency: 'zwl', icon: ecocash_icon},
+    {name: 'visa', currency: 'usd', icon: visa_icon},
+    {name: 'paypal', currency: 'usd', icon: paypal_icon},
+    {name: 'mastercard', currency: 'usd', icon: mastercard},
+
+  ],
+  cash_payment_methods: [
+    {name: 'pay_on_delivery', currency: 'zwl'},
+    {name: 'pay_on_collectioin', currency: 'zwl'},
+    {name: 'pay_on_delivery', currency: 'usd'},
+    {name: 'pay_on_collectioin', currency: 'usd'},
+
+  ],
   banner_images: [
     // { body: 'First banner representantion', image: promo_1 },
     { body: 'Samsung', image: samsung1 },

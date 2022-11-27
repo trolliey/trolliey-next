@@ -222,10 +222,6 @@ function PaymentMethod({
         }
       )
       window.location.assign(data.link)
-      // Router.push({
-      //   pathname: '/success/order_success',
-      //   query: { pollUrl: data.response.pollUrl },
-      // })
       console.log(data.link)
       dispatch({ type: 'SET_POLL_URL', payload: data.respose })
       toast({
