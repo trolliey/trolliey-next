@@ -1,27 +1,121 @@
-import { Avatar, Radio, RadioGroup, Stack } from '@chakra-ui/react'
+import {
+  Avatar,
+  Radio,
+  RadioGroup,
+  Stack,
+  useDisclosure,
+} from '@chakra-ui/react'
 import { ArrowRightIcon } from '@heroicons/react/outline'
 import { CheckCircleIcon } from '@heroicons/react/solid'
+import axios from 'axios'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React, { useContext, useState } from 'react'
 import { Store } from '../../Context/Store'
 import { data } from '../../utils/data'
+import { getError } from '../../utils/error'
 import { renderWeight } from '../../utils/renderWeight'
 import Amount from '../Amount/Amount'
+import { apiUrl } from '../../utils/apiUrl'
+import PaymentModal from '../Modals/PaymentModal'
 
 function CheckoutSidebar({ total_amount, total_weight }) {
   const { state } = useContext(Store)
-  const { userInfo } = state
+  const { userInfo, cart } = state
   const [handle_order_type, setHandleOrderType] = useState('')
+  const { isOpen, onOpen, onClose } = useDisclosure()
   const history = useRouter()
   const { payment_method } = history.query
   const [address, setAddress] = useState('')
   const [full_name, setFullNamre] = useState('')
   const [phonr_number, setPhoneNumber] = useState('')
   const [city, setCity] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [heading, setheading] = useState('')
+  const [action_button, setActionButton] = useState('')
+  const [body, setBody] = useState('')
 
   const next_page_Handler = () => {
     console.log('order', handle_order_type)
+  }
+
+  const order_without_payment_modal = () => {
+    if (handle_order_type === 'collect_my_order' || handle_order_type === 'bring_to_doorstep') {
+      setBody(
+        <>
+          <div className="flex w-full flex-col space-y-4">
+            <p className="font-semibold">Place My Order</p>
+            {
+              handle_order_type === 'collect_my_order' ? (
+                <p>You can collect your order at any of our collection points</p>
+              ):(
+                <p>We will bring the order at your doorstep. On the address you have provided</p>
+              )
+            }
+          </div>
+        </>
+      )
+      setActionButton(
+        <>
+          <div
+            onClick={
+              loading
+                ? () => console.log('Loading please wait ...')
+                : order_without_payment_Handler
+            }
+            className="flex cursor-pointer rounded-lg bg-blue-primary p-2 font-semibold capitalize text-white hover:bg-blue-secondary"
+          >
+            {loading ? 'Loading ... ' : 'Place Order'}
+          </div>
+        </>
+      )
+      setheading('Proceed to collect my order')
+      onOpen()
+    }
+  }
+
+  const order_without_payment_Handler = async () => {
+    try {
+      setLoading(true)
+      const { data } = await axios.post(
+        `${apiUrl}/api/order/rtgs/payment`,
+        {
+          orderItems: cart.cartItems,
+          address: values.address,
+          itemsPrice: cart?.cartItems?.reduce(
+            (a, c) =>
+              parseFloat(a) + parseFloat(c.quantity) * parseFloat(c.price),
+            0
+          ),
+          shippingPrice: 0,
+          // @ts-ignore
+          totalPrice: total_price + renderWeight(total_weight),
+          full_name: full_name,
+          province: city,
+          collect_my_order: handle_order_type,
+          method: payment_method,
+          isPaid: false,
+          pay_on_delivery: handle_order_type,
+          weight: total_weight,
+          paying_number: 'No Payment Done',
+          contact_phone_number: phonr_number,
+          city: values.city,
+          number_of_items_bought: cart?.cartItems?.reduce(
+            (a, c) => parseInt(a) + parseInt(c.quantity),
+            0
+          ),
+        },
+        {
+          headers: {
+            authorization: `${userInfo.token}`,
+          },
+        }
+      )
+      setLoading(false)
+    } catch (error) {
+      setLloading(false)
+      console.log(getError(error))
+    }
   }
 
   return (
@@ -75,9 +169,7 @@ function CheckoutSidebar({ total_amount, total_weight }) {
           {handle_order_type === 'bring_to_doorstep' && (
             <div
               onClick={() =>
-                history.push(
-                  `/shipping/?payment_method=${'pay_on_delivery'}`
-                )
+                history.push(`/shipping/?payment_method=${'pay_on_delivery'}`)
               }
               className={`${
                 payment_method === 'pay_on_delivery'
@@ -96,17 +188,15 @@ function CheckoutSidebar({ total_amount, total_weight }) {
           {handle_order_type === 'collect_my_order' && (
             <div
               onClick={() =>
-                history.push(
-                  `/shipping?payment_method=${'pay_on_collection'}`
-                )
+                history.push(`/shipping?payment_method=${'pay_on_collection'}`)
               }
               className={`${
-                payment_method === 'collection'
+                payment_method === 'pay_on_collection'
                   ? ' hover:bg-gray-secodary bg-gray-100 '
                   : 'bg-white hover:bg-gray-100 '
               } relative col-span-4 flex cursor-pointer content-center items-center justify-center rounded border-2 border-blue-light p-2 `}
             >
-              {payment_method === 'collection' && (
+              {payment_method === 'pay_on_collection' && (
                 <div className="absolute top-0 right-0 flex text-blue-primary">
                   <CheckCircleIcon height={14} width={14} />
                 </div>
@@ -162,21 +252,39 @@ function CheckoutSidebar({ total_amount, total_weight }) {
         <div className="flex flex-row items-center justify-between text-sm text-white">
           <p>Shipping</p>
           <span className="font-semibold">
-            <Amount amount={renderWeight(total_weight)} />
+            {
+              handle_order_type === 'collect_my_order' ? (
+                <Amount amount={0} />
+                ):(
+                <Amount amount={renderWeight(total_weight)} />
+              )
+            }
           </span>
         </div>
         <div className="flex flex-row items-center justify-between pb-8 text-sm text-white">
           <p>Total (Tax incl.)</p>
           <span className="font-semibold">
-            <Amount amount={0.47 + total_amount + renderWeight(total_weight)} />
+          {
+              handle_order_type === 'collect_my_order' ? (
+                <Amount amount={0.47 + total_amount } />
+                ):(
+                  <Amount amount={0.47 + total_amount + renderWeight(total_weight)} />
+              )
+            }
           </span>
         </div>
         <div
-          onClick={next_page_Handler}
+          onClick={order_without_payment_modal}
           className="flex cursor-pointer flex-row items-center justify-between rounded-lg bg-green-500 py-2 px-4 text-white hover:bg-green-600 "
         >
           <span className="font-semibold">
-            <Amount amount={0.47 + total_amount + renderWeight(total_weight)} />
+             {
+              handle_order_type === 'collect_my_order' ? (
+                <Amount amount={0.47 + total_amount } />
+                ):(
+                  <Amount amount={0.47 + total_amount + renderWeight(total_weight)} />
+              )
+            }
           </span>
           <div className="flex flex-row items-center space-x-2">
             <p className="font-semibold">Continue</p>
@@ -184,6 +292,16 @@ function CheckoutSidebar({ total_amount, total_weight }) {
           </div>
         </div>
       </div>
+      <>
+        <PaymentModal
+          body={body}
+          isOpen={isOpen}
+          heading={heading}
+          onOpen={onOpen}
+          onClose={onClose}
+          action_button={action_button}
+        />
+      </>
     </div>
   )
 }
