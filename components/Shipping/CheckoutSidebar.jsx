@@ -41,8 +41,8 @@ function CheckoutSidebar({ total_amount, total_weight }) {
     console.log('order', handle_order_type)
   }
 
-  const order_without_payment_modal = () => {
-    if(!city || !address || !phonr_number || !full_name){
+  const order_payment_modal = () => {
+    if (!city || !address || !phonr_number || !full_name) {
       toast({
         title: 'Enter all required info',
         status: 'error',
@@ -52,18 +52,25 @@ function CheckoutSidebar({ total_amount, total_weight }) {
       })
       return
     }
-    if (handle_order_type === 'collect_my_order' || handle_order_type === 'bring_to_doorstep') {
+    if (
+      payment_method === 'pay_on_collection' ||
+      payment_method === 'pay_on_delivery'
+    ) {
       setBody(
         <>
           <div className="flex w-full flex-col space-y-4">
             <p className="font-semibold">Place My Order</p>
-            {
-              handle_order_type === 'collect_my_order' ? (
-                <p>You can collect your order at any of our collection points</p>
-              ):(
-                <p>We will bring the order at your doorstep. On the address you have provided</p>
-              )
-            }
+            {handle_order_type === 'collect_my_order' ? (
+              <p>
+                You can collect your order at any of our collection points after
+                3 days
+              </p>
+            ) : (
+              <p>
+                We will bring the order at your doorstep. On the address you
+                have provided
+              </p>
+            )}
           </div>
         </>
       )
@@ -171,7 +178,7 @@ function CheckoutSidebar({ total_amount, total_weight }) {
       </div>
       <p className="py-4  text-center text-white">Select Payment Method</p>
       <div className="flex flex-col space-y-2 rounded bg-white p-2">
-        <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-2 gap-4  ">
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-2 lg:grid-cols-4  ">
           {data.payment_methods?.map((item, index) => (
             <div
               onClick={() =>
@@ -282,39 +289,37 @@ function CheckoutSidebar({ total_amount, total_weight }) {
         <div className="flex flex-row items-center justify-between text-sm text-white">
           <p>Shipping</p>
           <span className="font-semibold">
-            {
-              handle_order_type === 'collect_my_order' ? (
-                <Amount amount={0} />
-                ):(
-                <Amount amount={renderWeight(total_weight)} />
-              )
-            }
+            {handle_order_type === 'collect_my_order' ? (
+              <Amount amount={0} />
+            ) : (
+              <Amount amount={renderWeight(total_weight)} />
+            )}
           </span>
         </div>
         <div className="flex flex-row items-center justify-between pb-8 text-sm text-white">
           <p>Total (Tax incl.)</p>
           <span className="font-semibold">
-          {
-              handle_order_type === 'collect_my_order' ? (
-                <Amount amount={0.47 + total_amount } />
-                ):(
-                  <Amount amount={0.47 + total_amount + renderWeight(total_weight)} />
-              )
-            }
+            {handle_order_type === 'collect_my_order' ? (
+              <Amount amount={0.47 + total_amount} />
+            ) : (
+              <Amount
+                amount={0.47 + total_amount + renderWeight(total_weight)}
+              />
+            )}
           </span>
         </div>
         <div
-          onClick={order_without_payment_modal}
+          onClick={order_payment_modal}
           className="flex cursor-pointer flex-row items-center justify-between rounded-lg bg-green-500 py-2 px-4 text-white hover:bg-green-600 "
         >
           <span className="font-semibold">
-             {
-              handle_order_type === 'collect_my_order' ? (
-                <Amount amount={0.47 + total_amount } />
-                ):(
-                  <Amount amount={0.47 + total_amount + renderWeight(total_weight)} />
-              )
-            }
+            {handle_order_type === 'collect_my_order' ? (
+              <Amount amount={0.47 + total_amount} />
+            ) : (
+              <Amount
+                amount={0.47 + total_amount + renderWeight(total_weight)}
+              />
+            )}
           </span>
           <div className="flex flex-row items-center space-x-2">
             <p className="font-semibold">Continue</p>
