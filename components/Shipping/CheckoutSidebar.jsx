@@ -51,7 +51,7 @@ function CheckoutSidebar({ total_amount, total_weight }) {
           {data.payment_methods?.map((item, index) => (
             <div
               onClick={() =>
-                history.push(`/shipping/shipping/?payment_method=${item.name}`)
+                history.push(`/shipping/?payment_method=${item.name}`)
               }
               key={index}
               className={`${
@@ -76,7 +76,7 @@ function CheckoutSidebar({ total_amount, total_weight }) {
             <div
               onClick={() =>
                 history.push(
-                  `/shipping/shipping/?payment_method=${'pay_on_delivery'}`
+                  `/shipping/?payment_method=${'pay_on_delivery'}`
                 )
               }
               className={`${
@@ -97,7 +97,7 @@ function CheckoutSidebar({ total_amount, total_weight }) {
             <div
               onClick={() =>
                 history.push(
-                  `/shipping/shipping/?payment_method=${'pay_on_collection'}`
+                  `/shipping?payment_method=${'pay_on_collection'}`
                 )
               }
               className={`${
