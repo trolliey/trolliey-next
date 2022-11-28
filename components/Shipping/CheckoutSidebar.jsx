@@ -4,6 +4,7 @@ import {
   RadioGroup,
   Stack,
   useDisclosure,
+  useToast,
 } from '@chakra-ui/react'
 import { ArrowRightIcon } from '@heroicons/react/outline'
 import { CheckCircleIcon } from '@heroicons/react/solid'
@@ -34,12 +35,23 @@ function CheckoutSidebar({ total_amount, total_weight }) {
   const [heading, setheading] = useState('')
   const [action_button, setActionButton] = useState('')
   const [body, setBody] = useState('')
+  const toast = useToast()
 
   const next_page_Handler = () => {
     console.log('order', handle_order_type)
   }
 
   const order_without_payment_modal = () => {
+    if(!city || !address || !phonr_number || !full_name){
+      toast({
+        title: 'Enter all required info',
+        status: 'error',
+        position: 'top-right',
+        duration: 9000,
+        isClosable: true,
+      })
+      return
+    }
     if (handle_order_type === 'collect_my_order' || handle_order_type === 'bring_to_doorstep') {
       setBody(
         <>
@@ -69,7 +81,7 @@ function CheckoutSidebar({ total_amount, total_weight }) {
           </div>
         </>
       )
-      setheading('Proceed to collect my order')
+      setheading('Proceed Place Your Order')
       onOpen()
     }
   }
@@ -78,10 +90,10 @@ function CheckoutSidebar({ total_amount, total_weight }) {
     try {
       setLoading(true)
       const { data } = await axios.post(
-        `${apiUrl}/api/order/rtgs/payment`,
+        `${apiUrl}/api/order/create`,
         {
           orderItems: cart.cartItems,
-          address: values.address,
+          address: address,
           itemsPrice: cart?.cartItems?.reduce(
             (a, c) =>
               parseFloat(a) + parseFloat(c.quantity) * parseFloat(c.price),
@@ -89,7 +101,7 @@ function CheckoutSidebar({ total_amount, total_weight }) {
           ),
           shippingPrice: 0,
           // @ts-ignore
-          totalPrice: total_price + renderWeight(total_weight),
+          totalPrice: total_amount + renderWeight(total_weight),
           full_name: full_name,
           province: city,
           collect_my_order: handle_order_type,
@@ -99,7 +111,7 @@ function CheckoutSidebar({ total_amount, total_weight }) {
           weight: total_weight,
           paying_number: 'No Payment Done',
           contact_phone_number: phonr_number,
-          city: values.city,
+          city: city,
           number_of_items_bought: cart?.cartItems?.reduce(
             (a, c) => parseInt(a) + parseInt(c.quantity),
             0
@@ -111,9 +123,27 @@ function CheckoutSidebar({ total_amount, total_weight }) {
           },
         }
       )
+      toast({
+        title: 'Order Created.',
+        description:
+          'Your order has been created and will be delivered to your within 5 working days! Thank You',
+        status: 'success',
+        position: 'top-right',
+        duration: 9000,
+        isClosable: true,
+      })
+      console.log(getError(data))
+      history.push(`/success/order_success`)
       setLoading(false)
     } catch (error) {
-      setLloading(false)
+      toast({
+        title: getError(error),
+        status: 'error',
+        position: 'top-right',
+        duration: 9000,
+        isClosable: true,
+      })
+      setLoading(false)
       console.log(getError(error))
     }
   }
@@ -141,7 +171,7 @@ function CheckoutSidebar({ total_amount, total_weight }) {
       </div>
       <p className="py-4  text-center text-white">Select Payment Method</p>
       <div className="flex flex-col space-y-2 rounded bg-white p-2">
-        <div className="grid grid-cols-4 gap-4  ">
+        <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-2 gap-4  ">
           {data.payment_methods?.map((item, index) => (
             <div
               onClick={() =>
