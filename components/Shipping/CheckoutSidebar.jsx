@@ -9,12 +9,7 @@ import { data } from '../../utils/data'
 import { renderWeight } from '../../utils/renderWeight'
 import Amount from '../Amount/Amount'
 
-type Props = {
-  total_amount: number
-  total_weight: number
-}
-
-function CheckoutSidebar({ total_amount, total_weight }: Props) {
+function CheckoutSidebar({ total_amount, total_weight }) {
   const { state } = useContext(Store)
   const { userInfo } = state
   const [handle_order_type, setHandleOrderType] = useState('')
