@@ -19,6 +19,7 @@ import { renderWeight } from '../../utils/renderWeight'
 import Amount from '../Amount/Amount'
 import { apiUrl } from '../../utils/apiUrl'
 import PaymentModal from '../Modals/PaymentModal'
+import UsdPayment from '../Payment/UsdPayment'
 
 function CheckoutSidebar({ total_amount, total_weight }) {
   const { state } = useContext(Store)
@@ -89,7 +90,52 @@ function CheckoutSidebar({ total_amount, total_weight }) {
         </>
       )
       setheading('Proceed Place Your Order')
-      onOpen()
+      onOpen() 
+      return
+    }else if(payment_method === 'visa' || payment_method === 'paypal' || payment_method === 'mastercard' ){
+      const values = {
+        address: address,
+        full_name: full_name,
+        province: city,
+        paying_number: phonr_number,
+        contact_number: phonr_number,
+        city: city
+      }
+      setBody(
+        <>
+          <div className="col-span-full mt-4 flex w-full flex-col items-center">
+          <div className="my-4 w-full">
+            {/* <BlueButton
+              text={'Proceed to payment'}
+              onClick={handle_usd_payment}
+            /> */}
+            <UsdPayment
+              collect_my_order={handle_order_type}
+              selected_method={payment_method}
+              total_price={total_amount}
+              total_weight={total_weight}
+              values={values}
+            />
+          </div>
+        </div>
+        </>
+      )
+      setActionButton(
+        <>
+          <div
+            onClick={
+              loading
+                ? () => console.log('Loading please wait ...')
+                : order_without_payment_Handler
+            }
+            className="flex cursor-pointer rounded-lg bg-blue-primary p-2 font-semibold capitalize text-white hover:bg-blue-secondary"
+          >
+            {loading ? 'Loading ... ' : 'Place Order'}
+          </div>
+        </>
+      )
+      setheading('Proceed Place Your Order')
+      onOpen() 
     }
   }
 
@@ -150,6 +196,15 @@ function CheckoutSidebar({ total_amount, total_weight }) {
         duration: 9000,
         isClosable: true,
       })
+      setLoading(false)
+      console.log(getError(error))
+    }
+  }
+
+  const order_with_usd = () =>{
+    try {
+      setLoading(true)
+    } catch (error) {
       setLoading(false)
       console.log(getError(error))
     }

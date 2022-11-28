@@ -139,7 +139,7 @@ function UsdPayment({values, total_price, total_weight, collect_my_order, select
       {usd_loading ? (
         <Spinner size="xl" />
       ) : (
-        <div className='w-full'>
+        <div className='w-full items-center'>
           <PayPalScriptProvider
             options={{
               'client-id': process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID,
