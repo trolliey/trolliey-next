@@ -60,14 +60,14 @@ function UsdPayment({values, total_price, total_weight, collect_my_order, select
         }
       )
       toast({
-        title: 'Redirecting ... ',
+        title: getError(data),
         status: 'success',
         position: 'top-right',
         duration: 9000,
         isClosable: true,
       })
       // stripe.redirectToCheckout({ sessionId: data.id })
-      router.push(getError(data))
+      router.push('/success/order_success')
     } catch (error) {
       setUsdLoading(false)
       toast({
