@@ -9,7 +9,13 @@ import axios from 'axios'
 import { apiUrl } from '../../utils/apiUrl'
 import { renderWeight } from '../../utils/renderWeight'
 
-function UsdPayment({values, total_price, total_weight, collect_my_order, selected_method}) {
+function UsdPayment({
+  values,
+  total_price,
+  total_weight,
+  collect_my_order,
+  selected_method,
+}) {
   const [show, setShow] = useState(false)
   const [success, setSuccess] = useState(false)
   const [ErrorMessage, setErrorMessage] = useState('')
@@ -19,7 +25,7 @@ function UsdPayment({values, total_price, total_weight, collect_my_order, select
   const [usd_loading, setUsdLoading] = useState(false)
   const router = useRouter()
 
-  const { state, dispatch } = useContext(Store)
+  const { state } = useContext(Store)
   const { userInfo, cart } = state
 
   const handle_usd_payment = async () => {
@@ -31,7 +37,8 @@ function UsdPayment({values, total_price, total_weight, collect_my_order, select
           orderItems: cart.cartItems,
           address: values.address,
           itemsPrice: cart?.cartItems?.reduce(
-            (a, c) => parseFloat(a) + parseFloat(c.quantity) * parseFloat(c.price),
+            (a, c) =>
+              parseFloat(a) + parseFloat(c.quantity) * parseFloat(c.price),
             0
           ),
           shippingPrice: 0,
@@ -42,7 +49,7 @@ function UsdPayment({values, total_price, total_weight, collect_my_order, select
           collect_my_order: collect_my_order,
           method: selected_method,
           isPaid: false,
-          pay_on_delivery: 'yes',
+          pay_on_delivery: collect_my_order,
           weight: total_weight,
           paying_number: values.paying_number,
           contact_phone_number: values.contact_number,
@@ -51,7 +58,7 @@ function UsdPayment({values, total_price, total_weight, collect_my_order, select
             (a, c) => parseInt(a) + parseInt(c.quantity),
             0
           ),
-          orderId: orderID
+          orderId: orderID,
         },
         {
           headers: {
@@ -139,7 +146,7 @@ function UsdPayment({values, total_price, total_weight, collect_my_order, select
       {usd_loading ? (
         <Spinner size="xl" />
       ) : (
-        <div className='w-full items-center'>
+        <div className="w-full items-center">
           <PayPalScriptProvider
             options={{
               'client-id': process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID,

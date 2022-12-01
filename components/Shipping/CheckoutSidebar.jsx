@@ -20,10 +20,11 @@ import Amount from '../Amount/Amount'
 import { apiUrl } from '../../utils/apiUrl'
 import PaymentModal from '../Modals/PaymentModal'
 import UsdPayment from '../Payment/UsdPayment'
+import BlueButton from '../Buttons/BlueButton'
 
 function CheckoutSidebar({ total_amount, total_weight }) {
-  const { state } = useContext(Store)
-  const { userInfo, cart } = state
+  const { state, dispatch } = useContext(Store)
+  const { userInfo, cart, currency } = state
   const [handle_order_type, setHandleOrderType] = useState('')
   const { isOpen, onOpen, onClose } = useDisclosure()
   const history = useRouter()
@@ -37,10 +38,6 @@ function CheckoutSidebar({ total_amount, total_weight }) {
   const [action_button, setActionButton] = useState('')
   const [body, setBody] = useState('')
   const toast = useToast()
-
-  const next_page_Handler = () => {
-    console.log('order', handle_order_type)
-  }
 
   const order_payment_modal = () => {
     if (!city || !address || !phonr_number || !full_name) {
@@ -90,34 +87,38 @@ function CheckoutSidebar({ total_amount, total_weight }) {
         </>
       )
       setheading('Proceed Place Your Order')
-      onOpen() 
+      onOpen()
       return
-    }else if(payment_method === 'visa' || payment_method === 'paypal' || payment_method === 'mastercard' ){
+    } else if (
+      payment_method === 'visa' ||
+      payment_method === 'paypal' ||
+      payment_method === 'mastercard'
+    ) {
       const values = {
         address: address,
         full_name: full_name,
         province: city,
         paying_number: phonr_number,
         contact_number: phonr_number,
-        city: city
+        city: city,
       }
       setBody(
         <>
           <div className="col-span-full mt-4 flex w-full flex-col items-center">
-          <div className="my-4 w-full">
-            {/* <BlueButton
+            <div className="my-4 w-full">
+              {/* <BlueButton
               text={'Proceed to payment'}
               onClick={handle_usd_payment}
             /> */}
-            <UsdPayment
-              collect_my_order={handle_order_type}
-              selected_method={payment_method}
-              total_price={total_amount}
-              total_weight={total_weight}
-              values={values}
-            />
+              <UsdPayment
+                collect_my_order={handle_order_type}
+                selected_method={payment_method}
+                total_price={total_amount}
+                total_weight={total_weight}
+                values={values}
+              />
+            </div>
           </div>
-        </div>
         </>
       )
       setActionButton(
@@ -135,7 +136,37 @@ function CheckoutSidebar({ total_amount, total_weight }) {
         </>
       )
       setheading('Proceed Place Your Order')
-      onOpen() 
+      onOpen()
+    } else if (payment_method === 'ecocash' || payment_method) {
+      setBody(
+        <>
+          <div className="col-span-full mt-4 flex w-full flex-col items-center">
+            <div className="my-4 w-full">
+              <BlueButton
+                text={'Proceed to pay with ecocash'}
+                onClick={handle_rtgs_payment}
+                loading={loading}
+              />
+            </div>
+          </div>
+        </>
+      )
+      setActionButton(
+        <>
+          <div
+            onClick={
+              loading
+                ? () => console.log('Loading please wait ...')
+                : handle_rtgs_payment
+            }
+            className="flex cursor-pointer rounded-lg bg-blue-primary p-2 font-semibold capitalize text-white hover:bg-blue-secondary"
+          >
+            {loading ? 'Loading ... ' : 'Place Order'}
+          </div>
+        </>
+      )
+      setheading('Place Your Order')
+      onOpen()
     }
   }
 
@@ -147,11 +178,7 @@ function CheckoutSidebar({ total_amount, total_weight }) {
         {
           orderItems: cart.cartItems,
           address: address,
-          itemsPrice: cart?.cartItems?.reduce(
-            (a, c) =>
-              parseFloat(a) + parseFloat(c.quantity) * parseFloat(c.price),
-            0
-          ),
+          itemsPrice: total_amount,
           shippingPrice: 0,
           // @ts-ignore
           totalPrice: total_amount + renderWeight(total_weight),
@@ -169,6 +196,7 @@ function CheckoutSidebar({ total_amount, total_weight }) {
             (a, c) => parseInt(a) + parseInt(c.quantity),
             0
           ),
+          platform_currency: currency
         },
         {
           headers: {
@@ -201,12 +229,54 @@ function CheckoutSidebar({ total_amount, total_weight }) {
     }
   }
 
-  const order_with_usd = () =>{
+  const handle_rtgs_payment = async () => {
     try {
       setLoading(true)
+      const { data } = await axios.post(
+        `${apiUrl}/api/order/rtgs/payment`,
+        {
+          orderItems: cart.cartItems,
+          address: address,
+          itemsPrice: total_amount,
+          shippingPrice: 0,
+          // @ts-ignore
+          totalPrice: total_amount + renderWeight(total_weight),
+          full_name: full_name,
+          province: city,
+          collect_my_order: handle_order_type,
+          method: payment_method,
+          isPaid: false,
+          pay_on_delivery: handle_order_type,
+          weight: total_weight,
+          paying_number: phonr_number,
+          contact_phone_number: phonr_number,
+          city: city,
+          number_of_items_bought: cart?.cartItems?.reduce(
+            (a, c) => parseInt(a) + parseInt(c.quantity),
+            0
+          ),
+          platform_currency: currency
+        },
+        {
+          headers: {
+            authorization: `${userInfo.token}`,
+          },
+        }
+      )
+      window.location.assign(data.link)
+      console.log(data.link)
+      dispatch({ type: 'SET_POLL_URL', payload: data.respose })
+      toast({
+        title: 'Redirecting ... ',
+        status: 'success',
+        position: 'top-right',
+        duration: 9000,
+        isClosable: true,
+      })
     } catch (error) {
       setLoading(false)
       console.log(getError(error))
+      return
     }
   }
 
