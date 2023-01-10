@@ -127,7 +127,7 @@ export default function Footer() {
 
        
         <p className="md:mt-8 mt-4 text-center text-sm text-gray-500">
-          &copy; {new Date().getFullYear()} Trolliey Retail Pvt. Ltd{' '} By <a href="www.lardworx.co.zw">LardWorx</a>
+          &copy; {new Date().getFullYear()} Trolliey Retail Pvt. Ltd{' '} By <a href="www.lardworx.co.zw">LadWorx</a>
         </p>
       </div>
     </footer>
