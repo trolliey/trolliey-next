@@ -11,8 +11,8 @@ let paynow = new Paynow(
 );
 
 // Set return and result urls
-paynow.resultUrl = "http://trolliey.com/success/order_success";
-paynow.returnUrl = "http://trolliey.herokuapp.com/api/order/rtgs/return";
+paynow.resultUrl = "https://trolliey.com/success/order_success";
+paynow.returnUrl = "https://trolliey.herokuapp.com/api/order/rtgs/return";
 
 // regex for phone numbers
 const phone_number_regex = /^(\\d{4}[- .]?)(\\d{3}[- .]?)(\\d{3})$/;
@@ -27,7 +27,7 @@ router.post("/payment", requireUserSignIn, async (req, res, next) => {
     const { collect_my_order, method, paying_number, platform_currency } =
       req.body;
 
-      console.log('curremcy is ;; ', platform_currency)
+    console.log("curremcy is ;; ", platform_currency);
 
     if (!method) {
       return res
@@ -49,7 +49,6 @@ router.post("/payment", requireUserSignIn, async (req, res, next) => {
         isPaid: false,
         paying_number: paying_number,
       });
-  
 
       // create a payment with the name of trolliet
       let payment = paynow.createPayment(
@@ -58,7 +57,7 @@ router.post("/payment", requireUserSignIn, async (req, res, next) => {
         req.user.email
       );
 
-      console.log(method)
+      console.log(method);
 
       const converted_price = (price, order_curr, plat_curr) => {
         // if (order_curr.toLowerCase() === plat_curr.toLowerCase()) {
@@ -74,10 +73,10 @@ router.post("/payment", requireUserSignIn, async (req, res, next) => {
         // ) {
         //   return (price * 900).toFixed(2);
         // }
-        if(method === 'ecocash'){
-          return (price * 900).toFixed(2)
-        }else{
-          return price.toFixed(2)
+        if (method === "ecocash") {
+          return (price * 900).toFixed(2);
+        } else {
+          return price.toFixed(2);
         }
       };
 
