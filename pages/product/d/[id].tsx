@@ -34,13 +34,7 @@ function ProductDescription(props: any) {
   const add_to_basket = async () => {
     try {
       setLoading(true)
-      const { data } = await axios.get(
-        `/api/products/${props.data.product._id}`
-      )
-      if (data?.countInStock <= 0) {
-        alert('Sorry. Product our of stock')
-        return
-      }
+
       dispatch({
         type: 'ADD_TO_CART',
         payload: { ...props.data.product, quantity: 1 },
@@ -207,14 +201,11 @@ function ProductDescription(props: any) {
                     <div className="flex items-center">
                       <div className="flex items-center">
                         <RatingComponent
-                          ratings={Math.floor(
-                            props.data.product.averageRating
-                          )}
+                          ratings={Math.floor(props.data.product.averageRating)}
                         />
                       </div>
                       <p className="sr-only">
-                        {props.data.product.averageRating} out of 5
-                        stars
+                        {props.data.product.averageRating} out of 5 stars
                       </p>
                     </div>
                   </div>
@@ -235,9 +226,7 @@ function ProductDescription(props: any) {
                           className="text-2xl font-bold text-gray-700"
                           amount={
                             parseFloat(props.data.product.price) -
-                            parseFloat(
-                              props.data.product.discount_price
-                            )
+                            parseFloat(props.data.product.discount_price)
                           }
                         />
                       )}
@@ -318,12 +307,9 @@ function ProductDescription(props: any) {
                         <div className="flex flex-row items-center">
                           <p className="mr-2 text-gray-500">Delivers in</p>
                           <div className="text-gray-500">
-                            {props.data.product.time_to_deliver >=
-                            0 ? (
+                            {props.data.product.time_to_deliver >= 0 ? (
                               <p>
-                                {props.data.product
-                                  ?.time_to_deliver + 2}{' '}
-                                days
+                                {props.data.product?.time_to_deliver + 2} days
                               </p>
                             ) : (
                               'Not Specified'
@@ -353,8 +339,7 @@ function ProductDescription(props: any) {
                           <p className="text-sm font-semibold text-gray-700">
                             {selected_variant
                               ? selected_variant.countInStock
-                              : props.data.product
-                                  ?.countInStock}{' '}
+                              : props.data.product?.countInStock}{' '}
                             In Stock
                           </p>
                         ) : (
@@ -451,8 +436,7 @@ function ProductDescription(props: any) {
                   />
                   <div className="flex flex-col">
                     <p className="font-semibold text-gray-700">
-                      View {props.data.store_info?.company_name}'s
-                      store
+                      View {props.data.store_info?.company_name}'s store
                     </p>
                     <p className="text-sm text-gray-400">
                       View the seller's shop and catalogues
@@ -520,11 +504,10 @@ function ProductDescription(props: any) {
                         <div
                           className="space-y-6 text-base leading-normal text-gray-700"
                           dangerouslySetInnerHTML={{
-                            __html:
-                              props.data.product.description?.substring(
-                                0,
-                                500
-                              ),
+                            __html: props.data.product.description?.substring(
+                              0,
+                              500
+                            ),
                           }}
                         />
                       )}
@@ -543,9 +526,7 @@ function ProductDescription(props: any) {
         </div>
         <div className="related_props.data.products my-16">
           <>
-            <RelatedProducts
-              category={props.data.product.category}
-            />
+            <RelatedProducts category={props.data.product.category} />
           </>
         </div>
       </div>

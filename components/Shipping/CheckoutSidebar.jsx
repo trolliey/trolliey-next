@@ -2,6 +2,7 @@ import {
   Avatar,
   Radio,
   RadioGroup,
+  Spinner,
   Stack,
   useDisclosure,
   useToast,
@@ -142,6 +143,15 @@ function CheckoutSidebar({ total_amount, total_weight }) {
         <>
           <div className="col-span-full mt-4 flex w-full flex-col items-center">
             <div className="my-4 w-full">
+              <Spinner
+                className="mx-auto"
+                thickness="4px"
+                speed="0.65s"
+                emptyColor="gray.200"
+                color="blue.500"
+                size="xl"
+              />
+              {}
               <BlueButton
                 text={'Proceed to pay with ecocash'}
                 onClick={handle_rtgs_payment}
@@ -189,6 +199,8 @@ function CheckoutSidebar({ total_amount, total_weight }) {
           isPaid: false,
           pay_on_delivery: handle_order_type,
           weight: total_weight,
+          // coupons: coupons,
+          rating: rating,
           paying_number: 'No Payment Done',
           contact_phone_number: phonr_number,
           city: city,
@@ -196,7 +208,7 @@ function CheckoutSidebar({ total_amount, total_weight }) {
             (a, c) => parseInt(a) + parseInt(c.quantity),
             0
           ),
-          platform_currency: currency
+          platform_currency: currency,
         },
         {
           headers: {
@@ -233,7 +245,7 @@ function CheckoutSidebar({ total_amount, total_weight }) {
     try {
       setLoading(true)
       const { data } = await axios.post(
-        `${apiUrl}/api/order/rtgs/payment`,
+        `${apiUrl}/api/order/create`,
         {
           orderItems: cart.cartItems,
           address: address,
@@ -244,7 +256,7 @@ function CheckoutSidebar({ total_amount, total_weight }) {
           full_name: full_name,
           province: city,
           collect_my_order: handle_order_type,
-          method: payment_method,
+          method: 'ecocash',
           isPaid: false,
           pay_on_delivery: handle_order_type,
           weight: total_weight,
@@ -255,7 +267,7 @@ function CheckoutSidebar({ total_amount, total_weight }) {
             (a, c) => parseInt(a) + parseInt(c.quantity),
             0
           ),
-          platform_currency: currency
+          platform_currency: currency,
         },
         {
           headers: {
@@ -263,11 +275,11 @@ function CheckoutSidebar({ total_amount, total_weight }) {
           },
         }
       )
-      window.location.assign(data.link)
-      console.log(data.link)
+      // window.location.assign(data.link)
+      console.log(data, 'hhhhhh')
       dispatch({ type: 'SET_POLL_URL', payload: data.respose })
       toast({
-        title: 'Redirecting ... ',
+        title: 'Payment successfully made',
         status: 'success',
         position: 'top-right',
         duration: 9000,

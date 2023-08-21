@@ -32,7 +32,7 @@ function UsdPayment({
     try {
       setUsdLoading(true)
       const { data } = await axios.post(
-        `${apiUrl}/api/order/usd`,
+        `${apiUrl}/api/order/create`,
         {
           orderItems: cart.cartItems,
           address: values.address,
@@ -47,7 +47,7 @@ function UsdPayment({
           full_name: values.full_name,
           province: values.province,
           collect_my_order: collect_my_order,
-          method: selected_method,
+          method: 'paypal',
           isPaid: false,
           pay_on_delivery: collect_my_order,
           weight: total_weight,
@@ -160,12 +160,12 @@ function UsdPayment({
             )}
             <div>
               {show ? (
-                <PayPalButtons
-                  style={{ layout: 'vertical' }}
-                  createOrder={createOrder}
-                  onApprove={onApprove}
-                  onError={onError}
-                />
+                <button
+                  className="rounded-md bg-blue-500 p-2 text-white"
+                  onClick={handle_usd_payment}
+                >
+                  pay
+                </button>
               ) : null}
             </div>
           </PayPalScriptProvider>

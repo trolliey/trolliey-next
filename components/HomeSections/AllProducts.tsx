@@ -1,6 +1,6 @@
-import React, { useContext } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import ProductItem from '../ProductItem/ProductItem'
-import { ArrowRightIcon } from '@heroicons/react/outline'
+import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/outline'
 import { useRouter } from 'next/router'
 import ProductLoading from '../ProductItem/ProductLoading'
 import no_product from '../../public/img/no_product.svg'
@@ -24,6 +24,34 @@ function AllProducts({ query, cols, no_text }: Props) {
   const fetcher = async (url: any) =>
     await axios.get(url).then((res) => res.data)
   const { data: products, error } = useSWR(address, fetcher)
+
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [scrollPosition, setScrollPosition] = useState(0)
+  const scrollAmount = 400
+
+  const handleScroll = (scrollOffset: number) => {
+    const newPosition = scrollPosition + scrollOffset
+
+    if (containerRef.current) {
+      // Calculate the maximum scroll position based on content width and container width
+      const maxScrollPosition =
+        containerRef.current.scrollWidth - containerRef.current.clientWidth || 0
+
+      // Ensure newPosition doesn't go beyond limits
+      const newScrollPosition = Math.max(
+        0,
+        Math.min(newPosition, maxScrollPosition)
+      )
+
+      setScrollPosition(newScrollPosition)
+      containerRef.current.scrollTo({
+        left: newScrollPosition,
+        behavior: 'smooth',
+      })
+
+      // containerRef.current.scrollLeft = newScrollPosition
+    }
+  }
 
   return (
     <div className="mb-8 flex w-full flex-col rounded bg-white p-2">
@@ -50,7 +78,7 @@ function AllProducts({ query, cols, no_text }: Props) {
       ) : (
         <>
           {!products ? (
-            <>
+            <div>
               <div
                 className={`${
                   cols ? cols : 'grid-cols-2 md:grid-cols-4 lg:grid-cols-5'
@@ -73,9 +101,55 @@ function AllProducts({ query, cols, no_text }: Props) {
                   </div>
                 ))}
               </div>
-            </>
+            </div>
           ) : (
-            <>
+            <div className="relative ">
+              <div className="absolute top-[50%] -right-0 -left-0 z-20 flex justify-between ">
+                <button
+                  disabled={scrollPosition === 0}
+                  className={
+                    scrollPosition === 0
+                      ? 'cursor-not-allowed rounded-full bg-[#f1f1f1] p-2'
+                      : 'rounded-full bg-[#f1f1f1] p-2'
+                  }
+                  onClick={() => handleScroll(-scrollAmount)}
+                >
+                  <ArrowLeftIcon
+                    height={20}
+                    width={20}
+                    className={
+                      scrollPosition === 0 ? 'text-gray-400' : 'text-gray-700'
+                    }
+                  />
+                </button>
+                <button
+                  disabled={
+                    scrollPosition >=
+                    (containerRef.current?.scrollWidth || 0) -
+                      (containerRef.current?.clientWidth || 0)
+                  }
+                  className={
+                    scrollPosition >=
+                    (containerRef.current?.scrollWidth || 0) -
+                      (containerRef.current?.clientWidth || 0)
+                      ? 'cursor-not-allowed rounded-full bg-[#f1f1f1] p-2'
+                      : 'rounded-full bg-[#f1f1f1] p-2'
+                  }
+                  onClick={() => handleScroll(scrollAmount)}
+                >
+                  <ArrowRightIcon
+                    height={20}
+                    width={20}
+                    className={
+                      scrollPosition >=
+                      (containerRef.current?.scrollWidth || 0) -
+                        (containerRef.current?.clientWidth || 0)
+                        ? 'text-gray-400'
+                        : 'text-gray-700'
+                    }
+                  />
+                </button>
+              </div>
               {products?.products?.length < 1 ? (
                 <div className=" h-68 grid content-center items-center justify-center">
                   <div className="relative h-40">
@@ -88,6 +162,7 @@ function AllProducts({ query, cols, no_text }: Props) {
               ) : (
                 <>
                   <div
+                    ref={containerRef}
                     className={`${
                       cols ? cols : 'flex space-x-6 overflow-x-auto'
                     } flex space-x-6 overflow-x-auto`}
@@ -117,7 +192,7 @@ function AllProducts({ query, cols, no_text }: Props) {
                   </div>
                 </>
               )}
-            </>
+            </div>
           )}
         </>
       )}

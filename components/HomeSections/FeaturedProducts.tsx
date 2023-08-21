@@ -1,10 +1,10 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useRef, useState } from 'react'
 import ProductItem from '../ProductItem/ProductItem'
 import ProductLoading from '../ProductItem/ProductLoading'
 import no_product from '../../public/img/no_product.svg'
 import Image from 'next/image'
 import Link from 'next/link'
-import { BadgeCheckIcon } from '@heroicons/react/outline'
+import { ArrowLeftIcon, BadgeCheckIcon } from '@heroicons/react/outline'
 import { ArrowRightIcon } from '@heroicons/react/solid'
 import { apiUrl } from '../../utils/apiUrl'
 import { useFetch } from '../../hooks/useFetch'
@@ -13,8 +13,8 @@ interface Props {
   heading: string
   category?: string
   sortBy?: string
-  is_special?: boolean,
-  sortOrder?:string
+  is_special?: boolean
+  sortOrder?: string
 }
 
 function FeaturedProducts({
@@ -22,12 +22,39 @@ function FeaturedProducts({
   category,
   sortBy,
   is_special,
-  sortOrder
+  sortOrder,
 }: Props): ReactElement {
   const address = `${apiUrl}/api/product/all?page=${1}&sortOrder=${sortOrder}$&perPage=${16}&sortBy=${sortBy}&category=${
     category ? category : ''
   }`
   const response = useFetch(address)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [scrollPosition, setScrollPosition] = useState(0)
+  const scrollAmount = 400
+
+  const handleScroll = (scrollOffset: number) => {
+    const newPosition = scrollPosition + scrollOffset
+
+    if (containerRef.current) {
+      // Calculate the maximum scroll position based on content width and container width
+      const maxScrollPosition =
+        containerRef.current.scrollWidth - containerRef.current.clientWidth || 0
+
+      // Ensure newPosition doesn't go beyond limits
+      const newScrollPosition = Math.max(
+        0,
+        Math.min(newPosition, maxScrollPosition)
+      )
+
+      setScrollPosition(newScrollPosition)
+      containerRef.current.scrollTo({
+        left: newScrollPosition,
+        behavior: 'smooth',
+      })
+
+      // containerRef.current.scrollLeft = newScrollPosition
+    }
+  }
 
   return (
     <>
@@ -51,7 +78,7 @@ function FeaturedProducts({
                   </div>
                 ))}
               </div>
-              <div className="scrollbar-hide w-full relative mx-auto  grid grid-cols-2 gap-4 md:hidden md:grid-cols-4 md:gap-8 lg:grid-cols-5">
+              <div className="scrollbar-hide relative mx-auto grid  w-full grid-cols-2 gap-4 md:hidden md:grid-cols-4 md:gap-8 lg:grid-cols-5">
                 {[1, 2]?.map((product: any, index: number) => (
                   <div
                     key={index}
@@ -87,7 +114,10 @@ function FeaturedProducts({
                 </div>
               ) : (
                 <div className="relative ">
-                  <div className="scrollbar-hide relative mx-auto flex space-x-2 overflow-x-auto">
+                  <div
+                    ref={containerRef}
+                    className="scrollbar-hide relative mx-auto flex space-x-2 overflow-x-auto"
+                  >
                     {response?.data?.products?.map(
                       (product: any, index: number) => (
                         <div
@@ -117,6 +147,54 @@ function FeaturedProducts({
                         </div>
                       )
                     )}
+                  </div>
+                  <div className="absolute top-[50%] right-0 left-0 flex justify-between ">
+                    <button
+                      disabled={scrollPosition === 0}
+                      className={
+                        scrollPosition === 0
+                          ? 'cursor-not-allowed rounded-full bg-[#f1f1f1] p-2'
+                          : 'rounded-full bg-[#f1f1f1] p-2'
+                      }
+                      onClick={() => handleScroll(-scrollAmount)}
+                    >
+                      <ArrowLeftIcon
+                        height={20}
+                        width={20}
+                        className={
+                          scrollPosition === 0
+                            ? 'text-gray-400'
+                            : 'text-gray-700'
+                        }
+                      />
+                    </button>
+                    <button
+                      disabled={
+                        scrollPosition >=
+                        (containerRef.current?.scrollWidth || 0) -
+                          (containerRef.current?.clientWidth || 0)
+                      }
+                      className={
+                        scrollPosition >=
+                        (containerRef.current?.scrollWidth || 0) -
+                          (containerRef.current?.clientWidth || 0)
+                          ? 'cursor-not-allowed rounded-full bg-[#f1f1f1] p-2'
+                          : 'rounded-full bg-[#f1f1f1] p-2'
+                      }
+                      onClick={() => handleScroll(scrollAmount)}
+                    >
+                      <ArrowRightIcon
+                        height={20}
+                        width={20}
+                        className={
+                          scrollPosition >=
+                          (containerRef.current?.scrollWidth || 0) -
+                            (containerRef.current?.clientWidth || 0)
+                            ? 'text-gray-400'
+                            : 'text-gray-700'
+                        }
+                      />
+                    </button>
                   </div>
                 </div>
               )}
