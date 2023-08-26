@@ -21,7 +21,7 @@ function SubCategoryComponent({
 
   const search_handler = (search_query: string) => {
     dispatch({ type: 'SET_SEARCH_QUERY', payload: search_query })
-    history.push('/explore')
+    history.push(`/explore?q=${search_query}`)
   }
   return (
     <div className="megadrop z-10 flex flex-row rounded border border-gray-200 bg-gray-50 shadow-lg">
@@ -35,8 +35,9 @@ function SubCategoryComponent({
               <p className="text-center">No subcategories to show</p>
             ) : (
               <>
-                {category?.sub_categories.slice(0, 13)?.map(
-                  (sub_cat: any, index: number) => (
+                {category?.sub_categories
+                  .slice(0, 13)
+                  ?.map((sub_cat: any, index: number) => (
                     <li
                       onClick={() => search_handler(sub_cat.name)}
                       key={index}
@@ -46,8 +47,7 @@ function SubCategoryComponent({
                         {sub_cat.name}
                       </p>
                     </li>
-                  )
-                )}
+                  ))}
               </>
             )}
           </ul>
@@ -58,7 +58,7 @@ function SubCategoryComponent({
           <Image
             layout="fill"
             src={cat_image}
-            objectFit='contain'
+            objectFit="contain"
             className="h-32"
             alt="category representation on category component"
           />

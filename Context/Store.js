@@ -1,5 +1,7 @@
 import { createContext, useReducer } from 'react'
 import Cookies from 'js-cookie'
+import Amount, { convertAmounts } from '../components/Amount/Amount'
+import { data } from './../utils/data'
 
 const initialState = {
   darkMode: false,
@@ -18,6 +20,8 @@ const initialState = {
 }
 
 export const Store = createContext()
+const selectedCurrency = initialState.currency
+console.log(selectedCurrency, ';;;;;;;;')
 
 function reducer(state = { search_category: '' }, action) {
   switch (action.type) {
@@ -35,15 +39,23 @@ function reducer(state = { search_category: '' }, action) {
             item._id === existItem._id ? newItem : item
           )
         : [...state.cart.cartItems, newItem]
-      Cookies.set('cartItems', JSON.stringify(cartItems))
+      const convertedCartItems = cartItems.map((item) => ({
+        ...item,
+        id: item._id,
+        // ovewrite the price with the converted price
+        rtgs_price: item.price * data.current_rate.value,
+      }))
+
+      console.log(state.currency, ',,,,,,')
+
+      Cookies.set('cartItems', JSON.stringify(convertedCartItems))
+      console.log(convertedCartItems)
+
       return {
         ...state,
         cart: {
           ...state.cart,
-          cartItems: cartItems.map((item) => ({
-            ...item,
-            id: item._id,
-          })),
+          cartItems: convertedCartItems,
         },
       }
     case 'CHANGE_CURRENCY':

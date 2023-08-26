@@ -81,7 +81,7 @@ export default function ExploreLayout({ children }: Props) {
             </>
 
             {/* filter by rating  */}
-            <>
+            {/* <>
               <p className="font-bold text-gray-700">Rating</p>
               <div className="p-2">
                 <div className="my-2 flex cursor-pointer flex-row items-center space-x-1 font-semibold text-gray-600">
@@ -161,7 +161,7 @@ export default function ExploreLayout({ children }: Props) {
                   <p className="text-xs">& Up</p>
                 </div>
               </div>
-            </>
+            </> */}
 
             {/* filter by price */}
             <>

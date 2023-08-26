@@ -2,7 +2,7 @@ import { ShoppingCartIcon } from '@heroicons/react/outline'
 import { StarIcon } from '@heroicons/react/solid'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import React, { ReactElement, useContext } from 'react'
+import React, { ReactElement, useContext, useState } from 'react'
 import axios from 'axios'
 import { Store } from '../../Context/Store'
 import { Text, useToast } from '@chakra-ui/react'
@@ -42,6 +42,7 @@ function ProductItem({
   const history = useRouter()
   const { pathname } = useRouter()
   const { state, dispatch } = useContext(Store)
+  const [loading, setLoading] = useState(false)
   // currency from the browser
   const { currency } = state
 
@@ -49,23 +50,36 @@ function ProductItem({
   const toast = useToast()
 
   const add_to_cart = async () => {
-    const { data } = await axios.get(`/api/products/${id}`)
-    if (data?.countInStock <= 0) {
+    setLoading(true)
+    try {
+      const { data } = await axios.get(`/api/products/${id}`)
+      if (data) {
+        dispatch({
+          type: 'ADD_TO_CART',
+          payload: {
+            ...data,
+            quantity: 1,
+          },
+        })
+        setLoading(false)
+        toast({
+          title: 'Product added.',
+          description: 'Product added to cart',
+          status: 'success',
+          duration: 2000,
+          isClosable: true,
+          position: 'top',
+        })
+      }
+    } catch (error) {
+      setLoading(false)
       toast({
-        title: 'Item is out of stock.',
+        title: 'An error occurred.',
+        description: 'Unable to add product to cart',
         status: 'error',
-        duration: 9000,
+        duration: 2000,
         isClosable: true,
-      })
-      return
-    } else {
-      dispatch({ type: 'ADD_TO_CART', payload: { ...product, quantity: 1 } })
-      toast({
-        title: `${product?.title} added to cart.`,
-        position: 'top-right',
-        status: 'success',
-        duration: 9000,
-        isClosable: true,
+        position: 'top',
       })
     }
   }
@@ -172,6 +186,7 @@ function ProductItem({
             )}
             {!remove_add_to_cart_botton && (
               <>
+                {/* will change this when there is need 'nothing-at-all' is jst a dunny url */}
                 {pathname !== '/' ? (
                   <div
                     onClick={add_to_cart}

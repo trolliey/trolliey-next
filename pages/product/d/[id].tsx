@@ -26,7 +26,16 @@ function ProductDescription(props: any) {
 
   const [selected_variant, setSelectedVariant] = useState<any>()
   const [show_features, setShowFeatures] = useState<boolean>(false)
-  const [showMore, setShowMore] = useState<any>()
+  const [showMore, setShowMore] = useState<boolean>(false)
+
+  const description = props.data.product.description
+  const maxLength = 500 // Maximum number of characters before showing "Read More"
+
+  const displayedDescription = showMore
+    ? description
+    : description?.substring(0, maxLength)
+
+  const showReadMore = description && description.length > maxLength
 
   // for toast
   const toast = useToast()
@@ -201,6 +210,7 @@ function ProductDescription(props: any) {
                     <div className="flex items-center">
                       <div className="flex items-center">
                         <RatingComponent
+                          id={props.data.product._id}
                           ratings={Math.floor(props.data.product.averageRating)}
                         />
                       </div>
@@ -411,12 +421,12 @@ function ProductDescription(props: any) {
                                         </div> */}
                     <div className="my-2"></div>
                     <div className="">
-                      <BlackButton
+                      {/* <BlackButton
                         loading={loading}
                         text="Buy Item Now"
                         className="w-full flex-1"
                         onClick={buy_item_now}
-                      />
+                      /> */}
                     </div>
                   </div>
                 </div>
@@ -490,34 +500,22 @@ function ProductDescription(props: any) {
               ) : (
                 <div className="flex w-full rounded bg-white py-2 px-4 md:px-16 md:py-4">
                   <h3 className="sr-only">Description</h3>
-
-                  <span className="w-full flex-grow ">
-                    <div className="mb-4 flex flex-col">
-                      {showMore ? (
-                        <div
-                          className="space-y-6 text-base leading-normal text-gray-700"
-                          dangerouslySetInnerHTML={{
-                            __html: props.data.product.description,
-                          }}
-                        />
-                      ) : (
-                        <div
-                          className="space-y-6 text-base leading-normal text-gray-700"
-                          dangerouslySetInnerHTML={{
-                            __html: props.data.product.description?.substring(
-                              0,
-                              500
-                            ),
-                          }}
-                        />
-                      )}
+                  <span className="w-full flex-grow">
+                    <div className="mb-4 flex flex-col space-y-6 text-base leading-normal text-gray-700">
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: displayedDescription,
+                        }}
+                      />
                     </div>
-                    <span
-                      onClick={() => setShowMore(!showMore)}
-                      className="cutsor-pointer mx-auto my-4 w-full self-center rounded bg-[#0e75bc] p-2 text-center text-xs font-semibold text-white"
-                    >
-                      {showMore ? 'Read Less' : 'Read More'}
-                    </span>
+                    {showReadMore && (
+                      <span
+                        onClick={() => setShowMore(!showMore)}
+                        className="mx-auto my-4 w-full cursor-pointer self-center rounded bg-[#0e75bc] p-2 text-center text-xs font-semibold text-white"
+                      >
+                        {showMore ? 'Read Less' : 'Read More'}
+                      </span>
+                    )}
                   </span>
                 </div>
               )}

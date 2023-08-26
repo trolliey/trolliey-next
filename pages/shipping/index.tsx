@@ -12,6 +12,7 @@ import Amount from '../../components/Amount/Amount'
 import CheckoutSidebar from '../../components/Shipping/CheckoutSidebar'
 import { Store } from '../../Context/Store'
 import GeneralLayout from '../../layouts/GeneralLayout'
+import { apiUrl } from '../../utils/apiUrl'
 
 type Props = {}
 
@@ -95,8 +96,8 @@ const Shipping = (props: Props) => {
                   {number_in_cart > 1 ? 'items' : 'item'} in your cart
                 </p>
               </div>
-              <p className='text-gray-800 text-sm font-semibold '>
-              <Amount amount={total_amount} />
+              <p className="text-sm font-semibold text-gray-800 ">
+                <Amount amount={total_amount} />
               </p>
             </div>
 
@@ -118,7 +119,7 @@ const Shipping = (props: Props) => {
                     updateCartHandler(item, item.quantity - 1)
                   }
                   increase_amount_Handler={() =>
-                    updateCartHandler(item, item.quantity + 1)
+                    updateCartHandler(item, parseInt(item.quantity) + 1)
                   }
                   key={index}
                   countInStock={item.countInStock}
