@@ -23,7 +23,7 @@ const connection = {}
 //   connection.isConnected = db.connections[0].readyState
 // }
 
-const connect = async () => mongoose.connect(process.env.DATABASE_URL)
+const connect = async () => mongoose.connect(process.env.DATABASE_URI)
 
 async function disconnect() {
   if (connection.isConnected) {

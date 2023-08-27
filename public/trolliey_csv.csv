@@ -1,0 +1,2 @@
+product_pictures,description,title,category,price,discount_price,countInStock,brand,sku,currency,weight,sub_category,time_to_delivery
+put url of your picture which are somewhere online,product description,product title,product category,1,0,100,Bitcoin,,USD,0.1,,1
