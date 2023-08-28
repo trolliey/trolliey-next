@@ -185,6 +185,7 @@ function Reviews(props: any) {
         </p>
         <div className="flex flex-col items-center pb-4">
           <RatingComponent
+            id={props.store._id}
             ratings={Math.floor(all_reviews_doc?.average_rating)}
           />
           <p className="text-gray-700">
@@ -228,6 +229,7 @@ function Reviews(props: any) {
           {all_reviews_doc?.reviews.map((review: any, index: number) => (
             <div key={index} className="fl">
               <Review
+                id={review.id}
                 rating={review.rating}
                 name={review.name}
                 photo={''}

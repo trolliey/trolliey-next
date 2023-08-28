@@ -132,6 +132,7 @@ function CartSidebar({ open, setOpen }: Props): ReactElement {
                                         >
                                           {/*@ts-ignore*/}
                                           {[
+                                            // @ts-ignore
                                             ...Array(
                                               product?.countInStock
                                             ).keys(),
