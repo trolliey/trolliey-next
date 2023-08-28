@@ -1,4 +1,4 @@
-import React, { ReactFragment, useContext, useState } from 'react'
+import React, { ReactFragment, useContext, useRef, useState } from 'react'
 import Courosel from '../components/Carousel/Carousel'
 import CategoriesDropdown from '../components/Dropdowns/CategoriesDropdown'
 import Image from 'next/image'
@@ -15,6 +15,7 @@ import slugify from '../utils/slugify'
 import Head from 'next/head'
 import ScrollingLogoSection from '../components/SrollingLogoSection/ScrollingLogoSection'
 import SpecialProducts from '../components/HomeSections/SpecialProducts'
+import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/outline'
 
 const OG_IMAGE =
   'https://res.cloudinary.com/trolliey/image/upload/v1656413519/trolliey%20static%20images/home_og_image_rwubje.jpg'
@@ -30,6 +31,33 @@ function Home(): ReactFragment {
   }
 
   const { scrollY } = useWindowScrollPositions()
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [scrollPosition, setScrollPosition] = useState(0)
+  const scrollAmount = 400
+
+  const handleScroll = (scrollOffset: number) => {
+    const newPosition = scrollPosition + scrollOffset
+
+    if (containerRef.current) {
+      // Calculate the maximum scroll position based on content width and container width
+      const maxScrollPosition =
+        containerRef.current.scrollWidth - containerRef.current.clientWidth || 0
+
+      // Ensure newPosition doesn't go beyond limits
+      const newScrollPosition = Math.max(
+        0,
+        Math.min(newPosition, maxScrollPosition)
+      )
+
+      setScrollPosition(newScrollPosition)
+      containerRef.current.scrollTo({
+        left: newScrollPosition,
+        behavior: 'smooth',
+      })
+
+      // containerRef.current.scrollLeft = newScrollPosition
+    }
+  }
 
   return (
     <>
@@ -106,7 +134,7 @@ function Home(): ReactFragment {
           </div>
           {/* <h1>Products</h1> */}
           <div className="container mx-auto min-h-screen max-w-7xl pt-4 md:pt-0">
-            <div className="top mb-8 flex w-full flex-row gap-2 md:rounded-lg bg-white px-0 py-0 md:gap-8  md:p-8 md:px-4 md:py-4">
+            <div className="top mb-8 flex w-full flex-row gap-2 bg-white px-0 py-0 md:gap-8 md:rounded-lg  md:p-8 md:px-4 md:py-4">
               <div className="hidden md:flex md:w-1/5">
                 <CategoriesDropdown />
               </div>
@@ -127,7 +155,7 @@ function Home(): ReactFragment {
               </div>
             </div>
 
-            <div className="section flex w-full flex-col space-y-8 px-2 md:px-0 mb-16">
+            <div className="section mb-16 flex w-full flex-col space-y-8 px-2 md:px-0">
               {/* // featured products */}
               {/* <>
                 <SpecialProducts
@@ -168,40 +196,94 @@ function Home(): ReactFragment {
                       </a>
                     </div>
                   </div>
-
-                  <div className="scrollbar-hide relative mx-auto flex space-x-2 overflow-x-auto md:space-x-4">
-                    {data.categories.map((category, index) => (
-                      <div
-                        key={`${category.value}-${index}`}
-                        className={`relative w-full transition hover:-translate-y-1 hover:shadow-lg motion-reduce:transform-none  motion-reduce:transition-none`}
+                  <div className="relative">
+                    <div className="absolute top-[50%] -right-8 -left-8 z-20 flex justify-between ">
+                      <button
+                        disabled={scrollPosition === 0}
+                        className={
+                          scrollPosition === 0
+                            ? 'cursor-not-allowed rounded-full bg-[#f1f1f1] p-2'
+                            : 'rounded-full bg-[#f1f1f1] p-2'
+                        }
+                        onClick={() => handleScroll(-scrollAmount)}
                       >
-                        <div onClick={() => search_by_category(category.name)}>
-                          <div className="relative flex h-36 w-36 flex-col items-center overflow-hidden rounded bg-white md:h-52 md:w-52">
-                            <Image
-                              objectFit="cover"
-                              src={category.icon ? category.icon : ''}
-                              layout="fill"
-                              loading="eager"
-                              quality={50}
-                              placeholder="blur"
-                              blurDataURL={category.icon}
-                              alt="product"
-                              className="h-full max-h-full w-auto flex-1 flex-shrink-0 rounded object-cover"
-                            />
+                        <ArrowLeftIcon
+                          height={20}
+                          width={20}
+                          className={
+                            scrollPosition === 0
+                              ? 'text-gray-400'
+                              : 'text-gray-700'
+                          }
+                        />
+                      </button>
+                      <button
+                        disabled={
+                          scrollPosition >=
+                          (containerRef.current?.scrollWidth || 0) -
+                            (containerRef.current?.clientWidth || 0)
+                        }
+                        className={
+                          scrollPosition >=
+                          (containerRef.current?.scrollWidth || 0) -
+                            (containerRef.current?.clientWidth || 0)
+                            ? 'cursor-not-allowed rounded-full bg-[#f1f1f1] p-2'
+                            : 'rounded-full bg-[#f1f1f1] p-2'
+                        }
+                        onClick={() => handleScroll(scrollAmount)}
+                      >
+                        <ArrowRightIcon
+                          height={20}
+                          width={20}
+                          className={
+                            scrollPosition >=
+                            (containerRef.current?.scrollWidth || 0) -
+                              (containerRef.current?.clientWidth || 0)
+                              ? 'text-gray-400'
+                              : 'text-gray-700'
+                          }
+                        />
+                      </button>
+                    </div>
+                    <div
+                      ref={containerRef}
+                      className="scrollbar-hide relative mx-auto flex space-x-2 overflow-x-auto md:space-x-4"
+                    >
+                      {data.categories.map((category, index) => (
+                        <div
+                          key={`${category.value}-${index}`}
+                          className={`relative w-full transition hover:-translate-y-1 hover:shadow-lg motion-reduce:transform-none  motion-reduce:transition-none`}
+                        >
+                          <div
+                            onClick={() => search_by_category(category.name)}
+                          >
+                            <div className="relative flex h-36 w-36 flex-col items-center overflow-hidden rounded bg-white md:h-52 md:w-52">
+                              <Image
+                                objectFit="cover"
+                                src={category.icon ? category.icon : ''}
+                                layout="fill"
+                                loading="eager"
+                                quality={50}
+                                placeholder="blur"
+                                blurDataURL={category.icon}
+                                alt="product"
+                                className="h-full max-h-full w-auto flex-1 flex-shrink-0 rounded object-cover"
+                              />
+                            </div>
+                          </div>
+                          <div className="px-4">
+                            <div className="flex-1 overflow-hidden">
+                              <Text
+                                noOfLines={2}
+                                className="my-1 text-center text-sm font-semibold text-gray-700"
+                              >
+                                {category.name}
+                              </Text>
+                            </div>
                           </div>
                         </div>
-                        <div className="px-4">
-                          <div className="flex-1 overflow-hidden">
-                            <Text
-                              noOfLines={2}
-                              className="my-1 text-center text-sm font-semibold text-gray-700"
-                            >
-                              {category.name}
-                            </Text>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
                 </div>
               </section>

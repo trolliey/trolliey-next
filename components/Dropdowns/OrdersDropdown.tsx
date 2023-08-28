@@ -1,5 +1,5 @@
 /* This example requires Tailwind CSS v2.0+ */
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/solid'
@@ -18,6 +18,7 @@ import {
   useToast,
 } from '@chakra-ui/react'
 import { getError } from '../../utils/error'
+import { apiUrl } from '../../utils/apiUrl'
 
 function classNames(...classes: any[]) {
   return classes.filter(Boolean).join(' ')
@@ -44,16 +45,16 @@ function OrdersDropdown({ id, user }: Props) {
   const [modal_body, setModalBody] = useState('')
   const [modal_heading, setModalHeading] = useState('')
   const [modal_button, setModalButton] = useState<any>()
+  const [orderStatus, setOrderStatus] = useState('pending')
   const toast = useToast()
 
-  const mark_as_delivered = async () => {
+  const handle_order_status = async (orderStatus: string) => {
     try {
       setLoading(true)
       await axios.put(
-        `/api/orders`,
+        `${apiUrl}/api/order/edit/${id}`,
         {
-          status: 'delivered',
-          order_id: id,
+          status: orderStatus,
         },
         {
           headers: {
@@ -62,9 +63,11 @@ function OrdersDropdown({ id, user }: Props) {
         }
       )
       setLoading(false)
+      // reload the page
+      history.push(`/admin/orders/`)
       toast({
-        title: 'Delivered.',
-        description: 'The Current Order has been market as delivered',
+        title: 'Order Status.',
+        description: `The Current Order has been market as ${orderStatus} `,
         status: 'success',
         duration: 9000,
         isClosable: true,
@@ -82,22 +85,6 @@ function OrdersDropdown({ id, user }: Props) {
       })
       console.log(error)
     }
-  }
-
-  const open_deliverered_modal = () => {
-    onOpen()
-    setModalBody('Only click button below if you have delivered users order.')
-    setModalHeading('Mark as delivered')
-    setModalButton(() => (
-      <Button
-        onClick={mark_as_delivered}
-        variant="solid"
-        isLoading={loading}
-        colorScheme={'blue'}
-      >
-        Mark as delivered
-      </Button>
-    ))
   }
 
   return (
@@ -142,7 +129,7 @@ function OrdersDropdown({ id, user }: Props) {
               <Menu.Item>
                 {({ active }) => (
                   <div
-                    onClick={open_deliverered_modal}
+                    onClick={() => handle_order_status('delivered')}
                     className={classNames(
                       active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                       'block cursor-pointer px-4 py-2 text-sm'
@@ -154,15 +141,41 @@ function OrdersDropdown({ id, user }: Props) {
               </Menu.Item>
               <Menu.Item>
                 {({ active }) => (
-                  <a
-                    href="/"
+                  <div
+                    onClick={() => handle_order_status('transit')}
+                    className={classNames(
+                      active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                      'block cursor-pointer px-4 py-2 text-sm'
+                    )}
+                  >
+                    Mark as in transit
+                  </div>
+                )}
+              </Menu.Item>
+              <Menu.Item>
+                {({ active }) => (
+                  <div
+                    onClick={() => handle_order_status('cancelled')}
+                    className={classNames(
+                      active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                      'block cursor-pointer px-4 py-2 text-sm'
+                    )}
+                  >
+                    Mark as cancelled
+                  </div>
+                )}
+              </Menu.Item>
+              <Menu.Item>
+                {({ active }) => (
+                  <div
+                    onClick={() => handle_order_status('pending')}
                     className={classNames(
                       active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                       'block px-4 py-2 text-sm'
                     )}
                   >
                     Mark as pending
-                  </a>
+                  </div>
                 )}
               </Menu.Item>
             </div>

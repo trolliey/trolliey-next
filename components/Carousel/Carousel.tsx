@@ -17,17 +17,18 @@ function Carousel({ data }: Props): ReactElement {
   const router = useRouter()
 
   const handleOnNextClick = () => {
-    count = (count + 1) % data.length
-    setCurrentIndex(count)
-    slideRef?.current?.classList.add('fade-anim')
+    const nextIndex = (currentIndex + 1) % data.length
+    setCurrentIndex(nextIndex)
+    slideRef.current?.classList.add('fade-anim')
   }
 
   const handleOnPrevClick = () => {
     const productsLength = data.length
-    count = (currentIndex + productsLength - 1) % productsLength
-    setCurrentIndex(count)
-    slideRef?.current?.classList.add('fade-anim')
+    const prevIndex = (currentIndex + productsLength - 1) % productsLength
+    setCurrentIndex(prevIndex)
+    slideRef.current?.classList.add('fade-anim')
   }
+
   const removeAnimation = () => {
     slideRef.current?.classList.remove('fade-anim')
   }
@@ -36,16 +37,17 @@ function Carousel({ data }: Props): ReactElement {
     let cancelRequest = false
     startSlider()
     slideRef.current?.addEventListener('animationend', removeAnimation)
-    slideRef.current?.addEventListener('mouseenter', pauseSlider)
-    slideRef.current?.addEventListener('mouseleave', startSlider)
-    if (cancelRequest) return
 
-    return function cleanup() {
+    // Cleanup event listeners
+    return () => {
       cancelRequest = true
+      clearInterval(slideInterval)
+      slideRef.current?.removeEventListener('animationend', removeAnimation)
     }
-  }, [])
+  }, [currentIndex])
 
   const startSlider = () => {
+    clearInterval(slideInterval)
     slideInterval = setInterval(() => {
       handleOnNextClick()
     }, 3000)
@@ -62,7 +64,10 @@ function Carousel({ data }: Props): ReactElement {
         ref={slideRef}
         className="relative w-full cursor-pointer select-none md:rounded"
       >
-        <div onClick={()=> router.push(`/explore?q=${data[currentIndex].body}`)} className="aspect-w-16 aspect-h-9 overflow-hidden md:rounded">
+        <div
+          onClick={() => router.push(`/explore?q=${data[currentIndex].body}`)}
+          className="aspect-w-16 aspect-h-9 overflow-hidden md:rounded"
+        >
           <Image
             src={data[currentIndex].image}
             placeholder="blur"

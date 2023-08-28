@@ -42,11 +42,49 @@ export default function CreateProduct() {
 
   //for selecting sub category
   const [current_category, setCurrentCategory] = useState<any>('')
+  const [selectedFileName, setSelectedFileName] = useState('')
 
   const toast = useToast()
   const { state } = useContext(Store)
   const { userInfo } = state
   const router = useRouter()
+
+  const handleFileChange = (event: any) => {
+    const files = event.target.files
+    if (files.length > 0) {
+      setSelectedFileName(files[0].name)
+    } else {
+      setSelectedFileName('')
+    }
+  }
+
+  const uploadFile = async (file: any) => {
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+      const response = await axios.post('/api/upload-csv', formData)
+
+      toast({
+        title: 'File Uploaded',
+        description: 'The file has been successfully uploaded.',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      })
+
+      console.log('File uploaded:', response.data)
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'An error occurred while uploading the file.',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      })
+
+      console.error('Error uploading file:', error)
+    }
+  }
 
   // setting selected pictures to upload
   const selectedPictures = (pictures: any) => {
@@ -92,7 +130,6 @@ export default function CreateProduct() {
       formData.append('weight', weight)
       formData.append('sub_category', sub_category)
       formData.append('time_to_delivery', time_to_delivery)
-      
 
       //upload the product to database from here
       const { data } = await axios.post(
@@ -123,9 +160,7 @@ export default function CreateProduct() {
       setCategory('')
       setStatus('')
       setSku('')
-      router.push(
-        `/dashboard/inventory/add_success/${data.product_id}`
-      )
+      router.push(`/dashboard/inventory/add_success/${data.product_id}`)
       console.log(data)
     } catch (error) {
       setLoading(false)
@@ -148,6 +183,45 @@ export default function CreateProduct() {
           <p className="text-lg font-semibold text-gray-800">
             Create New Product
           </p>
+          <p className="text-sm text-gray-400">
+            Have multiple products to add? Dowload this csv template and upload
+            it to add multiple products at once.
+            <a
+              className="text-blue-500 hover:text-blue-600"
+              href="
+            /trolliey_csv.csv"
+              download
+            >
+              Trolliey csv
+            </a>
+          </p>
+          <div className="relative mt-5 inline-block">
+            <input
+              type="file"
+              id="fileInput"
+              className="hidden"
+              onChange={handleFileChange}
+            />
+            <label
+              htmlFor="fileInput"
+              className="cursor-pointer rounded bg-blue-500 py-2 px-4 text-white hover:bg-blue-600"
+            >
+              Choose File
+            </label>
+            <span className="ml-2 text-gray-600">{selectedFileName}</span>
+          </div>
+
+          {selectedFileName && (
+            <div className="mt-5">
+              <button
+                onClick={() => selectedFileName && uploadFile(selectedFileName)}
+                className="rounded bg-blue-500 py-2 px-4 text-white hover:bg-blue-600"
+              >
+                Upload File
+              </button>
+            </div>
+          )}
+
           <Divider className="my-4 text-gray-400" />
           <>
             {/* image gallery */}
@@ -362,14 +436,16 @@ export default function CreateProduct() {
                               htmlFor="category"
                               className="mb-1 block text-sm font-medium text-gray-700"
                             >
-                             Description For SEO (Optional)
+                              Description For SEO (Optional)
                             </label>
                             <textarea
                               rows={5}
                               placeholder="Enter your SEO description here"
                               className="mt-1 block w-full rounded-md border border-gray-300 p-2 outline-none sm:text-sm"
                               value={seo_description}
-                              onChange={(e:any) => setSeoDescription(e.target.value)}
+                              onChange={(e: any) =>
+                                setSeoDescription(e.target.value)
+                              }
                             />
                           </div>
 
@@ -494,14 +570,12 @@ export default function CreateProduct() {
                               value={weight}
                               //@ts-ignore
                               onWheel={(e) => e.target.blur()}
-                              onChange={(e:any) => setWeight(e.target.value)}
+                              onChange={(e: any) => setWeight(e.target.value)}
                               autoComplete="weight"
                               placeholder="Enter weight"
                               className="mt-1 block w-full rounded-md border border-gray-300 p-2 outline-none sm:text-sm"
                             />
                           </div>
-
-                         
 
                           <div className="col-span-6 ">
                             <label

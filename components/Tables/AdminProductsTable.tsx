@@ -19,6 +19,7 @@ import DeleteModal from '../Modals/DeleteModal'
 import { apiUrl } from '../../utils/apiUrl'
 import MakeSpecialModal from '../Modals/MakeSpecialModal'
 import { getError } from '../../utils/error'
+import CouponModal from '../Modals/CouponModal'
 
 interface Props {
   products?: any
@@ -194,7 +195,7 @@ export default function AdminProductsTable({
                     <>
                       <tr key={index}>
                         <td
-                          className="whitespace-nowrap px-6 py-4"
+                          className=" px-6 py-4"
                           onClick={() =>
                             router.push(`/product/d/${product?._id}`)
                           }
@@ -263,8 +264,15 @@ export default function AdminProductsTable({
                                     onClick={toggle_featured}
                                     setProductId={setProductId}
                                     product_name={product?.title}
-                                    
                                     loading={loading}
+                                  />
+                                </MenuItem>
+                                {/* make a menu itoem to open coupon modal */}
+                                <MenuItem>
+                                  <CouponModal
+                                    product_id={product?._id}
+                                    setProductId={setProductId}
+                                    product_name={product?.title}
                                   />
                                 </MenuItem>
                                 <MenuDivider />

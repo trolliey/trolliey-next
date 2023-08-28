@@ -7,6 +7,7 @@ import { Store } from '../Context/Store'
 import { data } from '../utils/data'
 import CurrencyModal from '../components/Modals/CurrencyModal'
 import { useWindowScrollPositions } from '../hooks/useWindowScrollPosition'
+import { useRouter } from 'next/router'
 
 interface Props {
   title: string
@@ -42,9 +43,10 @@ function GeneralLayout({
   const { currency } = state
   const { scrollY } = useWindowScrollPositions()
   const [close_message, setCloseMessage] = useState(false)
+  const router = useRouter()
 
-const OG_IMAGE = 'https://res.cloudinary.com/trolliey/image/upload/v1668036453/flyer_qb7qnl.png'
-
+  const OG_IMAGE =
+    'https://res.cloudinary.com/trolliey/image/upload/v1668036453/flyer_qb7qnl.png'
 
   useEffect(() => {
     if (!currency) {
@@ -52,6 +54,8 @@ const OG_IMAGE = 'https://res.cloudinary.com/trolliey/image/upload/v1668036453/f
     }
     dispatch({ type: 'CHANGE_CURRENCY', payload: currency })
   }, [])
+  const targetPages = ['/about', '/contact', '/terms', '/privacy']
+  const isTargetPage = targetPages.includes(router.pathname)
 
   return (
     <div
@@ -116,10 +120,7 @@ const OG_IMAGE = 'https://res.cloudinary.com/trolliey/image/upload/v1668036453/f
         />
         <meta name="twitter:site" content="" />
         <meta name="twitter:creator" content="" />
-        <meta
-          name="twitter:image"
-          content={og_image ? og_image : OG_IMAGE}
-        />
+        <meta name="twitter:image" content={og_image ? og_image : OG_IMAGE} />
         <meta property="og:locale" content="en_US" />
         <meta property="og:locale:alternate" content="en_GB" />
         <meta property="og:locale:alternate" content="cn_CN" />
@@ -142,7 +143,9 @@ const OG_IMAGE = 'https://res.cloudinary.com/trolliey/image/upload/v1668036453/f
           !close_message && component_above_navbar ? 'pt-32 ' : 'pt-16 '
         } w-full pt-16`}
       >
-        <div className="container mx-auto max-w-7xl px-2">
+        <div
+          className={!isTargetPage ? 'container mx-auto max-w-7xl px-2' : ''}
+        >
           {!no_text && (
             <h1
               className="flex text-sm font-semibold text-gray-700 "

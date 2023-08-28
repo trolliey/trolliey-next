@@ -16,6 +16,7 @@ import { Store } from '../../Context/Store'
 import Pagination from '../../components/Pagination/Pagination'
 import { ArrowDownIcon, ArrowUpIcon } from '@heroicons/react/solid'
 import moment from 'moment'
+import CouponModal from '../Modals/CouponModal'
 
 interface Props {
   products?: any
@@ -152,7 +153,7 @@ export default function ProductsTable({
                   </th>
                   <th
                     scope="col"
-                    className="px-6 flex flex-row items-cneter space-x-2 py-3 text-left text-xs font-medium uppercase tracking-wider "
+                    className="items-cneter flex flex-row space-x-2 px-6 py-3 text-left text-xs font-medium uppercase tracking-wider "
                   >
                     <p>Price/Unit</p>
                     {renderArrow(router.query.sort_order, 'price')}
@@ -171,11 +172,10 @@ export default function ProductsTable({
                   </th>
                   <th
                     scope="col"
-                    className="px-6 flex flex-row items-center space-x-2 py-3 text-left text-xs font-medium uppercase tracking-wider "
+                    className="flex flex-row items-center space-x-2 px-6 py-3 text-left text-xs font-medium uppercase tracking-wider "
                   >
                     <p>Date Created</p>
                     {renderArrow(router.query.sort_order, 'price')}
-                    
                   </th>
 
                   <th
@@ -266,6 +266,11 @@ export default function ProductsTable({
                                 className="cursor-pointer text-gray-500"
                               />
                             </span>
+                            <CouponModal
+                              product_id={product?._id}
+                              setProductId={setProductId}
+                              product_name={product?.title}
+                            />
                           </div>
                         </td>
                       </tr>

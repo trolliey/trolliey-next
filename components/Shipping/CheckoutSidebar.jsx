@@ -2,6 +2,7 @@ import {
   Avatar,
   Radio,
   RadioGroup,
+  Spinner,
   Stack,
   useDisclosure,
   useToast,
@@ -21,6 +22,7 @@ import { apiUrl } from '../../utils/apiUrl'
 import PaymentModal from '../Modals/PaymentModal'
 import UsdPayment from '../Payment/UsdPayment'
 import BlueButton from '../Buttons/BlueButton'
+import Cookies from 'js-cookie'
 
 function CheckoutSidebar({ total_amount, total_weight }) {
   const { state, dispatch } = useContext(Store)
@@ -38,6 +40,7 @@ function CheckoutSidebar({ total_amount, total_weight }) {
   const [action_button, setActionButton] = useState('')
   const [body, setBody] = useState('')
   const toast = useToast()
+  const selectedCurrency = Cookies.get('trolliey_currency') || 'USD'
 
   const order_payment_modal = () => {
     if (!city || !address || !phonr_number || !full_name) {
@@ -89,11 +92,7 @@ function CheckoutSidebar({ total_amount, total_weight }) {
       setheading('Proceed Place Your Order')
       onOpen()
       return
-    } else if (
-      payment_method === 'visa' ||
-      payment_method === 'paypal' ||
-      payment_method === 'mastercard'
-    ) {
+    } else if (selectedCurrency === 'USD') {
       const values = {
         address: address,
         full_name: full_name,
@@ -142,6 +141,15 @@ function CheckoutSidebar({ total_amount, total_weight }) {
         <>
           <div className="col-span-full mt-4 flex w-full flex-col items-center">
             <div className="my-4 w-full">
+              <Spinner
+                className="mx-auto"
+                thickness="4px"
+                speed="0.65s"
+                emptyColor="gray.200"
+                color="blue.500"
+                size="xl"
+              />
+              {}
               <BlueButton
                 text={'Proceed to pay with ecocash'}
                 onClick={handle_rtgs_payment}
@@ -189,6 +197,8 @@ function CheckoutSidebar({ total_amount, total_weight }) {
           isPaid: false,
           pay_on_delivery: handle_order_type,
           weight: total_weight,
+          // coupons: coupons,
+          rating: rating,
           paying_number: 'No Payment Done',
           contact_phone_number: phonr_number,
           city: city,
@@ -196,7 +206,7 @@ function CheckoutSidebar({ total_amount, total_weight }) {
             (a, c) => parseInt(a) + parseInt(c.quantity),
             0
           ),
-          platform_currency: currency
+          platform_currency: currency,
         },
         {
           headers: {
@@ -229,11 +239,11 @@ function CheckoutSidebar({ total_amount, total_weight }) {
     }
   }
 
-  const handle_rtgs_payment = async () => {
+  const handle_payment = async () => {
     try {
       setLoading(true)
       const { data } = await axios.post(
-        `${apiUrl}/api/order/rtgs/payment`,
+        `${apiUrl}/api/order/create`,
         {
           orderItems: cart.cartItems,
           address: address,
@@ -244,7 +254,7 @@ function CheckoutSidebar({ total_amount, total_weight }) {
           full_name: full_name,
           province: city,
           collect_my_order: handle_order_type,
-          method: payment_method,
+          method: selectedCurrency === 'USD' ? 'paypal' : 'ecocash',
           isPaid: false,
           pay_on_delivery: handle_order_type,
           weight: total_weight,
@@ -255,7 +265,7 @@ function CheckoutSidebar({ total_amount, total_weight }) {
             (a, c) => parseInt(a) + parseInt(c.quantity),
             0
           ),
-          platform_currency: currency
+          platform_currency: currency,
         },
         {
           headers: {
@@ -263,11 +273,14 @@ function CheckoutSidebar({ total_amount, total_weight }) {
           },
         }
       )
-      window.location.assign(data.link)
-      console.log(data.link)
+      // window.location.assign(data.link)
+      console.log(data, 'hhhhhh')
       dispatch({ type: 'SET_POLL_URL', payload: data.respose })
       toast({
-        title: 'Redirecting ... ',
+        title:
+          selectedCurrency === 'USD'
+            ? 'Order Created. Follow the link to complete purchase.'
+            : 'Order created. Check your phone to complete the payment',
         status: 'success',
         position: 'top-right',
         duration: 9000,
@@ -276,6 +289,25 @@ function CheckoutSidebar({ total_amount, total_weight }) {
     } catch (error) {
       setLoading(false)
       console.log(getError(error))
+      // if the response from getError(error) contains the word Validation, show a toast with message there are some missing values
+      if (getError(error).includes('Validation')) {
+        toast({
+          title: getError(error),
+          status: 'error',
+          position: 'top-right',
+          duration: 9000,
+          isClosable: true,
+        })
+      } else {
+        toast({
+          title: getError(error),
+          status: 'error',
+          position: 'top-right',
+          duration: 9000,
+          isClosable: true,
+        })
+      }
+
       return
     }
   }
@@ -287,9 +319,7 @@ function CheckoutSidebar({ total_amount, total_weight }) {
         <Avatar size={'xs'} src={userInfo?.photoURL} name={userInfo?.name} />
       </div>
       <div className="flex w-full flex-col">
-        <p className="pb-4 text-center text-white">
-          How do you want to handle your order?
-        </p>
+        <p className="pb-4 text-white">How do you want to handle your order?</p>
         <div className="flex rounded bg-blue-secondary p-2 text-white md:p-4">
           <RadioGroup onChange={setHandleOrderType} value={handle_order_type}>
             <Stack direction="column">
@@ -301,7 +331,8 @@ function CheckoutSidebar({ total_amount, total_weight }) {
           </RadioGroup>
         </div>
       </div>
-      <p className="py-4  text-center text-white">Select Payment Method</p>
+      {/* REMOVED THIS BECAUSE IM NOW CHECKING PAYMENT METHOD FROM COOKIES */}
+      {/* <p className="py-4  text-center text-white">Select Payment Method</p>
       <div className="flex flex-col space-y-2 rounded bg-white p-2">
         <div className="grid grid-cols-2 gap-4 md:grid-cols-2 lg:grid-cols-4  ">
           {data.payment_methods?.map((item, index) => (
@@ -369,9 +400,9 @@ function CheckoutSidebar({ total_amount, total_weight }) {
             </div>
           )}
         </div>
-      </div>
+      </div> */}
 
-      <p className="py-4  text-center text-white">Enter Shipment Info</p>
+      <p className="py-4   text-white">Enter Shipment Info</p>
       <div className="grid w-full grid-cols-2 gap-2">
         <input
           type="text"
@@ -434,7 +465,7 @@ function CheckoutSidebar({ total_amount, total_weight }) {
           </span>
         </div>
         <div
-          onClick={order_payment_modal}
+          onClick={handle_payment}
           className="flex cursor-pointer flex-row items-center justify-between rounded-lg bg-green-500 py-2 px-4 text-white hover:bg-green-600 "
         >
           <span className="font-semibold">
@@ -447,7 +478,9 @@ function CheckoutSidebar({ total_amount, total_weight }) {
             )}
           </span>
           <div className="flex flex-row items-center space-x-2">
-            <p className="font-semibold">Continue</p>
+            <p className="font-semibold">
+              {loading ? 'Loading...' : 'Pay Now'}
+            </p>
             <ArrowRightIcon height={20} width={20} />
           </div>
         </div>

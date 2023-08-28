@@ -26,7 +26,16 @@ function ProductDescription(props: any) {
 
   const [selected_variant, setSelectedVariant] = useState<any>()
   const [show_features, setShowFeatures] = useState<boolean>(false)
-  const [showMore, setShowMore] = useState<any>()
+  const [showMore, setShowMore] = useState<boolean>(false)
+
+  const description = props.data.product.description
+  const maxLength = 500 // Maximum number of characters before showing "Read More"
+
+  const displayedDescription = showMore
+    ? description
+    : description?.substring(0, maxLength)
+
+  const showReadMore = description && description.length > maxLength
 
   // for toast
   const toast = useToast()
@@ -34,13 +43,7 @@ function ProductDescription(props: any) {
   const add_to_basket = async () => {
     try {
       setLoading(true)
-      const { data } = await axios.get(
-        `/api/products/${props.data.product._id}`
-      )
-      if (data?.countInStock <= 0) {
-        alert('Sorry. Product our of stock')
-        return
-      }
+
       dispatch({
         type: 'ADD_TO_CART',
         payload: { ...props.data.product, quantity: 1 },
@@ -207,14 +210,12 @@ function ProductDescription(props: any) {
                     <div className="flex items-center">
                       <div className="flex items-center">
                         <RatingComponent
-                          ratings={Math.floor(
-                            props.data.product.averageRating
-                          )}
+                          id={props.data.product._id}
+                          ratings={Math.floor(props.data.product.averageRating)}
                         />
                       </div>
                       <p className="sr-only">
-                        {props.data.product.averageRating} out of 5
-                        stars
+                        {props.data.product.averageRating} out of 5 stars
                       </p>
                     </div>
                   </div>
@@ -235,9 +236,7 @@ function ProductDescription(props: any) {
                           className="text-2xl font-bold text-gray-700"
                           amount={
                             parseFloat(props.data.product.price) -
-                            parseFloat(
-                              props.data.product.discount_price
-                            )
+                            parseFloat(props.data.product.discount_price)
                           }
                         />
                       )}
@@ -318,12 +317,9 @@ function ProductDescription(props: any) {
                         <div className="flex flex-row items-center">
                           <p className="mr-2 text-gray-500">Delivers in</p>
                           <div className="text-gray-500">
-                            {props.data.product.time_to_deliver >=
-                            0 ? (
+                            {props.data.product.time_to_deliver >= 0 ? (
                               <p>
-                                {props.data.product
-                                  ?.time_to_deliver + 2}{' '}
-                                days
+                                {props.data.product?.time_to_deliver + 2} days
                               </p>
                             ) : (
                               'Not Specified'
@@ -353,8 +349,7 @@ function ProductDescription(props: any) {
                           <p className="text-sm font-semibold text-gray-700">
                             {selected_variant
                               ? selected_variant.countInStock
-                              : props.data.product
-                                  ?.countInStock}{' '}
+                              : props.data.product?.countInStock}{' '}
                             In Stock
                           </p>
                         ) : (
@@ -426,12 +421,12 @@ function ProductDescription(props: any) {
                                         </div> */}
                     <div className="my-2"></div>
                     <div className="">
-                      <BlackButton
+                      {/* <BlackButton
                         loading={loading}
                         text="Buy Item Now"
                         className="w-full flex-1"
                         onClick={buy_item_now}
-                      />
+                      /> */}
                     </div>
                   </div>
                 </div>
@@ -451,8 +446,7 @@ function ProductDescription(props: any) {
                   />
                   <div className="flex flex-col">
                     <p className="font-semibold text-gray-700">
-                      View {props.data.store_info?.company_name}'s
-                      store
+                      View {props.data.store_info?.company_name}'s store
                     </p>
                     <p className="text-sm text-gray-400">
                       View the seller's shop and catalogues
@@ -506,35 +500,22 @@ function ProductDescription(props: any) {
               ) : (
                 <div className="flex w-full rounded bg-white py-2 px-4 md:px-16 md:py-4">
                   <h3 className="sr-only">Description</h3>
-
-                  <span className="w-full flex-grow ">
-                    <div className="mb-4 flex flex-col">
-                      {showMore ? (
-                        <div
-                          className="space-y-6 text-base leading-normal text-gray-700"
-                          dangerouslySetInnerHTML={{
-                            __html: props.data.product.description,
-                          }}
-                        />
-                      ) : (
-                        <div
-                          className="space-y-6 text-base leading-normal text-gray-700"
-                          dangerouslySetInnerHTML={{
-                            __html:
-                              props.data.product.description?.substring(
-                                0,
-                                500
-                              ),
-                          }}
-                        />
-                      )}
+                  <span className="w-full flex-grow">
+                    <div className="mb-4 flex flex-col space-y-6 text-base leading-normal text-gray-700">
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: displayedDescription,
+                        }}
+                      />
                     </div>
-                    <span
-                      onClick={() => setShowMore(!showMore)}
-                      className="cutsor-pointer mx-auto my-4 w-full self-center rounded bg-[#0e75bc] p-2 text-center text-xs font-semibold text-white"
-                    >
-                      {showMore ? 'Read Less' : 'Read More'}
-                    </span>
+                    {showReadMore && (
+                      <span
+                        onClick={() => setShowMore(!showMore)}
+                        className="mx-auto my-4 w-full cursor-pointer self-center rounded bg-[#0e75bc] p-2 text-center text-xs font-semibold text-white"
+                      >
+                        {showMore ? 'Read Less' : 'Read More'}
+                      </span>
+                    )}
                   </span>
                 </div>
               )}
@@ -543,9 +524,7 @@ function ProductDescription(props: any) {
         </div>
         <div className="related_props.data.products my-16">
           <>
-            <RelatedProducts
-              category={props.data.product.category}
-            />
+            <RelatedProducts category={props.data.product.category} />
           </>
         </div>
       </div>

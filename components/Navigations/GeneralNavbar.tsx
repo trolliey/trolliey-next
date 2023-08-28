@@ -14,12 +14,17 @@ import particles from '../../public/img/circle-scatter-haikei.svg'
 
 interface Props {
   component_above_navbar?: any
-  scrollY?: any,
-  close_message?:any,
-  setCloseMessage?:any
+  scrollY?: any
+  close_message?: any
+  setCloseMessage?: any
 }
 
-function GeneralNavbar({ component_above_navbar, scrollY, setCloseMessage, close_message }: Props) {
+function GeneralNavbar({
+  component_above_navbar,
+  scrollY,
+  setCloseMessage,
+  close_message,
+}: Props) {
   const { state } = useContext(Store)
   const { cart, userInfo } = state
   const basket: any[] = []
@@ -46,9 +51,9 @@ function GeneralNavbar({ component_above_navbar, scrollY, setCloseMessage, close
                 >
                   <Container
                     maxW="container.xl"
-                    className="mx-auto flex flex-row items-center justify-between md:py-1 py-2"
+                    className="mx-auto flex flex-row items-center justify-between py-2 md:py-1"
                   >
-                    <p className="font-semibold text-white mx-auto sm:text-xs md:text-base">
+                    <p className="mx-auto font-semibold text-white sm:text-xs md:text-base">
                       Apply to sell for free
                     </p>
                     <div className="flex flex-row items-center space-x-2 md:space-x-4">
@@ -63,11 +68,7 @@ function GeneralNavbar({ component_above_navbar, scrollY, setCloseMessage, close
                         className="flex"
                         onClick={() => setCloseMessage(true)}
                       >
-                        <XIcon
-                          height={20}
-                          width={20}
-                          className="text-white"
-                        />
+                        <XIcon height={20} width={20} className="text-white" />
                       </div>
                     </div>
                   </Container>
@@ -77,11 +78,12 @@ function GeneralNavbar({ component_above_navbar, scrollY, setCloseMessage, close
           )}
         </>
       )}
-      <div className="md:16 mx-auto hidden h-16  max-w-7xl flex-row items-center justify-between space-x-4 md:py-4 py-2 px-2 md:flex md:px-4 lg:px-0">
+      <div className="md:16 mx-auto hidden h-16  max-w-7xl flex-row items-center justify-between space-x-4 py-2 px-2 md:flex md:py-4 md:px-4 lg:px-0">
         <Link href={'/'}>
           <a className="flex cursor-pointer flex-row items-center text-sm font-bold uppercase text-gray-700">
             <Image
               width={100}
+              height={100}
               objectFit="contain"
               src={logo}
               alt="logo representing the website icon"
@@ -99,7 +101,7 @@ function GeneralNavbar({ component_above_navbar, scrollY, setCloseMessage, close
           </Link>
         )}
         <div className="flex-1"></div>
-        <div className='flex flex-col'>
+        <div className="flex flex-col">
           <NavSearch />
         </div>
 
