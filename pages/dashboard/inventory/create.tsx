@@ -222,7 +222,7 @@ export default function CreateProduct() {
             </div>
           )}
 
-          <Divider className="my-4 text-gray-400" />
+          <Divider className="my-4 text-gray-400" /> 
           <>
             {/* image gallery */}
             <div>
