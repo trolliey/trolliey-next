@@ -18,7 +18,7 @@ import { useAuthFetch } from '../../hooks/useAuthFetch'
 import { apiUrl } from '../../utils/apiUrl'
 
 export default function Dashboard() {
-  const { state:store_state } = useContext(Store)
+  const { state: store_state } = useContext(Store)
   const { userInfo } = store_state
   const history = useRouter()
   var today = new Date()
@@ -32,8 +32,8 @@ export default function Dashboard() {
     <DashboardLayout>
       <main className="relative z-0 flex-1 overflow-y-auto pb-8">
         {/* Page header */}
-        <div className="bg-white flex-1 shadow w-full lg:border-t lg:border-gray-200">
-          <div className="px-4 sm:px-6 lg:mx-auto w-full lg:max-w-6xl lg:px-8">
+        <div className="w-full flex-1 bg-white shadow lg:border-t lg:border-gray-200">
+          <div className="w-full px-4 sm:px-6 lg:mx-auto lg:max-w-6xl lg:px-8">
             <div className="py-12 md:flex md:items-center md:justify-between ">
               <div className="min-w-0 flex-1">
                 {/* Profile */}
@@ -54,8 +54,8 @@ export default function Dashboard() {
                           name={userInfo?.name}
                         />
                       </div>
-                      <div className="flex flex-col ml-3">
-                        <h1 className=" md:text-2xl text-xl font-bold leading-7 text-gray-900 sm:truncate sm:leading-9">
+                      <div className="ml-3 flex flex-col">
+                        <h1 className=" text-xl font-bold leading-7 text-gray-900 sm:truncate sm:leading-9 md:text-2xl">
                           Good{' '}
                           {curHr < 12
                             ? ' Morning'
@@ -142,19 +142,7 @@ export default function Dashboard() {
                 loading={state.status === 'fetching'}
                 bg_color={'bg-red-200'}
               />
-              <DashboardCard
-                name="Page visits"
-                icon={
-                  <PencilIcon
-                    className="h-6 w-6 text-green-600"
-                    aria-hidden="true"
-                  />
-                }
-                location="/dashboard/reports"
-                amount={0}
-                loading={state.status === 'fetching'}
-                bg_color={'bg-green-200'}
-              />
+
               <DashboardCard
                 icon={
                   <ArchiveIcon
@@ -181,7 +169,7 @@ export default function Dashboard() {
                 loading={state.status === 'fetching'}
                 bg_color="bg-indigo-200"
               />
-              <DashboardCard
+              {/* <DashboardCard
                 icon={
                   <ShoppingBagIcon
                     className="h-6 w-6 text-cyan-600"
@@ -193,8 +181,8 @@ export default function Dashboard() {
                 amount={state?.data?.store_info?.orders.length}
                 loading={state.status === 'fetching'}
                 bg_color="bg-cyan-200"
-              />
-              <DashboardCard
+              /> */}
+              {/* <DashboardCard
                 icon={
                   <CogIcon
                     className="h-6 w-6 text-gray-600"
@@ -206,7 +194,7 @@ export default function Dashboard() {
                 amount={'store settings'}
                 loading={state.status === 'fetching'}
                 bg_color="bg-gray-200"
-              />
+              /> */}
             </div>
           </div>
         </div>

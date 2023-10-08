@@ -96,11 +96,11 @@ function ProductItem({
         <a className="relative flex h-32 flex-col items-center overflow-hidden rounded bg-white md:h-52">
           <Image
             objectFit="contain"
-            src={picture ? picture : ''}
+            src={picture ? picture : '/img/full_logo.png'}
             layout="fill"
             quality={50}
             placeholder="blur"
-            blurDataURL={picture}
+            blurDataURL={picture ? picture : '/img/full_logo.png'}
             alt="product"
             className="h-full max-h-full w-auto flex-1 flex-shrink-0 rounded object-cover"
           />

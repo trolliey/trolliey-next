@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import GeneralLayout from '../../../layouts/GeneralLayout'
 import { Tab } from '@headlessui/react'
 import { ShoppingCartIcon, InformationCircleIcon } from '@heroicons/react/solid'
-import { PlusIcon } from '@heroicons/react/outline'
+import { PlusIcon, StarIcon } from '@heroicons/react/outline'
 import { Avatar, Divider, Spinner, useToast } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
@@ -209,10 +209,14 @@ function ProductDescription(props: any) {
                     <h3 className="sr-only">Reviews</h3>
                     <div className="flex items-center">
                       <div className="flex items-center">
-                        <RatingComponent
-                          id={props.data.product._id}
-                          ratings={Math.floor(props.data.product.averageRating)}
-                        />
+                        {
+                          <RatingComponent
+                            id={props.data.product._id}
+                            ratings={Math.floor(
+                              props.data.product.averageRating
+                            )}
+                          />
+                        }
                       </div>
                       <p className="sr-only">
                         {props.data.product.averageRating} out of 5 stars
@@ -255,39 +259,6 @@ function ProductDescription(props: any) {
                   </div>
 
                   <Divider className="my-2" />
-
-                  {/* // variants */}
-                  <div className="flex flex-col">
-                    <h6 className="mb-1 text-sm font-semibold text-gray-700">
-                      Variants:
-                    </h6>
-                    {props.data.product.variants?.length < 1 ? (
-                      <div className="flex flex-col">
-                        <p className="text-center text-sm text-gray-500">
-                          This product has no variants
-                        </p>
-                      </div>
-                    ) : (
-                      <div className="grid grid-cols-4 gap-2 p-1 md:gap-4">
-                        {props.data.product.variants?.map(
-                          (item: any, index: number) => (
-                            <span
-                              onClick={() => setSelectedVariant(item)}
-                              key={index}
-                              className={`${
-                                item.variant === selected_variant?.variant
-                                  ? 'bg-[#0e75bc] text-white'
-                                  : ''
-                              } col-span-1 cursor-pointer rounded-full border border-gray-300 py-1 px-2 text-xs uppercase text-gray-700 hover:border-gray-700 hover:text-gray-700`}
-                            >
-                              <p className="text-center">{item.variant}</p>
-                            </span>
-                          )
-                        )}
-                      </div>
-                    )}
-                  </div>
-                  <Divider className="my-4" />
 
                   {/* // add to cart button */}
                   <div className=" mb-2">
@@ -362,30 +333,6 @@ function ProductDescription(props: any) {
                         </p>
                       </div>
 
-                      <div className="mt-2 flex flex-row items-center gap-2">
-                        <p className="text-xs text-gray-700">
-                          Eligible for cash on delivery?
-                        </p>
-                        <div className="flex flex-col rounded-full">
-                          <InformationCircleIcon
-                            className="text-green-700"
-                            height={16}
-                            width={16}
-                          />
-                        </div>
-                      </div>
-                      <div className="flex flex-row items-center gap-2">
-                        <p className="my-1 text-xs text-gray-700">
-                          Limited Warranty
-                        </p>
-                        <div className="flex flex-col rounded-full">
-                          <InformationCircleIcon
-                            className="text-green-700"
-                            height={16}
-                            width={16}
-                          />
-                        </div>
-                      </div>
                       <div className="flex flex-row items-center gap-2">
                         <p className="my-1 text-xs text-gray-700">
                           Cash on delivery accepted
@@ -471,7 +418,7 @@ function ProductDescription(props: any) {
                       onClick={() => setShowFeatures(true)}
                       className="cursor-pointer rounded-t border-b-2 border-blue-primary bg-white p-4  font-semibold text-blue-primary hover:bg-gray-50"
                     >
-                      Product Features
+                      Reviews
                     </span>
                   </div>
                 ) : (
@@ -486,16 +433,91 @@ function ProductDescription(props: any) {
                       onClick={() => setShowFeatures(true)}
                       className="cursor-pointer p-4 hover:bg-gray-50"
                     >
-                      Product Features
+                      Reviews
                     </span>
                   </div>
                 )}
               </div>
               {show_features ? (
                 <>
-                  <ul className="rounded bg-white p-6 text-center">
-                    no additional features added
-                  </ul>
+                  {props?.data?.product?.reviews ? (
+                    props?.data?.product?.reviews?.length > 0 ? (
+                      props?.data?.product?.reviews?.map((review) => (
+                        <div
+                          key={review._id}
+                          className="flex w-full flex-col border-b border-gray-200 py-4"
+                        >
+                          <div className="flex flex-row items-center justify-between">
+                            <div className="flex flex-row items-center">
+                              <Avatar
+                                src={review.user?.avatar}
+                                name={review.user?.name}
+                                className="text-gray-700"
+                              />
+                              <div className="ml-2 flex flex-col">
+                                <p className="text-sm font-semibold text-gray-700">
+                                  {review.user?.name}
+                                </p>
+                                <p className="text-xs text-gray-400">
+                                  {review.createdAt}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="flex flex-row items-center">
+                              <StarIcon
+                                className={`${
+                                  review.rating >= 1
+                                    ? 'text-yellow-400'
+                                    : 'text-gray-400'
+                                } h-4 w-4`}
+                              />
+                              <StarIcon
+                                className={`${
+                                  review.rating >= 2
+                                    ? 'text-yellow-400'
+                                    : 'text-gray-400'
+                                } h-4 w-4`}
+                              />
+                              <StarIcon
+                                className={`${
+                                  review.rating >= 3
+                                    ? 'text-yellow-400'
+                                    : 'text-gray-400'
+                                } h-4 w-4`}
+                              />
+                              <StarIcon
+                                className={`${
+                                  review.rating >= 4
+                                    ? 'text-yellow-400'
+                                    : 'text-gray-400'
+                                } h-4 w-4`}
+                              />
+                              <StarIcon
+                                className={`${
+                                  review.rating >= 5
+                                    ? 'text-yellow-400'
+                                    : 'text-gray-400'
+                                } h-4 w-4`}
+                              />
+                            </div>
+                          </div>
+                          <div className="mt-2 flex flex-col">
+                            <p className="text-sm text-gray-700">
+                              {review.comment}
+                            </p>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="flex w-full flex-col border-b border-gray-200 bg-white p-2 py-4">
+                        <p>No reviews yet</p>
+                      </div>
+                    )
+                  ) : (
+                    <div className="flex w-full flex-col border-b border-gray-200 bg-white p-2 py-4">
+                      <p> No reviews yet</p>
+                    </div>
+                  )}
                 </>
               ) : (
                 <div className="flex w-full rounded bg-white py-2 px-4 md:px-16 md:py-4">

@@ -63,7 +63,8 @@
     "swr": "^1.2.2",
     "tailwind-scrollbar-hide": "^1.1.7",
     "tsparticles": "^2.0.6",
-    "tw-elements": "^1.0.0-alpha11"
+    "tw-elements": "^1.0.0-alpha11",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",

@@ -46,7 +46,7 @@ export const data = {
     {name: 'ecocash', currency: 'zwl', icon: ecocash_icon},
     {name: 'visa', currency: 'usd', icon: visa_icon},
     {name: 'paypal', currency: 'usd', icon: paypal_icon},
-    {name: 'mastercard', currency: 'usd', icon: mastercard},
+    // {name: 'mastercard', currency: 'usd', icon: mastercard},
 
   ],
   cash_payment_methods: [

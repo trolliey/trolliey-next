@@ -30,21 +30,24 @@ export default function CreateProduct() {
   const [discount_price, setDiscountPrice] = useState<any>()
   const [brand, setBrand] = useState<string>('')
   const [countInStock, setCountInStock] = useState<any>()
-  const [weight, setWeight] = useState<any>(0)
+  const [weight, setWeight] = useState<any>(null)
   const [category, setCategory] = useState<any>()
   const [sub_category, setSubCategory] = useState<any>('')
   const [status, setStatus] = useState<any>()
   const [sku, setSku] = useState<string>('')
   const [currency, setCurrency] = useState('')
-  const [time_to_delivery, setTimeToDelivery] = useState<any>(0)
+  const [time_to_delivery, setTimeToDelivery] = useState<any>(null)
   const [loading, setLoading] = useState(false)
   const [seo_description, setSeoDescription] = useState('')
-
+  const [importError, setImportError] = useState()
   //for selecting sub category
   const [current_category, setCurrentCategory] = useState<any>('')
   const [selectedFileName, setSelectedFileName] = useState('')
+  const [importedCols, setImportedCols] = useState([])
+  const [importedData, setImportedData] = useState([])
 
   const toast = useToast()
+
   const { state } = useContext(Store)
   const { userInfo } = state
   const router = useRouter()
@@ -58,33 +61,110 @@ export default function CreateProduct() {
     }
   }
 
-  const uploadFile = async (file: any) => {
-    try {
-      const formData = new FormData()
-      formData.append('file', file)
-      const response = await axios.post('/api/upload-csv', formData)
-
-      toast({
-        title: 'File Uploaded',
-        description: 'The file has been successfully uploaded.',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      })
-
-      console.log('File uploaded:', response.data)
-    } catch (error) {
-      toast({
-        title: 'Error',
-        description: 'An error occurred while uploading the file.',
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-      })
-
-      console.error('Error uploading file:', error)
+  const importCsv = (e: any) => {
+    const file = e.target.files[0]
+    if (file) {
+      setSelectedFileName(file?.name)
+    } else {
+      setSelectedFileName('')
     }
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      // @ts-ignore
+      const csv = e.target.result
+      // @ts-ignore
+      const data = csv.split('\n')
+
+      // Prepare DataTable
+      const cols = data[0].replace(/['\r"]+/g, '').split(',')
+      data.shift()
+
+      let _importedCols = cols
+      let _importedData = data.map((d: any) => {
+        d = d.split(',')
+        // @ts-ignore
+        return cols.reduce((obj, c, i) => {
+          obj[c] = d[i]?.replace(/['"]+/g, '')
+          return obj
+        }, {})
+      })
+
+      setImportedCols(_importedCols)
+      setImportedData(_importedData)
+    }
+    console.log('file', file)
+
+    reader.readAsText(file, 'UTF-8')
   }
+
+  console.log('importedData', importedData)
+
+  const uploadBatch = async (event: any) => {
+    // post as json data
+    const response = await axios
+      .post(
+        `${apiUrl}/api/product/create/multiple`,
+
+        { products: importedData },
+        {
+          headers: { authorization: userInfo?.token },
+        }
+      )
+      .then((response) => {
+        // make a toast
+        toast({
+          title: 'File Uploaded',
+          description: 'The file has been successfully uploaded.',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+        })
+        // console log the response
+
+        console.log('response', response)
+      })
+      .catch((error) => {
+        // make a toast
+        toast({
+          title: 'Error',
+          description: 'An error occurred while uploading the file.',
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        })
+        // console log the error
+        console.log('error', error)
+      })
+  }
+
+  // const uploadFile = async (file: any) => {
+  //   setLoading(true)
+  //   try {
+  //     const formData = new FormData()
+  //     formData.append('file', file)
+  //     const response = await axios.post('/api/upload-csv', formData)
+
+  //     toast({
+  //       title: 'File Uploaded',
+  //       description: 'The file has been successfully uploaded.',
+  //       status: 'success',
+  //       duration: 3000,
+  //       isClosable: true,
+  //     })
+
+  //     console.log('File uploaded:', response.data)
+  //   } catch (error) {
+  //     toast({
+  //       title: 'Error',
+  //       description: 'An error occurred while uploading the file.',
+  //       status: 'error',
+  //       duration: 3000,
+  //       isClosable: true,
+  //     })
+
+  //     console.error('Error uploading file:', error)
+  //   }
+  // }
 
   // setting selected pictures to upload
   const selectedPictures = (pictures: any) => {
@@ -200,7 +280,7 @@ export default function CreateProduct() {
               type="file"
               id="fileInput"
               className="hidden"
-              onChange={handleFileChange}
+              onChange={importCsv}
             />
             <label
               htmlFor="fileInput"
@@ -214,7 +294,7 @@ export default function CreateProduct() {
           {selectedFileName && (
             <div className="mt-5">
               <button
-                onClick={() => selectedFileName && uploadFile(selectedFileName)}
+                onClick={uploadBatch}
                 className="rounded bg-blue-500 py-2 px-4 text-white hover:bg-blue-600"
               >
                 Upload File
@@ -222,7 +302,16 @@ export default function CreateProduct() {
             </div>
           )}
 
-          <Divider className="my-4 text-gray-400" /> 
+          {/* <div className="mt-5">
+            <button
+              onClick={importCsv}
+              className="rounded bg-gray-500 py-2 px-4 text-white hover:bg-gray-600"
+            >
+              Import csv
+            </button>
+          </div> */}
+
+          <Divider className="my-4 text-gray-400" />
           <>
             {/* image gallery */}
             <div>
@@ -652,54 +741,7 @@ export default function CreateProduct() {
             </div>
 
             {/* // other inforation */}
-            <div className="mt-10 mb-8 sm:mt-0">
-              <div className="md:grid md:grid-cols-3 md:gap-6">
-                <div className="md:col-span-1">
-                  <div className="px-4 sm:px-0">
-                    <h3 className="text-lg font-medium leading-6 text-gray-900">
-                      Variations
-                    </h3>
-                    <p className="mt-1 text-sm text-gray-600">
-                      Add all variations of product, but leave empty if there is
-                      none.
-                    </p>
-                  </div>
-                </div>
-                <div className="mt-5 md:col-span-2 md:mt-0">
-                  <form action="#" method="POST">
-                    <div className="overflow-hidden shadow sm:rounded-md">
-                      <div className="bg-white px-4 py-5 sm:p-6">
-                        <div className="grid grid-cols-6 gap-6">
-                          <div className="col-span-6 ">
-                            <label
-                              htmlFor="city"
-                              className="block text-sm font-medium text-gray-700"
-                            >
-                              e.g
-                            </label>
-                            <div className="flex flex-row items-center gap-4">
-                              <div className="mt-1 block w-full rounded-md border border-gray-300 p-2 text-sm text-gray-400 outline-none sm:text-sm">
-                                XL
-                              </div>
-                              <div className="mt-1 block w-full rounded-md border border-gray-300 p-2 text-sm text-gray-400 outline-none sm:text-sm">
-                                $44.50
-                              </div>
-                            </div>
-                          </div>
 
-                          <div className="col-span-6">
-                            <Variations
-                              selectedTags={selectedTags}
-                              className=""
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
             {loading && (
               <div className="mb-4 flex w-full rounded bg-orange-200 p-2 text-center text-sm font-semibold capitalize text-gray-700">
                 <p className="mx-auto text-center">
