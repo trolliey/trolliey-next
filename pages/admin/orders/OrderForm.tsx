@@ -45,7 +45,7 @@ const OrderForm: React.FC<OrderFormProps> = ({
             <FormLabel>Full Name</FormLabel>
             <Input
               name="full_name"
-              value={values.full_name}
+              value={values?.full_name}
               onChange={handleChange}
             />
           </FormControl>
@@ -53,7 +53,7 @@ const OrderForm: React.FC<OrderFormProps> = ({
             <FormLabel>Address</FormLabel>
             <Input
               name="address"
-              value={values.address}
+              value={values?.address}
               onChange={handleChange}
             />
           </FormControl>
@@ -61,7 +61,7 @@ const OrderForm: React.FC<OrderFormProps> = ({
             <FormLabel>Items Price</FormLabel>
             <Input
               name="itemsPrice"
-              value={values.itemsPrice}
+              value={values?.itemsPrice}
               onChange={handleChange}
             />
           </FormControl>
@@ -69,7 +69,7 @@ const OrderForm: React.FC<OrderFormProps> = ({
             <FormLabel>Shipping Price</FormLabel>
             <Input
               name="shippingPrice"
-              value={values.shippingPrice}
+              value={values?.shippingPrice}
               onChange={handleChange}
             />
           </FormControl>
@@ -77,7 +77,7 @@ const OrderForm: React.FC<OrderFormProps> = ({
             <FormLabel>Total Price</FormLabel>
             <Input
               name="total_price"
-              value={values.total_price}
+              value={values?.total_price}
               onChange={handleChange}
             />
           </FormControl>
@@ -85,7 +85,7 @@ const OrderForm: React.FC<OrderFormProps> = ({
             <FormLabel>Province</FormLabel>
             <Input
               name="province"
-              value={values.province}
+              value={values?.province}
               onChange={handleChange}
             />
           </FormControl>
@@ -93,7 +93,7 @@ const OrderForm: React.FC<OrderFormProps> = ({
             <FormLabel>Collect My Order</FormLabel>
             <Input
               name="collect_my_order"
-              value={values.collect_my_order}
+              value={values?.collect_my_order}
               onChange={handleChange}
             />
           </FormControl>
@@ -101,7 +101,7 @@ const OrderForm: React.FC<OrderFormProps> = ({
             <FormLabel>Method</FormLabel>
             <Input
               name="method"
-              value={values.method}
+              value={values?.method}
               onChange={handleChange}
             />
           </FormControl>
@@ -109,7 +109,7 @@ const OrderForm: React.FC<OrderFormProps> = ({
             <FormLabel>Is Paid</FormLabel>
             <Input
               name="isPaid"
-              value={values.isPaid}
+              value={values?.isPaid}
               onChange={handleChange}
             />
           </FormControl>
@@ -117,7 +117,7 @@ const OrderForm: React.FC<OrderFormProps> = ({
             <FormLabel>Pay On Delivery</FormLabel>
             <Input
               name="pay_on_delivery"
-              value={values.pay_on_delivery}
+              value={values?.pay_on_delivery}
               onChange={handleChange}
             />
           </FormControl>
@@ -125,7 +125,7 @@ const OrderForm: React.FC<OrderFormProps> = ({
             <FormLabel>Weight</FormLabel>
             <Input
               name="weight"
-              value={values.weight}
+              value={values?.weight}
               onChange={handleChange}
             />
           </FormControl>
@@ -133,7 +133,7 @@ const OrderForm: React.FC<OrderFormProps> = ({
             <FormLabel>Paying Number</FormLabel>
             <Input
               name="paying_number"
-              value={values.paying_number}
+              value={values?.paying_number}
               onChange={handleChange}
             />
           </FormControl>
@@ -141,19 +141,19 @@ const OrderForm: React.FC<OrderFormProps> = ({
             <FormLabel>Contact Phone Number</FormLabel>
             <Input
               name="contact_phone_number"
-              value={values.contact_phone_number}
+              value={values?.contact_phone_number}
               onChange={handleChange}
             />
           </FormControl>
           <FormControl>
             <FormLabel>City</FormLabel>
-            <Input name="city" value={values.city} onChange={handleChange} />
+            <Input name="city" value={values?.city} onChange={handleChange} />
           </FormControl>
           <FormControl>
             <FormLabel>Number of Items Bought</FormLabel>
             <Input
               name="number_of_items_bought"
-              value={values.number_of_items_bought}
+              value={values?.number_of_items_bought}
               onChange={handleChange}
             />
           </FormControl>
