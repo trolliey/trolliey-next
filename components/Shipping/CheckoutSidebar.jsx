@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Input,
   Radio,
   RadioGroup,
   Spinner,
@@ -27,7 +28,10 @@ import Cookies from 'js-cookie'
 function CheckoutSidebar({ total_amount, total_weight }) {
   const { state, dispatch } = useContext(Store)
   const { userInfo, cart, currency } = state
-  const [handle_order_type, setHandleOrderType] = useState('')
+  const [handle_order_type, setHandleOrderType] = useState('collect_my_order')
+  const [coupon_code, setCouponCode] = useState('')
+  const [handle_order_payment_method, set_handle_order_payment_method] =
+    useState('')
   const { isOpen, onOpen, onClose } = useDisclosure()
   const history = useRouter()
   const { payment_method } = history.query
@@ -42,171 +46,105 @@ function CheckoutSidebar({ total_amount, total_weight }) {
   const toast = useToast()
   const selectedCurrency = Cookies.get('trolliey_currency') || 'USD'
 
-  const order_payment_modal = () => {
-    if (!city || !address || !phonr_number || !full_name) {
+  const [paymentDetails, setPaymentDetails] = useState({
+    currency: 'USD',
+    payment_details: {
+      phone: '',
+      method: 'VISA',
+      card_number: '',
+      cvv: '',
+      card_holder: '',
+      card_expiry: '',
+    },
+  })
+
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('')
+
+  const handlePaymentMethodClick = (item) => {
+    setSelectedPaymentMethod(item.name)
+  }
+
+  const handleInputChange = (e, field) => {
+    const newPaymentDetails = { ...paymentDetails }
+    newPaymentDetails.payment_details[field] = e.target.value
+    setPaymentDetails(newPaymentDetails)
+  }
+
+  const formattedCartItems = cart.cartItems.map((item) => {
+    return {
+      product_id: item.id,
+      quantity: item.quantity,
+      attributes: {
+        color: 'black',
+        size: 'XL',
+      },
+    }
+  })
+
+  const formattedObject = {
+    products: formattedCartItems,
+  }
+
+  const handlePayment = async (id) => {
+    try {
+      setLoading(true)
+      const { data } = await axios.post(
+        `${apiUrl}/api/v2/orders/${id}/payments`,
+        paymentDetails,
+        {
+          headers: {
+            authorization: `${userInfo.token}`,
+          },
+        }
+      )
+      console.log(paymentDetails, 'paymentDetails')
+      console.log(data, 'hhhhhh')
+      dispatch({ type: 'SET_POLL_URL', payload: data.respose })
       toast({
-        title: 'Enter all required info',
-        status: 'error',
+        title:
+          selectedCurrency === 'USD'
+            ? 'Order Created. Follow the link to complete purchase.'
+            : 'Order created. Check your phone to complete the payment',
+        status: 'success',
         position: 'top-right',
         duration: 9000,
         isClosable: true,
       })
-      return
-    }
-    if (
-      payment_method === 'pay_on_collection' ||
-      payment_method === 'pay_on_delivery'
-    ) {
-      setBody(
-        <>
-          <div className="flex w-full flex-col space-y-4">
-            <p className="font-semibold">Place My Order</p>
-            {handle_order_type === 'collect_my_order' ? (
-              <p>
-                You can collect your order at any of our collection points after
-                3 days
-              </p>
-            ) : (
-              <p>
-                We will bring the order at your doorstep. On the address you
-                have provided
-              </p>
-            )}
-          </div>
-        </>
-      )
-      setActionButton(
-        <>
-          <div
-            onClick={
-              loading
-                ? () => console.log('Loading please wait ...')
-                : order_without_payment_Handler
-            }
-            className="flex cursor-pointer rounded-lg bg-blue-primary p-2 font-semibold capitalize text-white hover:bg-blue-secondary"
-          >
-            {loading ? 'Loading ... ' : 'Place Order'}
-          </div>
-        </>
-      )
-      setheading('Proceed Place Your Order')
-      onOpen()
-      return
-    } else if (selectedCurrency === 'USD') {
-      const values = {
-        address: address,
-        full_name: full_name,
-        province: city,
-        paying_number: phonr_number,
-        contact_number: phonr_number,
-        city: city,
+    } catch (error) {
+      setLoading(false)
+      console.log(getError(error))
+
+      if (getError(error).includes('Validation')) {
+        toast({
+          title: getError(error),
+          status: 'error',
+          position: 'top-right',
+          duration: 9000,
+          isClosable: true,
+        })
+      } else {
+        toast({
+          title: getError(error),
+          status: 'error',
+          position: 'top-right',
+          duration: 9000,
+          isClosable: true,
+        })
       }
-      setBody(
-        <>
-          <div className="col-span-full mt-4 flex w-full flex-col items-center">
-            <div className="my-4 w-full">
-              {/* <BlueButton
-              text={'Proceed to payment'}
-              onClick={handle_usd_payment}
-            /> */}
-              <UsdPayment
-                collect_my_order={handle_order_type}
-                selected_method={payment_method}
-                total_price={total_amount}
-                total_weight={total_weight}
-                values={values}
-              />
-            </div>
-          </div>
-        </>
-      )
-      setActionButton(
-        <>
-          <div
-            onClick={
-              loading
-                ? () => console.log('Loading please wait ...')
-                : order_without_payment_Handler
-            }
-            className="flex cursor-pointer rounded-lg bg-blue-primary p-2 font-semibold capitalize text-white hover:bg-blue-secondary"
-          >
-            {loading ? 'Loading ... ' : 'Place Order'}
-          </div>
-        </>
-      )
-      setheading('Proceed Place Your Order')
-      onOpen()
-    } else if (payment_method === 'ecocash' || payment_method) {
-      setBody(
-        <>
-          <div className="col-span-full mt-4 flex w-full flex-col items-center">
-            <div className="my-4 w-full">
-              <Spinner
-                className="mx-auto"
-                thickness="4px"
-                speed="0.65s"
-                emptyColor="gray.200"
-                color="blue.500"
-                size="xl"
-              />
-              {}
-              <BlueButton
-                text={'Proceed to pay with ecocash'}
-                onClick={handle_rtgs_payment}
-                loading={loading}
-              />
-            </div>
-          </div>
-        </>
-      )
-      setActionButton(
-        <>
-          <div
-            onClick={
-              loading
-                ? () => console.log('Loading please wait ...')
-                : handle_rtgs_payment
-            }
-            className="flex cursor-pointer rounded-lg bg-blue-primary p-2 font-semibold capitalize text-white hover:bg-blue-secondary"
-          >
-            {loading ? 'Loading ... ' : 'Place Order'}
-          </div>
-        </>
-      )
-      setheading('Place Your Order')
-      onOpen()
     }
   }
 
-  const order_without_payment_Handler = async () => {
+  const handleEcoCashPayment = async (id) => {
     try {
       setLoading(true)
       const { data } = await axios.post(
-        `${apiUrl}/api/order/create`,
+        `${apiUrl}/api/v2/orders/${id}/payments`,
         {
-          orderItems: cart.cartItems,
-          address: address,
-          itemsPrice: total_amount,
-          shippingPrice: 0,
-          // @ts-ignore
-          totalPrice: total_amount + renderWeight(total_weight),
-          full_name: full_name,
-          province: city,
-          collect_my_order: handle_order_type,
-          method: payment_method,
-          isPaid: false,
-          pay_on_delivery: handle_order_type,
-          weight: total_weight,
-          // coupons: coupons,
-          rating: rating,
-          paying_number: 'No Payment Done',
-          contact_phone_number: phonr_number,
-          city: city,
-          number_of_items_bought: cart?.cartItems?.reduce(
-            (a, c) => parseInt(a) + parseInt(c.quantity),
-            0
-          ),
-          platform_currency: currency,
+          currency: 'USD',
+          payment_details: {
+            method: 'ECOCASH',
+            phone: paymentDetails.payment_details.phone,
+          },
         },
         {
           headers: {
@@ -214,58 +152,60 @@ function CheckoutSidebar({ total_amount, total_weight }) {
           },
         }
       )
+      console.log(data, 'hhhhhh')
+      dispatch({ type: 'SET_POLL_URL', payload: data.respose })
       toast({
-        title: 'Order Created.',
-        description:
-          'Your order has been created and will be delivered to your within 5 working days! Thank You',
+        title: 'Order Created. Check your phone to complete the payment',
         status: 'success',
         position: 'top-right',
         duration: 9000,
         isClosable: true,
       })
-      console.log(getError(data))
-      history.push(`/success/order_success`)
-      setLoading(false)
     } catch (error) {
-      toast({
-        title: getError(error),
-        status: 'error',
-        position: 'top-right',
-        duration: 9000,
-        isClosable: true,
-      })
       setLoading(false)
       console.log(getError(error))
+
+      if (getError(error).includes('Validation')) {
+        toast({
+          title: getError(error),
+          status: 'error',
+          position: 'top-right',
+          duration: 9000,
+          isClosable: true,
+        })
+      } else {
+        toast({
+          title: getError(error),
+          status: 'error',
+          position: 'top-right',
+          duration: 9000,
+          isClosable: true,
+        })
+      }
     }
   }
+
+  console.log(formattedObject, 'cartItems')
 
   const handle_payment = async () => {
     try {
       setLoading(true)
       const { data } = await axios.post(
-        `${apiUrl}/api/order/create`,
+        `${apiUrl}/api/v2/orders`,
         {
-          orderItems: cart.cartItems,
+          products: formattedCartItems,
           address: address,
-          itemsPrice: total_amount,
-          shippingPrice: 0,
+          // itemsPrice: total_amount,
+          // shippingPrice: 0,
           // @ts-ignore
-          totalPrice: total_amount + renderWeight(total_weight),
-          full_name: full_name,
+
+          name: full_name,
           province: city,
-          collect_my_order: handle_order_type,
-          method: selectedCurrency === 'USD' ? 'paypal' : 'ecocash',
-          isPaid: false,
-          pay_on_delivery: handle_order_type,
-          weight: total_weight,
-          paying_number: phonr_number,
-          contact_phone_number: phonr_number,
+          // collect_my_order: handle_order_type,
+
+          phone: phonr_number,
           city: city,
-          number_of_items_bought: cart?.cartItems?.reduce(
-            (a, c) => parseInt(a) + parseInt(c.quantity),
-            0
-          ),
-          platform_currency: currency,
+          country: 'Zimbabwe',
         },
         {
           headers: {
@@ -274,7 +214,15 @@ function CheckoutSidebar({ total_amount, total_weight }) {
         }
       )
       // window.location.assign(data.link)
-      console.log(data, 'hhhhhh')
+      console.log(data.data.order._id, 'hhhhhh')
+
+      if (selectedPaymentMethod === 'visa') {
+        handlePayment(data.data.order._id)
+      } else if (selectedPaymentMethod === 'ecocash') {
+        handleEcoCashPayment(data.data.order._id)
+      } else if (selectedPaymentMethod === 'paypal') {
+        window.location.assign(data.approval_url)
+      }
       dispatch({ type: 'SET_POLL_URL', payload: data.respose })
       toast({
         title:
@@ -318,6 +266,37 @@ function CheckoutSidebar({ total_amount, total_weight }) {
         <p>Payment Details</p>
         <Avatar size={'xs'} src={userInfo?.photoURL} name={userInfo?.name} />
       </div>
+      <p className="py-4   text-white">Enter Shipment Info</p>
+      <div className="mb-5 grid w-full grid-cols-2 gap-2">
+        <input
+          type="text"
+          placeholder="Address"
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+          className="col-span-2 w-full rounded border-none bg-blue-secondary p-2 text-sm text-blue-superlight placeholder-blue-superlight outline-none"
+        />
+        <input
+          type="text"
+          placeholder="City"
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
+          className="col-span-1 w-full rounded border-none bg-blue-secondary p-2 text-sm text-blue-superlight placeholder-blue-superlight outline-none"
+        />
+        <input
+          type="text"
+          placeholder="Full Name"
+          value={full_name}
+          onChange={(e) => setFullNamre(e.target.value)}
+          className="col-span-1 w-full rounded border-none bg-blue-secondary p-2 text-sm text-blue-superlight placeholder-blue-superlight outline-none"
+        />
+        <input
+          type="text"
+          placeholder="Phone number"
+          value={phonr_number}
+          onChange={(e) => setPhoneNumber(e.target.value)}
+          className="col-span-2 w-full rounded border-none bg-blue-secondary p-2 text-sm text-blue-superlight placeholder-blue-superlight outline-none"
+        />
+      </div>
       <div className="flex w-full flex-col">
         <p className="pb-4 text-white">How do you want to handle your order?</p>
         <div className="flex rounded bg-blue-secondary p-2 text-white md:p-4">
@@ -326,28 +305,65 @@ function CheckoutSidebar({ total_amount, total_weight }) {
               <Radio value="collect_my_order">
                 Collect at our pickup point.
               </Radio>
+
               <Radio value="bring_to_doorstep">Bring to my doorstep</Radio>
             </Stack>
           </RadioGroup>
         </div>
       </div>
+      <div className="flex w-full flex-col">
+        <p className="mt-5 pb-4 text-white">
+          How do you want to pay for your order?
+        </p>
+        <div className="flex rounded bg-blue-secondary p-2 text-white md:p-4">
+          <RadioGroup
+            onChange={set_handle_order_payment_method}
+            value={handle_order_payment_method}
+          >
+            <Stack direction="column">
+              {handle_order_type === 'collect_my_order' && (
+                <>
+                  <Radio value="pay on collection">Pay on collection.</Radio>
+                  <Radio value="pay online">Pay online</Radio>
+                </>
+              )}
+              {handle_order_type === 'bring_to_doorstep' && (
+                <>
+                  {' '}
+                  <Radio value="pay on delivery">Pay on delivery</Radio>
+                  <Radio value="pay online">Pay online</Radio>
+                </>
+              )}
+            </Stack>
+          </RadioGroup>
+        </div>
+        <Stack direction="column">
+          <p className="pt-4 text-white">Coupon Code</p>
+          <input
+            type="text"
+            placeholder="Enter your coupon code"
+            value={coupon_code}
+            onChange={(e) => setCouponCode(e.target.value)}
+            className="col-span-2 w-full rounded border-none bg-blue-secondary p-2  text-sm text-blue-superlight placeholder-blue-superlight outline-none"
+          />
+        </Stack>
+      </div>
+
       {/* REMOVED THIS BECAUSE IM NOW CHECKING PAYMENT METHOD FROM COOKIES */}
-      {/* <p className="py-4  text-center text-white">Select Payment Method</p>
-      <div className="flex flex-col space-y-2 rounded bg-white p-2">
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-2 lg:grid-cols-4  ">
+      <p className="py-4  text-center text-white">Select Payment Method</p>
+      <div className="bg- flex flex-col space-y-2 rounded p-2">
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-3">
           {data.payment_methods?.map((item, index) => (
             <div
-              onClick={() =>
-                history.push(`/shipping/?payment_method=${item.name}`)
-              }
+              onClick={() => handlePaymentMethodClick(item)}
               key={index}
               className={`${
-                payment_method === item.name
+                selectedPaymentMethod === item.name
                   ? ' hover:bg-gray-secodary bg-gray-100 '
                   : 'bg-white hover:bg-gray-100 '
               } relative flex cursor-pointer content-center items-center justify-center rounded border-2 border-blue-light p-2 `}
             >
-              {payment_method === item.name && (
+              {selectedPaymentMethod === item.name && (
                 <div className="absolute top-0 right-0 flex text-blue-primary">
                   <CheckCircleIcon height={14} width={14} />
                 </div>
@@ -357,8 +373,58 @@ function CheckoutSidebar({ total_amount, total_weight }) {
               </div>
             </div>
           ))}
+
+          {/* Render input fields based on the selected payment method */}
+          {selectedPaymentMethod === 'ecocash' && (
+            <div className="col-span-3">
+              <input
+                type="text"
+                placeholder="Phone"
+                value={paymentDetails.payment_details.phone}
+                onChange={(e) => handleInputChange(e, 'phone')}
+                className="col-span-2 w-full rounded border-none bg-blue-secondary p-2 text-sm text-blue-superlight placeholder-blue-superlight outline-none"
+              />
+            </div>
+          )}
+
+          {selectedPaymentMethod === 'visa' && (
+            <div className="col-span-3">
+              <input
+                type="text"
+                placeholder="Card Number"
+                value={paymentDetails.payment_details.card_number}
+                onChange={(e) => handleInputChange(e, 'card_number')}
+                className="col-span-2 w-full rounded border-none bg-blue-secondary p-2 text-sm text-blue-superlight placeholder-blue-superlight outline-none"
+              />
+              <input
+                type="text"
+                placeholder="Card Holder Name"
+                value={paymentDetails.payment_details.card_holder}
+                onChange={(e) => handleInputChange(e, 'card_holder')}
+                className="col-span-2 my-2 w-full rounded border-none bg-blue-secondary p-2 text-sm text-blue-superlight placeholder-blue-superlight outline-none"
+              />
+              <div className="grid grid-cols-2 gap-4">
+                <input
+                  type="text"
+                  placeholder="Expiry Date"
+                  value={paymentDetails.payment_details.card_expiry}
+                  onChange={(e) => handleInputChange(e, 'card_expiry')}
+                  className="col-span-1 w-full rounded border-none bg-blue-secondary p-2 text-sm text-blue-superlight placeholder-blue-superlight outline-none"
+                />
+
+                <input
+                  type="text"
+                  placeholder="CVV"
+                  value={paymentDetails.payment_details.cvv}
+                  onChange={(e) => handleInputChange(e, 'cvv')}
+                  className="col-span-1 w-full rounded border-none bg-blue-secondary p-2 text-sm text-blue-superlight placeholder-blue-superlight outline-none"
+                />
+              </div>
+            </div>
+          )}
         </div>
-        <div className="grid grid-cols-4 gap-4  ">
+
+        {/* <div className="grid grid-cols-4 gap-4  ">
           {handle_order_type === 'bring_to_doorstep' && (
             <div
               onClick={() =>
@@ -399,39 +465,7 @@ function CheckoutSidebar({ total_amount, total_weight }) {
               </p>
             </div>
           )}
-        </div>
-      </div> */}
-
-      <p className="py-4   text-white">Enter Shipment Info</p>
-      <div className="grid w-full grid-cols-2 gap-2">
-        <input
-          type="text"
-          placeholder="Address"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-          className="col-span-2 w-full rounded border-none bg-blue-secondary p-2 text-sm text-blue-superlight placeholder-blue-superlight outline-none"
-        />
-        <input
-          type="text"
-          placeholder="City"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-          className="col-span-1 w-full rounded border-none bg-blue-secondary p-2 text-sm text-blue-superlight placeholder-blue-superlight outline-none"
-        />
-        <input
-          type="text"
-          placeholder="Full Name"
-          value={full_name}
-          onChange={(e) => setFullNamre(e.target.value)}
-          className="col-span-1 w-full rounded border-none bg-blue-secondary p-2 text-sm text-blue-superlight placeholder-blue-superlight outline-none"
-        />
-        <input
-          type="text"
-          placeholder="Phone number"
-          value={phonr_number}
-          onChange={(e) => setPhoneNumber(e.target.value)}
-          className="col-span-2 w-full rounded border-none bg-blue-secondary p-2 text-sm text-blue-superlight placeholder-blue-superlight outline-none"
-        />
+        </div> */}
       </div>
 
       <div className="my-8 space-y-2 border-t border-blue-light pt-8">
@@ -479,7 +513,7 @@ function CheckoutSidebar({ total_amount, total_weight }) {
           </span>
           <div className="flex flex-row items-center space-x-2">
             <p className="font-semibold">
-              {loading ? 'Loading...' : 'Pay Now'}
+              {loading ? 'Loading...' : 'Proceed'}
             </p>
             <ArrowRightIcon height={20} width={20} />
           </div>

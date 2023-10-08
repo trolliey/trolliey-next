@@ -1,22 +1,37 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import AdminDashboard from '../../../layouts/AdminDashboard'
 import Orders from '../../../models/Order'
 import { connect, disconnect } from '../../../utils/mongo'
 import moment from 'moment'
 import OrdersDropdown from '../../../components/Dropdowns/OrdersDropdown'
-import { Text } from '@chakra-ui/react'
+import { Button, Text } from '@chakra-ui/react'
 import { Store } from '../../../Context/Store'
+import OrderForm from './OrderForm'
 
 function ManageOrders(props: any) {
   const { orders } = props
   const { state } = useContext(Store)
   const { userInfo } = state
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [order, setOrder] = useState({})
+
+  const handleSubmit = (newOrder: any) => {
+    // Handle the submission of the order here
+    console.log('Submitted order:', newOrder)
+  }
 
   return (
     <AdminDashboard>
       <p className="my-8 text-center text-lg font-semibold text-gray-800">
         Manage all orders from here!
       </p>
+      <Button onClick={() => setIsModalOpen(true)}>Open Order Form</Button>
+      <OrderForm
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={handleSubmit}
+        order={order}
+      />
       <div className="min-h-screen overflow-x-auto">
         <table className="w-full table-auto border-collapse">
           <thead>

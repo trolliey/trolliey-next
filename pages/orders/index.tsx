@@ -1,12 +1,14 @@
-import { Spinner, Text } from '@chakra-ui/react'
+import { Select, Spinner, Text } from '@chakra-ui/react'
 import axios from 'axios'
 import moment from 'moment'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React, { useContext, useEffect, useState } from 'react'
 import { Store } from '../../Context/Store'
+import { useAuthFetch } from '../../hooks/useAuthFetch'
 import GeneralLayout from '../../layouts/GeneralLayout'
 import no_product from '../../public/img/no_product.svg'
+import { apiUrl } from '../../utils/apiUrl'
 
 function Orders() {
   const { state } = useContext(Store)
@@ -28,6 +30,29 @@ function Orders() {
     }
     get_orders()
   }, [])
+  const url = `/api/orders`
+  const orders = useAuthFetch(url, userInfo?.token)
+  console.log(orders)
+
+  const [filter, setFilter] = useState('')
+  const filteredOrders = orders?.data?.filter((order: any) => {
+    const orderDate = moment(order.createdAt)
+    const currentDate = moment()
+
+    if (filter === 'daily') {
+      return orderDate.isSame(currentDate, 'day')
+    } else if (filter === 'weekly') {
+      return orderDate.isSame(currentDate, 'week')
+    } else if (filter === 'monthly') {
+      return orderDate.isSame(currentDate, 'month')
+    } else if (filter === 'yearly') {
+      return orderDate.isSame(currentDate, 'year')
+    }
+
+    return true // Show all orders if filter is not selected
+  })
+
+  console.log(filteredOrders)
 
   return (
     <GeneralLayout
@@ -35,191 +60,107 @@ function Orders() {
       title="Order History"
       description="A history of all your orders you did through Trolliey"
     >
-      <div className="my-8 bg-white md:my-16">
-        <div className="mx-auto max-w-7xl py-16 px-4 sm:px-6 lg:px-8 lg:pb-24">
-          <div className="max-w-xl">
-            <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
-              Order history
-            </h1>
-            <p className="mt-2 text-sm text-gray-500">
-              Check the status of recent orders, manage returns, and download
-              invoices.
-            </p>
-          </div>
-
-          <div className="mt-16">
-            <h2 className="sr-only">Recent orders</h2>
-
-            {loading ? (
-              <div className="flex w-full flex-col items-center">
-                <Spinner />
-              </div>
-            ) : (
-              <>
-                {all_orders?.length < 1 ? (
-                  <div className=" h-68 grid content-center items-center justify-center">
-                    <div className="relative h-40">
-                      <Image
-                        src={no_product}
-                        layout="fill"
-                        objectFit="contain"
-                      />
-                    </div>
-                    <p className="mt-4 text-center font-semibold capitalize text-gray-700">
-                      no orders found
-                    </p>
-                  </div>
-                ) : (
-                  <>
-                    <div className="space-y-20">
-                      {all_orders?.map((order: any) => (
-                        <div key={order._id}>
-                          <h3 className="sr-only">
-                            Order placed on{' '}
-                            <time dateTime={order.createdAt}>
-                              {order.createdAt}
-                            </time>
-                          </h3>
-
-                          <div className="rounded-lg bg-black py-1 px-2 text-white sm:flex sm:items-center sm:justify-between sm:space-x-6 sm:px-6 lg:space-x-8">
-                            <div className="flex-auto space-y-6 divide-y divide-gray-200 text-sm text-gray-600 sm:grid sm:grid-cols-3 sm:gap-x-6 sm:space-y-0 sm:divide-y-0 lg:w-1/2 lg:flex-none lg:gap-x-8">
-                              <div className="text-wg flex justify-between pt-6 sm:block sm:pt-0">
-                                <div className="font-semibold text-white">
-                                  Order number
-                                </div>
-                                <Text
-                                  noOfLines={1}
-                                  className="text-gray-200 sm:mt-1"
-                                >
-                                  {order._id}
-                                </Text>
-                              </div>
-                              <div className="flex flex-row justify-between sm:block">
-                                <div className="font-semibold text-white">
-                                  Date placed
-                                </div>
-                                <div className="text-gray-200 sm:mt-1">
-                                  <time dateTime={order.createdAt}>
-                                    <Text noOfLines={1}>
-                                      {moment(order.createdAt).fromNow()}
-                                    </Text>
-                                  </time>
-                                </div>
-                              </div>
-
-                              <div className="flex justify-between pt-6 font-medium text-gray-900 sm:block sm:pt-0">
-                                <div className="font-semibold text-white">
-                                  Total amount
-                                </div>
-                                <div className="text-gray-200 sm:mt-1">
-                                  {order?.orderItems.reduce(
-                                    (a: any, c: any) =>
-                                      parseInt(a) +
-                                      parseInt(c.quantity) * parseInt(c.price),
-                                    0
-                                  )}
-                                </div>
-                              </div>
-                            </div>
-                            <a
-                              href={order.invoiceHref}
-                              className="mt-6 flex w-full items-center justify-center rounded-full border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-                            >
-                              View Invoice
-                              <span className="sr-only">
-                                for order {order.number}
-                              </span>
-                            </a>
-                          </div>
-
-                          <table className="mt-4 w-full text-gray-500 sm:mt-6">
-                            <caption className="sr-only">Products</caption>
-                            <thead className="sr-only text-left text-sm text-gray-500 sm:not-sr-only">
-                              <tr>
-                                <th
-                                  scope="col"
-                                  className="py-3 pr-8 font-normal sm:w-2/5 lg:w-1/3"
-                                >
-                                  Product
-                                </th>
-                                <th
-                                  scope="col"
-                                  className="hidden w-1/5 py-3 pr-8 font-normal sm:table-cell"
-                                >
-                                  Price
-                                </th>
-                                <th
-                                  scope="col"
-                                  className="hidden py-3 pr-8 font-normal sm:table-cell"
-                                >
-                                  Status
-                                </th>
-                                <th
-                                  scope="col"
-                                  className="w-0 py-3 text-right font-normal"
-                                >
-                                  Info
-                                </th>
-                              </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-200 border-b border-gray-200 text-sm sm:border-t">
-                              {order?.orderItems.map((product: any) => (
-                                <tr key={product.id}>
-                                  <td className="py-2 pr-8">
-                                    <div className="flex items-center">
-                                      <img
-                                        src={product.pictures[0]}
-                                        alt={product.description}
-                                        className="mr-6 h-10 w-10 rounded object-cover object-center"
-                                      />
-                                      <div>
-                                        <div className="font-medium text-gray-900">
-                                          {product.title}
-                                        </div>
-                                        <div className="mt-1 sm:hidden">
-                                          {product.price}
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </td>
-                                  <td className="hidden py-2 pr-8 sm:table-cell">
-                                    {product.price}
-                                  </td>
-                                  <td className="hidden py-2 pr-8 sm:table-cell">
-                                    {order.status}
-                                  </td>
-                                  <td className="whitespace-nowrap py-6 text-right font-medium">
-                                    <div
-                                      onClick={() =>
-                                        history.push(
-                                          `/product/d/${product._id}`
-                                        )
-                                      }
-                                      className="cursor-pointer text-blue-primary"
-                                    >
-                                      View
-                                      <span className="hidden lg:inline">
-                                        {' '}
-                                        Product
-                                      </span>
-                                      <span className="sr-only">
-                                        , {product.name}
-                                      </span>
-                                    </div>
-                                  </td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        </div>
-                      ))}
-                    </div>
-                  </>
-                )}
-              </>
-            )}
-          </div>
+      <div className="container mx-auto my-8">
+        <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
+          Order history
+        </h1>
+        <p className="mt-2 text-sm text-gray-500">
+          Check the status of recent orders, manage returns, and download
+          invoices.
+        </p>
+        <div className="lg:w-1/4">
+          <Select
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+            className="mt-4 w-1/2"
+            size={'md'}
+          >
+            {/* option placeholder */}
+            <option value="">Filter By</option>
+            <option value="daily">Today</option>
+            <option value="weekly">This Weekly</option>
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Yearly</option>
+          </Select>
         </div>
+        {orders?.status === 'fetching' ? (
+          <div className="mt-8 text-center">
+            <Spinner size="xl" />
+          </div>
+        ) : (
+          <table className="mt-4 w-full border-collapse rounded border border-gray-300">
+            <caption className="sr-only">Order history</caption>
+            <thead className="rounded bg-gray-100">
+              <tr>
+                <th className="py-2 px-4 text-left">Order Id</th>
+                <th className="py-2 px-4 text-left">Items</th>
+                <th className="py-2 px-4 text-left">Status</th>
+                <th className="py-2 px-4 text-left">Date Placed</th>
+                <th className="py-2 px-4 text-right">Total Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredOrders?.map((order: any) => (
+                <tr key={order._id} className="hover:bg-gray-50">
+                  <td className="text-wrap max-w-lg whitespace-normal py-2 px-4 ">
+                    {' '}
+                    {order?.items?.map((item: any) => (
+                      <div key={item._id} className="flex items-center">
+                        <div className="ml-2">
+                          <Text>{item.orderId}</Text>
+                        </div>
+                      </div>
+                    ))}
+                  </td>
+
+                  <td className="py-2 px-4">
+                    {order?.orderItems?.map((item: any) => (
+                      <div key={item._id} className="flex items-center">
+                        <div className="ml-2">
+                          <Text>{item.title}</Text>
+                        </div>
+                      </div>
+                    ))}
+                  </td>
+                  <td className="py-2 px-4">
+                    {order?.status === 'pending' ? (
+                      <span className="inline-flex rounded-full bg-yellow-100 px-2 text-xs font-semibold leading-5 text-yellow-800">
+                        Pending
+                      </span>
+                    ) : order?.status === 'paid' ? (
+                      <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
+                        Paid
+                      </span>
+                    ) : order?.status === 'delivered' ? (
+                      <span className="inline-flex rounded-full bg-blue-100 px-2 text-xs font-semibold leading-5 text-blue-800">
+                        Delivered
+                      </span>
+                    ) : order?.status === 'cancelled' ? (
+                      <span className="inline-flex rounded-full bg-red-100 px-2 text-xs font-semibold leading-5 text-red-800">
+                        Cancelled
+                      </span>
+                    ) : (
+                      <span className="inline-flex rounded-full bg-gray-100 px-2 text-xs font-semibold leading-5 text-gray-800">
+                        Unknown
+                      </span>
+                    )}
+                  </td>
+
+                  <td className="py-2 px-4">
+                    {moment(order.createdAt).fromNow()}
+                  </td>
+                  <td className="py-2 px-4 text-right">
+                    $
+                    {order?.orderItems?.reduce(
+                      (a: any, c: any) => a + c.quantity * c.price,
+                      0
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
     </GeneralLayout>
   )

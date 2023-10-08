@@ -56,42 +56,42 @@ export default function ProductsTable({
     )
   }
 
-  const confirm_delete_item = async (product_id: string) => {
-    try {
-      setLoading(true)
-      const { data } = await axios.delete(
-        `/api/products/delete?product_id=${product_id}`,
-        {
-          headers: {
-            authorization: userInfo?.token,
-          },
-        }
-      )
-      console.log(data)
-      delete_item_from_table(product_id)
-      setLoading(false)
-      onClose()
-      toast({
-        title: 'Sucesfully deleted.',
-        description: 'Product successfully deleted!',
-        status: 'success',
-        position: 'top-right',
-        duration: 9000,
-        isClosable: true,
+  const confirm_delete_item = (product_id: string) => {
+    setLoading(true)
+
+    axios
+      .delete(`/api/products/delete?product_id=${product_id}`, {
+        headers: {
+          authorization: userInfo?.token,
+        },
       })
-    } catch (error) {
-      console.log(error)
-      onClose()
-      toast({
-        title: 'Error Deleting item.',
-        description: 'There was an error deleting the item!',
-        status: 'error',
-        position: 'top-right',
-        duration: 9000,
-        isClosable: true,
+      .then((response) => {
+        console.log(response.data)
+        delete_item_from_table(product_id)
+        setLoading(false)
+        onClose()
+        toast({
+          title: 'Successfully deleted.',
+          description: 'Product successfully deleted!',
+          status: 'success',
+          position: 'top-right',
+          duration: 9000,
+          isClosable: true,
+        })
       })
-      setLoading(false)
-    }
+      .catch((error) => {
+        console.log(error)
+        onClose()
+        toast({
+          title: 'Error Deleting item.',
+          description: 'There was an error deleting the item!',
+          status: 'error',
+          position: 'top-right',
+          duration: 9000,
+          isClosable: true,
+        })
+        setLoading(false)
+      })
   }
 
   const renderArrow = (order: string | any, value: string) => {

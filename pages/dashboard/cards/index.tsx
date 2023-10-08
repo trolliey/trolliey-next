@@ -4,12 +4,24 @@ import CreditCard from '../../../components/DashboardCard/CreditCard'
 import DashboardLayout from '../../../layouts/DashboardLayout'
 import ecocash from '../../../public/img/eco_cash.svg'
 import { Store } from '../../../Context/Store'
-import { Input } from '@chakra-ui/react'
+import {
+  Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  toast,
+  useToast,
+} from '@chakra-ui/react'
 import BlueButton from '../../../components/Buttons/BlueButton'
 
 function Cards() {
   const [currency_type, setCurrencyType] = useState('')
   const [number, setNumber] = useState('')
+  const [branch, setBranch] = useState('')
   const [title, setTitle] = useState('')
   const [loading, setLoading] = useState(false)
   const { state } = useContext(Store)
@@ -18,6 +30,18 @@ function Cards() {
   const [edit_rtgs_panel, setEditRtgsPanel] = useState(false)
 
   const [cards, setCards] = useState()
+  const [isModalOpen, setIsModalOpen] = useState(false) // State for showing/hiding the modal
+
+  const toast = useToast()
+  // Function to open the modal
+  const openModal = () => {
+    setIsModalOpen(true)
+  }
+
+  // Function to close the modal
+  const closeModal = () => {
+    setIsModalOpen(false)
+  }
 
   useEffect(() => {
     const getCards = async () => {
@@ -52,7 +76,32 @@ function Cards() {
     }
   }
 
-  const edit_usd = () => {}
+  const handleSubmit = async () => {
+    try {
+      setLoading(false)
+      await axios.post(
+        '/api/store/save-card-details',
+        { currency_type, number, bank_name: title },
+        {
+          headers: {
+            authorization: userInfo.token,
+          },
+        }
+      )
+      // put toast
+      toast({
+        title: 'Card Details Saved',
+        description: 'Card details saved successfully',
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      })
+      setLoading(true)
+    } catch (error) {
+      setLoading(false)
+      console.log(error)
+    }
+  }
 
   return (
     <DashboardLayout>
@@ -71,20 +120,61 @@ function Cards() {
               </p>
             </div>
             <div className="flex w-1/3 flex-col">
-              <CreditCard
-                onClick={() => setEditRtgsPanel(true)}
-                type={'RTGS'}
-                number={'No Number Yet'}
-                picture={ecocash}
-                user_name={'No Name'}
-                date={Date.now()}
-                bg_color={'bg-gradient-to-r from-black to-gray-800 h-full'}
-              />
+              <button
+                onClick={openModal} // Open the modal when the button is clicked
+                className="ml-2 rounded-md bg-blue-500 px-4 py-2 text-white"
+              >
+                Add RTGS Card
+              </button>
+              <Modal isOpen={isModalOpen} onClose={closeModal}>
+                <ModalOverlay />
+                <ModalContent>
+                  <ModalHeader>Enter Banking Details</ModalHeader>
+                  <ModalCloseButton />
+                  <ModalBody>
+                    <Input
+                      onChange={(e) => setCurrencyType(e.target.value)}
+                      placeholder="Currency Type"
+                      mb={4}
+                    />
+                    <Input
+                      onChange={(e) => setNumber(e.target.value)}
+                      placeholder="Account Number"
+                      mb={4}
+                    />
+                    <Input
+                      onChange={(e) => setTitle(e.target.value)}
+                      placeholder="Bank Name"
+                      mb={4}
+                    />
+                    <Input
+                      onChange={(e) => setBranch(e.target.value)}
+                      placeholder="Branch Name"
+                      mb={4}
+                    />
+                  </ModalBody>
+                  <ModalFooter>
+                    <BlueButton
+                      text={'Submit'}
+                      onClick={handleSubmit}
+                      loading={loading}
+                    />
+                  </ModalFooter>
+                </ModalContent>
+              </Modal>
               {edit_rtgs_panel && (
                 <div className="my-2 flex w-full flex-col">
-                  <Input placeholder="Enter Card number " />
+                  <Input
+                    onChange={(e) => setNumber(e.target.value)}
+                    placeholder="Enter Card number "
+                  />
                   <div className="ml-auto mt-2 flex">
-                    <BlueButton text={'Edit'} />
+                    <button
+                      onClick={handleSubmit}
+                      className="rounded bg-blue-500 px-4 py-2 text-white"
+                    >
+                      Submit
+                    </button>
                   </div>
                 </div>
               )}

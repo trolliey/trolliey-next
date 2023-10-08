@@ -44,7 +44,7 @@ function MobileProductItem({
           >
             <Image
               objectFit="cover"
-              src={picture ? picture : ''}
+              src={picture ? picture : '/img/full_logo.png'}
               layout="fill"
               alt="product"
               className="h-full max-h-full w-auto flex-1 flex-shrink-0 rounded object-cover"
@@ -55,9 +55,7 @@ function MobileProductItem({
           <Text noOfLines={2} className="font-semibold text-gray-700">
             {name}
           </Text>
-          <Text className="text-xs font-base text-blue-dark">
-            {category}
-          </Text>
+          <Text className="font-base text-xs text-blue-dark">{category}</Text>
           <div className="flex-1"></div>
           <Text>
             {discount_price ? (
