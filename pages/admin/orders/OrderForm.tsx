@@ -12,8 +12,21 @@ import {
   FormLabel,
   Input,
 } from '@chakra-ui/react'
+import React from 'react'
 
-const OrderForm = ({ isOpen, onClose, onSubmit, order }) => {
+type OrderFormProps = {
+  isOpen: boolean
+  onClose: () => void
+  onSubmit: any
+  order: any
+}
+
+const OrderForm: React.FC<OrderFormProps> = ({
+  isOpen,
+  onClose,
+  onSubmit,
+  order,
+}) => {
   const [values, setValues] = useState(order)
 
   const handleChange = (e: any) => {

@@ -442,7 +442,7 @@ function ProductDescription(props: any) {
                 <>
                   {props?.data?.product?.reviews ? (
                     props?.data?.product?.reviews?.length > 0 ? (
-                      props?.data?.product?.reviews?.map((review) => (
+                      props?.data?.product?.reviews?.map((review: any) => (
                         <div
                           key={review._id}
                           className="flex w-full flex-col border-b border-gray-200 py-4"
