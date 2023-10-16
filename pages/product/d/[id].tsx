@@ -14,6 +14,7 @@ import axios from 'axios'
 import RelatedProducts from '../../../components/HomeSections/RelatedProducts'
 import Amount from '../../../components/Amount/Amount'
 import { apiUrl } from '../../../utils/apiUrl'
+import CartSidebar from '../../../components/Sidebars/CartSidebar'
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
@@ -27,6 +28,11 @@ function ProductDescription(props: any) {
   const [selected_variant, setSelectedVariant] = useState<any>()
   const [show_features, setShowFeatures] = useState<boolean>(false)
   const [showMore, setShowMore] = useState<boolean>(false)
+  const [open_cart, setOpenCart] = useState<boolean>(false)
+  const basket: any[] = []
+  const toggle_cart = () => {
+    !open_cart ? setOpenCart(true) : setOpenCart(false)
+  }
 
   const description = props.data.product.description
   const maxLength = 500 // Maximum number of characters before showing "Read More"
@@ -41,6 +47,7 @@ function ProductDescription(props: any) {
   const toast = useToast()
 
   const add_to_basket = async () => {
+    toggle_cart()
     try {
       setLoading(true)
 
@@ -205,24 +212,6 @@ function ProductDescription(props: any) {
                   </h1>
 
                   {/* Reviews */}
-                  <div className="mt-2">
-                    <h3 className="sr-only">Reviews</h3>
-                    <div className="flex items-center">
-                      <div className="flex items-center">
-                        {
-                          <RatingComponent
-                            id={props.data.product._id}
-                            ratings={Math.floor(
-                              props.data.product.averageRating
-                            )}
-                          />
-                        }
-                      </div>
-                      <p className="sr-only">
-                        {props.data.product.averageRating} out of 5 stars
-                      </p>
-                    </div>
-                  </div>
 
                   <div className="my-3">
                     <h6 className="sr-only">Product information</h6>
@@ -274,6 +263,24 @@ function ProductDescription(props: any) {
                       className="w-full flex-1"
                       onClick={add_to_basket}
                     />
+                  </div>
+                  <div className="mt-2">
+                    <h3 className="sr-only">Reviews</h3>
+                    <div className="flex items-center">
+                      <div className="flex items-center">
+                        {
+                          <RatingComponent
+                            id={props.data.product._id}
+                            ratings={Math.floor(
+                              props.data.product.averageRating
+                            )}
+                          />
+                        }
+                      </div>
+                      <p className="sr-only">
+                        {props.data.product.averageRating} out of 5 stars
+                      </p>
+                    </div>
                   </div>
                 </div>
 
@@ -377,6 +384,7 @@ function ProductDescription(props: any) {
                     </div>
                   </div>
                 </div>
+
                 <div
                   onClick={() =>
                     history.push(
@@ -543,6 +551,9 @@ function ProductDescription(props: any) {
               )}
             </section>
           </div>
+        </div>
+        <div>
+          <CartSidebar open={open_cart} setOpen={setOpenCart} cart={basket} />
         </div>
         <div className="related_props.data.products my-16">
           <>

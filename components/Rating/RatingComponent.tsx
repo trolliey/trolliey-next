@@ -5,6 +5,7 @@ import { apiUrl } from '../../utils/apiUrl'
 import { Store } from '../../Context/Store'
 import { useToast } from '@chakra-ui/react'
 import Router from 'next/router'
+import BlueButton from '../Buttons/BlueButton'
 
 interface Props {
   ratings: any
@@ -59,6 +60,16 @@ function RatingComponent({ ratings, id }: Props): ReactElement {
         console.log(res.data)
       })
       .catch((err) => {
+        setLoading(false)
+        toast({
+          title: 'Error',
+          description: 'An error occurred while adding your review',
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+          position: 'top-right',
+        })
+
         console.log(err)
       })
   }
@@ -86,29 +97,38 @@ function RatingComponent({ ratings, id }: Props): ReactElement {
             })}
           </div>
           <textarea
+            rows={6}
             className="mt-5 w-full rounded border border-gray-300 p-2"
             placeholder="Enter your review"
             value={review}
             onChange={(e) => setReview(e.target.value)}
           />
-          <button
-            className="mt-2 rounded bg-[#0F75BC] py-1 px-2 text-xs font-bold text-white hover:bg-blue-700
-"
-            type="button"
+          <BlueButton
+            loading={loading}
+            text={
+              <div className="mx-auto flex w-full flex-row content-center items-center justify-center space-x-1">
+                <StarIcon height={12} width={12} />
+                <p>Add Review </p>
+              </div>
+            }
+            className="w-full "
             onClick={() => add_review(starsNum)}
-          >
-            Submit
-          </button>
+          />
         </>
       ) : (
         <div className="star-rating gap-2">
-          <button
-            className="rounded bg-[#0F75BC] py-1 px-2 text-xs font-bold text-white hover:bg-blue-700"
-            type="button"
+          <BlueButton
+            loading={loading}
+            text={
+              <div className="mx-auto flex w-full flex-row content-center items-center justify-center space-x-1">
+                <StarIcon height={12} width={12} />
+                <p>Add Review </p>
+              </div>
+            }
+            className="w-full flex-1"
             onClick={toggleRatingVisibility}
-          >
-            {loading ? 'Loading...' : 'Rate Product'}
-          </button>
+          />
+
           <span className="ml-2 mt-2 flex items-center text-sm font-medium text-yellow-600">
             4.9 rating
           </span>

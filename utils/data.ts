@@ -98,6 +98,26 @@ export const data = {
       location: '/category/electronics-and-wearing'
     },
     {
+      name: 'Phones & Tablets',
+      value: 'phones-and-tablets',
+      icon: electronics,
+      sub_categories: [
+        { name: 'Cell Phones', description: '' },
+        { name: 'Cell Phone Accessories', description: '' },
+        { name: 'Cases, Holsters & Sleeves', description: '' },
+        { name: 'Cell Phone SIM Cards', description: '' },
+        { name: 'Mobile Broadband', description: '' },
+        { name: 'Tablet Accessories', description: '' },
+        { name: 'Tablet Replacement Parts', description: '' },
+        { name: 'Tablets', description: '' },
+      ],
+      id: 2,
+      location: '/category/phones-and-tablets'
+
+      
+    },
+
+    {
       name: 'Computers',
       value: 'computers',
       icon: computers,

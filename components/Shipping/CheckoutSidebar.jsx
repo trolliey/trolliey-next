@@ -63,6 +63,7 @@ function CheckoutSidebar({ total_amount, total_weight }) {
   const handlePaymentMethodClick = (item) => {
     setSelectedPaymentMethod(item.name)
   }
+  console.log(selectedPaymentMethod, 'selectedPaymentMethod')
 
   const handleInputChange = (e, field) => {
     const newPaymentDetails = { ...paymentDetails }
@@ -85,59 +86,125 @@ function CheckoutSidebar({ total_amount, total_weight }) {
     products: formattedCartItems,
   }
 
-  const handlePayment = async (id) => {
-    try {
-      setLoading(true)
-      const { data } = await axios.post(
-        `${apiUrl}/api/v2/orders/${id}/payments`,
-        paymentDetails,
-        {
-          headers: {
-            authorization: `${userInfo.token}`,
-          },
+  const pollUntilComplete = async (orderId, paymentsId) => {
+    console.log(orderId, paymentsId, 'polling')
+    return new Promise(async (resolve, reject) => {
+      const maxRetries = 3
+      let retries = 0
+
+      const poll = async () => {
+        try {
+          const { data } = await axios.get(
+            `${apiUrl}/api/v2/orders/${orderId}/payments/${paymentsId}`,
+            {
+              headers: {
+                authorization: userInfo.token,
+              },
+            }
+          )
+
+          if (data.data.payment.status === 'success') {
+            resolve(data)
+          } else if (
+            data.data.payment.status === 'failed' ||
+            retries >= maxRetries
+          ) {
+            reject(new Error('Payment Failed'))
+          } else {
+            setTimeout(poll, 10000)
+            retries++
+          }
+        } catch (error) {
+          reject(error)
         }
-      )
-      console.log(paymentDetails, 'paymentDetails')
-      console.log(data, 'hhhhhh')
-      dispatch({ type: 'SET_POLL_URL', payload: data.respose })
+      }
+
+      poll()
+    })
+  }
+
+  const handlePolling = async (orderId, paymentsId) => {
+    try {
+      const data = await pollUntilComplete(orderId, paymentsId)
+      console.log(data, 'data')
       toast({
-        title:
-          selectedCurrency === 'USD'
-            ? 'Order Created. Follow the link to complete purchase.'
-            : 'Order created. Check your phone to complete the payment',
+        title: 'Payment Successful',
         status: 'success',
         position: 'top-right',
         duration: 9000,
         isClosable: true,
       })
+      dispatch({ type: 'CLEAR_CART' })
+      history.push('/orders')
     } catch (error) {
-      setLoading(false)
-      console.log(getError(error))
-
-      if (getError(error).includes('Validation')) {
-        toast({
-          title: getError(error),
-          status: 'error',
-          position: 'top-right',
-          duration: 9000,
-          isClosable: true,
-        })
-      } else {
-        toast({
-          title: getError(error),
-          status: 'error',
-          position: 'top-right',
-          duration: 9000,
-          isClosable: true,
-        })
-      }
+      console.log(error)
+      toast({
+        title: 'Payment Failed',
+        status: 'error',
+        position: 'top-right',
+        duration: 9000,
+        isClosable: true,
+      })
     }
   }
 
-  const handleEcoCashPayment = async (id) => {
-    try {
-      setLoading(true)
-      const { data } = await axios.post(
+  const handlePayment = (id) => {
+    setLoading(true)
+
+    axios
+      .post(`${apiUrl}/api/v2/orders/${id}/payments`, paymentDetails, {
+        headers: {
+          authorization: `${userInfo.token}`,
+        },
+      })
+      .then(({ data }) => {
+        console.log(paymentDetails, 'paymentDetails')
+        console.log(data.data.payment._id, 'paymentId') // Log paymentId here
+        return { paymentId: data.data.payment._id, data }
+      })
+      .then(({ paymentId, data }) => {
+        handlePolling(id, paymentId)
+        dispatch({ type: 'SET_POLL_URL', payload: data.response })
+        toast({
+          title:
+            selectedCurrency === 'USD'
+              ? 'Order Created. Follow the link to complete purchase.'
+              : 'Order created. Check your phone to complete the payment',
+          status: 'success',
+          position: 'top-right',
+          duration: 9000,
+          isClosable: true,
+        })
+      })
+      .catch((error) => {
+        setLoading(false)
+        console.log(getError(error))
+
+        if (getError(error).includes('Validation')) {
+          toast({
+            title: getError(error),
+            status: 'error',
+            position: 'top-right',
+            duration: 9000,
+            isClosable: true,
+          })
+        } else {
+          toast({
+            title: getError(error),
+            status: 'error',
+            position: 'top-right',
+            duration: 9000,
+            isClosable: true,
+          })
+        }
+      })
+  }
+
+  const handleEcoCashPayment = (id) => {
+    setLoading(true)
+
+    axios
+      .post(
         `${apiUrl}/api/v2/orders/${id}/payments`,
         {
           currency: 'USD',
@@ -152,37 +219,45 @@ function CheckoutSidebar({ total_amount, total_weight }) {
           },
         }
       )
-      console.log(data, 'hhhhhh')
-      dispatch({ type: 'SET_POLL_URL', payload: data.respose })
-      toast({
-        title: 'Order Created. Check your phone to complete the payment',
-        status: 'success',
-        position: 'top-right',
-        duration: 9000,
-        isClosable: true,
+      .then(({ data }) => {
+        return data.data.payment._id
       })
-    } catch (error) {
-      setLoading(false)
-      console.log(getError(error))
+      .then((paymentId) => {
+        return handlePolling(id, paymentId)
+      })
+      .then(() => {
+        dispatch({ type: 'SET_POLL_URL', payload: data.response })
+        setLoading(false)
+        toast({
+          title: 'Order Created. Check your phone to complete the payment',
+          status: 'success',
+          position: 'top-right',
+          duration: 9000,
+          isClosable: true,
+        })
+      })
+      .catch((error) => {
+        setLoading(false)
+        console.log(getError(error))
 
-      if (getError(error).includes('Validation')) {
-        toast({
-          title: getError(error),
-          status: 'error',
-          position: 'top-right',
-          duration: 9000,
-          isClosable: true,
-        })
-      } else {
-        toast({
-          title: getError(error),
-          status: 'error',
-          position: 'top-right',
-          duration: 9000,
-          isClosable: true,
-        })
-      }
-    }
+        if (getError(error).includes('Validation')) {
+          toast({
+            title: getError(error),
+            status: 'error',
+            position: 'top-right',
+            duration: 9000,
+            isClosable: true,
+          })
+        } else {
+          toast({
+            title: getError(error),
+            status: 'error',
+            position: 'top-right',
+            duration: 9000,
+            isClosable: true,
+          })
+        }
+      })
   }
 
   console.log(formattedObject, 'cartItems')
@@ -195,13 +270,9 @@ function CheckoutSidebar({ total_amount, total_weight }) {
         {
           products: formattedCartItems,
           address: address,
-          // itemsPrice: total_amount,
-          // shippingPrice: 0,
-          // @ts-ignore
 
           name: full_name,
           province: city,
-          // collect_my_order: handle_order_type,
 
           phone: phonr_number,
           city: city,
@@ -213,8 +284,9 @@ function CheckoutSidebar({ total_amount, total_weight }) {
           },
         }
       )
+
       // window.location.assign(data.link)
-      console.log(data.data.order._id, 'hhhhhh')
+      console.log(selectedPaymentMethod, 'selectedPaymentMethod')
 
       if (selectedPaymentMethod === 'visa') {
         handlePayment(data.data.order._id)
@@ -223,12 +295,17 @@ function CheckoutSidebar({ total_amount, total_weight }) {
       } else if (selectedPaymentMethod === 'paypal') {
         window.location.assign(data.approval_url)
       }
+      setLoading(false)
       dispatch({ type: 'SET_POLL_URL', payload: data.respose })
       toast({
         title:
-          selectedCurrency === 'USD'
-            ? 'Order Created. Follow the link to complete purchase.'
-            : 'Order created. Check your phone to complete the payment',
+          selectedCurrency === 'USD' && handle_order_payment_method === 'paypal'
+            ? 'Order Created. Follow the link to complete purchase'
+            : handle_order_payment_method === 'ecocash'
+            ? 'Order created. Check your phone to complete the payment'
+            : handle_order_type === 'pay on delivery'
+            ? 'Order created. Your order will be delivered in 2-3 days'
+            : 'Payment waiting for approval',
         status: 'success',
         position: 'top-right',
         duration: 9000,
@@ -237,7 +314,7 @@ function CheckoutSidebar({ total_amount, total_weight }) {
     } catch (error) {
       setLoading(false)
       console.log(getError(error))
-      // if the response from getError(error) contains the word Validation, show a toast with message there are some missing values
+
       if (getError(error).includes('Validation')) {
         toast({
           title: getError(error),
@@ -350,81 +427,83 @@ function CheckoutSidebar({ total_amount, total_weight }) {
       </div>
 
       {/* REMOVED THIS BECAUSE IM NOW CHECKING PAYMENT METHOD FROM COOKIES */}
-      <p className="py-4  text-center text-white">Select Payment Method</p>
-      <div className="bg- flex flex-col space-y-2 rounded p-2">
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-3">
-          {data.payment_methods?.map((item, index) => (
-            <div
-              onClick={() => handlePaymentMethodClick(item)}
-              key={index}
-              className={`${
-                selectedPaymentMethod === item.name
-                  ? ' hover:bg-gray-secodary bg-gray-100 '
-                  : 'bg-white hover:bg-gray-100 '
-              } relative flex cursor-pointer content-center items-center justify-center rounded border-2 border-blue-light p-2 `}
-            >
-              {selectedPaymentMethod === item.name && (
-                <div className="absolute top-0 right-0 flex text-blue-primary">
-                  <CheckCircleIcon height={14} width={14} />
+      {handle_order_payment_method === 'pay online' && (
+        <>
+          <p className="py-4  text-center text-white">Select Payment Method</p>
+          <div className="bg- flex flex-col space-y-2 rounded p-2">
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-3">
+              {data.payment_methods?.map((item, index) => (
+                <div
+                  onClick={() => handlePaymentMethodClick(item)}
+                  key={index}
+                  className={`${
+                    selectedPaymentMethod === item.name
+                      ? ' hover:bg-gray-secodary bg-gray-100 '
+                      : 'bg-white hover:bg-gray-100 '
+                  } relative flex cursor-pointer content-center items-center justify-center rounded border-2 border-blue-light p-2 `}
+                >
+                  {selectedPaymentMethod === item.name && (
+                    <div className="absolute top-0 right-0 flex text-blue-primary">
+                      <CheckCircleIcon height={14} width={14} />
+                    </div>
+                  )}
+                  <div className="relative h-10 w-10">
+                    <Image src={item.icon} layout="fill" />
+                  </div>
+                </div>
+              ))}
+
+              {/* Render input fields based on the selected payment method */}
+              {selectedPaymentMethod === 'ecocash' && (
+                <div className="col-span-3">
+                  <input
+                    type="text"
+                    placeholder="Phone"
+                    value={paymentDetails.payment_details.phone}
+                    onChange={(e) => handleInputChange(e, 'phone')}
+                    className="col-span-2 w-full rounded border-none bg-blue-secondary p-2 text-sm text-blue-superlight placeholder-blue-superlight outline-none"
+                  />
                 </div>
               )}
-              <div className="relative h-10 w-10">
-                <Image src={item.icon} layout="fill" />
-              </div>
+
+              {selectedPaymentMethod === 'visa' && (
+                <div className="col-span-3">
+                  <input
+                    type="text"
+                    placeholder="Card Number"
+                    value={paymentDetails.payment_details.card_number}
+                    onChange={(e) => handleInputChange(e, 'card_number')}
+                    className="col-span-2 w-full rounded border-none bg-blue-secondary p-2 text-sm text-blue-superlight placeholder-blue-superlight outline-none"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Card Holder Name"
+                    value={paymentDetails.payment_details.card_holder}
+                    onChange={(e) => handleInputChange(e, 'card_holder')}
+                    className="col-span-2 my-2 w-full rounded border-none bg-blue-secondary p-2 text-sm text-blue-superlight placeholder-blue-superlight outline-none"
+                  />
+                  <div className="grid grid-cols-2 gap-4">
+                    <input
+                      type="text"
+                      placeholder="Expiry Date"
+                      value={paymentDetails.payment_details.card_expiry}
+                      onChange={(e) => handleInputChange(e, 'card_expiry')}
+                      className="col-span-1 w-full rounded border-none bg-blue-secondary p-2 text-sm text-blue-superlight placeholder-blue-superlight outline-none"
+                    />
+
+                    <input
+                      type="text"
+                      placeholder="CVV"
+                      value={paymentDetails.payment_details.cvv}
+                      onChange={(e) => handleInputChange(e, 'cvv')}
+                      className="col-span-1 w-full rounded border-none bg-blue-secondary p-2 text-sm text-blue-superlight placeholder-blue-superlight outline-none"
+                    />
+                  </div>
+                </div>
+              )}
             </div>
-          ))}
 
-          {/* Render input fields based on the selected payment method */}
-          {selectedPaymentMethod === 'ecocash' && (
-            <div className="col-span-3">
-              <input
-                type="text"
-                placeholder="Phone"
-                value={paymentDetails.payment_details.phone}
-                onChange={(e) => handleInputChange(e, 'phone')}
-                className="col-span-2 w-full rounded border-none bg-blue-secondary p-2 text-sm text-blue-superlight placeholder-blue-superlight outline-none"
-              />
-            </div>
-          )}
-
-          {selectedPaymentMethod === 'visa' && (
-            <div className="col-span-3">
-              <input
-                type="text"
-                placeholder="Card Number"
-                value={paymentDetails.payment_details.card_number}
-                onChange={(e) => handleInputChange(e, 'card_number')}
-                className="col-span-2 w-full rounded border-none bg-blue-secondary p-2 text-sm text-blue-superlight placeholder-blue-superlight outline-none"
-              />
-              <input
-                type="text"
-                placeholder="Card Holder Name"
-                value={paymentDetails.payment_details.card_holder}
-                onChange={(e) => handleInputChange(e, 'card_holder')}
-                className="col-span-2 my-2 w-full rounded border-none bg-blue-secondary p-2 text-sm text-blue-superlight placeholder-blue-superlight outline-none"
-              />
-              <div className="grid grid-cols-2 gap-4">
-                <input
-                  type="text"
-                  placeholder="Expiry Date"
-                  value={paymentDetails.payment_details.card_expiry}
-                  onChange={(e) => handleInputChange(e, 'card_expiry')}
-                  className="col-span-1 w-full rounded border-none bg-blue-secondary p-2 text-sm text-blue-superlight placeholder-blue-superlight outline-none"
-                />
-
-                <input
-                  type="text"
-                  placeholder="CVV"
-                  value={paymentDetails.payment_details.cvv}
-                  onChange={(e) => handleInputChange(e, 'cvv')}
-                  className="col-span-1 w-full rounded border-none bg-blue-secondary p-2 text-sm text-blue-superlight placeholder-blue-superlight outline-none"
-                />
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* <div className="grid grid-cols-4 gap-4  ">
+            {/* <div className="grid grid-cols-4 gap-4  ">
           {handle_order_type === 'bring_to_doorstep' && (
             <div
               onClick={() =>
@@ -466,7 +545,9 @@ function CheckoutSidebar({ total_amount, total_weight }) {
             </div>
           )}
         </div> */}
-      </div>
+          </div>
+        </>
+      )}
 
       <div className="my-8 space-y-2 border-t border-blue-light pt-8">
         <div className="flex flex-row items-center justify-between text-sm text-white">
@@ -486,18 +567,7 @@ function CheckoutSidebar({ total_amount, total_weight }) {
             )}
           </span>
         </div>
-        <div className="flex flex-row items-center justify-between pb-8 text-sm text-white">
-          <p>Total (Tax incl.)</p>
-          <span className="font-semibold">
-            {handle_order_type === 'collect_my_order' ? (
-              <Amount amount={0.47 + total_amount} />
-            ) : (
-              <Amount
-                amount={0.47 + total_amount + renderWeight(total_weight)}
-              />
-            )}
-          </span>
-        </div>
+
         <div
           onClick={handle_payment}
           className="flex cursor-pointer flex-row items-center justify-between rounded-lg bg-green-500 py-2 px-4 text-white hover:bg-green-600 "
