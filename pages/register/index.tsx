@@ -17,7 +17,7 @@ function Register() {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [confirm_password, setConfirmPassword] = useState<string>('')
-  const [show_confirm_password, setShowConfirmPassword] = useState<boolean>('')
+  const [show_confirm_password, setShowConfirmPassword] = useState<boolean>()
   const [role, setRole] = useState<string>('')
   const [show_password, setShowPassword] = useState<boolean>(false)
   const [agreed, setAgreed] = useState<any>(false)
