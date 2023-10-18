@@ -16,6 +16,9 @@ function Register() {
   const [username, setUsername] = useState<string>('')
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
+  const [confirm_password, setConfirmPassword] = useState<string>('')
+  const [show_confirm_password, setShowConfirmPassword] = useState<boolean>()
+  const [role, setRole] = useState<string>('')
   const [show_password, setShowPassword] = useState<boolean>(false)
   const [agreed, setAgreed] = useState<any>(false)
   const [loading, setLoading] = useState<boolean>(false)
@@ -214,6 +217,112 @@ function Register() {
                   </div>
                 </div>
               </div>
+              <div>
+                <label
+                  htmlFor="confirm-password"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Confirm Password
+                </label>
+                <div className="mt-1">
+                  <div className="flex flex-row items-center rounded-md border border-gray-300 px-3 shadow-sm ">
+                    <input
+                      id="confirm-password"
+                      name="confirm-password"
+                      type={show_confirm_password ? 'text' : 'password'}
+                      value={confirm_password}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      required
+                      className="block w-full appearance-none py-2  placeholder-gray-400 focus:outline-none sm:text-sm"
+                    />
+                    {show_confirm_password ? (
+                      <div onClick={() => setShowConfirmPassword(false)}>
+                        <EyeOffIcon
+                          height={20}
+                          width={20}
+                          className="text-gray-400"
+                        />
+                      </div>
+                    ) : (
+                      <div
+                        onClick={() => setShowConfirmPassword(true)}
+                        className="cursor-pointer"
+                      >
+                        <EyeIcon
+                          height={20}
+                          width={20}
+                          className="text-gray-400"
+                        />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+              {/* <div>
+                <label
+                  htmlFor="role"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Role
+                </label>
+                <div className="mt-1">
+                  <select
+                    id="role"
+                    name="role"
+                    value={role}
+                    onChange={(e) => setRole(e.target.value)}
+                    required
+                    className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:outline-none  sm:text-sm"
+                  >
+                    <option value="user">Buyer</option>
+                    <option value="admin">Seller</option>
+                  </select>
+                </div>
+              </div> */}
+
+              {/* {role === 'seller' && (
+                <>
+                  <div>
+                    <label
+                      htmlFor="store_name"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Store Name
+                    </label>
+                    <div className="mt-1">
+                      <input
+                        id="store_name"
+                        name="store_name"
+                        value={store_name}
+                        onChange={(e) => setStoreName(e.target.value)}
+                        type="text"
+                        required
+                        className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:outline-none  sm:text-sm"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="card_number"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Card Number
+                    </label>
+                    <div className="mt-1">
+                      <input
+                        id="card_number"
+                        name="card_number"
+                        value={card_number}
+                        onChange={(e) => setCardNumber(e.target.value)}
+                        type="text"
+                        required
+                        className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:outline-none  sm:text-sm"
+                      />
+                    </div>
+                  </div>
+                 
+                </>
+              )} */}
 
               <div className="flex items-center justify-between">
                 <div className="flex items-center">

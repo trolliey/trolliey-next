@@ -13,7 +13,7 @@ function Orders() {
   const { state } = useContext(Store)
   const { userInfo } = state
 
-  const url = `${apiUrl}/api/order/store`
+  const url = `${apiUrl}/api/v2/orders`
   const orders = useAuthFetch(url, userInfo?.token)
 
   const [filter, setFilter] = useState('') // Default filter is 'daily'

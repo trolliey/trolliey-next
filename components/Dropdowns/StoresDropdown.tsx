@@ -133,24 +133,6 @@ function StoresDropdown({ id, verified }: Props) {
     ))
   }
 
-  const verify_store = () => {
-    onOpen()
-    setModalBody(
-      'Are you sure you want to verify the store and give it a blue tick?'
-    )
-    setModalHeading('Verify Store')
-    setModalButton(() => (
-      <Button
-        onClick={handle_verify_store}
-        variant="solid"
-        isLoading={loading}
-        colorScheme={'blue'}
-      >
-        Verify Store
-      </Button>
-    ))
-  }
-
   const block_store = () => {
     onOpen()
     setModalBody('Are you sure you want to block the store?')
@@ -262,7 +244,7 @@ function StoresDropdown({ id, verified }: Props) {
                   onClick={approve_store}
                   className={classNames(
                     active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm cursor-pointer'
+                    'block cursor-pointer px-4 py-2 text-sm'
                   )}
                 >
                   Approve Store
@@ -271,19 +253,6 @@ function StoresDropdown({ id, verified }: Props) {
             </Menu.Item>
           </div>
           <div className="py-1">
-            <Menu.Item>
-              {({ active }) => (
-                <div
-                  onClick={verify_store}
-                  className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block cursor-pointer px-4 py-2 text-sm'
-                  )}
-                >
-                  {verified ? 'Un-Verify Store' : 'Verify Store'}
-                </div>
-              )}
-            </Menu.Item>
             <Menu.Item>
               {({ active }) => (
                 <div
@@ -353,7 +322,7 @@ const StoreModal = ({
         <ModalContent>
           <ModalHeader>{heading}</ModalHeader>
           <ModalCloseButton />
-          <ModalBody className='text-center'>{body_text}</ModalBody>
+          <ModalBody className="text-center">{body_text}</ModalBody>
 
           <ModalFooter>
             <Button variant={'ghost'} mr={3} onClick={onClose}>
