@@ -26,14 +26,14 @@ const connection = {}
 const connect = async () => mongoose.connect(process.env.DATABASE_URI)
 
 async function disconnect() {
-  if (connection.isConnected) {
-    if (process.env.NODE_ENV === 'production') {
-      await mongoose.disconnect()
-      connection.isConnected = false
-    } else {
-      console.log('not disconnected')
-    }
-  }
+  // if (connection.isConnected) {
+  //   if (process.env.NODE_ENV === 'production') {
+  //     await mongoose.disconnect()
+  //     connection.isConnected = false
+  //   } else {
+  //     console.log('not disconnected')
+  //   }
+  // }
 }
 function convertDocToObj(doc) {
   if (doc) {
