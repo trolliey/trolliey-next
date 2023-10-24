@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import AdminDashboard from '../../../layouts/AdminDashboard'
 import Orders from '../../../models/Order'
 import { connect, disconnect } from '../../../utils/mongo'
@@ -7,18 +7,39 @@ import OrdersDropdown from '../../../components/Dropdowns/OrdersDropdown'
 import { Button, Text } from '@chakra-ui/react'
 import { Store } from '../../../Context/Store'
 import OrderForm from './OrderForm'
+import axios from 'axios'
+import { apiUrl } from '../../../utils/apiUrl'
 
 function ManageOrders(props: any) {
-  const { orders } = props
+  // const { orders } = props
   const { state } = useContext(Store)
   const { userInfo } = state
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [order, setOrder] = useState({})
+  const [orders, setOrders] = useState([])
 
   const handleSubmit = (newOrder: any) => {
     // Handle the submission of the order here
     console.log('Submitted order:', newOrder)
   }
+
+  const getOrders = async () => {
+    axios
+      .get(`${apiUrl}/api/v2/orders`, {
+        headers: {
+          Authorization: `${userInfo?.token}`,
+        },
+      })
+
+      .then((res) => {
+        console.log(res.data, 'uuuuuuu')
+        setOrders(res.data?.data?.orders)
+      })
+  }
+
+  useEffect(() => {
+    getOrders()
+  }, [])
 
   return (
     <AdminDashboard>
@@ -40,7 +61,7 @@ function ManageOrders(props: any) {
               <th className="py-2 px-3">Status</th>
               <th className="hidden py-2 px-3 md:table-cell">Ordered by</th>
               <th className="hidden py-2 px-3 md:table-cell">Address</th>
-              <th className="hidden py-2 px-3 md:table-cell">Weight</th>
+              <th className="hidden py-2 px-3 md:table-cell">Payment Status</th>
               <th className="hidden py-2 px-3 md:table-cell">Phone Number</th>
               <th className="py-2 px-3">Time Ordered</th>
               <th className="py-2 px-3">Action</th>
@@ -49,7 +70,7 @@ function ManageOrders(props: any) {
           <tbody>
             {orders?.map((order: any, index: number) => (
               <tr key={index} className="border-b text-sm">
-                <td className="truncate py-3 px-3">{order._id}</td>
+                <td className="truncate py-3 px-3">{order?.number}</td>
                 <td className="py-3 px-3">
                   {order.status === 'delivered' ? (
                     <span className="rounded-full bg-green-600 py-1 px-2 text-xs text-white">
@@ -76,7 +97,7 @@ function ManageOrders(props: any) {
                   {order?.address}
                 </td>
                 <td className="hidden py-3 px-3 md:table-cell">
-                  {order?.weight ? order.weight : 'Not Specified'}
+                  {order?.payment?.status}
                 </td>
                 <td className="hidden py-3 px-3 md:table-cell">
                   {order?.contact_phone_number}

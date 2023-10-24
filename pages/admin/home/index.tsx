@@ -42,6 +42,12 @@ const home_links = [
     icon: <ShoppingCartIcon height={28} width={28} className="text-gray-700" />,
     location: '/admin/stores',
   },
+  {
+    heading: 'Shipping Methods',
+    description: 'Manage shipping methods and their rates',
+    icon: <ShoppingCartIcon height={28} width={28} className="text-gray-700" />,
+    location: '/admin/shipping-methods',
+  },
 ]
 
 function AdminHome() {

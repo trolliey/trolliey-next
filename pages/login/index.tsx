@@ -38,7 +38,7 @@ function login() {
   const login_user_handler = async () => {
     setLoading(true)
     try {
-      const { data } = await axios.post(`${apiUrl}/api/auth/login`, {
+      const { data } = await axios.post(`${apiUrl}/api/v2/login`, {
         email,
         password,
       })
@@ -69,7 +69,7 @@ function login() {
     }
   }
 
-  const login_With_Google  = async () => {
+  const login_With_Google = async () => {
     try {
       setLoading(true)
       const res = await signInWithPopup(auth, googleProvider)
@@ -116,13 +116,12 @@ function login() {
 
         <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-md">
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-
-              <GoogleAuthButton onClick={login_With_Google} loading={loading} />
-          <div className="flex w-full flex-row items-center space-x-4 py-4">
-                <Divider />
-                <p>Or</p>
-                <Divider />
-              </div>
+            <GoogleAuthButton onClick={login_With_Google} loading={loading} />
+            <div className="flex w-full flex-row items-center space-x-4 py-4">
+              <Divider />
+              <p>Or</p>
+              <Divider />
+            </div>
 
             <div className="space-y-6">
               <div>
@@ -222,7 +221,7 @@ function login() {
                   loading={loading}
                 />
               </div>
-              
+
               <p
                 onClick={() => history.push('/register')}
                 className="my-4 cursor-pointer text-center text-sm font-semibold text-gray-500 hover:text-gray-700"
