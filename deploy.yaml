@@ -1,0 +1,21 @@
+name: Deploy to Linode
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Deploy to Linode
+        run: |
+          ssh ryan@trolliey.flixtechs.co.zw 'bash -s' < deploy.sh
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        shell: bash

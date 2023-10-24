@@ -13,7 +13,7 @@ import { CheckCircleIcon } from '@heroicons/react/solid'
 import axios from 'axios'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Store } from '../../Context/Store'
 import { data } from '../../utils/data'
 import { getError } from '../../utils/error'
@@ -43,6 +43,8 @@ function CheckoutSidebar({ total_amount, total_weight }) {
   const [heading, setheading] = useState('')
   const [action_button, setActionButton] = useState('')
   const [body, setBody] = useState('')
+  const [shipingMethods, setShipingMethods] = useState([])
+  const [email, setEmail] = useState('')
   const toast = useToast()
   const selectedCurrency = Cookies.get('trolliey_currency') || 'USD'
 
@@ -59,6 +61,25 @@ function CheckoutSidebar({ total_amount, total_weight }) {
   })
 
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('')
+
+  const getShippingMethods = () => {
+    axios
+      .get(`${apiUrl}/api/v2/shipping`, {
+        headers: {
+          authorization: `${userInfo.token}`,
+        },
+      })
+      .then(({ data }) => {
+        console.log(data, 'shipping methods')
+        setShipingMethods(data?.data?.shipping_methods)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+  useEffect(() => {
+    getShippingMethods()
+  }, [])
 
   const handlePaymentMethodClick = (item) => {
     setSelectedPaymentMethod(item.name)
@@ -89,7 +110,7 @@ function CheckoutSidebar({ total_amount, total_weight }) {
   const pollUntilComplete = async (orderId, paymentsId) => {
     console.log(orderId, paymentsId, 'polling')
     return new Promise(async (resolve, reject) => {
-      const maxRetries = 3
+      const maxRetries = 5
       let retries = 0
 
       const poll = async () => {
@@ -163,7 +184,11 @@ function CheckoutSidebar({ total_amount, total_weight }) {
         return { paymentId: data.data.payment._id, data }
       })
       .then(({ paymentId, data }) => {
-        handlePolling(id, paymentId)
+        // Delay the polling by 30 seconds
+        setTimeout(() => {
+          handlePolling(id, paymentId)
+        }, 30000)
+
         dispatch({ type: 'SET_POLL_URL', payload: data.response })
         toast({
           title:
@@ -260,8 +285,6 @@ function CheckoutSidebar({ total_amount, total_weight }) {
       })
   }
 
-  console.log(formattedObject, 'cartItems')
-
   const handle_payment = async () => {
     try {
       setLoading(true)
@@ -270,10 +293,11 @@ function CheckoutSidebar({ total_amount, total_weight }) {
         {
           products: formattedCartItems,
           address: address,
-
+          shipping: '653704e403f970cdc440242e',
+          email: email,
           name: full_name,
           province: city,
-
+          method_of_payment: handle_order_type,
           phone: phonr_number,
           city: city,
           country: 'Zimbabwe',
@@ -371,6 +395,13 @@ function CheckoutSidebar({ total_amount, total_weight }) {
           placeholder="Phone number"
           value={phonr_number}
           onChange={(e) => setPhoneNumber(e.target.value)}
+          className="col-span-2 w-full rounded border-none bg-blue-secondary p-2 text-sm text-blue-superlight placeholder-blue-superlight outline-none"
+        />
+        <input
+          type="email"
+          placeholder="email@example.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           className="col-span-2 w-full rounded border-none bg-blue-secondary p-2 text-sm text-blue-superlight placeholder-blue-superlight outline-none"
         />
       </div>
