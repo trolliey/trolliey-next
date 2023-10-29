@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import GeneralLayout from '../../../layouts/GeneralLayout'
 import { Tab } from '@headlessui/react'
 import { ShoppingCartIcon, InformationCircleIcon } from '@heroicons/react/solid'
@@ -46,6 +46,24 @@ function ProductDescription(props: any) {
   // for toast
   const toast = useToast()
 
+  const fetch_product = async () => {
+    try {
+      setLoading(true)
+      const { data } = await axios.get(
+        `${apiUrl}/api/products/single/${props.data.product._id}`
+      )
+      dispatch({ type: 'FETCH_PRODUCT', payload: data })
+      console.log(data, 'data')
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+      console.log(error)
+    }
+  }
+  useEffect(() => {
+    fetch_product()
+  }, [])
+
   const add_to_basket = async () => {
     toggle_cart()
     try {
@@ -69,34 +87,7 @@ function ProductDescription(props: any) {
     }
   }
 
-  const buy_item_now = async () => {
-    try {
-      setLoading(true)
-      const { data } = await axios.get(
-        `/api/products/${props.data.product._id}`
-      )
-      if (data?.countInStock <= 0) {
-        alert('Sorry. Product our of stock')
-        return
-      }
-      dispatch({
-        type: 'ADD_TO_CART',
-        payload: { ...props.data.product, quantity: 1 },
-      })
-      setLoading(false)
-      toast({
-        title: `${props.data.product.title} added to cart.`,
-        position: 'top-right',
-        status: 'success',
-        duration: 9000,
-        isClosable: true,
-      })
-      history.push('/shipping')
-    } catch (error) {
-      setLoading(false)
-      console.log(error)
-    }
-  }
+  console.log(props.data.product)
 
   if (!props.data.product) {
     return (
