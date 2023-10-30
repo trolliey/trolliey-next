@@ -5,6 +5,7 @@ import {
   ClipboardListIcon,
   DatabaseIcon,
   ShoppingCartIcon,
+  CurrencyDollarIcon,
 } from '@heroicons/react/outline'
 import { useRouter } from 'next/router'
 
@@ -47,6 +48,14 @@ const home_links = [
     description: 'Manage shipping methods and their rates',
     icon: <ShoppingCartIcon height={28} width={28} className="text-gray-700" />,
     location: '/admin/shipping-methods',
+  },
+  {
+    heading: 'Rate',
+    description: 'Manage exchange rates',
+    icon: (
+      <CurrencyDollarIcon height={28} width={28} className="text-gray-700" />
+    ),
+    location: '/admin/rates',
   },
 ]
 
