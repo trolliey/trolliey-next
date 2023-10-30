@@ -145,11 +145,12 @@ function GeneralNavbar({
           <Link href={'/'}>
             <a className="flex cursor-pointer flex-row items-center text-sm font-bold uppercase text-gray-700">
               <Image
-                height={300}
+                height={80}
+                width={80}
                 objectFit="contain"
                 src={logo}
-                alt="logo representing the website icon"
-                className="h-8"
+                alt="logo representing the website icon mobile"
+                className="max-h-auto min-h-auto h-8"
               />
             </a>
           </Link>

@@ -20,6 +20,7 @@ import { apiUrl } from '../../utils/apiUrl'
 import MakeSpecialModal from '../Modals/MakeSpecialModal'
 import { getError } from '../../utils/error'
 import CouponModal from '../Modals/CouponModal'
+import OrderForm from '../../pages/admin/orders/OrderForm'
 
 interface Props {
   products?: any
@@ -45,6 +46,15 @@ export default function AdminProductsTable({
   const [product_id, setProductId] = useState('')
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+  const [address, setAddress] = useState('')
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [email, setEmail] = useState('')
+  const [full_name, setFullName] = useState('')
+  const [phone_number, setPhoneNumber] = useState('')
+  const [province, setProvince] = useState('')
+  const [city, setCity] = useState('')
+  const [order, setOrder] = useState('')
+
   const toast = useToast()
 
   // user info from cookies
@@ -125,6 +135,65 @@ export default function AdminProductsTable({
         isClosable: true,
       })
       console.log(getError(error))
+    }
+  }
+
+  const handle_payment = async (product: any) => {
+    try {
+      setLoading(true)
+      const { data } = await axios.post(
+        `${apiUrl}/api/v2/orders`,
+        {
+          products: [order],
+          address: address,
+          shipping: '653704e403f970cdc440242e',
+          email: email,
+          name: full_name,
+          province: city,
+          method_of_payment: 'pay on collection',
+          phone: phone_number,
+          city: city,
+          country: 'Zimbabwe',
+        },
+        {
+          headers: {
+            authorization: `${userInfo.token}`,
+          },
+        }
+      )
+
+      setLoading(false)
+
+      toast({
+        title: 'Order created successfully ',
+        status: 'success',
+        position: 'top-right',
+        duration: 9000,
+        isClosable: true,
+      })
+    } catch (error) {
+      setLoading(false)
+      console.log(getError(error))
+
+      if (getError(error).includes('Validation')) {
+        toast({
+          title: getError(error),
+          status: 'error',
+          position: 'top-right',
+          duration: 9000,
+          isClosable: true,
+        })
+      } else {
+        toast({
+          title: getError(error),
+          status: 'error',
+          position: 'top-right',
+          duration: 9000,
+          isClosable: true,
+        })
+      }
+
+      return
     }
   }
 
@@ -258,6 +327,15 @@ export default function AdminProductsTable({
                                 >
                                   View Product
                                 </MenuItem>
+                                <MenuItem
+                                  onClick={() => {
+                                    setIsModalOpen(true)
+                                    setOrder(product)
+                                  }}
+                                >
+                                  Buy Product
+                                </MenuItem>
+                                <MenuDivider />
                                 <MenuItem>
                                   <MakeSpecialModal
                                     product_id={product?._id}
@@ -293,6 +371,12 @@ export default function AdminProductsTable({
                 </>
               </tbody>
             </table>
+            <OrderForm
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+              onSubmit={handle_payment}
+              order={order}
+            />
 
             <DeleteModal
               isOpen={isOpen}
