@@ -46,13 +46,13 @@ function ManageOrders(props: any) {
       <p className="my-8 text-center text-lg font-semibold text-gray-800">
         Manage all orders from here!
       </p>
-      <Button onClick={() => setIsModalOpen(true)}>Open Order Form</Button>
+      {/* <Button onClick={() => setIsModalOpen(true)}>Open Order Form</Button>
       <OrderForm
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onSubmit={handleSubmit}
         order={order}
-      />
+      /> */}
       <div className="min-h-screen overflow-x-auto">
         <table className="w-full table-auto border-collapse">
           <thead>

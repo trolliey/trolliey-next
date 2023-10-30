@@ -38,7 +38,7 @@ function Register() {
       setLoading(true)
       const res = await signInWithPopup(auth, googleProvider)
       const user = res.user
-      const { data } = await axios.post(`${apiUrl}/api/v2/register`, {
+      const { data } = await axios.post(`${apiUrl}/api/auth/register`, {
         email: user.email,
         agreed: agreed,
         role: 'user',
@@ -75,7 +75,7 @@ function Register() {
     setLoading(true)
     e.preventDefault()
     try {
-      const { data } = await axios.post(`${apiUrl}/api/auth/register`, {
+      const { data } = await axios.post(`${apiUrl}/api/v2/register`, {
         email,
         password,
         username: username,

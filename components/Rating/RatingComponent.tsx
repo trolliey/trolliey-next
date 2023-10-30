@@ -57,6 +57,8 @@ function RatingComponent({ ratings, id }: Props): ReactElement {
           isClosable: true,
           position: 'top-right',
         })
+        setReview('')
+        setStarsNum(0)
         console.log(res.data)
       })
       .catch((err) => {
@@ -116,7 +118,7 @@ function RatingComponent({ ratings, id }: Props): ReactElement {
           />
         </>
       ) : (
-        <div className="star-rating gap-2">
+        <div className="star-rating flex justify-between gap-2">
           <BlueButton
             loading={loading}
             text={
@@ -129,9 +131,15 @@ function RatingComponent({ ratings, id }: Props): ReactElement {
             onClick={toggleRatingVisibility}
           />
 
-          <span className="ml-2 mt-2 flex items-center text-sm font-medium text-yellow-600">
-            4.9 rating
-          </span>
+          <p className="ml-2 mt-2 flex items-center text-sm font-medium text-yellow-600">
+            {rating === 0 ? (
+              <span className="text-gray-300">No ratings available</span>
+            ) : (
+              <span>
+                {rating} {rating === 1 ? 'Rating' : 'Ratings'}
+              </span>
+            )}
+          </p>
         </div>
       )}
     </div>

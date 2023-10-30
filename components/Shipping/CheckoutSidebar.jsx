@@ -329,12 +329,13 @@ function CheckoutSidebar({ total_amount, total_weight }) {
             ? 'Order created. Check your phone to complete the payment'
             : handle_order_type === 'pay on delivery'
             ? 'Order created. Your order will be delivered in 2-3 days'
-            : 'Payment waiting for approval',
+            : 'Order created successfully you can come and collect it at our pickup point. ',
         status: 'success',
         position: 'top-right',
         duration: 9000,
         isClosable: true,
       })
+      history.push('/checkout/success', { data: data.data })
     } catch (error) {
       setLoading(false)
       console.log(getError(error))
@@ -605,11 +606,9 @@ function CheckoutSidebar({ total_amount, total_weight }) {
         >
           <span className="font-semibold">
             {handle_order_type === 'collect_my_order' ? (
-              <Amount amount={0.47 + total_amount} />
+              <Amount amount={total_amount} />
             ) : (
-              <Amount
-                amount={0.47 + total_amount + renderWeight(total_weight)}
-              />
+              <Amount amount={total_amount + renderWeight(total_weight)} />
             )}
           </span>
           <div className="flex flex-row items-center space-x-2">

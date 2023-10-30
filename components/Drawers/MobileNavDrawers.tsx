@@ -153,17 +153,15 @@ function MobileNavDrawers({ user }: Props): ReactElement {
                     {data?.categories.map((category, index) => (
                       <div
                         key={index}
+                        onClick={() => {
+                          setShowSubCategories(true)
+                          // search_using_category(category.name)
+                          setSelectedCategoryName(category.name)
+                          setShowCotegory(false)
+                        }}
                         className="flex cursor-pointer flex-row items-center justify-between gap-2 py-2 px-4 text-sm hover:bg-gray-100"
                       >
-                        <div
-                          onClick={() => {
-                            setShowSubCategories(true)
-                            // search_using_category(category.name)
-                            setSelectedCategoryName(category.name)
-                            setShowCotegory(false)
-                          }}
-                          className="flex flex-row items-center"
-                        >
+                        <div className="flex flex-row items-center">
                           <div className="relative mr-2    h-6 w-6">
                             <Image
                               src={category.icon}
@@ -215,14 +213,12 @@ function MobileNavDrawers({ user }: Props): ReactElement {
                       (category: any, index: number) => (
                         <div
                           key={index}
+                          onClick={() => {
+                            search_using_category(category.name)
+                          }}
                           className="flex cursor-pointer flex-row items-center justify-between gap-2 py-2 px-4 text-sm hover:bg-gray-100"
                         >
-                          <div
-                            onClick={() => {
-                              search_using_category(category.name)
-                            }}
-                            className="flex flex-row items-center"
-                          >
+                          <div className="flex flex-row items-center">
                             <p className="py-2 capitalize">{category.name}</p>
                           </div>
                           <ChevronRightIcon
@@ -283,7 +279,11 @@ function MobileNavDrawers({ user }: Props): ReactElement {
                   {/* // for help */}
                   <Divider />
                   <div
-                    onClick={() => history.push(userInfo ? '/orders' : '/login?redirect=/orders')}
+                    onClick={() =>
+                      history.push(
+                        userInfo ? '/orders' : '/login?redirect=/orders'
+                      )
+                    }
                     className="flex flex-row items-center justify-between bg-white py-4 px-4 text-sm font-semibold capitalize text-gray-700"
                   >
                     <p>My Orders</p>
@@ -320,7 +320,11 @@ function MobileNavDrawers({ user }: Props): ReactElement {
                   </div>
                   <Divider />
                   <div
-                    onClick={() => history.push(userInfo ? '/profile' : '/login?redirect=/profile')}
+                    onClick={() =>
+                      history.push(
+                        userInfo ? '/profile' : '/login?redirect=/profile'
+                      )
+                    }
                     className="mb-2 flex flex-row items-center justify-between bg-white py-4 px-4 text-sm font-semibold capitalize text-gray-700"
                   >
                     <p>Settings</p>
