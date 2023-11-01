@@ -9,7 +9,11 @@ interface Props {
   currency_type?: any
 }
 
-export  const convertAmounts = (value: number, currency:string, currency_type:string) => {
+export const convertAmounts = (
+  value: number,
+  currency: string,
+  currency_type: string
+) => {
   if (currency === 'USD') {
     const money =
       currency_type === 'USD' ? value / data.current_rate.value : value
@@ -48,7 +52,9 @@ function Amount({ amount, className, currency_type }: Props) {
     <>
       {currency_type ? (
         <div className={`${className} flex flex-row items-center`}>
-          {anotherCurrencyFormatter(convertAmounts(amount, currency, currency_type))}
+          {anotherCurrencyFormatter(
+            convertAmounts(amount, currency, currency_type)
+          )}
         </div>
       ) : (
         <div className={`${className} flex flex-row items-center`}>

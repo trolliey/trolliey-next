@@ -593,7 +593,7 @@ function CheckoutSidebar({ total_amount, total_weight }) {
           <p>Shipping</p>
           <span className="font-semibold">
             {handle_order_type === 'collect_my_order' ? (
-              <Amount amount={0} />
+              <Amount amount={total_amount} />
             ) : (
               <Amount amount={renderWeight(total_weight)} />
             )}
