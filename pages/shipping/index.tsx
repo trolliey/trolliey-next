@@ -49,12 +49,16 @@ const Shipping = (props: Props) => {
     )
   }, [cart?.cartItems])
 
+  console.log(cart?.cartItems)
+
   useEffect(() => {
     setTotalAmount(
       cart?.cartItems?.reduce(
         (a: any, c: any) =>
-          parseFloat(a) + parseFloat(c.quantity) * parseFloat(c.price),
-        0
+          parseFloat(a) +
+          parseFloat(c.quantity) *
+            (parseFloat(c.price) - parseFloat(c.discount_price)),
+        0 // Start with 0 instead of '0' as the initial value
       )
     )
   }, [cart?.cartItems])
@@ -97,7 +101,10 @@ const Shipping = (props: Props) => {
                 </p>
               </div>
               <p className="text-sm font-semibold text-gray-800 ">
-                <Amount amount={total_amount} />
+                <Amount
+                  // currency_type={cart?.cartItems[0]?.currency_type}
+                  amount={total_amount}
+                />
               </p>
             </div>
 
@@ -113,7 +120,7 @@ const Shipping = (props: Props) => {
                   name={item.title}
                   description={item.description}
                   quantity={item.quantity}
-                  price={item.price}
+                  price={item.price - item.discount_price}
                   onRemove={() => remove_from_cart(item)}
                   descrease_amount_Handler={() =>
                     updateCartHandler(item, item.quantity - 1)
@@ -205,7 +212,7 @@ const OrderItem = ({
         </span>
       </div>
       <div className="flex px-4">
-        <p className="font-bold text-gray-800">$ {price}</p>
+        <Amount amount={price} />
       </div>
       <span
         onClick={onRemove}

@@ -499,38 +499,43 @@ function CheckoutSidebar({ total_amount, total_weight }) {
               )}
 
               {selectedPaymentMethod === 'visa' && (
-                <div className="col-span-3">
-                  <input
-                    type="text"
-                    placeholder="Card Number"
-                    value={paymentDetails.payment_details.card_number}
-                    onChange={(e) => handleInputChange(e, 'card_number')}
-                    className="col-span-2 w-full rounded border-none bg-blue-secondary p-2 text-sm text-blue-superlight placeholder-blue-superlight outline-none"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Card Holder Name"
-                    value={paymentDetails.payment_details.card_holder}
-                    onChange={(e) => handleInputChange(e, 'card_holder')}
-                    className="col-span-2 my-2 w-full rounded border-none bg-blue-secondary p-2 text-sm text-blue-superlight placeholder-blue-superlight outline-none"
-                  />
-                  <div className="grid grid-cols-2 gap-4">
-                    <input
-                      type="text"
-                      placeholder="Expiry Date"
-                      value={paymentDetails.payment_details.card_expiry}
-                      onChange={(e) => handleInputChange(e, 'card_expiry')}
-                      className="col-span-1 w-full rounded border-none bg-blue-secondary p-2 text-sm text-blue-superlight placeholder-blue-superlight outline-none"
-                    />
+                // <div className="col-span-3">
+                //   <input
+                //     type="text"
+                //     placeholder="Card Number"
+                //     value={paymentDetails.payment_details.card_number}
+                //     onChange={(e) => handleInputChange(e, 'card_number')}
+                //     className="col-span-2 w-full rounded border-none bg-blue-secondary p-2 text-sm text-blue-superlight placeholder-blue-superlight outline-none"
+                //   />
+                //   <input
+                //     type="text"
+                //     placeholder="Card Holder Name"
+                //     value={paymentDetails.payment_details.card_holder}
+                //     onChange={(e) => handleInputChange(e, 'card_holder')}
+                //     className="col-span-2 my-2 w-full rounded border-none bg-blue-secondary p-2 text-sm text-blue-superlight placeholder-blue-superlight outline-none"
+                //   />
+                //   <div className="grid grid-cols-2 gap-4">
+                //     <input
+                //       type="text"
+                //       placeholder="Expiry Date"
+                //       value={paymentDetails.payment_details.card_expiry}
+                //       onChange={(e) => handleInputChange(e, 'card_expiry')}
+                //       className="col-span-1 w-full rounded border-none bg-blue-secondary p-2 text-sm text-blue-superlight placeholder-blue-superlight outline-none"
+                //     />
 
-                    <input
-                      type="text"
-                      placeholder="CVV"
-                      value={paymentDetails.payment_details.cvv}
-                      onChange={(e) => handleInputChange(e, 'cvv')}
-                      className="col-span-1 w-full rounded border-none bg-blue-secondary p-2 text-sm text-blue-superlight placeholder-blue-superlight outline-none"
-                    />
-                  </div>
+                //     <input
+                //       type="text"
+                //       placeholder="CVV"
+                //       value={paymentDetails.payment_details.cvv}
+                //       onChange={(e) => handleInputChange(e, 'cvv')}
+                //       className="col-span-1 w-full rounded border-none bg-blue-secondary p-2 text-sm text-blue-superlight placeholder-blue-superlight outline-none"
+                //     />
+                //   </div>
+                // </div>
+                <div className="col-span-3">
+                  <h1 className="text-center text-white">
+                    Visa Payments are Coming Soon
+                  </h1>
                 </div>
               )}
             </div>
@@ -593,7 +598,7 @@ function CheckoutSidebar({ total_amount, total_weight }) {
           <p>Shipping</p>
           <span className="font-semibold">
             {handle_order_type === 'collect_my_order' ? (
-              <Amount amount={0} />
+              <Amount amount={total_amount} />
             ) : (
               <Amount amount={renderWeight(total_weight)} />
             )}
