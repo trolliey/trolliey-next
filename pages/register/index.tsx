@@ -78,8 +78,8 @@ function Register() {
       const { data } = await axios.post(`${apiUrl}/api/v2/register`, {
         email,
         password,
-        username: username,
-        agreed,
+        name: username,
+        password_confirmation: confirm_password,
       })
       //@ts-ignore
       history.push(redirect || '/success/register-success')
@@ -323,31 +323,6 @@ function Register() {
                  
                 </>
               )} */}
-
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <input
-                    id="terms"
-                    name="terms"
-                    type="checkbox"
-                    value={agreed}
-                    onChange={(e) => setAgreed(e.target.checked)}
-                    className="h-4 w-4 rounded border-gray-300 text-blue-primary focus:ring-red-400"
-                  />
-                  <label
-                    htmlFor="terms"
-                    className="ml-2 block text-sm text-gray-900"
-                  >
-                    I agree to the{' '}
-                    <span
-                      className="text-blue-primary"
-                      onClick={() => history.push('/termsandconditions')}
-                    >
-                      terms and conditions
-                    </span>
-                  </label>
-                </div>
-              </div>
 
               <div>
                 <BlueButton
