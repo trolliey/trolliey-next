@@ -605,24 +605,26 @@ function CheckoutSidebar({ total_amount, total_weight }) {
           </span>
         </div>
 
-        <div
-          onClick={handle_payment}
-          className="flex cursor-pointer flex-row items-center justify-between rounded-lg bg-green-500 py-2 px-4 text-white hover:bg-green-600 "
-        >
-          <span className="font-semibold">
-            {handle_order_type === 'collect_my_order' ? (
-              <Amount amount={total_amount} />
-            ) : (
-              <Amount amount={total_amount + renderWeight(total_weight)} />
-            )}
-          </span>
-          <div className="flex flex-row items-center space-x-2">
-            <p className="font-semibold">
-              {loading ? 'Loading...' : 'Proceed'}
-            </p>
-            <ArrowRightIcon height={20} width={20} />
+        {selectedPaymentMethod === 'visa' ? null : (
+          <div
+            onClick={handle_payment}
+            className="flex cursor-pointer flex-row items-center justify-between rounded-lg bg-green-500 py-2 px-4 text-white hover:bg-green-600 "
+          >
+            <span className="font-semibold">
+              {handle_order_type === 'collect_my_order' ? (
+                <Amount amount={total_amount} />
+              ) : (
+                <Amount amount={total_amount + renderWeight(total_weight)} />
+              )}
+            </span>
+            <div className="flex flex-row items-center space-x-2">
+              <p className="font-semibold">
+                {loading ? 'Loading...' : 'Proceed'}
+              </p>
+              <ArrowRightIcon height={20} width={20} />
+            </div>
           </div>
-        </div>
+        )}
       </div>
       <>
         <PaymentModal
