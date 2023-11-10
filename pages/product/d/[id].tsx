@@ -24,11 +24,13 @@ function ProductDescription(props: any) {
   const { dispatch } = useContext(Store)
   const history = useRouter()
   const [loading, setLoading] = useState(false)
-
+  const [reviews, setReviews] = useState<any[]>([])
   const [selected_variant, setSelectedVariant] = useState<any>()
   const [show_features, setShowFeatures] = useState<boolean>(false)
   const [showMore, setShowMore] = useState<boolean>(false)
   const [open_cart, setOpenCart] = useState<boolean>(false)
+  const { state } = useContext(Store)
+  const { userInfo } = state
   const basket: any[] = []
   const toggle_cart = () => {
     !open_cart ? setOpenCart(true) : setOpenCart(false)
@@ -50,7 +52,7 @@ function ProductDescription(props: any) {
     try {
       setLoading(true)
       const { data } = await axios.get(
-        `${apiUrl}/api/products/single/${props.data.product._id}`
+        `${apiUrl}/api/v2/products/${props.data.product._id}`
       )
       dispatch({ type: 'FETCH_PRODUCT', payload: data })
       console.log(data, 'data')
@@ -87,7 +89,30 @@ function ProductDescription(props: any) {
     }
   }
 
-  console.log(props.data.product)
+  const fetchReviews = async () => {
+    try {
+      setLoading(true)
+      const { data } = await axios.get(
+        `${apiUrl}/api/v2/products/${props.data.product._id}/reviews`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: `${userInfo.token}`,
+          },
+        }
+      )
+      setReviews(data)
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+      console.log(error)
+    }
+  }
+  console.log(reviews, 'reviews')
+
+  useEffect(() => {
+    fetchReviews()
+  }, [])
 
   if (!props.data.product) {
     return (

@@ -113,6 +113,76 @@ function StoresDropdown({ id, verified }: Props) {
     }
     // console.log('the store has been approved and can start selling now')
   }
+  const handle_activate_store = async () => {
+    try {
+      setLoading(true)
+      await axios.put(
+        `${apiUrl}/api/store/action`,
+        { store_id: id, action: 'activate' },
+        {
+          headers: {
+            Authorization: userInfo?.token,
+          },
+        }
+      )
+      setLoading(false)
+      toast({
+        title: 'Success.',
+        description: 'Store Activated Successfully',
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+        position: 'top-right',
+      })
+      onClose()
+    } catch (error) {
+      toast({
+        title: 'Failed to approve.',
+        description: 'Failed to activate store. Contact Support Team!',
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+        position: 'top-right',
+      })
+      setLoading(false)
+    }
+    // console.log('the store has been approved and can start selling now')
+  }
+  const handle_deactivate_store = async () => {
+    try {
+      setLoading(true)
+      await axios.put(
+        `${apiUrl}/api/store/action`,
+        { store_id: id, action: 'deactivate' },
+        {
+          headers: {
+            Authorization: userInfo?.token,
+          },
+        }
+      )
+      setLoading(false)
+      toast({
+        title: 'Success.',
+        description: 'Store Deactivated Successfully',
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+        position: 'top-right',
+      })
+      onClose()
+    } catch (error) {
+      toast({
+        title: 'Failed to approve.',
+        description: 'Failed to deactivate store. Contact Support Team!',
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+        position: 'top-right',
+      })
+      setLoading(false)
+    }
+    // console.log('the store has been approved and can start selling now')
+  }
 
   //modal to approve store
   const approve_store = () => {
@@ -129,6 +199,40 @@ function StoresDropdown({ id, verified }: Props) {
         colorScheme={'blue'}
       >
         Approve Store
+      </Button>
+    ))
+  }
+
+  // modal to activate store
+  const activate_store = () => {
+    onOpen()
+    setModalBody('Are you sure you want to activate the store?')
+    setModalHeading('Activate Store')
+    setModalButton(() => (
+      <Button
+        onClick={handle_activate_store}
+        variant="solid"
+        isLoading={loading}
+        colorScheme={'green'}
+      >
+        Activate Store
+      </Button>
+    ))
+  }
+
+  // modal to deactivate store
+  const deactivate_store = () => {
+    onOpen()
+    setModalBody('Are you sure you want to deactivate the store?')
+    setModalHeading('Deactivate Store')
+    setModalButton(() => (
+      <Button
+        onClick={handle_deactivate_store}
+        variant="solid"
+        isLoading={loading}
+        colorScheme={'red'}
+      >
+        Deactivate Store
       </Button>
     ))
   }
@@ -256,6 +360,22 @@ function StoresDropdown({ id, verified }: Props) {
             <Menu.Item>
               {({ active }) => (
                 <div
+                  onClick={activate_store}
+                  className={classNames(
+                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                    'block cursor-pointer px-4 py-2 text-sm'
+                  )}
+                >
+                  Activate Store
+                </div>
+              )}
+            </Menu.Item>
+          </div>
+
+          <div className="py-1">
+            <Menu.Item>
+              {({ active }) => (
+                <div
                   onClick={block_store}
                   className={classNames(
                     active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
@@ -267,6 +387,22 @@ function StoresDropdown({ id, verified }: Props) {
               )}
             </Menu.Item>
           </div>
+          <div className="py-1">
+            <Menu.Item>
+              {({ active }) => (
+                <div
+                  onClick={deactivate_store}
+                  className={classNames(
+                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                    'block cursor-pointer px-4 py-2 text-sm'
+                  )}
+                >
+                  Deactivate Store
+                </div>
+              )}
+            </Menu.Item>
+          </div>
+
           <div className="py-1">
             <Menu.Item>
               {({ active }) => (

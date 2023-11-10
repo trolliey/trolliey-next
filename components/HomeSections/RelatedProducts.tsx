@@ -130,7 +130,7 @@ function RelatedProducts({ cols, no_text, category }: Props): ReactElement {
                   } grid-cols-2 md:grid-cols-3`
             }  relative gap-4`}
           >
-            <div className="absolute top-[50%] right-0 left-0 flex justify-between ">
+            <div className="absolute top-[50%]  right-0 left-0 hidden justify-between md:flex ">
               <button
                 disabled={scrollPosition === 0}
                 className={

@@ -20,9 +20,10 @@ function Orders() {
   useEffect(() => {
     const get_orders = async () => {
       setLoading(true)
-      const { data } = await axios.get('/api/orders', {
+      const { data } = await axios.get(`${apiUrl}/api/v2/orders`, {
         headers: {
           authorization: userInfo.token,
+          'Content-Type': 'application/json',
         },
       })
       setLoading(false)
@@ -30,7 +31,7 @@ function Orders() {
     }
     get_orders()
   }, [])
-  const url = `/api/orders`
+  const url = `${apiUrl}/api/v2/orders`
   const orders = useAuthFetch(url, userInfo?.token)
   console.log(orders)
 

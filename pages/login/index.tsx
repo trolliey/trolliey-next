@@ -116,12 +116,12 @@ function login() {
 
         <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-md">
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-            <GoogleAuthButton onClick={login_With_Google} loading={loading} />
+            {/* <GoogleAuthButton onClick={login_With_Google} loading={loading} />
             <div className="flex w-full flex-row items-center space-x-4 py-4">
               <Divider />
               <p>Or</p>
               <Divider />
-            </div>
+            </div> */}
 
             <div className="space-y-6">
               <div>

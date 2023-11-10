@@ -95,7 +95,7 @@ function ProductItem({
       <Link href={`/product/d/${id}`} passHref>
         <a className="relative flex h-32 flex-col items-center overflow-hidden rounded bg-white md:h-52">
           <Image
-            objectFit="contain"
+            objectFit={'contain'}
             src={picture ? picture : '/img/full_logo.png'}
             layout="fill"
             quality={50}
