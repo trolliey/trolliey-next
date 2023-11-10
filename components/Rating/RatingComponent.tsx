@@ -35,11 +35,11 @@ function RatingComponent({ ratings, id }: Props): ReactElement {
     setRating(index)
     // make an axios request to the backend to add the review
     axios
-      .put(
-        `${apiUrl}/api/product/rate/${id}`,
+      .post(
+        `${apiUrl}/api/v2/products/${id}/reviews`,
         {
           rating: starsNum,
-          review: review,
+          coment: review,
         },
         {
           headers: {

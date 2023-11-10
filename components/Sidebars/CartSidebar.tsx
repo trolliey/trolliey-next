@@ -17,7 +17,7 @@ interface Props {
 }
 
 function CartSidebar({ open, setOpen }: Props): ReactElement {
-  const { state, dispatch } = useContext(Store)
+  const { state, userInfo, dispatch } = useContext(Store)
   const { cart } = state
   const history = useRouter()
 
@@ -35,6 +35,11 @@ function CartSidebar({ open, setOpen }: Props): ReactElement {
   }
 
   const handleCheckout = () => {
+    if (!userInfo) {
+      history.push('/login')
+      return
+    }
+
     history.push('/shipping')
   }
 
