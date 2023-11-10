@@ -325,6 +325,18 @@ function Register() {
               )} */}
 
               <div>
+                <p>
+                  By clicking Register, you agree to our{' '}
+                  <span
+                    onClick={() => history.push(`/termsandconditions`)}
+                    className="cursor-pointer text-blue-500"
+                  >
+                    Terms and Conditions
+                  </span>
+                </p>
+              </div>
+
+              <div>
                 <BlueButton
                   text="Register"
                   onClick={register_user_handler}
