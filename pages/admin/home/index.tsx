@@ -6,6 +6,7 @@ import {
   DatabaseIcon,
   ShoppingCartIcon,
   CurrencyDollarIcon,
+  StarIcon,
 } from '@heroicons/react/outline'
 import { useRouter } from 'next/router'
 
@@ -56,6 +57,12 @@ const home_links = [
       <CurrencyDollarIcon height={28} width={28} className="text-gray-700" />
     ),
     location: '/admin/rates',
+  },
+  {
+    heading: 'Reviews',
+    description: 'Manage reviews and ratings',
+    icon: <StarIcon height={28} width={28} className="text-gray-700" />,
+    location: '/admin/reviews',
   },
 ]
 
