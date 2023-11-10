@@ -13,7 +13,7 @@ import {
   TrendingUpIcon,
   UserGroupIcon,
 } from '@heroicons/react/outline'
-import logo from '../../public/img/icon.png'
+import logo from '../../public/img/full logo white.png'
 import { Store } from '../../Context/Store'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
@@ -138,9 +138,9 @@ function AdminSidebar({ sidebarOpen, setSidebarOpen }: Props) {
               </Transition.Child>
               <div
                 onClick={() => router.push('/')}
-                className="cursor pointer flex flex-shrink-0 items-center px-4"
+                className="cursor pointer flex flex-shrink-0  px-4"
               >
-                <div className="relative mx-auto my-4 h-24 self-center">
+                <div className="s  relative my-4 h-24">
                   <Image
                     layout="fill"
                     src={logo}
