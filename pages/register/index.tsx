@@ -74,23 +74,35 @@ function Register() {
   const register_user_handler = async (e: any) => {
     setLoading(true)
     e.preventDefault()
+
     try {
-      const { data } = await axios.post(`${apiUrl}/api/v2/register`, {
-        email,
-        password,
-        name: username,
-        password_confirmation: confirm_password,
-      })
+      const { data } = await axios.post(
+        `${apiUrl}/api/v2/register`,
+        {
+          email,
+          password,
+          name: username,
+          password_confirmation: confirm_password,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+
       //@ts-ignore
       history.push(redirect || '/success/register-success')
       console.log(data)
+
       toast({
-        title: 'Account created sucessfully!.',
+        title: 'Account created successfully!',
         status: 'success',
         position: 'top-right',
         duration: 9000,
         isClosable: true,
       })
+
       setLoading(false)
     } catch (error) {
       //@ts-ignore
@@ -101,6 +113,7 @@ function Register() {
         duration: 9000,
         isClosable: true,
       })
+
       setLoading(false)
     }
   }
