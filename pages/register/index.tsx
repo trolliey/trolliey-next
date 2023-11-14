@@ -104,15 +104,62 @@ function Register() {
       })
 
       setLoading(false)
-    } catch (error) {
+    } catch (error: any) {
       //@ts-ignore
-      toast({
-        title: getError(error),
-        status: 'error',
-        position: 'top-right',
-        duration: 9000,
-        isClosable: true,
-      })
+      if (error.response.data.errors.email) {
+        //@ts-ignore
+        toast({
+          title: error.response.data.errors.email[0],
+          status: 'error',
+          position: 'top-right',
+          duration: 9000,
+          isClosable: true,
+        })
+      } else if (error.response.data.errors.password) {
+        //@ts-ignore
+        toast({
+          title: error.response.data.errors.password[0],
+          status: 'error',
+          position: 'top-right',
+          duration: 9000,
+          isClosable: true,
+        })
+      } else if (error.response.data.errors.name) {
+        //@ts-ignore
+        toast({
+          title: error.response.data.errors.name[0],
+          status: 'error',
+          position: 'top-right',
+          duration: 9000,
+          isClosable: true,
+        })
+      } else if (error.response.data.errors.password_confirmation) {
+        //@ts-ignore
+        toast({
+          title: error.response.data.errors.password_confirmation[0],
+          status: 'error',
+          position: 'top-right',
+          duration: 9000,
+          isClosable: true,
+        })
+      } else {
+        //@ts-ignore
+        toast({
+          title: 'Something went wrong, please try again later',
+          status: 'error',
+          position: 'top-right',
+          duration: 9000,
+          isClosable: true,
+        })
+      }
+
+      // toast({
+      //   title: getError(error),
+      //   status: 'error',
+      //   position: 'top-right',
+      //   duration: 9000,
+      //   isClosable: true,
+      // })
 
       setLoading(false)
     }
