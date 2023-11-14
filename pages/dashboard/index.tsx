@@ -29,11 +29,13 @@ export default function Dashboard() {
   const state = useAuthFetch(url, userInfo?.token)
 
   useEffect(() => {
-    if (userInfo.role !== 'seller') {
+    if (userInfo?.user?.role !== 'seller') {
       setShowMessage(true)
       // history.push('/login')
     }
   }, [userInfo])
+
+  console.log(userInfo, 'user info')
 
   return (
     <>

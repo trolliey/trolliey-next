@@ -33,10 +33,10 @@ function Orders() {
   }, [])
   const url = `${apiUrl}/api/v2/orders`
   const orders = useAuthFetch(url, userInfo?.token)
-  console.log(orders)
+  console.log(orders.data.data, 'kkkkkkkkkkkkkkkk')
 
   const [filter, setFilter] = useState('')
-  const filteredOrders = orders?.data?.filter((order: any) => {
+  const filteredOrders = orders?.data?.data?.orders?.filter((order: any) => {
     const orderDate = moment(order.createdAt)
     const currentDate = moment()
 
@@ -105,17 +105,11 @@ function Orders() {
                 <tr key={order._id} className="hover:bg-gray-50">
                   <td className="text-wrap max-w-lg whitespace-normal py-2 px-4 ">
                     {' '}
-                    {order?.items?.map((item: any) => (
-                      <div key={item._id} className="flex items-center">
-                        <div className="ml-2">
-                          <Text>{item.orderId}</Text>
-                        </div>
-                      </div>
-                    ))}
+                    {order?.number}
                   </td>
 
                   <td className="py-2 px-4">
-                    {order?.orderItems?.map((item: any) => (
+                    {order?.items?.map((item: any) => (
                       <div key={item._id} className="flex items-center">
                         <div className="ml-2">
                           <Text>{item.title}</Text>

@@ -74,33 +74,93 @@ function Register() {
   const register_user_handler = async (e: any) => {
     setLoading(true)
     e.preventDefault()
+
     try {
-      const { data } = await axios.post(`${apiUrl}/api/v2/register`, {
-        email,
-        password,
-        name: username,
-        password_confirmation: confirm_password,
-      })
+      const { data } = await axios.post(
+        `${apiUrl}/api/v2/register`,
+        {
+          email,
+          password,
+          name: username,
+          password_confirmation: confirm_password,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+
       //@ts-ignore
       history.push(redirect || '/success/register-success')
       console.log(data)
+
       toast({
-        title: 'Account created sucessfully!.',
+        title: 'Account created successfully!',
         status: 'success',
         position: 'top-right',
         duration: 9000,
         isClosable: true,
       })
+
       setLoading(false)
-    } catch (error) {
+    } catch (error: any) {
       //@ts-ignore
-      toast({
-        title: getError(error),
-        status: 'error',
-        position: 'top-right',
-        duration: 9000,
-        isClosable: true,
-      })
+      if (error.response.data.errors.email) {
+        //@ts-ignore
+        toast({
+          title: error.response.data.errors.email[0],
+          status: 'error',
+          position: 'top-right',
+          duration: 9000,
+          isClosable: true,
+        })
+      } else if (error.response.data.errors.password) {
+        //@ts-ignore
+        toast({
+          title: error.response.data.errors.password[0],
+          status: 'error',
+          position: 'top-right',
+          duration: 9000,
+          isClosable: true,
+        })
+      } else if (error.response.data.errors.name) {
+        //@ts-ignore
+        toast({
+          title: error.response.data.errors.name[0],
+          status: 'error',
+          position: 'top-right',
+          duration: 9000,
+          isClosable: true,
+        })
+      } else if (error.response.data.errors.password_confirmation) {
+        //@ts-ignore
+        toast({
+          title: error.response.data.errors.password_confirmation[0],
+          status: 'error',
+          position: 'top-right',
+          duration: 9000,
+          isClosable: true,
+        })
+      } else {
+        //@ts-ignore
+        toast({
+          title: 'Something went wrong, please try again later',
+          status: 'error',
+          position: 'top-right',
+          duration: 9000,
+          isClosable: true,
+        })
+      }
+
+      // toast({
+      //   title: getError(error),
+      //   status: 'error',
+      //   position: 'top-right',
+      //   duration: 9000,
+      //   isClosable: true,
+      // })
+
       setLoading(false)
     }
   }
