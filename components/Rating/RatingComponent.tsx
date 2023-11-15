@@ -39,7 +39,7 @@ function RatingComponent({ ratings, id }: Props): ReactElement {
         `${apiUrl}/api/v2/products/${id}/reviews`,
         {
           rating: starsNum,
-          coment: review,
+          comment: review,
         },
         {
           headers: {
