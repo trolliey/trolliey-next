@@ -17,8 +17,10 @@ interface Props {
 }
 
 function CartSidebar({ open, setOpen }: Props): ReactElement {
-  const { state, userInfo, dispatch } = useContext(Store)
-  const { cart } = state
+  const { state, dispatch } = useContext(Store)
+
+  const { cart, userInfo } = state
+  const isLogged = userInfo?.token
   const history = useRouter()
 
   const remove_from_cart = (item: any) => {
@@ -33,9 +35,10 @@ function CartSidebar({ open, setOpen }: Props): ReactElement {
     }
     dispatch({ type: 'ADD_TO_CART', payload: { ...item, quantity: value } })
   }
+  console.log(userInfo, '>>>>>>>>>>>>>>>>>')
 
-  const handleCheckout = () => {
-    if (!userInfo) {
+  const handleCheckout = async () => {
+    if (!isLogged) {
       history.push('/login')
       return
     }

@@ -36,7 +36,7 @@ function ResetPasswordConfirm() {
         position: 'top-right',
         duration: 9000,
         isClosable: true,
-    })
+      })
       setLoading(false)
     } catch (error) {
       setLoading(false)
@@ -46,7 +46,7 @@ function ResetPasswordConfirm() {
         position: 'top-right',
         duration: 9000,
         isClosable: true,
-    })
+      })
       console.log(getError(error))
     }
   }
@@ -115,9 +115,9 @@ function ResetPasswordConfirm() {
             If you have any questions please email{' '}
             <a
               className="font-semibold text-red-600"
-              href="mailto:mytrolliey@gmail.com"
+              href="mailto:info@trolliey.com"
             >
-              mytrolliey@gmail.com
+              info@trolliey.com
             </a>
           </p>
 
