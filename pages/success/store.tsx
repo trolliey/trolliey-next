@@ -42,17 +42,11 @@ function SucessStore() {
             If you have any questions please email{' '}
             <a
               className="font-semibold text-red-600"
-              href="mailto:mytrolliey@gmail.com"
+              href="mailto:info@trolliey.com"
             >
-              mytrolliey@gmail.com
+              info@trolliey.com
             </a>
           </p>
-          <div className="flex">
-            <BlueButton
-              text={'Continue Shopping'}
-              onClick={() => router.push('/explore')}
-            />
-          </div>
         </div>
       </div>
     </GeneralLayout>

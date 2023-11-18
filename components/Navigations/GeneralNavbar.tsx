@@ -34,6 +34,8 @@ function GeneralNavbar({
     !open_cart ? setOpenCart(true) : setOpenCart(false)
   }
 
+  console.log(userInfo, 'kkkk')
+
   return (
     <div className="fixed top-0 z-50 w-full bg-white shadow">
       {component_above_navbar && (
@@ -49,29 +51,35 @@ function GeneralNavbar({
                     height: '100%',
                   }}
                 >
-                  <Container
-                    maxW="container.xl"
-                    className="mx-auto flex flex-row items-center justify-between py-2 md:py-1"
-                  >
-                    <p className="mx-auto font-semibold text-white sm:text-xs md:text-base">
-                      Apply to sell for free
-                    </p>
-                    <div className="flex flex-row items-center space-x-2 md:space-x-4">
-                      {/* <Link href={'/applytosell'} passHref>
+                  {userInfo?.user.role !== 'seller' ? (
+                    <Container
+                      maxW="container.xl"
+                      className="mx-auto flex flex-row items-center justify-between py-2 md:py-1"
+                    >
+                      <p className="mx-auto font-semibold text-white sm:text-xs md:text-base">
+                        Apply to sell for free
+                      </p>
+                      <div className="flex flex-row items-center space-x-2 md:space-x-4">
+                        {/* <Link href={'/applytosell'} passHref>
                         <a>
                           <div className="md:flex hidden rounded-full bg-white text-[#0e75bc] px-2 text-xs text-white md:text-sm">
                             Apply Now
                           </div>
                         </a>
                       </Link> */}
-                      <div
-                        className="flex"
-                        onClick={() => setCloseMessage(true)}
-                      >
-                        <XIcon height={20} width={20} className="text-white" />
+                        <div
+                          className="flex"
+                          onClick={() => setCloseMessage(true)}
+                        >
+                          <XIcon
+                            height={20}
+                            width={20}
+                            className="text-white"
+                          />
+                        </div>
                       </div>
-                    </div>
-                  </Container>
+                    </Container>
+                  ) : null}
                 </div>
               )}
             </>

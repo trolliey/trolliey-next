@@ -25,23 +25,18 @@ function RegisterSucess() {
             Please verify your email.
           </h2>
           <p className="font-semibold text-gray-700">
-            We have sent you an email. If it doesn't appear check your spam folder
+            We have sent you an email. If it doesn't appear check your spam
+            folder
           </p>
           <p className="pb-8 font-semibold text-gray-700">
             If you have any questions please email{' '}
             <a
               className="font-semibold text-red-600"
-              href="mailto:mytrolliey@gmail.com"
+              href="mailto:info@trolliey.com"
             >
-              mytrolliey@gmail.com
+              info@trolliey.com
             </a>
           </p>
-          <div className="flex">
-            <BlueButton
-              text={'Continue Shopping'}
-              onClick={() => router.push('/explore')}
-            />
-          </div>
         </div>
       </div>
     </GeneralLayout>
