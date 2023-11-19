@@ -32,7 +32,7 @@ function VerifyEmail() {
       }, 1000)
       setLoading(false)
       toast({
-        title: 'Login successful.',
+        title: 'Registration successful.',
         status: 'success',
         position: 'top-right',
         duration: 9000,
@@ -68,25 +68,18 @@ function VerifyEmail() {
             />
           </p>
           <h2 className="pb-8 text-lg font-semibold text-blue-dark">
-            Please verify your email.
+            Email has been verified, please click proceed to finish up the
+            registration process.
           </h2>
           {/* <p className="font-semibold text-gray-700">
             We have sent you an email. If it doesn't appear check your spam
             folder
           </p> */}
-          <p className="pb-8 font-semibold text-gray-700">
-            If you have any questions please email{' '}
-            <a
-              className="font-semibold text-red-600"
-              href="mailto:info@trolliey.com"
-            >
-              info@trolliey.com
-            </a>
-          </p>
+
           <div className="flex">
             <BlueButton
               loading={loading}
-              text={'Verify Email'}
+              text={'Proceed'}
               onClick={verify_email}
             />
           </div>
