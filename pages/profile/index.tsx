@@ -23,6 +23,8 @@ import { PencilAltIcon } from '@heroicons/react/outline'
 import UploadLoading from '../../components/UploadingLoading/UploadLoading'
 import { useFetch } from '../../hooks/useFetch'
 import { apiUrl } from '../../utils/apiUrl'
+import ProfileDetails from './profile'
+import { useAuthFetch } from '../../hooks/useAuthFetch'
 
 function index(): ReactElement {
   const [name, setname] = useState<string>('')
@@ -51,6 +53,25 @@ function index(): ReactElement {
   const [alertStatus, setAlertStatus] = useState<any>('')
   const [alertMsg, setAlertMsg] = useState('')
   const [progress, setProgress] = useState(1)
+  const [loading, setLoading] = useState(false)
+  const [all_orders, setAllOrders] = useState<any>()
+
+  useEffect(() => {
+    const get_orders = async () => {
+      setLoading(true)
+      const { data } = await axios.get(`${apiUrl}/api/v2/orders`, {
+        headers: {
+          authorization: userInfo.token,
+          'Content-Type': 'application/json',
+        },
+      })
+      setLoading(false)
+      setAllOrders(data)
+    }
+    get_orders()
+  }, [])
+  const url2 = `${apiUrl}/api/v2/orders`
+  const orders = useAuthFetch(url2, userInfo?.token)
 
   const upload_picture = (e: any) => {
     e.preventDefault()
@@ -97,7 +118,7 @@ function index(): ReactElement {
         console.log(error)
       })
   }
-  const url = `${apiUrl}/api/user/single/${userInfo?._id}`
+  const url = `${apiUrl}/api/user/single/${userInfo?.user._id}`
   const state = useFetch(url)
 
   useEffect(() => {
@@ -115,7 +136,7 @@ function index(): ReactElement {
     e.preventDefault()
     try {
       const { data } = await axios.put(
-        `${apiUrl}/api/user/edit/${userInfo?._id}`,
+        `${apiUrl}/api/user/edit/${userInfo?.user._id}`,
         {
           username: name,
           city,
@@ -156,7 +177,7 @@ function index(): ReactElement {
       title="User Info"
       description="Edit and configure user info on Trolliey"
     >
-      <div className="max-w-7xl">
+      <div className="max-w-7xl bg-[#F3F4F6]">
         <div
           style={{
             backgroundImage: `url(${banner.src})`,
@@ -176,10 +197,6 @@ function index(): ReactElement {
         </div>
         <div className="mt-32 flex w-full flex-row-reverse justify-between px-4 md:flex-row">
           <div>
-            <h3 className="text-left text-2xl font-bold">{userInfo?.name}</h3>
-            <p className="text-left text-gray-500">{userInfo?.email}</p>
-          </div>
-          <div>
             <button
               onClick={() =>
                 router.push({
@@ -193,36 +210,65 @@ function index(): ReactElement {
             </button>
           </div>
         </div>
-        <div className="mt-10 mb-8 px-4 md:flex md:justify-between">
-          <div>
-            <p>
-              <span className="font-bold">Address</span>
-            </p>
-            <p>{userInfo?.name}</p>
-            <p>
-              <span className="font-bold">City</span>
-            </p>
-            <p>{userInfo?.name}</p>
+        <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-5">
+          <div className="col-span-2">
+            <ProfileDetails
+              showSkeleton={state?.isLoading}
+              userDetails={state?.data?.user}
+              role={userInfo?.user?.role}
+            />
           </div>
-          <div>
-            <p>
-              <span className="font-bold">Address</span>
-            </p>
-            <p>{userInfo?.name}</p>
-            <p>
-              <span className="font-bold">City</span>
-            </p>
-            <p>{userInfo?.name}</p>
-          </div>
-          <div>
-            <p>
-              <span className="font-bold">Province</span>
-            </p>
-            <p>{userInfo?.name}</p>
-            <p>
-              <span className="font-bold">Country:</span>
-            </p>
-            <p>{userInfo?.name}</p>
+          <div className="col-span-3 my-8 flex flex-col bg-white py-8 px-10">
+            <div className="flex flex-col">
+              <h3 className="text-2xl font-bold">Order History</h3>
+              <p className="text-gray-500">
+                A summary of the orders you have made on Trolliey
+              </p>
+              <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-2">
+                {orders?.data?.data?.orders.length > 0 ? (
+                  orders?.data?.data?.orders.map((order: any) => (
+                    <div key={order._id} className="flex flex-col">
+                      <div className="flex flex-row rounded-md p-4 shadow-md">
+                        <div className="h-20 w-20 rounded-full">
+                          <img
+                            className="h-full w-full rounded-full object-cover"
+                            src={logo.src}
+                            alt="banner"
+                          />
+                        </div>
+                        <div className="ml-4">
+                          <h3 className="text-lg font-bold">
+                            Order #{order.number}
+                          </h3>
+                          <p className="text-gray-500">
+                            Order Date: {order?.createdAt}
+                          </p>
+                          <p className="text-gray-500">
+                            Order Status:
+                            <span
+                              className={`${
+                                order?.status === 'pending'
+                                  ? 'bg-yellow-500'
+                                  : order?.status === 'delivered'
+                                  ? 'bg-green-500'
+                                  : order?.status === 'cancelled'
+                                  ? 'bg-red-500'
+                                  : 'bg-blue-500'
+                              } ml-2 inline-block h-2 w-2 rounded-full`}
+                            ></span>
+                            {order?.status}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <p className="font-bold text-gray-500">
+                    No recent orders to display
+                  </p>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </div>
