@@ -19,16 +19,12 @@ import {
   Text,
 } from '@chakra-ui/react'
 import {
-  FaAward,
-  FaCalendarDay,
-  FaFacebook,
-  FaInfoCircle,
-  FaInstagram,
-  FaMapMarkerAlt,
-  FaTwitter,
-  FaUserAlt,
-  FaUserCog,
-} from 'react-icons/fa'
+  CalendarIcon,
+  InformationCircleIcon,
+  MapIcon,
+  UserIcon,
+} from '@heroicons/react/outline'
+import { UserCircleIcon } from '@heroicons/react/solid'
 
 interface ProfileDetailsProps {
   userDetails?: {
@@ -86,14 +82,14 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({
         {userDetails && !showSkeleton && (
           <Box>
             <Flex align={'center'} mb={5} gap={7}>
-              <FaInfoCircle size={18} />
+              <InformationCircleIcon width={20} />
               <Text>
                 {userDetails?.about ? userDetails?.about : 'No bio yet'}
               </Text>
             </Flex>
 
             <Flex align={'center'} mb={5} gap={7}>
-              <FaAward size={18} />
+              <UserIcon width={20} />
               <Text fontWeight={500} fontSize={'md'}>
                 {' '}
                 {role === 'user' ? 'Customer' : 'Seller'}
@@ -101,7 +97,7 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({
             </Flex>
 
             <Flex align={'center'} mb={5} gap={7}>
-              <FaCalendarDay size={18} />
+              <CalendarIcon width={20} />
               <Text fontWeight={500} fontSize={'md'}>
                 Member since {/* @ts-ignore */}
                 {new Date(userDetails?.createdAt).toLocaleDateString()}
@@ -109,7 +105,7 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({
             </Flex>
 
             <Flex align={'center'} mb={5} gap={7}>
-              <FaMapMarkerAlt size={18} />
+              <MapIcon width={20} />
               <Text fontWeight={500} fontSize={'md'}>
                 {userDetails?.city ? userDetails?.city : 'No location yet'}
               </Text>
