@@ -52,6 +52,22 @@ function Index() {
     get_reviews()
   }
 
+  const approve_review = async (id: string) => {
+    setLoading(true)
+    await axios.put(
+      `${apiUrl}/api/v2/reviews/${id}`,
+      { status: 'approved' },
+      {
+        headers: {
+          authorization: userInfo.token,
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+    setLoading(false)
+    get_reviews()
+  }
+
   console.log(reviews, 'reviews')
 
   return (
@@ -70,7 +86,12 @@ function Index() {
               <Td>{review.rating}</Td>
               <Td>{review.review}</Td>
               <Td>
-                <Button colorScheme="green">Approve</Button>
+                <Button
+                  colorScheme="green"
+                  onClick={() => approve_review(review._id)}
+                >
+                  Approve
+                </Button>
                 <DeleteModal
                   onClick={() => delete_review(review._id)}
                   isOpen={isOpen}
