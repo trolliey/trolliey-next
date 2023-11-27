@@ -67,17 +67,19 @@ function MobileNavDrawers({ user }: Props): ReactElement {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader bg={'white'}>
-            {/* <p className="text-lg font-semibold text-gray-700 uppercase mx-auto text-center my-4">logo</p> */}
-            <div className="font-myriad-pro flex py-2 font-extrabold text-black">
-              <Image
-                height={100}
-                objectFit="contain"
-                src={logo}
-                alt="logo for mobile drawer"
-              />
-            </div>
-          </DrawerHeader>
+
+          {/* <p className="text-lg font-semibold text-gray-700 uppercase mx-auto text-center my-4">logo</p> */}
+          <div className="font-myriad-pro flex px-4 font-extrabold text-black">
+            <Image
+              height={80}
+              width={80}
+              objectFit="contain"
+              src={logo}
+              alt="logo representing the website icon mobile"
+              className="max-h-auto min-h-auto h-8"
+            />
+          </div>
+
           {show_currencies ? (
             <DrawerBody bg={'white'} p={0}>
               <Divider />
