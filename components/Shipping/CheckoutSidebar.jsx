@@ -293,7 +293,7 @@ function CheckoutSidebar({ total_amount, total_weight }) {
         {
           products: formattedCartItems,
           address: address,
-          shipping: '653704e403f970cdc440242e',
+          shipping: '656a4201e849823a0b9f7900',
           email: email,
           name: full_name,
           province: city,

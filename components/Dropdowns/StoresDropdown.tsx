@@ -29,15 +29,7 @@ interface Props {
   verified: any
 }
 
-function StoresDropdown({
-  id,
-  verified,
-
-  // @ts-ignore
-  fetchUpdatedData,
-  // @ts-ignore
-  all_stores,
-}: Props) {
+function StoresDropdown({ id, verified }: Props) {
   const toast = useToast()
   const history = useRouter()
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -107,8 +99,6 @@ function StoresDropdown({
         isClosable: true,
         position: 'top-right',
       })
-      const updated_stores = await fetchUpdatedData()
-      all_stores.setData({ stores: updated_stores })
       onClose()
     } catch (error) {
       toast({

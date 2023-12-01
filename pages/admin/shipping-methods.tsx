@@ -24,6 +24,7 @@ function ShipingMethods() {
     description: string
     duration: string
     pricing_method: string
+
     active: number
   }
 
@@ -36,6 +37,7 @@ function ShipingMethods() {
   const [price, setPrice] = React.useState('')
   const [description, setDescription] = React.useState('')
   const [loading, setLoading] = React.useState(false)
+  const [duration, setDuration] = React.useState('')
   const { isOpen, onOpen, onClose } = useDisclosure()
   const {
     isOpen: isOpenEdit,
@@ -247,6 +249,15 @@ function ShipingMethods() {
                   className="mt-2 rounded border border-gray-300 px-3 py-2"
                   type="number"
                   placeholder="Shipping Method Price"
+                />
+                <label className="mt-4 text-sm font-semibold text-gray-700">
+                  Shipping Duration
+                </label>
+                <input
+                  onChange={(e) => setDuration(e.target.value)}
+                  className="mt-2 rounded border border-gray-300 px-3 py-2"
+                  type="number"
+                  placeholder="e.g 3 days"
                 />
 
                 <label className="mt-4 text-sm font-semibold text-gray-700">
