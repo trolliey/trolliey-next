@@ -58,14 +58,17 @@ function login() {
       })
     } catch (error) {
       setLoading(false)
+      const errorInfo = getError(error)
+      console.log(errorInfo)
       //@ts-ignore
       toast({
-        title: getError(error),
+        title: errorInfo.message,
         status: 'error',
         position: 'top-right',
         duration: 9000,
         isClosable: true,
       })
+      // You can also access errorInfo.status if needed
     }
   }
 
@@ -90,6 +93,7 @@ function login() {
       })
     } catch (error) {
       setLoading(false)
+      console.log(error)
       toast({
         title: getError(error),
         status: 'error',

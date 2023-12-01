@@ -51,7 +51,7 @@ function GeneralNavbar({
                     height: '100%',
                   }}
                 >
-                  {userInfo?.user.role !== 'seller' ? (
+                  {userInfo?.user?.role !== 'seller' ? (
                     <Container
                       maxW="container.xl"
                       className="mx-auto flex flex-row items-center justify-between py-2 md:py-1"

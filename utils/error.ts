@@ -1,6 +1,7 @@
 import { disconnect } from "./mongo";
 
-const getError = (err: any) => {
+const onError = (err: any) => {
+  console.log(err.response.data.errors,"err.response.status")
   return (
     err.response &&
     err.response.data &&
@@ -8,7 +9,9 @@ const getError = (err: any) => {
       ? err.response.data.message
       : err.message
   );
+  
 };
+
 
 const formatErrors = (errors: Record<string, string[]>) => {
   const formattedErrors: Record<string, string> = {};
@@ -18,27 +21,44 @@ const formatErrors = (errors: Record<string, string[]>) => {
   return formattedErrors;
 };
 
-const onError = async (err: any, req: any, res: any, next: any) => {
+const getError = async (err: any) => {
   await disconnect();
+
+  let errorMessage = '';
 
   if (err.response && err.response.status === 422) {
     // Handle 422 Unprocessable Entity errors
-    const formattedErrors = formatErrors(
-      err.response.data && err.response.data.errors
-        ? err.response.data.errors
-        : err.errors
-    );
-    res.status(422).send({ message: "Missing field(s)", errors: formattedErrors });
+    const errorsData = err.response.data && err.response.data.errors;
+    const formattedErrors = formatErrors(errorsData ? errorsData : err.errors);
+
+    if (Array.isArray(formattedErrors)) {
+      errorMessage = "Missing field(s): " + formattedErrors.map(error => error.message).join(', ');
+    } else if (typeof formattedErrors === 'object') {
+      // Handle the case when formattedErrors is an object
+      errorMessage = "Missing field(s): " + JSON.stringify(formattedErrors);
+    } else {
+      errorMessage = "Missing field(s): " + formattedErrors;
+    }
+
+    return { status: 422, message: errorMessage };
   } else if (err.response && err.response.status === 401) {
     // Handle 401 Unauthorized errors
-    res.status(401).send({ message: "Unauthorized. Please login." });
+    errorMessage = "Unauthorized. Please login.";
+    return { status: 401, message: errorMessage };
   } else if (err.response && err.response.status === 502) {
     // Handle 502 Bad Gateway errors
-    res.status(502).send({ message: "Server error. Please try again later." });
+    errorMessage = "Server error. Please try again later.";
+    return { status: 502, message: errorMessage };
   } else {
     // Handle other types of errors with a generic message
-    res.status(500).send({ message: "There seemes to be a problem on our side. Please try again later" });
+    errorMessage = "There seems to be a problem on our side. Please try again later";
+    return { status: 500, message: errorMessage };
   }
 };
+
+
+
+
+console.log(getError,"getError")
 
 export { getError, onError };
