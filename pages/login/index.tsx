@@ -58,11 +58,12 @@ function login() {
       })
     } catch (error) {
       setLoading(false)
-      const errorInfo = getError(error)
-      console.log(errorInfo)
+      const errorMessage = await getError(error)
+
+      console.log(errorMessage)
       //@ts-ignore
       toast({
-        title: errorInfo.message,
+        title: errorMessage,
         status: 'error',
         position: 'top-right',
         duration: 9000,

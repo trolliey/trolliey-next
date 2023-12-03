@@ -11,6 +11,7 @@ import {
   ShoppingBagIcon,
   ExclamationCircleIcon,
   CheckCircleIcon,
+  CashIcon,
 } from '@heroicons/react/outline'
 import { Avatar } from '@chakra-ui/react'
 import BlueButton from '../../components/Buttons/BlueButton'
@@ -198,19 +199,19 @@ export default function Dashboard() {
                     loading={state.status === 'fetching'}
                     bg_color="bg-indigo-200"
                   />
-                  {/* <DashboardCard
-                icon={
-                  <ShoppingBagIcon
-                    className="h-6 w-6 text-cyan-600"
-                    aria-hidden="true"
+                  <DashboardCard
+                    icon={
+                      <CashIcon
+                        className="h-6 w-6 text-cyan-600"
+                        aria-hidden="true"
+                      />
+                    }
+                    name="Invoices"
+                    location="/dashboard/invoices"
+                    amount={state?.data?.store_info?.orders.length}
+                    loading={state.status === 'fetching'}
+                    bg_color="bg-cyan-200"
                   />
-                }
-                name="Orders"
-                location="/dashboard/orders"
-                amount={state?.data?.store_info?.orders.length}
-                loading={state.status === 'fetching'}
-                bg_color="bg-cyan-200"
-              /> */}
                   {/* <DashboardCard
                 icon={
                   <CogIcon

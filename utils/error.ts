@@ -32,29 +32,31 @@ const getError = async (err: any) => {
     const formattedErrors = formatErrors(errorsData ? errorsData : err.errors);
 
     if (Array.isArray(formattedErrors)) {
-      errorMessage = "Missing field(s): " + formattedErrors.map(error => error.message).join(', ');
+      errorMessage = formattedErrors.map(error => error.message).join(', ');
     } else if (typeof formattedErrors === 'object') {
       // Handle the case when formattedErrors is an object
-      errorMessage = "Missing field(s): " + JSON.stringify(formattedErrors);
+      const errorMessages = Object.values(formattedErrors).map(error => error);
+      errorMessage = errorMessages.join(', ');
     } else {
-      errorMessage = "Missing field(s): " + formattedErrors;
+      errorMessage = formattedErrors;
     }
 
-    return { status: 422, message: errorMessage };
+    return errorMessage; // Return only the error message
   } else if (err.response && err.response.status === 401) {
     // Handle 401 Unauthorized errors
     errorMessage = "Unauthorized. Please login.";
-    return { status: 401, message: errorMessage };
+    return errorMessage; // Return only the error message
   } else if (err.response && err.response.status === 502) {
     // Handle 502 Bad Gateway errors
     errorMessage = "Server error. Please try again later.";
-    return { status: 502, message: errorMessage };
+    return errorMessage; // Return only the error message
   } else {
     // Handle other types of errors with a generic message
     errorMessage = "There seems to be a problem on our side. Please try again later";
-    return { status: 500, message: errorMessage };
+    return errorMessage; // Return only the error message
   }
 };
+
 
 
 
