@@ -15,6 +15,7 @@ import RelatedProducts from '../../../components/HomeSections/RelatedProducts'
 import Amount from '../../../components/Amount/Amount'
 import { apiUrl } from '../../../utils/apiUrl'
 import CartSidebar from '../../../components/Sidebars/CartSidebar'
+import moment from 'moment'
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
@@ -29,6 +30,7 @@ function ProductDescription(props: any) {
   const [show_features, setShowFeatures] = useState<boolean>(false)
   const [showMore, setShowMore] = useState<boolean>(false)
   const [open_cart, setOpenCart] = useState<boolean>(false)
+  const [data, setData] = useState<any>({})
   const { state } = useContext(Store)
   const { userInfo } = state
   const basket: any[] = []
@@ -55,11 +57,11 @@ function ProductDescription(props: any) {
         `${apiUrl}/api/v2/products/${props.data.product._id}`
       )
       dispatch({ type: 'FETCH_PRODUCT', payload: data })
-      console.log(data, 'data')
+
+      setData(data)
       setLoading(false)
     } catch (error) {
       setLoading(false)
-      console.log(error)
     }
   }
   useEffect(() => {
@@ -113,6 +115,7 @@ function ProductDescription(props: any) {
   useEffect(() => {
     fetchReviews()
   }, [])
+  console.log(props?.data?.product?.reviews, 'props?.data?.product?.reviews')
 
   if (!props.data.product) {
     return (
@@ -464,9 +467,9 @@ function ProductDescription(props: any) {
               </div>
               {show_features ? (
                 <>
-                  {props?.data?.product?.reviews ? (
-                    props?.data?.product?.reviews?.length > 0 ? (
-                      props?.data?.product?.reviews?.map((review: any) => (
+                  {data?.data?.product?.reviews ? (
+                    data?.data?.product?.reviews?.length > 0 ? (
+                      data?.data?.product?.reviews?.map((review: any) => (
                         <div
                           key={review._id}
                           className="flex w-full flex-col border-b border-gray-200 py-4"
@@ -483,7 +486,7 @@ function ProductDescription(props: any) {
                                   {review.user?.name}
                                 </p>
                                 <p className="text-xs text-gray-400">
-                                  {review.createdAt}
+                                  {moment(review.createdAt).format('lll')}
                                 </p>
                               </div>
                             </div>

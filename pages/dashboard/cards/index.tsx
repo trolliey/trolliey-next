@@ -17,6 +17,7 @@ import {
   useToast,
 } from '@chakra-ui/react'
 import BlueButton from '../../../components/Buttons/BlueButton'
+import { apiUrl } from '../../../utils/apiUrl'
 
 function Cards() {
   const [currency_type, setCurrencyType] = useState('')
@@ -77,10 +78,10 @@ function Cards() {
   }
 
   const handleSubmit = async () => {
+    setLoading(true)
     try {
-      setLoading(false)
       await axios.post(
-        '/api/store/save-card-details',
+        `${apiUrl}/api/store/save-card-details`,
         { currency_type, number, bank_name: title },
         {
           headers: {
@@ -96,7 +97,7 @@ function Cards() {
         duration: 9000,
         isClosable: true,
       })
-      setLoading(true)
+      setLoading(false)
     } catch (error) {
       setLoading(false)
       console.log(error)
@@ -115,7 +116,7 @@ function Cards() {
         <div className="flex flex-col">
           <div className="col-span-1 w-full">
             <div className="flex">
-              <p className="mb-2 mt-2 text-gray-800">
+              <p className="mb-2 mt-2 font-bold text-gray-800">
                 Card for all RTGS payments
               </p>
             </div>
