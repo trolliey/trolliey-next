@@ -837,7 +837,7 @@ export default function CreateStore() {
               <Divider className="my-8" />
               <div className="">
                 <h3 className="text-lg font-medium leading-6 text-gray-900">
-                  Disclaimer
+                  Please Note
                 </h3>
                 <p className="mt-1 max-w-2xl text-sm text-gray-500">
                   Trolliey will contact you before approving your store to check
