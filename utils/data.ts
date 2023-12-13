@@ -34,6 +34,7 @@ import ecocash_icon from '../public/img/ECOCASH.svg'
 import visa_icon from '../public/svg/visa.svg' 
 import paypal_icon from '../public/img/paypal.png'
 import mastercard from '../public/img/mastercard.svg'
+ 
 
 
 export const data = {
@@ -69,6 +70,11 @@ export const data = {
     // { body: 'Third banner representantion', image: promo_1 },
   ],
   primary_email: 'info@trolliey.com',
+  // get current rate from api
+
+
+
+  
   current_rate: {
     value: 600,
   },
