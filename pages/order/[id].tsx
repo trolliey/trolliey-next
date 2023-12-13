@@ -6,6 +6,7 @@ import React, { useContext, useEffect, useReducer } from 'react'
 import Amount from '../../components/Amount/Amount'
 import { Store } from '../../Context/Store'
 import GeneralLayout from '../../layouts/GeneralLayout'
+import { apiUrl } from '../../utils/apiUrl'
 import { getError } from '../../utils/error'
 
 function reducer(state: any, action: any) {
@@ -45,7 +46,7 @@ function Order({ params }: Props) {
       try {
         dispatch({ type: 'FETCH_REQUEST' })
         //@ts-ignore
-        const data = await axios.get(`/api/orders/${orderId}`, {
+        const data = await axios.get(`${apiUrl}/api/v2/orders/${orderId}`, {
           headers: {
             authorization: userInfo.token,
           },
@@ -63,10 +64,10 @@ function Order({ params }: Props) {
   return (
     <GeneralLayout
       title="Order Details"
-      description={`Details for order with id ${orderId}`}
+      description={`Details for order with id ${order?.data?.data?.order?.number}`}
     >
       <h1 className="py-4 text-center text-lg font-semibold">
-        Order {orderId}
+        Order {order?.data?.data?.order?.number}
       </h1>
       {loading ? (
         <div className="grid min-h-screen w-full content-center items-center justify-center">
@@ -84,7 +85,7 @@ function Order({ params }: Props) {
                   <p className="text-sm font-semibold uppercase text-gray-400">
                     Sucessful Order
                   </p>
-                  <p className="font-semibold text-gray-700">{'Order'}</p>
+                  <p className="font-semibold text-gray-700">{order?.data?.data?.order?.number}</p>
                 </div>
               </div>
               <Divider className="text-gray-300" my={5} />
@@ -93,18 +94,18 @@ function Order({ params }: Props) {
                   Payment Method
                 </p>
                 <div className="ml-2 flex flex-row items-center gap-4">
-                  <p>
+                  {/* <p>
                     {order?.data?.order.method === 'pay_on_delivery'
                       ? 'To Pay Once Delivered'
                       : order?.data?.order.method}
-                  </p>
-                  {order?.data?.order.isPaid ? (
+                  </p> */}
+                  {order?.data?.data?.order?.payment ? (
                     <p
                       className={
-                        'rounded bg-green-400 p-1 text-xs font-semibold text-gray-700'
+                        'rounded bg-red-400 p-1 text-xs font-semibold text-gray-700'
                       }
                     >
-                      paid
+                      Not Paid
                     </p>
                   ) : (
                     <p
@@ -123,10 +124,13 @@ function Order({ params }: Props) {
                   Order Status
                 </p>
                 <div className="ml-2 flex flex-row items-center gap-4">
-                  <p> {order?.data?.order.method === 'pay_on_delivery'
+                  {/* <p>
+                    {' '}
+                    {order?.data?.order.method === 'pay_on_delivery'
                       ? 'To Pay Once Delivered'
-                      : order?.data?.order.method}</p>
-                  {order?.data?.order.status === 'pending' ? (
+                      : order?.data?.order.method}
+                  </p> */}
+                  {order?.data?.data?.status === 'pending' ? (
                     <p
                       className={
                         'animate-pulse rounded bg-blue-200 p-1 text-xs font-semibold text-gray-700'
@@ -134,13 +138,13 @@ function Order({ params }: Props) {
                     >
                       pending
                     </p>
-                  ) : order?.data?.order.status === 'delivered' ? (
+                  ) : order?.data?.data?.status === 'delivered' ? (
                     <p
                       className={
                         'rounded bg-green-200 p-1 text-xs font-semibold text-gray-700'
                       }
                     >
-                      {order?.data?.order.status}
+                      {order?.data?.data?.order.status}
                     </p>
                   ) : (
                     <p
@@ -159,9 +163,9 @@ function Order({ params }: Props) {
                   Shipping Info
                 </p>
                 <div className="ml-2 flex flex-col">
-                  <p>{order?.data?.order.address}</p>
-                  <p>{order?.data?.order.city}</p>
-                  <p>{order?.data?.order.contact_phone_number}</p>
+                  <p>{order?.data?.data?.order?.address}</p>
+                  <p>{order?.data?.data?.order?.city}</p>
+                  <p>{order?.data?.data?.order?.phone}</p>
                 </div>
               </div>
               <Divider className="text-gray-300" my={5} />
@@ -172,26 +176,24 @@ function Order({ params }: Props) {
                 <h3 className="font-semibold text-gray-800">Order Summary</h3>
                 <div className="mt-4 flex w-full flex-row items-center justify-between text-sm font-semibold text-gray-400">
                   <p>
-                    <span>
-                      {order?.data?.order?.number_of_items_bought} items
-                    </span>
+                    <span>{order?.data?.data?.order?.items?.length} items</span>
                   </p>
-                  <p>$ {parseFloat(order?.data?.order.itemsPrice)}</p>
+                  {/* <p>$ {parseFloat(order?.data?.order?.)}</p> */}
                 </div>
                 <Divider className="my-4" color={'gray.400'} />
-                {order?.data?.order?.orderItems.map((item: any, index: any) => (
+                {order?.data?.data?.order?.items.map((item: any, index: any) => (
                   <div
                     key={index}
                     className="flex w-full flex-1 flex-row items-center"
                   >
-                    <Avatar src={item.pictures[0]} />
+            
                     <div className="ml-2 flex flex-col">
                       <p className="font-semibold text-gray-900">
-                        {item.title}
+                        {item.name}
                       </p>
                       <Amount
                         currency_type={item.currency_type}
-                        amount={item.price}
+                        amount={item.amount}
                       />
                       {/* <p className='text-sm text-gray-400'>$ {item.price}</p> */}
                     </div>
@@ -203,8 +205,8 @@ function Order({ params }: Props) {
                   <p className="text-sm font-bold text-gray-800">TO PAY </p>
                   <div className="flex-1"></div>
                   <p className="font-bold text-blue-primary">
-                    {' '}
-                    $ {parseFloat(order?.data?.order.itemsPrice)}
+                 
+                    $ {parseFloat(order?.data?.data?.order?.items?.reduce((acc: any, item: any) => acc + item.amount, 0)).toFixed(2)}
                   </p>
                 </div>
                 <Divider className="mt-4 mb-2" color={'gray.300'} />

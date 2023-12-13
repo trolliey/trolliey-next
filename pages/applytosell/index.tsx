@@ -14,14 +14,26 @@ import { Store } from '../../Context/Store'
 import Link from 'next/link'
 import Head from 'next/head'
 import { data } from '../../utils/data'
+import { Box, Flex, Grid, GridItem, Heading, Text } from '@chakra-ui/react'
+import {
+  Table,
+  Thead,
+  Tbody,
+  Tfoot,
+  Tr,
+  Th,
+  Td,
+  TableCaption,
+  TableContainer,
+} from '@chakra-ui/react'
 
 const OG_IMAGE = 'https://res.cloudinary.com/trolliey/image/upload/v1656413342/trolliey%20static%20images/applytosell_aytff9.png'
 
 const includedFeatures = [
-  'Unlimited products',
-  'Free delivery service',
-  'Inventory management dashboard',
-  'Official member t-shirt',
+  'We help you from warehousing, delivery and product returns. We have made your shopping easier',
+  'Your products are visible to over thousands of daily customer reach on our website and we offer market for all sellers on our social media platforms.',
+  'Once you upload your products, you do not have to worry anymore, we handle delivery to customers, collections and returns as well.  If you are keeping stock yourself, we can either collect the product from you at a fee or you bring yourself at our fulfilment centre. ',
+  'Local and international payments for customers. On all successful transactions, payments are made directly to you weekly.',
 ]
 
 function BecomeASeller() {
@@ -102,16 +114,11 @@ function BecomeASeller() {
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-primary to-blue-dark mix-blend-multiply" />
                 </div>
                 <div className="relative px-4 py-16 sm:px-6 sm:py-24 lg:py-32 lg:px-8">
-                  <h1 className="text-center text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
-                    <span className="block text-white">
-                      Put your business online and enjoy
-                    </span>
-                    <span className="block text-indigo-200">
-                      a significant growth in sales
-                    </span>
+                  <h1 className="text-center text-white text-xl font-extrabold tracking-tight sm:text-4xl lg:text-4xl">
+                    We can help you grow your local business by providing you with the necessary tools for online shopping.
                   </h1>
                   <p className="mx-auto mt-6 max-w-lg text-center text-xl text-indigo-200 sm:max-w-3xl">
-                    We can help you grow your local business by providing you with the necessary tools for online shopping.
+                    Apply to sell and connect online shoppers across Zimbabwe
                   </p>
                   <div className="mx-auto mt-10 max-w-sm sm:flex sm:max-w-none sm:justify-center">
                     <div className="space-y-4 sm:mx-auto sm:inline-grid sm:grid-cols-2 sm:gap-5 sm:space-y-0">
@@ -144,13 +151,14 @@ function BecomeASeller() {
             <div className="bg-gray-100">
               <div className="pt-12 sm:pt-16 lg:pt-20">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                  <div className="text-center">
-                    <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl lg:text-5xl">
+                  <div className="text-left">
+                    <h2 className="text-3xl font-black text-gray-900 sm:text-4xl lg:text-5xl">
                       Pricing
                     </h2>
-                    <p className="mt-4 text-xl text-gray-600">
-                      We charge a monthly subscription fee $10 per seller account/month. You can choose to cancel your account at any time. (Free for the first month)
+                    <p className="mt-4 text-lg text-gray-600">
+                      We charge a monthly subscription fee $25 per seller account/month. You can choose to cancel your account at any time. (Free for the first month)
                     </p>
+                    <p className='font-bold text-sm'>NB Storage fees (May Apply) – Free first month (if products are not bought, you pay for storage from the 1st  day of the following month )</p>
                   </div>
                 </div>
               </div>
@@ -161,16 +169,12 @@ function BecomeASeller() {
                     <div className="mx-auto max-w-lg overflow-hidden rounded-lg shadow-lg lg:flex lg:max-w-none">
                       <div className="flex-1 bg-white px-6 py-8 lg:p-12">
                         <h3 className="text-2xl font-extrabold text-gray-900 sm:text-3xl">
-                          Weekly Payouts
+                         How we work
                         </h3>
-                        <p className="mt-6 text-base text-gray-500">
-                           Weekly payouts are sent to your account. We charge 5% tax inclusive service fee on every successfull transaction. 
-                        </p>
+                        
                         <div className="mt-8">
                           <div className="flex items-center">
-                            <h4 className="flex-shrink-0 bg-white pr-4 text-sm font-semibold uppercase tracking-wider text-blue-primary">
-                              What's included
-                            </h4>
+                            
                             <div className="flex-1 border-t-2 border-gray-200" />
                           </div>
                           <ul
@@ -201,7 +205,7 @@ function BecomeASeller() {
                           Pay,Grow, Rest
                         </p>
                         <div className="mt-4 flex items-center justify-center text-5xl font-extrabold text-gray-900">
-                          <span>$0/m</span>
+                          <span>$25/m</span>
                           <span className="ml-3 text-xl font-medium text-gray-500">
                             USD
                           </span>
@@ -227,172 +231,118 @@ function BecomeASeller() {
               </div>
             </div>
           </section>
+{/* @ts-ignore */}
+             <Flex direction="column" justifyContent={'center'} px={16} my={8}>
+      <Heading as="h2" size="xl" mb={4}>
+        Application Process
+      </Heading>
+
+      {/* Step 1 */}
+      <Box mb={4}>
+        <Text fontSize="lg" fontWeight="bold" mb={2}>
+          1. Application
+        </Text>
+        <Text>
+          Apply now by providing details about your business, products, and
+          contact information.
+        </Text>
+      </Box>
+
+      {/* Step 2 */}
+      <Box mb={4}>
+        <Text fontSize="lg" fontWeight="bold" mb={2}>
+          2. Approval
+        </Text>
+        <Text>
+          We'll review your application within 24 hours and notify you of the
+          approval status.
+        </Text>
+      </Box>
+
+      {/* Step 3 */}
+      <Box mb={4}>
+        <Text fontSize="lg" fontWeight="bold" mb={2}>
+          3. Sales
+        </Text>
+        <Text>
+          Once approved, you can start uploading your products and listing them
+          for sale on our platform.
+        </Text>
+      </Box>
+
+      {/* Step 4 */}
+      <Box mb={4}>
+        <Text fontSize="lg" fontWeight="bold" mb={2}>
+          4. Growth
+        </Text>
+        <Text>
+          Boost your sales by participating in promotions and marketing
+          campaigns. We're here to support your business growth.
+        </Text>
+      </Box>
+    </Flex>
 
           {/* Alternating Feature Sections */}
-          <div className="relative overflow-hidden pt-16 pb-32">
-            <div
-              aria-hidden="true"
-              className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-gray-100"
-            />
-            <div className="relative">
-              <div className="lg:mx-auto lg:grid lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-2 lg:gap-24 lg:px-8">
-                <div className="mx-auto max-w-xl px-4 sm:px-6 lg:mx-0 lg:max-w-none lg:py-16 lg:px-0">
-                  <div>
-                    <div>
-                      <span className="flex h-12 w-12 items-center justify-center rounded-md bg-gradient-to-r from-blue-primary to-blue-dark">
-                        <InboxIcon
-                          className="h-6 w-6 text-white"
-                          aria-hidden="true"
-                        />
-                      </span>
-                    </div>
-                    <div className="mt-6">
-                      <h2 className="text-3xl font-extrabold tracking-tight text-gray-900">
-                        Multi Vendor platform
-                      </h2>
-                      <p className="mt-4 text-lg text-gray-500">
-                        More than half of the products sold in our stores are
-                        from independent sellers. We made online shopping
-                        easier, apply to sell and access tools you need to
-                        increase sales and grow your business.
-                      </p>
-                      <div className="mt-6">
-                        <div className="mt-6">
-                          <div
-                            onClick={() => history.push('/create-store')}
-                            className="inline-flex rounded-md border border-transparent bg-gradient-to-r from-blue-primary to-blue-dark bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
-                          >
-                            Get started
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="relative mt-12 sm:mt-16 lg:mt-0">
-                  <div className="relative -mr-48 pl-4 sm:pl-6 md:-mr-16 lg:relative lg:m-0 lg:h-full lg:px-0">
-                    <Image
-                      layout="fill"
-                      objectFit="cover"
-                      className="w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 lg:absolute lg:left-0 lg:h-full lg:w-auto lg:max-w-none"
-                      src={dashboard}
-                      alt="Inbox user interface"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="mt-24">
-              <div className="lg:mx-auto lg:grid lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-2 lg:gap-24 lg:px-8">
-                <div className="mx-auto max-w-xl px-4 sm:px-6 lg:col-start-2 lg:mx-0 lg:max-w-none lg:py-32 lg:px-0">
-                  <div>
-                    <div>
-                      <span className="flex h-12 w-12 items-center justify-center rounded-md bg-gradient-to-r from-blue-primary to-blue-dark">
-                        <SparklesIcon
-                          className="h-6 w-6 text-white"
-                          aria-hidden="true"
-                        />
-                      </span>
-                    </div>
-                    <div className="mt-6">
-                      <h2 className="text-3xl font-extrabold tracking-tight text-gray-900">
-                        Grow your busienss online
-                      </h2>
-                      <p className="mt-4 text-lg text-gray-500">
-                        Get access to over a thousand and still growing
-                        customers on trolliey. Manage your stock the way you
-                        want, Safe and secure online payments
-                      </p>
-                      <div className="mt-6">
-                        <div
-                          onClick={() => history.push('/create-store')}
-                          className="inline-flex rounded-md border border-transparent bg-gradient-to-r from-blue-primary to-blue-dark bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
-                        >
-                          Get started
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-12 sm:mt-16 lg:col-start-1 lg:mt-0">
-                  <div className="relative -ml-48 pr-4 sm:pr-6 md:-ml-16 lg:relative lg:m-0 lg:h-full lg:px-0">
-                    <Image
-                      layout="fill"
-                      objectFit="cover"
-                      className="w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 lg:absolute lg:right-0 lg:h-full lg:w-auto lg:max-w-none"
-                      src={dashboard2}
-                      alt="Customer profile user interface"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Stats section */}
-          {/* <div className="relative bg-gray-900">
-                    <div className="h-80 absolute inset-x-0 bottom-0 xl:top-0 xl:h-full">
-                        <div className="h-full w-full xl:grid xl:grid-cols-2">
-                            <div className="h-full xl:relative xl:col-start-2">
-                                <img
-                                    className="h-full w-full object-cover opacity-25 xl:absolute xl:inset-0"
-                                    src="https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2830&q=80&sat=-100"
-                                    alt="People working on laptops"
-                                />
-                                <div
-                                    aria-hidden="true"
-                                    className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-gray-900 xl:inset-y-0 xl:left-0 xl:h-full xl:w-32 xl:bg-gradient-to-r"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8 xl:grid xl:grid-cols-2 xl:grid-flow-col-dense xl:gap-x-8">
-                        <div className="relative pt-12 pb-64 sm:pt-24 sm:pb-64 xl:col-start-1 xl:pb-24">
-                            <h2 className="text-sm font-semibold tracking-wide uppercase">
-                                <span className="bg-gradient-to-r from-purple-300 to-indigo-300 bg-clip-text text-transparent">
-                                    Valuable Metrics
-                                </span>
-                            </h2>
-                            <p className="mt-3 text-3xl font-extrabold text-white">
-                                Get actionable data that will help grow your business
-                            </p>
-                            <p className="mt-5 text-lg text-gray-300">
-                                Rhoncus sagittis risus arcu erat lectus bibendum. Ut in adipiscing quis in viverra tristique sem. Ornare
-                                feugiat viverra eleifend fusce orci in quis amet. Sit in et vitae tortor, massa. Dapibus laoreet amet
-                                lacus nibh integer quis. Eu vulputate diam sit tellus quis at.
-                            </p>
-                            <div className="mt-12 grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
-                                {metrics.map((item) => (
-                                    <p key={item.id}>
-                                        <span className="block text-2xl font-bold text-white">{item.stat}</span>
-                                        <span className="mt-1 block text-base text-gray-300">
-                                            <span className="font-medium text-white">{item.emphasis}</span> {item.rest}
-                                        </span>
-                                    </p>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </div> */}
+        
 
           {/* CTA Section */}
-          <div className="bg-white">
-            <div className="mx-auto max-w-4xl py-16 px-4 sm:px-6 sm:py-24 lg:flex lg:max-w-7xl lg:items-center lg:justify-between lg:px-8">
-              <h2 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-                <span className="block">Ready to get started?</span>
-                <span className="block bg-gradient-to-r from-blue-primary to-blue-dark bg-clip-text text-transparent">
-                  Get in touch or create an account.
-                </span>
-              </h2>
-              <div className="mt-6 space-y-4 sm:flex sm:space-y-0 sm:space-x-5">
-                <div className="flex items-center justify-center rounded-md border border-transparent bg-gradient-to-r from-blue-primary to-blue-dark bg-origin-border px-4 py-3 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700">
-                  Learn more
-                </div>
-                <div className="flex items-center justify-center rounded-md border border-transparent bg-indigo-50 px-4 py-3 text-base font-medium text-indigo-800 shadow-sm hover:bg-indigo-100">
-                  Get started
-                </div>
-              </div>
-            </div>
+          <div className="bg-white mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+           <Table variant="striped" colorScheme="teal" size="md">
+      <TableCaption placement="top" fontSize="xl" mb={4}>
+        Size of Packed product in cm3
+      </TableCaption>
+      <Thead>
+        <Tr>
+          <Th>Size</Th>
+          <Th>0-30 stock days cover</Th>
+          <Th>31+ days stock cover (overstocked)</Th>
+        </Tr>
+      </Thead>
+      <Tbody>
+        <Tr>
+          <Td>Small</Td>
+          <Td>0 – 60,000 cm</Td>
+          <Td>$0</Td>
+          <Td>$0.50</Td>
+        </Tr>
+        <Tr>
+          <Td>Standard</Td>
+          <Td>60,001 – 130,000 cm3</Td>
+          <Td>$0</Td>
+          <Td>$1.50</Td>
+        </Tr>
+        <Tr>
+          <Td>Large</Td>
+          <Td>130,001 – 200,000 cm3</Td>
+          <Td>$0</Td>
+          <Td>$2</Td>
+        </Tr>
+        <Tr>
+          <Td>Extra Large</Td>
+          <Td>200,001 – 275,000 cm3</Td>
+          <Td>$0</Td>
+          <Td>$2.50</Td>
+        </Tr>
+        <Tr>
+          <Td>Oversize</Td>
+          <Td>275,001 – 545,000 cm3</Td>
+          <Td>$0</Td>
+          <Td>$7</Td>
+        </Tr>
+        <Tr>
+          <Td>Bulky</Td>
+          <Td>545,001 – 775,000 cm3</Td>
+          <Td>$0</Td>
+          <Td>$13</Td>
+        </Tr>
+        <Tr>
+          <Td>Extra Bulky</Td>
+          <Td>&gt; 775,000 cm3</Td>
+          <Td>$0</Td>
+          <Td>$25</Td>
+        </Tr>
+      </Tbody>
+    </Table>
           </div>
         </main>
       </div>

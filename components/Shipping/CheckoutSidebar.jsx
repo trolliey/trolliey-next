@@ -224,6 +224,60 @@ function CheckoutSidebar({ total_amount, total_weight }) {
         }
       })
   }
+  const handleCash = (id) => {
+    setLoading(true)
+
+    axios
+      .post(
+        `${apiUrl}/api/v2/orders/${id}/payments`,
+        {
+          currency: 'USD',
+          payment_details: {
+            method: 'pay_on_delivery',
+            phone: paymentDetails.payment_details.phone,
+          },
+          payment_method: handle_order_type,
+        },
+        {
+          headers: {
+            authorization: `${userInfo.token}`,
+          },
+        }
+      )
+      .then(({ data }) => {
+        toast({
+          title: 'Order created. Your order will be delivered in 2-3 days',
+
+          status: 'success',
+          position: 'top-right',
+          duration: 9000,
+          isClosable: true,
+        })
+        return data.data.payment._id
+      })
+      .catch((error) => {
+        setLoading(false)
+        console.log(getError(error))
+
+        if (getError(error).includes('Validation')) {
+          toast({
+            title: getError(error),
+            status: 'error',
+            position: 'top-right',
+            duration: 9000,
+            isClosable: true,
+          })
+        } else {
+          toast({
+            title: getError(error),
+            status: 'error',
+            position: 'top-right',
+            duration: 9000,
+            isClosable: true,
+          })
+        }
+      })
+  }
 
   const handleEcoCashPayment = (id) => {
     setLoading(true)
@@ -237,6 +291,7 @@ function CheckoutSidebar({ total_amount, total_weight }) {
             method: 'ECOCASH',
             phone: paymentDetails.payment_details.phone,
           },
+          payment_method: handle_order_type,
         },
         {
           headers: {
@@ -318,6 +373,8 @@ function CheckoutSidebar({ total_amount, total_weight }) {
         handleEcoCashPayment(data.data.order._id)
       } else if (selectedPaymentMethod === 'paypal') {
         window.location.assign(data.approval_url)
+      } else if (handle_order_type === 'pay on delivery') {
+        handleCash(data.data.order._id)
       }
       setLoading(false)
       dispatch({ type: 'SET_POLL_URL', payload: data.respose })
