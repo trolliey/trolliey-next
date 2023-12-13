@@ -39,7 +39,7 @@ function ManageOrders(props: any) {
 
   useEffect(() => {
     getOrders()
-  }, [])
+  }, [orders])
 
   return (
     <AdminDashboard>
@@ -72,15 +72,15 @@ function ManageOrders(props: any) {
               <tr key={index} className="border-b text-sm">
                 <td className="truncate py-3 px-3">{order?.number}</td>
                 <td className="py-3 px-3">
-                  {order.status === 'delivered' ? (
+                  {order.status === 'completed' ? (
                     <span className="rounded-full bg-green-600 py-1 px-2 text-xs text-white">
                       Delivered
                     </span>
-                  ) : order.status === 'transit' ? (
+                  ) : order.status === 'intransit' ? (
                     <span className="rounded-full bg-blue-600 py-1 px-2 text-xs text-white">
                       Transit
                     </span>
-                  ) : order.status === 'cancelled' ? (
+                  ) : order.status === 'declined' ? (
                     <span className="rounded-full bg-red-600 py-1 px-2 text-xs text-white">
                       Cancelled
                     </span>
@@ -97,10 +97,10 @@ function ManageOrders(props: any) {
                   {order?.address}
                 </td>
                 <td className="hidden py-3 px-3 md:table-cell">
-                  {order?.payment?.status}
+                  {order?.payment ? order?.payment?.status : 'Not Paid'}
                 </td>
                 <td className="hidden py-3 px-3 md:table-cell">
-                  {order?.contact_phone_number}
+                  {order?.phone}
                 </td>
                 <td className="py-3 px-3">
                   <Text noOfLines={1}>{moment(order.createdAt).fromNow()}</Text>

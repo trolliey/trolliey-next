@@ -51,8 +51,8 @@ function OrdersDropdown({ id, user }: Props) {
   const handle_order_status = async (orderStatus: string) => {
     try {
       setLoading(true)
-      await axios.put(
-        `${apiUrl}/api/order/edit/${id}`,
+      await axios.patch(
+        `${apiUrl}/api/v2/orders/${id}`,
         {
           status: orderStatus,
         },
@@ -129,7 +129,7 @@ function OrdersDropdown({ id, user }: Props) {
               <Menu.Item>
                 {({ active }) => (
                   <div
-                    onClick={() => handle_order_status('delivered')}
+                    onClick={() => handle_order_status('completed')}
                     className={classNames(
                       active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                       'block cursor-pointer px-4 py-2 text-sm'
@@ -139,10 +139,11 @@ function OrdersDropdown({ id, user }: Props) {
                   </div>
                 )}
               </Menu.Item>
+
               <Menu.Item>
                 {({ active }) => (
                   <div
-                    onClick={() => handle_order_status('transit')}
+                    onClick={() => handle_order_status('intransit')}
                     className={classNames(
                       active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                       'block cursor-pointer px-4 py-2 text-sm'
@@ -155,7 +156,7 @@ function OrdersDropdown({ id, user }: Props) {
               <Menu.Item>
                 {({ active }) => (
                   <div
-                    onClick={() => handle_order_status('cancelled')}
+                    onClick={() => handle_order_status('declined')}
                     className={classNames(
                       active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                       'block cursor-pointer px-4 py-2 text-sm'
