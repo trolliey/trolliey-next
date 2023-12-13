@@ -1,7 +1,11 @@
-import { createContext, useReducer } from 'react'
+import { createContext, useEffect, useReducer } from 'react'
 import Cookies from 'js-cookie'
 import Amount, { convertAmounts } from '../components/Amount/Amount'
 import { data } from './../utils/data'
+import { apiUrl } from '../utils/apiUrl'
+
+
+
 
 const initialState = {
   darkMode: false,
@@ -21,14 +25,35 @@ const initialState = {
 
 export const Store = createContext()
 const selectedCurrency = initialState.currency
-console.log(selectedCurrency, ';;;;;;;;')
+const getRate = async () => {
+  let user = JSON.parse(Cookies.get('userInfo'));
+  
+  const res = await fetch(`${apiUrl}/api/v2/settings`, {
 
-function reducer(state = { search_category: '' }, action) {
+
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: ` ${user.token}`,
+    },
+  })
+  const data = await res.json()
+ 
+  return data
+}
+
+
+
+
+
+function reducer(state = { search_category: '', exchangeRate: 1 }, action) {
   switch (action.type) {
     case 'DARK_MODE_ON':
       return { ...state, darkMode: true }
     case 'DARK_MODE_OFF':
       return { ...state, darkMode: false }
+    case 'SET_EXCHANGE_RATE':
+      return { ...state, exchangeRate: action.payload };
     case 'ADD_TO_CART':
       const newItem = action.payload
       const existItem = state.cart.cartItems.find(
@@ -43,7 +68,7 @@ function reducer(state = { search_category: '' }, action) {
         ...item,
         id: item._id,
         // ovewrite the price with the converted price
-        rtgs_price: item.price * data.current_rate.value,
+        rtgs_price: item.price * state.exchangeRate,
       }))
 
       console.log(state.currency, ',,,,,,')
@@ -91,7 +116,32 @@ function reducer(state = { search_category: '' }, action) {
 }
 
 export function StoreProvider(props) {
-  const [state, dispatch] = useReducer(reducer, initialState)
-  const value = { state, dispatch }
-  return <Store.Provider value={value}>{props.children}</Store.Provider>
+ const [state, dispatch] = useReducer(reducer, initialState);
+
+useEffect(() => {
+  getRate()
+    .then((exchangeRateData) => {
+      const exchangeRate = exchangeRateData?.settings?.exchange_rate;
+
+      // Dispatch an action to set the exchange rate in the state
+      dispatch({
+        type: 'SET_EXCHANGE_RATE',
+        payload: exchangeRate,
+      });
+
+      // Change the currency to trigger re-render with the updated exchange rate
+      dispatch({
+        type: 'CHANGE_CURRENCY',
+        payload: selectedCurrency,
+      });
+    })
+    .catch((error) => {
+      console.error('Error fetching exchange rate:', error);
+    });
+}, [selectedCurrency]);
+
+  const value = { state, dispatch };
+  return <Store.Provider value={value}>{props.children}</Store.Provider>;
+
+
 }

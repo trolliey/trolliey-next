@@ -1,50 +1,47 @@
-import React, { useContext } from 'react'
-import { Store } from '../../Context/Store'
-import { data } from '../../utils/data'
+import React, { useContext } from 'react';
+import { Store } from '../../Context/Store';
 
 interface Props {
-  amount: any
-  className?: string
-  // currenxy from the product
-  currency_type?: any
+  amount: any;
+  className?: string;
+  currency_type?: any;
 }
 
 export const convertAmounts = (
   value: number,
   currency: string,
-  currency_type: string
+  currency_type: string,
+  exchangeRate: number
 ) => {
   if (currency === 'USD') {
-    const money =
-      currency_type === 'USD' ? value / data.current_rate.value : value
-    return money
+    const money = currency_type === 'USD' ? value / exchangeRate : value;
+    return money;
   } else if (currency === 'ZWL') {
-    const money =
-      currency_type === 'ZWL' ? value : value * data.current_rate.value
-    return money
+    const money = currency_type === 'ZWL' ? value : value * exchangeRate;
+    return money;
   } else {
-    return value
+    return value;
   }
-}
+};
 
 function Amount({ amount, className, currency_type }: Props) {
-  const { state } = useContext(Store)
-  // currency from the browser
-  const { currency } = state
+  const { state } = useContext(Store);
+  const { currency, exchangeRate } = state;
+  console.log(state, 'state')
 
   function currencyFormat(num: number) {
     if (currency === 'USD') {
-      return '$' + num?.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+      return '$' + num?.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
     } else {
-      return num?.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') + ' ZWL'
+      return num?.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') + ' ZWL';
     }
   }
 
   function anotherCurrencyFormatter(num: number) {
     if (currency_type === 'USD') {
-      return '$' + num?.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+      return '$' + num?.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
     } else {
-      return num?.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') + ' ZWL'
+      return num?.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') + ' ZWL';
     }
   }
 
@@ -52,17 +49,15 @@ function Amount({ amount, className, currency_type }: Props) {
     <>
       {currency_type ? (
         <div className={`${className} flex flex-row items-center`}>
-          {anotherCurrencyFormatter(
-            convertAmounts(amount, currency, currency_type)
-          )}
+          {anotherCurrencyFormatter(convertAmounts(amount, currency, currency_type, exchangeRate))}
         </div>
       ) : (
         <div className={`${className} flex flex-row items-center`}>
-          {currencyFormat(convertAmounts(amount, currency, currency_type))}
+          {currencyFormat(convertAmounts(amount, currency, currency_type, exchangeRate))}
         </div>
       )}
     </>
-  )
+  );
 }
 
-export default Amount
+export default Amount;

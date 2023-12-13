@@ -31,7 +31,7 @@ function ExhangeRate() {
   const { userInfo, cart, currency } = state
 
   const [rate, setRate] = React.useState('')
-
+const [exchange_rate, setExchangeRate] = React.useState('')
   const [loading, setLoading] = React.useState(false)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const {
@@ -57,48 +57,53 @@ function ExhangeRate() {
   }
 
   const addExchangeRate = () => {
-    setLoading(true)
-    axios
-      .patch(
-        `${apiUrl}/api/v2/settings`,
-        {
-          exchange_rate: rate,
+  setLoading(true);
+
+  axios
+    .patch(
+      `${apiUrl}/api/v2/settings`,
+      { exchange_rate: rate },
+      {
+        headers: {
+          Authorization: `${userInfo?.token}`,
         },
-        {
-          headers: {
-            authorization: `${userInfo.token}`,
-          },
-        }
-      )
-      .then(({ data }) => {
-        toast({
-          title: 'Shipping Method Added',
-          description: 'Shipping Method Added Successfully',
-          status: 'success',
-          duration: 5000,
-          isClosable: true,
-          position: 'top-right',
-        })
-        setRate(data?.data?.rate)
-        onClose()
-        console.log(data)
-      })
-      .catch((err) => {
-        toast({
-          title: 'Error',
-          description: 'Error Updating Rating',
-          status: 'error',
-          duration: 5000,
-          isClosable: true,
-          position: 'top-right',
-        })
-        console.log(err)
-      })
-  }
+      }
+    )
+    .then((response) => {
+      const responseData = response.data?.data;
+      toast({
+        title: 'Exchange Rate Updated',
+        description: 'Exchange Rate Updated Successfully',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+        position: 'top-right',
+      });
+      setRate(responseData?.rate);
+      setExchangeRate(responseData?.settings?.exchange_rate);
+      onClose();
+      console.log(responseData);
+    })
+    .catch((error) => {
+      toast({
+        title: 'Error',
+        description: 'Error Updating Exchange Rate',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+        position: 'top-right',
+      });
+      console.error('Error updating exchange rate:', error);
+    })
+    .finally(() => {
+      setLoading(false);
+    });
+};
+
 
   useEffect(() => {
     getExchangeRate()
-  }, [rate])
+  }, [exchange_rate])
 
   const editShippingMethod = (id: string) => {
     axios
@@ -151,7 +156,7 @@ function ExhangeRate() {
           <div className="flex flex-col">
             <div className="flex flex-col items-center justify-between">
               <p className="my-4 text-center text-lg font-semibold capitalize text-gray-700">
-                Today's Rate is {rate}
+                Today's Rate is {exchange_rate}
               </p>
               <button
                 onClick={onOpen}
@@ -177,6 +182,7 @@ function ExhangeRate() {
                   className="mt-2 rounded border border-gray-300 px-3 py-2"
                   type="number"
                   placeholder="7000"
+                  value={rate}
                 />
 
                 <button
