@@ -61,8 +61,8 @@ function Cards() {
   const edit_rtgs = async () => {
     try {
       setLoading(false)
-      await axios.put(
-        '/api/cards',
+      await axios.post(
+        '/api/store/save-card-details',
         { currency_type: 'RTGS' },
         {
           headers: {

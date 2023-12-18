@@ -85,7 +85,9 @@ function Order({ params }: Props) {
                   <p className="text-sm font-semibold uppercase text-gray-400">
                     Sucessful Order
                   </p>
-                  <p className="font-semibold text-gray-700">{order?.data?.data?.order?.number}</p>
+                  <p className="font-semibold text-gray-700">
+                    {order?.data?.data?.order?.number}
+                  </p>
                 </div>
               </div>
               <Divider className="text-gray-300" my={5} />
@@ -102,10 +104,16 @@ function Order({ params }: Props) {
                   {order?.data?.data?.order?.payment ? (
                     <p
                       className={
-                        'rounded bg-red-400 p-1 text-xs font-semibold text-gray-700'
+                        'rounded p-1 text-xs font-semibold text-gray-700'
                       }
                     >
-                      Not Paid
+                      {order?.data?.data?.order?.payment.method ===
+                      'pay_on_delivery'
+                        ? 'To Pay Once Delivered'
+                        : order?.data?.data?.order?.payment.method ===
+                          'pay_on_collection'
+                        ? 'To Pay Once Collected'
+                        : order?.data?.data?.order?.payment.method}
                     </p>
                   ) : (
                     <p
@@ -130,7 +138,7 @@ function Order({ params }: Props) {
                       ? 'To Pay Once Delivered'
                       : order?.data?.order.method}
                   </p> */}
-                  {order?.data?.data?.status === 'pending' ? (
+                  {order?.data?.data?.order.status === 'pending' ? (
                     <p
                       className={
                         'animate-pulse rounded bg-blue-200 p-1 text-xs font-semibold text-gray-700'
@@ -179,34 +187,42 @@ function Order({ params }: Props) {
                     <span>{order?.data?.data?.order?.items?.length} items</span>
                   </p>
                   {/* <p>$ {parseFloat(order?.data?.order?.)}</p> */}
+                  {console.log(order?.data?.data?.order, 'oooooo')}
                 </div>
                 <Divider className="my-4" color={'gray.400'} />
-                {order?.data?.data?.order?.items.map((item: any, index: any) => (
-                  <div
-                    key={index}
-                    className="flex w-full flex-1 flex-row items-center"
-                  >
-            
-                    <div className="ml-2 flex flex-col">
-                      <p className="font-semibold text-gray-900">
-                        {item.name}
-                      </p>
-                      <Amount
-                        currency_type={item.currency_type}
-                        amount={item.amount}
-                      />
-                      {/* <p className='text-sm text-gray-400'>$ {item.price}</p> */}
+                {order?.data?.data?.order?.items.map(
+                  (item: any, index: any) => (
+                    <div
+                      key={index}
+                      className="flex w-full flex-1 flex-row items-center"
+                    >
+                      <div className="ml-2 flex flex-col">
+                        <p className="font-semibold text-gray-900">
+                          {item.product.title}
+                        </p>
+                        <Amount
+                          currency_type={item.currency_type}
+                          amount={item.amount}
+                        />
+
+                        {/* <p className='text-sm text-gray-400'>$ {item.price}</p> */}
+                      </div>
+                      <div className="flex-1"></div>
                     </div>
-                    <div className="flex-1"></div>
-                  </div>
-                ))}
+                  )
+                )}
                 <Divider className="my-4" color={'gray.300'} />
                 <div className="mt-4 flex w-full flex-row items-center justify-between font-semibold">
                   <p className="text-sm font-bold text-gray-800">TO PAY </p>
                   <div className="flex-1"></div>
                   <p className="font-bold text-blue-primary">
-                 
-                    $ {parseFloat(order?.data?.data?.order?.items?.reduce((acc: any, item: any) => acc + item.amount, 0)).toFixed(2)}
+                    ${' '}
+                    {parseFloat(
+                      order?.data?.data?.order?.items?.reduce(
+                        (acc: any, item: any) => acc + item.amount,
+                        0
+                      )
+                    ).toFixed(2)}
                   </p>
                 </div>
                 <Divider className="mt-4 mb-2" color={'gray.300'} />

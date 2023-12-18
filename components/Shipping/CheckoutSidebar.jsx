@@ -28,7 +28,7 @@ import Cookies from 'js-cookie'
 function CheckoutSidebar({ total_amount, total_weight }) {
   const { state, dispatch } = useContext(Store)
   const { userInfo, cart, currency } = state
-  const [handle_order_type, setHandleOrderType] = useState('collect_my_order')
+  const [handle_order_type, setHandleOrderType] = useState('pay on collection')
   const [coupon_code, setCouponCode] = useState('')
   const [handle_order_payment_method, set_handle_order_payment_method] =
     useState('')
@@ -50,6 +50,7 @@ function CheckoutSidebar({ total_amount, total_weight }) {
 
   const [paymentDetails, setPaymentDetails] = useState({
     currency: 'USD',
+    payment_method: handle_order_type,
     payment_details: {
       phone: '',
       method: 'VISA',
@@ -386,7 +387,9 @@ function CheckoutSidebar({ total_amount, total_weight }) {
             ? 'Order created. Check your phone to complete the payment'
             : handle_order_type === 'pay on delivery'
             ? 'Order created. Your order will be delivered in 2-3 days'
-            : 'Order created successfully you can come and collect it at our pickup point. ',
+            : handle_order_type === 'pay on collection'
+            ? 'Order created successfully you can come and collect it at our pickup point. '
+            : null,
         status: 'success',
         position: 'top-right',
         duration: 9000,
@@ -468,11 +471,11 @@ function CheckoutSidebar({ total_amount, total_weight }) {
         <div className="flex rounded bg-blue-secondary p-2 text-white md:p-4">
           <RadioGroup onChange={setHandleOrderType} value={handle_order_type}>
             <Stack direction="column">
-              <Radio value="collect_my_order">
+              <Radio value="pay on collection">
                 Collect at our pickup point.
               </Radio>
 
-              <Radio value="bring_to_doorstep">Bring to my doorstep</Radio>
+              <Radio value="pay on delivery">Bring to my doorstep</Radio>
             </Stack>
           </RadioGroup>
         </div>
@@ -487,13 +490,13 @@ function CheckoutSidebar({ total_amount, total_weight }) {
             value={handle_order_payment_method}
           >
             <Stack direction="column">
-              {handle_order_type === 'collect_my_order' && (
+              {handle_order_type === 'pay on collection' && (
                 <>
                   <Radio value="pay on collection">Pay on collection.</Radio>
                   <Radio value="pay online">Pay online</Radio>
                 </>
               )}
-              {handle_order_type === 'bring_to_doorstep' && (
+              {handle_order_type === 'pay on delivery' && (
                 <>
                   {' '}
                   <Radio value="pay on delivery">Pay on delivery</Radio>
@@ -598,7 +601,7 @@ function CheckoutSidebar({ total_amount, total_weight }) {
             </div>
 
             {/* <div className="grid grid-cols-4 gap-4  ">
-          {handle_order_type === 'bring_to_doorstep' && (
+          {handle_order_type === 'pay on delivery' && (
             <div
               onClick={() =>
                 history.push(`/shipping/?payment_method=${'pay_on_delivery'}`)
@@ -617,7 +620,7 @@ function CheckoutSidebar({ total_amount, total_weight }) {
               <p className="font-semibold text-blue-primary">Pay On Delivery</p>
             </div>
           )}
-          {handle_order_type === 'collect_my_order' && (
+          {handle_order_type === 'pay on collection' && (
             <div
               onClick={() =>
                 history.push(`/shipping?payment_method=${'pay_on_collection'}`)
@@ -654,7 +657,7 @@ function CheckoutSidebar({ total_amount, total_weight }) {
         <div className="flex flex-row items-center justify-between text-sm text-white">
           <p>Shipping</p>
           <span className="font-semibold">
-            {handle_order_type === 'collect_my_order' ? (
+            {handle_order_type === 'pay on collection' ? (
               <Amount amount={total_amount} />
             ) : (
               <Amount amount={renderWeight(total_weight)} />
@@ -668,7 +671,7 @@ function CheckoutSidebar({ total_amount, total_weight }) {
             className="flex cursor-pointer flex-row items-center justify-between rounded-lg bg-green-500 py-2 px-4 text-white hover:bg-green-600 "
           >
             <span className="font-semibold">
-              {handle_order_type === 'collect_my_order' ? (
+              {handle_order_type === 'pay on collection' ? (
                 <Amount amount={total_amount} />
               ) : (
                 <Amount amount={total_amount + renderWeight(total_weight)} />

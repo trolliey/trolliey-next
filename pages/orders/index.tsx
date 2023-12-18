@@ -20,12 +20,15 @@ function Orders() {
   useEffect(() => {
     const get_orders = async () => {
       setLoading(true)
-      const { data } = await axios.get(`${apiUrl}/api/v2/orders`, {
-        headers: {
-          authorization: userInfo.token,
-          'Content-Type': 'application/json',
-        },
-      })
+      const { data } = await axios.get(
+        `${apiUrl}/api/v2/orders?usedfor=client`,
+        {
+          headers: {
+            authorization: userInfo.token,
+            'Content-Type': 'application/json',
+          },
+        }
+      )
       setLoading(false)
       setAllOrders(data)
     }
@@ -61,7 +64,7 @@ function Orders() {
       title="Order History"
       description="A history of all your orders you did through Trolliey"
     >
-      <div className="container mx-auto my-8">
+      <div className="container mx-auto my-32">
         <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
           Order history
         </h1>
@@ -70,6 +73,7 @@ function Orders() {
           invoices.
         </p>
         <div className="lg:w-1/4">
+          {/* @ts-ignore */}
           <Select
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
@@ -112,7 +116,7 @@ function Orders() {
                     {order?.items?.map((item: any) => (
                       <div key={item._id} className="flex items-center">
                         <div className="ml-2">
-                          <Text>{item.title}</Text>
+                          <Text>{item.product.title}</Text>
                         </div>
                       </div>
                     ))}
@@ -144,17 +148,17 @@ function Orders() {
                   <td className="py-2 px-4">
                     {moment(order.createdAt).fromNow()}
                   </td>
-                  <td className="py-2 px-4 text-right">
-                    $
-                    {order?.orderItems?.reduce(
-                      (a: any, c: any) => a + c.quantity * c.price,
-                      0
-                    )}
-                  </td>
+                  <td className="py-2 px-4 text-right">${order?.total}</td>
                 </tr>
               ))}
             </tbody>
           </table>
+        )}
+        {filteredOrders?.length === 0 && (
+          <div className="mt-8 flex flex-col items-center justify-center">
+            <Image src={no_product} width={80} height={80} alt="no product" />
+            <p className="mt-4 text-lg text-gray-400">You have no orders yet</p>
+          </div>
         )}
       </div>
     </GeneralLayout>

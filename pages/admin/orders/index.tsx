@@ -97,12 +97,39 @@ function ManageOrders(props: any) {
                   {order?.address}
                 </td>
                 <td className="hidden py-3 px-3 md:table-cell">
-                  {order?.payment ? order?.payment?.status : 'Not Paid'}
+                  {order?.payment ? (
+                    order?.payment.method === 'pay_on_delivery' ? (
+                      <span className="rounded-full bg-green-600 py-1 px-2 text-xs text-white">
+                        To be paid on delivery
+                      </span>
+                    ) : order?.payment.method === 'pay_on_collection' ? (
+                      <span className="rounded-full bg-green-600 py-1 px-2 text-xs text-white">
+                        To be paid on collection
+                      </span>
+                    ) : (
+                      <span
+                        className={`rounded-full ${
+                          order?.payment.status === 'success'
+                            ? 'bg-red-600'
+                            : 'bg-red-600'
+                        } py-1 px-2 text-xs text-white`}
+                      >
+                        {order?.payment.status === 'success'
+                          ? 'Paid'
+                          : 'Not Paid'}
+                      </span>
+                    )
+                  ) : (
+                    <span className="rounded-full bg-red-600 py-1 px-2 text-xs text-white">
+                      Not Paid
+                    </span>
+                  )}
                 </td>
                 <td className="hidden py-3 px-3 md:table-cell">
                   {order?.phone}
                 </td>
                 <td className="py-3 px-3">
+                  {/* @ts-ignore */}
                   <Text noOfLines={1}>{moment(order.createdAt).fromNow()}</Text>
                 </td>
                 <td className="py-3 px-3">
