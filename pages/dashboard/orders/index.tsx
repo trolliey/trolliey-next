@@ -13,7 +13,7 @@ function Orders() {
   const { state } = useContext(Store)
   const { userInfo } = state
 
-  const url = `${apiUrl}/api/v2/orders`
+  const url = `${apiUrl}/api/v2/orders?usedfor=seller`
   const orders = useAuthFetch(url, userInfo?.token)
 
   const [filter, setFilter] = useState('') // Default filter is 'daily'
@@ -47,6 +47,7 @@ function Orders() {
         invoices.
       </p>
       <div className="lg:w-1/4">
+        {/* @ts-ignore */}
         <Select
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
@@ -93,7 +94,7 @@ function Orders() {
                   {order?.items?.map((item: any) => (
                     <div key={item._id} className="flex items-center">
                       <div className="ml-2">
-                        <Text>{item.title}</Text>
+                        <Text>{item.product.title}</Text>
                       </div>
                     </div>
                   ))}
@@ -125,16 +126,17 @@ function Orders() {
                 <td className="py-2 px-4">
                   {moment(order.createdAt).fromNow()}
                 </td>
-                <td className="py-2 px-4 text-right">
-                  {order?.items?.reduce(
-                    (a: any, c: any) => a + c.quantity * c.price,
-                    0
-                  )}
-                </td>
+                <td className="py-2 px-4 text-right">{order?.total}</td>
               </tr>
             ))}
           </tbody>
         </table>
+      )}
+      {filteredOrders?.length === 0 && (
+        <div className="mt-8 flex flex-col items-center justify-center">
+          <Image src={no_data} alt="No data" />
+          <p className="mt-4 text-lg text-gray-400">You have no orders yet</p>
+        </div>
       )}
     </div>
   )
