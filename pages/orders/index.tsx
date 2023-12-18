@@ -34,7 +34,7 @@ function Orders() {
     }
     get_orders()
   }, [])
-  const url = `${apiUrl}/api/v2/orders`
+  const url = `${apiUrl}/api/v2/orders?usedfor=client`
   const orders = useAuthFetch(url, userInfo?.token)
   console.log(orders.data.data, 'kkkkkkkkkkkkkkkk')
 
