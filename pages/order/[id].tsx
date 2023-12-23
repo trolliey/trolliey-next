@@ -166,17 +166,22 @@ function Order({ params }: Props) {
                 </div>
               </div>
               <Divider className="text-gray-300" my={5} />
-              <div className="flex flex-col">
-                <p className="mb-2 text-lg font-semibold text-gray-700">
-                  Shipping Info
-                </p>
-                <div className="ml-2 flex flex-col">
-                  <p>{order?.data?.data?.order?.address}</p>
-                  <p>{order?.data?.data?.order?.city}</p>
-                  <p>{order?.data?.data?.order?.phone}</p>
-                </div>
-              </div>
-              <Divider className="text-gray-300" my={5} />
+              {userInfo?.user?.role !== 'seller' && (
+                <>
+                  <div className="flex flex-col">
+                    <p className="mb-2 text-lg font-semibold text-gray-700">
+                      Shipping Info
+                    </p>
+                    <div className="ml-2 flex flex-col">
+                      <p>{order?.data?.data?.order?.address}</p>
+                      <p>{order?.data?.data?.order?.city}</p>
+                      <p>{order?.data?.data?.order?.phone}</p>
+                    </div>
+                  </div>
+
+                  <Divider className="text-gray-300" my={5} />
+                </>
+              )}
             </div>
 
             <div className=" col-span-1 flex flex-col">
