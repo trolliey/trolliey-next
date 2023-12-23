@@ -7,6 +7,7 @@ import {
   ShoppingCartIcon,
   CurrencyDollarIcon,
   StarIcon,
+  PaperClipIcon,
 } from '@heroicons/react/outline'
 import { useRouter } from 'next/router'
 
@@ -63,6 +64,12 @@ const home_links = [
     description: 'Manage reviews and ratings',
     icon: <StarIcon height={28} width={28} className="text-gray-700" />,
     location: '/admin/reviews',
+  },
+  {
+    heading: 'Legal',
+    description: 'Manage legal documents',
+    icon: <PaperClipIcon height={28} width={28} className="text-gray-700" />,
+    location: '/admin/legal',
   },
 ]
 

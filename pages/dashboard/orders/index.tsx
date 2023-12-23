@@ -15,11 +15,11 @@ function Orders() {
 
   const url = `${apiUrl}/api/v2/orders?usedfor=seller`
   const orders = useAuthFetch(url, userInfo?.token)
-
+  const history = useRouter()
   const [filter, setFilter] = useState('') // Default filter is 'daily'
 
   // Filter orders based on the selected filter (daily, weekly, monthly)
-  const filteredOrders = orders?.data?.orders?.filter((order: any) => {
+  const filteredOrders = orders?.data?.data?.orders?.filter((order: any) => {
     const orderDate = moment(order.createdAt)
     const currentDate = moment()
 
@@ -73,19 +73,24 @@ function Orders() {
             <tr>
               <th className="py-2 px-4 text-left">Order Id</th>
               <th className="py-2 px-4 text-left">Items</th>
-              <th className="py-2 px-4 text-left">Status</th>
+              <th className="py-2 px-4 text-left">Order Status</th>
+              <th className="py-2 px-4 text-left">Payment Status</th>
               <th className="py-2 px-4 text-left">Date Placed</th>
               <th className="py-2 px-4 text-right">Total Amount</th>
             </tr>
           </thead>
           <tbody>
             {filteredOrders?.map((order: any) => (
-              <tr key={order._id} className="hover:bg-gray-50">
+              <tr
+                onClick={() => history.push(`/order/${order._id}`)}
+                key={order.number}
+                className="cursor-pointer hover:bg-gray-50"
+              >
                 <td className="text-wrap max-w-lg whitespace-normal py-2 px-4 ">
                   {' '}
                   <div className="flex items-center">
                     <div className="ml-2">
-                      <Text>{order.order_id}</Text>
+                      <Text>{order.number}</Text>
                     </div>
                   </div>
                 </td>
@@ -94,7 +99,10 @@ function Orders() {
                   {order?.items?.map((item: any) => (
                     <div key={item._id} className="flex items-center">
                       <div className="ml-2">
-                        <Text>{item.product.title}</Text>
+                        <Text>
+                          {' '}
+                          {item.product.title} x {item.quantity}
+                        </Text>
                       </div>
                     </div>
                   ))}
@@ -104,12 +112,12 @@ function Orders() {
                     <span className="inline-flex rounded-full bg-yellow-100 px-2 text-xs font-semibold leading-5 text-yellow-800">
                       Pending
                     </span>
-                  ) : order?.status === 'paid' ? (
-                    <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
-                      Paid
+                  ) : order?.status === 'intransit' ? (
+                    <span className="inline-flex rounded-full bg-blue-200 px-2 text-xs font-semibold leading-5 text-green-800">
+                      In transit
                     </span>
-                  ) : order?.status === 'delivered' ? (
-                    <span className="inline-flex rounded-full bg-blue-100 px-2 text-xs font-semibold leading-5 text-blue-800">
+                  ) : order?.status === 'completed' ? (
+                    <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-blue-800">
                       Delivered
                     </span>
                   ) : order?.status === 'cancelled' ? (
@@ -122,7 +130,35 @@ function Orders() {
                     </span>
                   )}
                 </td>
-
+                <td>
+                  {order?.payment ? (
+                    order?.payment.method === 'pay_on_delivery' ? (
+                      <span className="rounded-full bg-green-600 py-1 px-2 text-xs text-white">
+                        To be paid on delivery
+                      </span>
+                    ) : order?.payment.method === 'pay_on_collection' ? (
+                      <span className="rounded-full bg-green-600 py-1 px-2 text-xs text-white">
+                        To be paid on collection
+                      </span>
+                    ) : (
+                      <span
+                        className={`rounded-full ${
+                          order?.payment.status === 'success'
+                            ? 'bg-red-600'
+                            : 'bg-red-600'
+                        } py-1 px-2 text-xs text-white`}
+                      >
+                        {order?.payment.status === 'success'
+                          ? 'Paid'
+                          : 'Not Paid'}
+                      </span>
+                    )
+                  ) : (
+                    <span className="rounded-full bg-red-600 py-1 px-2 text-xs text-white">
+                      Not Paid
+                    </span>
+                  )}
+                </td>
                 <td className="py-2 px-4">
                   {moment(order.createdAt).fromNow()}
                 </td>
