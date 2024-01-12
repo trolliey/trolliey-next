@@ -46,12 +46,13 @@ function Cards() {
 
   useEffect(() => {
     const getCards = async () => {
-      const { data } = await axios.get('/api/cards', {
+      let storeId = userInfo?.user?.store
+      const { data } = await axios.get(`${apiUrl}/api/stores/${storeId}`, {
         headers: {
           authorization: userInfo.token,
         },
       })
-      setCards(data)
+      setCards(data?.data?.store?.cardDetails)
     }
     getCards()
   }, [])
@@ -115,18 +116,21 @@ function Cards() {
         </p>
         <div className="flex flex-col">
           <div className="col-span-1 w-full">
-            <div className="flex">
-              <p className="mb-2 mt-2 font-bold text-gray-800">
-                Card for all RTGS payments
-              </p>
+            <div>
+              {/* @ts-ignore */}
+              <p>Bank Name: {cards?.bank_name} </p>
+              {/* @ts-ignore */}
+              <p>Account Number: {cards?.number} </p>
+              {/* @ts-ignore */}
+              <p>Card Currency: {cards?.currency_type}</p>
             </div>
             <div className="flex w-1/3 flex-col">
-              <button
+              <BlueButton
+                text={'Add Card'}
                 onClick={openModal} // Open the modal when the button is clicked
-                className="ml-2 rounded-md bg-blue-500 px-4 py-2 text-white"
-              >
-                Add RTGS Card
-              </button>
+                className="ml-2 mt-5 rounded-md bg-blue-500 px-4 py-2 text-white"
+              />
+
               <Modal isOpen={isModalOpen} onClose={closeModal}>
                 <ModalOverlay />
                 <ModalContent>
