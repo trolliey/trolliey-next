@@ -357,44 +357,51 @@ function BecomeASeller() {
               <Tbody>
                 <Tr>
                   <Td>Small</Td>
-                  <Td>0 – 60,000 cm</Td>
                   <Td>$0</Td>
+                  <Td>0 – 60,000 cm</Td>
+
                   <Td>$0.50</Td>
                 </Tr>
                 <Tr>
                   <Td>Standard</Td>
-                  <Td>60,001 – 130,000 cm3</Td>
                   <Td>$0</Td>
+                  <Td>60,001 – 130,000 cm3</Td>
+
                   <Td>$1.50</Td>
                 </Tr>
                 <Tr>
                   <Td>Large</Td>
-                  <Td>130,001 – 200,000 cm3</Td>
                   <Td>$0</Td>
+                  <Td>130,001 – 200,000 cm3</Td>
+
                   <Td>$2</Td>
                 </Tr>
                 <Tr>
                   <Td>Extra Large</Td>
-                  <Td>200,001 – 275,000 cm3</Td>
                   <Td>$0</Td>
+                  <Td>200,001 – 275,000 cm3</Td>
+
                   <Td>$2.50</Td>
                 </Tr>
                 <Tr>
                   <Td>Oversize</Td>
-                  <Td>275,001 – 545,000 cm3</Td>
                   <Td>$0</Td>
+                  <Td>275,001 – 545,000 cm3</Td>
+
                   <Td>$7</Td>
                 </Tr>
                 <Tr>
                   <Td>Bulky</Td>
-                  <Td>545,001 – 775,000 cm3</Td>
                   <Td>$0</Td>
+                  <Td>545,001 – 775,000 cm3</Td>
+
                   <Td>$13</Td>
                 </Tr>
                 <Tr>
                   <Td>Extra Bulky</Td>
-                  <Td>&gt; 775,000 cm3</Td>
                   <Td>$0</Td>
+                  <Td>&gt; 775,000 cm3</Td>
+
                   <Td>$25</Td>
                 </Tr>
               </Tbody>

@@ -1,4 +1,12 @@
-import { Modal, Select, Spinner, Text, useDisclosure } from '@chakra-ui/react'
+import {
+  Modal,
+  Select,
+  Spinner,
+  Text,
+  toast,
+  useDisclosure,
+  useToast,
+} from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import React, { useContext, useState } from 'react'
 import { Store } from '../../../Context/Store'
@@ -30,7 +38,7 @@ function Orders() {
   const [paymentPhoneNumber, setPaymentPhoneNumber] = useState('')
   const [isPaymentLoading, setPaymentLoading] = useState(false)
   const [filter, setFilter] = useState('') // Default filter is 'daily'
-
+  const [orderId, setOrderId] = useState('')
   const filteredOrders = orders?.data?.data?.filter((order: any) => {
     const orderDate = moment(order.createdAt)
     const currentDate = moment()
@@ -47,6 +55,7 @@ function Orders() {
 
     return true // Show all orders if filter is not selected
   })
+  const toast = useToast()
 
   const handleRenewPayment = async () => {
     try {
@@ -61,11 +70,11 @@ function Orders() {
       }
 
       const response = await axios.post(
-        `${url}/payments`, // Replace orderId with the actual order ID
+        `${url}/${orderId}/payments`, // Replace orderId with the actual order ID
         paymentPayload,
         {
           headers: {
-            Authorization: `Bearer ${userInfo?.token}`,
+            Authorization: `${userInfo?.token}`,
             'Content-Type': 'application/json',
           },
         }
@@ -76,6 +85,13 @@ function Orders() {
     } catch (error) {
       const errorMessage = await getError(error)
       console.error('Payment error:', errorMessage)
+      toast({
+        title: 'Error',
+        description: errorMessage,
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
       // Handle error, e.g., show an error message to the user
     } finally {
       setPaymentLoading(false)
@@ -104,11 +120,6 @@ function Orders() {
             <option value="monthly">Monthly</option>
             <option value="yearly">Yearly</option>
           </Select>
-          <BlueButton
-            text="Renew Subscription"
-            onClick={onOpen}
-            className="mt-4 ml-5 w-full"
-          />
         </div>
         {orders?.status === 'fetching' ? (
           <div className="mt-8 text-center">
@@ -170,6 +181,17 @@ function Orders() {
                   </td>
                   <td className="py-2 px-4 text-right">
                     {moment(order.createdAt).format('DD/MM/YYYY')}
+                  </td>
+                  <td className="py-2 px-4 text-right">
+                    <button
+                      className="rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
+                      onClick={() => {
+                        onOpen()
+                        setOrderId(order._id)
+                      }}
+                    >
+                      Renew
+                    </button>
                   </td>
                 </tr>
               ))}
