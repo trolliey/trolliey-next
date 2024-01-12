@@ -13,6 +13,7 @@ import { getError } from '../../utils/error'
 import ProductLoading from '../ProductItem/ProductLoading'
 import ProductItem from '../ProductItem/ProductItem'
 import slugify from '../../utils/slugify'
+import { apiUrl } from '../../utils/apiUrl'
 
 interface Props {
   cols?: any
@@ -32,7 +33,9 @@ function RelatedProducts({ cols, no_text, category }: Props): ReactElement {
     const get_related = async () => {
       try {
         const { data } = await axios.post(
-          `/api/products?page=${1}&category=${slugify(category)}&page=${1}`,
+          `${apiUrl}/api/products?page=${1}&category=${slugify(
+            category
+          )}&page=${1}`,
           {
             query: category,
           }

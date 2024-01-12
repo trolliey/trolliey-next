@@ -524,26 +524,49 @@ function CheckoutSidebar({ total_amount, total_weight }) {
           <p className="py-4  text-center text-white">Select Payment Method</p>
           <div className="bg- flex flex-col space-y-2 rounded p-2">
             <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-3">
-              {data.payment_methods?.map((item, index) => (
-                <div
-                  onClick={() => handlePaymentMethodClick(item)}
-                  key={index}
-                  className={`${
-                    selectedPaymentMethod === item.name
-                      ? ' hover:bg-gray-secodary bg-gray-100 '
-                      : 'bg-white hover:bg-gray-100 '
-                  } relative flex cursor-pointer content-center items-center justify-center rounded border-2 border-blue-light p-2 `}
-                >
-                  {selectedPaymentMethod === item.name && (
-                    <div className="absolute top-0 right-0 flex text-blue-primary">
-                      <CheckCircleIcon height={14} width={14} />
+              {selectedCurrency === 'USD'
+                ? data.payment_methods?.map((item, index) => (
+                    <div
+                      onClick={() => handlePaymentMethodClick(item)}
+                      key={index}
+                      className={`${
+                        selectedPaymentMethod === item.name
+                          ? ' hover:bg-gray-secodary bg-gray-100 '
+                          : 'bg-white hover:bg-gray-100 '
+                      } relative flex cursor-pointer content-center items-center justify-center rounded border-2 border-blue-light p-2 `}
+                    >
+                      {selectedPaymentMethod === item.name && (
+                        <div className="absolute top-0 right-0 flex text-blue-primary">
+                          <CheckCircleIcon height={14} width={14} />
+                        </div>
+                      )}
+                      <div className="relative h-10 w-10">
+                        <Image src={item.icon} layout="fill" />
+                      </div>
                     </div>
+                  ))
+                : data.payment_methods?.map((item, index) =>
+                    item.name === 'ecocash' ? (
+                      <div
+                        onClick={() => handlePaymentMethodClick(item)}
+                        key={index}
+                        className={`${
+                          selectedPaymentMethod === item.name
+                            ? ' hover:bg-gray-secodary bg-gray-100 '
+                            : 'bg-white hover:bg-gray-100 '
+                        } relative flex cursor-pointer content-center items-center justify-center rounded border-2 border-blue-light p-2 `}
+                      >
+                        {selectedPaymentMethod === item.name && (
+                          <div className="absolute top-0 right-0 flex text-blue-primary">
+                            <CheckCircleIcon height={14} width={14} />
+                          </div>
+                        )}
+                        <div className="relative h-10 w-10">
+                          <Image src={item.icon} layout="fill" />
+                        </div>
+                      </div>
+                    ) : null
                   )}
-                  <div className="relative h-10 w-10">
-                    <Image src={item.icon} layout="fill" />
-                  </div>
-                </div>
-              ))}
 
               {/* Render input fields based on the selected payment method */}
               {selectedPaymentMethod === 'ecocash' && (
@@ -599,6 +622,14 @@ function CheckoutSidebar({ total_amount, total_weight }) {
                 </div>
               )}
             </div>
+
+            {selectedPaymentMethod === 'paypal' ? (
+              <div className="col-span-3">
+                <h1 className="text-center text-white">
+                  Paypal Payments are Coming Soon
+                </h1>
+              </div>
+            ) : null}
 
             {/* <div className="grid grid-cols-4 gap-4  ">
           {handle_order_type === 'pay on delivery' && (
@@ -665,7 +696,7 @@ function CheckoutSidebar({ total_amount, total_weight }) {
           </span>
         </div>
 
-        {selectedPaymentMethod === 'visa' ? null : (
+        {selectedPaymentMethod === 'visa' || selectedPaymentMethod ? null : (
           <div
             onClick={handle_payment}
             className="flex cursor-pointer flex-row items-center justify-between rounded-lg bg-green-500 py-2 px-4 text-white hover:bg-green-600 "
